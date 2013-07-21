@@ -1,4 +1,4 @@
-# Django settings for khooshe project.
+# Django settings for cluster project.
 
 
 try:
@@ -92,10 +92,10 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'khooshe.urls'
-
+ROOT_URLCONF = 'cluster.urls'
+LOGIN_URL = '/accounts/login/'
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'khooshe.wsgi.application'
+WSGI_APPLICATION = 'cluster.wsgi.application'
 
 TEMPLATE_DIRS = BASE_PATH+"/templates/"
 
@@ -110,7 +110,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'khooshe.registration',
+    'cluster.registration',
+    'cluster.accounts',
 )
 
 # A sample logging configuration. The only tangible logging
