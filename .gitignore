@@ -1,3 +1,5 @@
 
 .idea
-local_settings.py
+*.pyc
+*/local_settings.py
+src/khooshe/local_settings.py
