@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-from khooshe.account.account.models import Member
+from cluster.account.account.models import Member
 from django.db import models
 
 class EducationalResume(models.Model):

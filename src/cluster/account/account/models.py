@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-from khooshe.project.models import Domain
+from cluster.project.models import Domain
 
 __author__ = 'Hourshad'
 from django.db import models
