@@ -3,7 +3,7 @@
 
 try:
     from local_settings import *
-except:
+except Exception:
     pass
 
 TEMPLATE_DEBUG = DEBUG
@@ -112,6 +112,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'cluster.registration',
     'cluster.accounts',
+    'cluster.project',
 )
 
 # A sample logging configuration. The only tangible logging
