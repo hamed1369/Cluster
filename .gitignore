@@ -1,5 +1,6 @@
 
 .idea
 *.pyc
+*.db
 */local_settings.py
 src/cluster/local_settings.py
