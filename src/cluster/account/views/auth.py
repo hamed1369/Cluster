@@ -26,13 +26,9 @@ def login_view(request):
                 if next_page:
                     return HttpResponseRedirect(reverse(next_page))
                 else:
-                    return HttpResponseRedirect(reverse('index'))
+                    return HttpResponseRedirect(reverse('register'))
     else:
         login_form = SignInForm()
 
     return render_to_response('accounts/login.html', {'login_form': login_form},
                               context_instance=RequestContext(request))
-
-
-def signup(request):
-    return HttpResponse('')

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block CSS %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'registration/register.css' %}"/>
+{% endblock %}
+
+
+{% block content %}
+    <div class="panel panel-info" id="registration_div">
+        <div class="panel-heading">
+            <h3 class="panel-title">فرم ثبت نام</h3>
+        </div>
+        <form action="" method="post" enctype="multipart/form-data" id="register_form">
+
+            <table id="register_table">
+                <tr>
+                    <td>
+                        <div class="input-group">
+                                <span class="label label-info control-label">
+                                    {{ register_form.is_cluster.label }}
+                                </span>
+                                <span class="input-group-addon">
+                                    {{ register_form.is_cluster }}
+                                </span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+
+                    </td>
+                </tr>
+            </table>
+
+        </form>
+    </div>
+
+{% endblock %}

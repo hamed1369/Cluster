@@ -1,15 +1,19 @@
 #login {
     position: absolute;
     height: 200px;
-    width: 400px;
-    margin: -100px 0 0 -200px;
-    top: 50%;
-    left: 50%;
+    width: 20%;
+    top: 30%;
+    left: 40%;
     direction: ltr;
 }
 
-input[type=submit] {
-    width: 56%;
+#login div {
+    width: 100%;
+}
+
+.button_holder input, .button_holder a {
+    margin-top: 5px;
+    width: 100%;
 }
 
 body {

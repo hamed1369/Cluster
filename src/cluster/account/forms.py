@@ -6,6 +6,9 @@ __author__ = 'M.Y'
 
 class SignInForm(forms.Form):
     username = forms.CharField(label=u"نام کاربری",
-                               widget=forms.TextInput({'class': 'form-control  input-large', 'placeholder': u'نام کاربری'}))
+                               widget=forms.TextInput(
+                                   {'placeholder': u'نام کاربری'}))
     password = forms.CharField(label=u"گذرواژه",
-                               widget=forms.PasswordInput({'class': 'form-control  input-large', 'placeholder': u'گذرواژه'}))
+                               widget=forms.PasswordInput(
+                                   {'placeholder': u'گذرواژه'}))
+
