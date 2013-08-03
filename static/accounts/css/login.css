@@ -1,0 +1,17 @@
+#login {
+    position: absolute;
+    height: 200px;
+    width: 400px;
+    margin: -100px 0 0 -200px;
+    top: 50%;
+    left: 50%;
+    direction: ltr;
+}
+
+input[type=submit] {
+    width: 56%;
+}
+
+body {
+    background-color: #eeeeee;
+}
