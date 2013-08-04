@@ -35,11 +35,14 @@
                                 <tr>
                                     {% for field in form %}
 
-                                        <td><span>{{ field.label }}    </span>
+                                        <td class="label_td">
+                                            <span>{{ field.label }}    </span>
                                             {% if field.field.required %}
                                                 <span class="required_field">*
                                         </span>
                                             {% endif %}
+                                        </td>
+                                        <td class="input_td">
                                             {{ field }}</td>
 
                                     {% endfor %}

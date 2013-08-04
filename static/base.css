@@ -123,7 +123,10 @@ ul.art-hmenu>li>a, ul.art-vmenu>li>a {
 
 .label_td {
     text-align: right !important;
+}
+#register_table .label_td{
     width: 20%;
+
 }
 
 #cluster_form ul, #cluster_form ul li {
@@ -147,10 +150,12 @@ ul.art-hmenu>li>a, ul.art-vmenu>li>a {
     text-decoration: none;
     margin-top: 6px;
     padding: 4px;
+
 }
 
 .formset_delete:hover {
     background: #dddddd;
+
 }
 
 .formset_add {
