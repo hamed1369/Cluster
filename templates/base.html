@@ -1,8 +1,20 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html>
-<head>
-    <title>{% block title %}{% endblock %}</title>
+<html dir="ltr" lang="en-US">
+<head><!-- Created by Artisteer v4.1.0.60046 -->
+    <meta charset="utf-8">
+    <title>{% block title %}صفحه اصلی{% endblock %}</title>
+    <meta name="viewport" content="initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no, width = device-width">
+
+    <!--[if lt IE 9]><script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <link rel="stylesheet" href="{% static "layout/style.css" %}" media="screen">
+    <!--[if lte IE 7]><link rel="stylesheet" href="{% static "layout/style.ie7.css" %}" media="screen" /><![endif]-->
+    <link rel="stylesheet" href="{% static "layout/style.responsive.css" %}" media="all">
+
+
+    <script src="{% static "layout/script.js" %}"></script>
+    <script src="{% static "layout/script.responsive.js" %}"></script>
+
     {% block CSS %}
         <link rel="stylesheet" type="text/css" href="{% static "lib/bootstrap/css/bootstrap.min.css" %}"/>
         <link rel="stylesheet" type="text/css" href="{% static "base.css" %}"/>
@@ -12,9 +24,60 @@
         <script type="text/javascript" src="{% static "lib/bootstrap/js/bootstrap.min.js" %}"></script>
         <script type="text/javascript" src="{% static "base.js" %}"></script>
     {% endblock %}
+
+
+
+    <style>.art-content .art-postcontent-0 .layout-item-0 {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .ie7 .art-post .art-layout-cell {
+        border: none !important;
+        padding: 0 !important;
+    }
+
+    .ie6 .art-post .art-layout-cell {
+        border: none !important;
+        padding: 0 !important;
+    }
+
+    </style>
 </head>
 <body>
-{% block content %}
-{% endblock %}
+<div id="art-main">
+    <div class="art-sheet clearfix">
+        <header class="art-header">
+
+            <div class="art-shapes">
+
+            </div>
+
+
+        </header>
+        <nav class="art-nav">
+            <ul class="art-hmenu">
+                <li><a href="مشاهده-طرح-های-ثبت-شده.html">مشاهده طرح های ثبت شده</a></li>
+                <li><a href="{% url cluster.registration.views.register %}">ثبت نام</a></li>
+                <li><a href="{% url cluster.account.views.auth.login_view %}" class="active">صفحه اصلی</a></li>
+            </ul>
+        </nav>
+        <div class="art-layout-wrapper">
+            <div class="art-content-layout">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+        <footer class="art-footer">
+            <p>تمامی حقوق این سایت متعلق به HTEAM میباشد.</p>
+        </footer>
+
+    </div>
+    <p class="art-page-footer">
+        <span id="art-footnote-links"><a href="http://www.artisteer.com/" target="_blank">Web Template</a> created with Artisteer.</span>
+    </p>
+</div>
+
+
 </body>
 </html>

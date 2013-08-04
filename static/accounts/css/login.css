@@ -17,5 +17,21 @@
 }
 
 body {
-    background-color: #eeeeee;
+    background: #CBB1D8 url('../../layout/images/page.png') fixed;
+    background: url('../../layout/images/pageglare.png') top center no-repeat, linear-gradient(top, rgba(159, 111, 182, 0.07) 0, rgba(247, 243, 249, 0.18) 500px) no-repeat, url('images/page.png'), linear-gradient(top, #AD85C1 0, #E8DDEE 500px) no-repeat;
+    background: url('../../layout/images/pageglare.png') top center no-repeat, -webkit-linear-gradient(top, rgba(159, 111, 182, 0.07) 0, rgba(247, 243, 249, 0.18) 500px) no-repeat, url('images/page.png'), -webkit-linear-gradient(top, #AD85C1 0, #E8DDEE 500px) no-repeat;
+    background: url('../../layout/images/pageglare.png') top center no-repeat, -moz-linear-gradient(top, rgba(159, 111, 182, 0.07) 0, rgba(247, 243, 249, 0.18) 500px) no-repeat, url('images/page.png'), -moz-linear-gradient(top, #AD85C1 0, #E8DDEE 500px) no-repeat;
+    background: url('../../layout/images/pageglare.png') top center no-repeat, -o-linear-gradient(top, rgba(159, 111, 182, 0.07) 0, rgba(247, 243, 249, 0.18) 500px) no-repeat, url('images/page.png'), -o-linear-gradient(top, #AD85C1 0, #E8DDEE 500px) no-repeat;
+    background: url('../../layout/images/pageglare.png') top center no-repeat, -ms-linear-gradient(top, rgba(159, 111, 182, 0.07) 0, rgba(247, 243, 249, 0.18) 500px) no-repeat, url('images/page.png'), -ms-linear-gradient(top, #AD85C1 0, #E8DDEE 500px) no-repeat;
+    background: url('../../layout/images/pageglare.png') top center no-repeat, linear-gradient(top, rgba(159, 111, 182, 0.07) 0, rgba(247, 243, 249, 0.18) 500px) no-repeat, url('images/page.png'), linear-gradient(top, #AD85C1 0, #E8DDEE 500px) no-repeat;
+    -svg-background: url('images/pageglare.png') top center no-repeat, linear-gradient(top, rgba(159, 111, 182, 0.07) 0, rgba(247, 243, 249, 0.18) 500px) no-repeat, url('images/page.png'), linear-gradient(top, #AD85C1 0, #E8DDEE 500px) no-repeat;
+    background-attachment: fixed, fixed, fixed, fixed !important;
+    margin: 0 auto;
+    font-size: 13px;
+    font-weight: normal;
+    font-style: normal;
+    width: 100%;
+    min-height: 100%;
+    cursor: default;
+    overflow: hidden;
 }
