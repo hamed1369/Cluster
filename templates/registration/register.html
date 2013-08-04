@@ -2,6 +2,7 @@
 {% load staticfiles %}
 
 {% block CSS %}
+    <link rel="stylesheet" type="text/css" href="{% static 'lib/form-validation/validationEngine.jquery.css' %}"/>
     {{ block.super }}
     <link rel="stylesheet" type="text/css" href="{% static 'registration/register.css' %}"/>
 {% endblock %}
@@ -9,6 +10,10 @@
 {% block JS %}
     {{ block.super }}
     <script type="text/javascript" src="{% static "lib/jquery.formset.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "registration/register.js" %}"></script>
+    <script type="text/javascript"
+            src="{% static 'lib/form-validation/languages/jquery.validationEngine-fa.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lib/form-validation/jquery.validationEngine.js' %}"></script>
 
 {% endblock %}
 
@@ -19,27 +24,20 @@
         </div>
         <form action="" method="post" enctype="multipart/form-data" id="register_form">
             {% csrf_token %}
+            <div id="cluster_form">
+                {{ cluster_form }}
+            </div>
             <table id="register_table">
-                <tr>
-                    <td colspan="2">
-                        <div class="input-group">
-                                <span class="label label-info control-label">
-                                    {{ register_form.is_cluster.label }}
-                                    {{ register_form.is_cluster }}
 
-                                </span>
-                            <br/>
-                            {#                                <span class="input-group-addon">#}
-                            {#                                </span>#}
-
-                        </div>
-                    </td>
-                </tr>
                 {% for field in register_form %}
                     {% if not forloop.last %}
                         <tr>
                             <td>
                                 {{ field.label }}
+                                {% if field.field.required %}
+                                    <span class="required_field">*
+                                        </span>
+                                {% endif %}
                             </td>
                             <td>
                                 {{ field }}
@@ -60,7 +58,12 @@
                         <tr>
                             {% for field in form %}
 
-                                <td>{{ field.label }}: {{ field }}</td>
+                                <td>{{ field.label }}:
+                                    {% if field.field.required %}
+                                        <span class="required_field">*
+                                        </span>
+                                    {% endif %}
+                                    {{ field }}</td>
 
                             {% endfor %}
                         </tr>

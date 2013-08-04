@@ -12,16 +12,14 @@
     <link rel="stylesheet" href="{% static "layout/style.responsive.css" %}" media="all">
 
 
-    <script src="{% static "layout/script.js" %}"></script>
-    <script src="{% static "layout/script.responsive.js" %}"></script>
 
     {% block CSS %}
-        <link rel="stylesheet" type="text/css" href="{% static "lib/bootstrap/css/bootstrap.min.css" %}"/>
         <link rel="stylesheet" type="text/css" href="{% static "base.css" %}"/>
     {% endblock %}
     {% block JS %}
         <script type="text/javascript" src="{% static "lib/jquery-1.10.2.min.js" %}"></script>
-        <script type="text/javascript" src="{% static "lib/bootstrap/js/bootstrap.min.js" %}"></script>
+        <script src="{% static "layout/script.js" %}"></script>
+        <script src="{% static "layout/script.responsive.js" %}"></script>
         <script type="text/javascript" src="{% static "base.js" %}"></script>
     {% endblock %}
 
@@ -59,13 +57,40 @@
             <ul class="art-hmenu">
                 <li><a href="مشاهده-طرح-های-ثبت-شده.html">مشاهده طرح های ثبت شده</a></li>
                 <li><a href="{% url cluster.registration.views.register %}">ثبت نام</a></li>
-                <li><a href="{% url cluster.account.views.auth.login_view %}" class="active">صفحه اصلی</a></li>
+                <li><a href="{% url cluster.account.views.auth.login_view %}">صفحه اصلی</a></li>
             </ul>
         </nav>
         <div class="art-layout-wrapper">
             <div class="art-content-layout">
-                {% block content %}
-                {% endblock %}
+                <div class="art-content-layout-row">
+                    <div class="art-layout-cell art-sidebar1">
+                        <div class="art-vmenublock clearfix">
+                            <div class="art-vmenublockcontent">
+                                <ul class="art-vmenu">
+                                    <li><a href="مشاهده-طرح-های-ثبت-شده.html">مشاهده طرح های ثبت شده</a></li>
+                                    <li><a href="{% url cluster.registration.views.register %}" class="active">ثبت نام</a></li>
+                                    <li><a href="{% url cluster.account.views.auth.login_view %}">صفحه اصلی</a></li>                                </ul>
+
+                            </div>
+                        </div>
+                        <div class="art-block clearfix">
+                            <div class="art-blockheader">
+                                <h3 class="t">Block</h3>
+                            </div>
+                            <div class="art-blockcontent"><p>Enter Block content here...</p>
+                                <br>
+
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam pharetra, tellus sit
+                                    amet congue vulputate, nisi erat iaculis nibh, vitae feugiat sapien ante eget
+                                    mauris.</p></div>
+                        </div>
+                    </div>
+                    <div class="art-layout-cell art-content">
+                        {% block content %}
+                        {% endblock %}
+                    </div>
+                </div>
+
             </div>
         </div>
         <footer class="art-footer">

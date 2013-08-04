@@ -3,10 +3,11 @@ from django.forms.formsets import formset_factory
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from cluster.registration.forms import RegisterForm, MemberForm, EducationalResumeForm, PublicationForm, \
-    InventionForm, ExecutiveResearchProjectForm, LanguageSkillForm, SoftwareSkillForm
+    InventionForm, ExecutiveResearchProjectForm, LanguageSkillForm, SoftwareSkillForm, ClusterForm
 
 
 def register(request, cluster_id=None):
+    cluster_form = ClusterForm()
     register_form = RegisterForm()
     cluster_member_formset = formset_factory(MemberForm)
     resume_formset = formset_factory(EducationalResumeForm)
@@ -17,6 +18,7 @@ def register(request, cluster_id=None):
     software_skill_formset = formset_factory(SoftwareSkillForm)
 
     c = {
+        'cluster_form': cluster_form,
         'register_form': register_form,
         'cluster_member_formset': cluster_member_formset,
         'resume_formset': resume_formset,

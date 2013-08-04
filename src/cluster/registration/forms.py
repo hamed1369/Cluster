@@ -7,16 +7,30 @@ from cluster.account.personal_info.models import EducationalResume, Publication,
 __author__ = 'M.Y'
 
 
-class RegisterForm(forms.ModelForm):
-    is_cluster = forms.BooleanField(required=False,
-                                    label=
-                                    u"آیا درخواست ثبت خوشه وجود دارد؟(در صورت تایید و ارسال فرم ثبت نام برای اعضاء خوشه)", )
+class ClusterForm(forms.Form):
+    BOOLEAN_CHOICES = (
+        (1, u"بله"),
+        (1, u"خیر"),
+    )
+    is_cluster = forms.ChoiceField(required=False, choices=BOOLEAN_CHOICES,
+                                   label=
+                                   u"آیا درخواست ثبت خوشه وجود دارد؟(در صورت تایید و ارسال فرم ثبت نام برای اعضاء خوشه)",
+    )
 
+    def __init__(self, *args, **kwargs):
+        super(ClusterForm, self).__init__(*args, **kwargs)
+
+
+class RegisterForm(forms.ModelForm):
     class Meta:
         model = Member
+        exclude = ('cluster', 'user')
 
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            if self.fields[field].required:
+                self.fields[field].widget.attrs.update({'class': 'validate[required,] text-input'})
 
 
 class MemberForm(forms.Form):
