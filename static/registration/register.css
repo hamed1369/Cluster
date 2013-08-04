@@ -9,5 +9,10 @@
 
 #register_table .label {
     font-size: 17px;
+}
+
+.formset_form_field {
+    display: inline;
+    width: 30%;
 
 }

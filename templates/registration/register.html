@@ -6,6 +6,11 @@
     <link rel="stylesheet" type="text/css" href="{% static 'registration/register.css' %}"/>
 {% endblock %}
 
+{% block JS %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static "lib/jquery.formset.min.js" %}"></script>
+
+{% endblock %}
 
 {% block content %}
     <div class="panel panel-info" id="register_div">
@@ -13,21 +18,35 @@
             <h3 class="panel-title">فرم ثبت نام</h3>
         </div>
         <form action="" method="post" enctype="multipart/form-data" id="register_form">
-
+            {% csrf_token %}
             <table id="register_table">
                 <tr>
-                    <td>
+                    <td colspan="2">
                         <div class="input-group">
                                 <span class="label label-info control-label">
                                     {{ register_form.is_cluster.label }}
                                     {{ register_form.is_cluster }}
 
                                 </span>
+                            <br/>
                             {#                                <span class="input-group-addon">#}
                             {#                                </span>#}
+
                         </div>
                     </td>
                 </tr>
+                {% for field in register_form %}
+                    {% if not forloop.last %}
+                        <tr>
+                            <td>
+                                {{ field.label }}
+                            </td>
+                            <td>
+                                {{ field }}
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
                 <tr>
                     <td>
 
@@ -35,6 +54,24 @@
                 </tr>
             </table>
 
+            {% for form in cluster_member_formset.forms %}
+                <div class="formset_container">
+                    <table>
+                        <tr>
+                            {% for field in form %}
+
+                                <td>{{ field.label }}: {{ field }}</td>
+
+                            {% endfor %}
+                        </tr>
+                    </table>
+                </div>
+            {% endfor %}
+            {{ cluster_member_formset.management_form }}
+
+            <div class="button_holder">
+                <input type="submit" class="btn btn-primary" value="ثبت">
+            </div>
         </form>
     </div>
 

@@ -19,9 +19,9 @@ class RegisterForm(forms.ModelForm):
         super(RegisterForm, self).__init__(*args, **kwargs)
 
 
-class MemberForm(forms.ModelForm):
-    class Meta:
-        model = Member
+class MemberForm(forms.Form):
+    name = forms.CharField(label=u"نام و نام خانوادگی")
+    email = forms.EmailField(label=u"پست الکترونیک")
 
 
 class EducationalResumeForm(forms.ModelForm):
