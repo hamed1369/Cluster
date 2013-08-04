@@ -24,7 +24,6 @@
     {% endblock %}
 
 
-
     <style>.art-content .art-postcontent-0 .layout-item-0 {
         padding-right: 10px;
         padding-left: 10px;
@@ -44,22 +43,22 @@
 </head>
 <body>
 <div id="art-main">
+    <header class="art-header">
+
+        <div class="art-shapes">
+
+        </div>
+
+
+    </header>
+    {#    <nav class="art-nav">#}
+    {#        <ul class="art-hmenu">#}
+    {#            <li><a href="مشاهده-طرح-های-ثبت-شده.html">مشاهده طرح های ثبت شده</a></li>#}
+    {#            <li><a href="{% url cluster.registration.views.register %}">ثبت نام</a></li>#}
+    {#            <li><a href="{% url cluster.account.views.auth.login_view %}">صفحه اصلی</a></li>#}
+    {#        </ul>#}
+    {#    </nav>#}
     <div class="art-sheet clearfix">
-        <header class="art-header">
-
-            <div class="art-shapes">
-
-            </div>
-
-
-        </header>
-        <nav class="art-nav">
-            <ul class="art-hmenu">
-                <li><a href="مشاهده-طرح-های-ثبت-شده.html">مشاهده طرح های ثبت شده</a></li>
-                <li><a href="{% url cluster.registration.views.register %}">ثبت نام</a></li>
-                <li><a href="{% url cluster.account.views.auth.login_view %}">صفحه اصلی</a></li>
-            </ul>
-        </nav>
         <div class="art-layout-wrapper">
             <div class="art-content-layout">
                 <div class="art-content-layout-row">
@@ -67,9 +66,11 @@
                         <div class="art-vmenublock clearfix">
                             <div class="art-vmenublockcontent">
                                 <ul class="art-vmenu">
-                                    <li><a href="مشاهده-طرح-های-ثبت-شده.html">مشاهده طرح های ثبت شده</a></li>
-                                    <li><a href="{% url cluster.registration.views.register %}" class="active">ثبت نام</a></li>
-                                    <li><a href="{% url cluster.account.views.auth.login_view %}">صفحه اصلی</a></li>                                </ul>
+                                    <li><a href="{% url cluster.account.views.auth.login_view %}" class="active">صفحه اصلی</a></li>
+                                    <li><a href="{% url cluster.registration.views.register %}">ثبت نام</a></li>
+                                    <li><a href="{% url cluster.account.views.auth.login_view %}">مشاهده طرح های ثبت
+                                        شده</a></li>
+                                </ul>
 
                             </div>
                         </div>
@@ -80,27 +81,35 @@
                             <div class="art-blockcontent"><p>Enter Block content here...</p>
                                 <br>
 
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam pharetra, tellus sit
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam pharetra, tellus
+                                    sit
                                     amet congue vulputate, nisi erat iaculis nibh, vitae feugiat sapien ante eget
                                     mauris.</p></div>
                         </div>
                     </div>
                     <div class="art-layout-cell art-content">
-                        {% block content %}
-                        {% endblock %}
+                        <article class="art-post art-article">
+                            <div class="art-postmetadataheader">
+                                <h2 class="art-postheader">{% block header %}{% endblock %}</h2>
+                            </div>
+                            {% block content %}
+                            {% endblock %}
+                        </article>
                     </div>
                 </div>
 
             </div>
         </div>
-        <footer class="art-footer">
-            <p>تمامی حقوق این سایت متعلق به HTEAM میباشد.</p>
-        </footer>
-
     </div>
-    <p class="art-page-footer">
-        <span id="art-footnote-links"><a href="http://www.artisteer.com/" target="_blank">Web Template</a> created with Artisteer.</span>
-    </p>
+    <footer class="art-footer">
+        <div class="art-footer-inner">
+            <p>تمامی حقوق این سایت متعلق به موسسه پژوهشی نگاه نو میباشد</p>
+
+        </div>
+    </footer>
+
+
+</div>
 </div>
 
 

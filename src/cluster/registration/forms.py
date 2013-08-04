@@ -12,7 +12,7 @@ class ClusterForm(forms.Form):
         (1, u"بله"),
         (1, u"خیر"),
     )
-    is_cluster = forms.ChoiceField(required=False, choices=BOOLEAN_CHOICES,
+    is_cluster = forms.ChoiceField(required=False, choices=BOOLEAN_CHOICES, widget=forms.RadioSelect(),
                                    label=
                                    u"آیا درخواست ثبت خوشه وجود دارد؟(در صورت تایید و ارسال فرم ثبت نام برای اعضاء خوشه)",
     )

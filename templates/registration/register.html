@@ -17,60 +17,62 @@
 
 {% endblock %}
 
+
+{% block header %}فرم ثبت نام{% endblock %}
 {% block content %}
     <div class="panel panel-info" id="register_div">
-        <div class="panel-heading">
-            <h3 class="panel-title">فرم ثبت نام</h3>
-        </div>
         <form action="" method="post" enctype="multipart/form-data" id="register_form">
             {% csrf_token %}
             <div id="cluster_form">
                 {{ cluster_form }}
             </div>
+            <fieldset class="formset_fieldset">
+                <legend>اعضای خوشه</legend>
+                <div id="cluster_member_formset">
+                    {% for form in cluster_member_formset.forms %}
+                        <div class="formset_container">
+                            <table>
+                                <tr>
+                                    {% for field in form %}
+
+                                        <td><span>{{ field.label }}    </span>
+                                            {% if field.field.required %}
+                                                <span class="required_field">*
+                                        </span>
+                                            {% endif %}
+                                            {{ field }}</td>
+
+                                    {% endfor %}
+                                    <td class="delete_formset_td"></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    {% endfor %}
+
+                    {{ cluster_member_formset.management_form }}
+                </div>
+            </fieldset>
             <table id="register_table">
 
                 {% for field in register_form %}
                     {% if not forloop.last %}
                         <tr>
-                            <td>
+                            <td class="label_td">
                                 {{ field.label }}
                                 {% if field.field.required %}
                                     <span class="required_field">*
                                         </span>
                                 {% endif %}
                             </td>
-                            <td>
+                            <td class="input_td">
                                 {{ field }}
                             </td>
                         </tr>
                     {% endif %}
                 {% endfor %}
-                <tr>
-                    <td>
-
-                    </td>
-                </tr>
             </table>
 
-            {% for form in cluster_member_formset.forms %}
-                <div class="formset_container">
-                    <table>
-                        <tr>
-                            {% for field in form %}
-
-                                <td>{{ field.label }}:
-                                    {% if field.field.required %}
-                                        <span class="required_field">*
-                                        </span>
-                                    {% endif %}
-                                    {{ field }}</td>
-
-                            {% endfor %}
-                        </tr>
-                    </table>
-                </div>
-            {% endfor %}
-            {{ cluster_member_formset.management_form }}
 
             <div class="button_holder">
                 <input type="submit" class="btn btn-primary" value="ثبت">

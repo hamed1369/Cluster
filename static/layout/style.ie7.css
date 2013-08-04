@@ -23,29 +23,6 @@
    display: none;
 }
 
-.art-hmenu>li, .art-hmenu>li>a
-{
-   display: inline !important;
-   zoom: 1;
-   float: none !important;
-   vertical-align: top;
-}
-ul.art-hmenu, ul.art-hmenu ul {
-   zoom: expression(this.runtimeStyle.zoom="1", this.appendChild(document.createElement("br")).className="cleared");
-}
-#art-hmenu-bg 
-{
-   display: none;
-}
-
-ul.art-hmenu>li:first-child {
-   padding-right:4px;
-}
-
-ul.art-hmenu ul{
-   background-color: #D9E1E3 !important;
-}
-
 .art-content-layout, .art-content-layout-row, .art-layout-cell 
 {
    display: block;

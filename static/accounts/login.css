@@ -17,14 +17,15 @@
 }
 
 body {
-    background: #CBB1D8 url('../layout/images/page.png') fixed;
-    background: url('../layout/images/pageglare.png') top center no-repeat, linear-gradient(top, rgba(159, 111, 182, 0.07) 0, rgba(247, 243, 249, 0.18) 500px) no-repeat, url('../layout/images/page.png'), linear-gradient(top, #AD85C1 0, #E8DDEE 500px) no-repeat;
-    background: url('../layout/images/pageglare.png') top center no-repeat, -webkit-linear-gradient(top, rgba(159, 111, 182, 0.07) 0, rgba(247, 243, 249, 0.18) 500px) no-repeat, url('../layout/images/page.png'), -webkit-linear-gradient(top, #AD85C1 0, #E8DDEE 500px) no-repeat;
-    background: url('../layout/images/pageglare.png') top center no-repeat, -moz-linear-gradient(top, rgba(159, 111, 182, 0.07) 0, rgba(247, 243, 249, 0.18) 500px) no-repeat, url('../layout/images/page.png'), -moz-linear-gradient(top, #AD85C1 0, #E8DDEE 500px) no-repeat;
-    background: url('../layout/images/pageglare.png') top center no-repeat, -o-linear-gradient(top, rgba(159, 111, 182, 0.07) 0, rgba(247, 243, 249, 0.18) 500px) no-repeat, url('../layout/images/page.png'), -o-linear-gradient(top, #AD85C1 0, #E8DDEE 500px) no-repeat;
-    background: url('../layout/images/pageglare.png') top center no-repeat, -ms-linear-gradient(top, rgba(159, 111, 182, 0.07) 0, rgba(247, 243, 249, 0.18) 500px) no-repeat, url('../layout/images/page.png'), -ms-linear-gradient(top, #AD85C1 0, #E8DDEE 500px) no-repeat;
-    background: url('../layout/images/pageglare.png') top center no-repeat, linear-gradient(top, rgba(159, 111, 182, 0.07) 0, rgba(247, 243, 249, 0.18) 500px) no-repeat, url('../layout/images/page.png'), linear-gradient(top, #AD85C1 0, #E8DDEE 500px) no-repeat;
-    -svg-background: url('../layout/images/pageglare.png') top center no-repeat, linear-gradient(top, rgba(159, 111, 182, 0.07) 0, rgba(247, 243, 249, 0.18) 500px) no-repeat, url('../layout/images/page.png'), linear-gradient(top, #AD85C1 0, #E8DDEE 500px) no-repeat;
+
+    background: rgb(255, 255, 255) url('../layout/images/page.png') fixed;
+    background: url('../layout/images/pageglare.png') no-repeat, linear-gradient(top, rgba(198, 198, 198, 0.05) 0, rgba(255, 255, 255, 0.16) 500px) no-repeat, url('../layout/images/page.png'), linear-gradient(top, rgb(217, 217, 217) 0, rgb(255, 255, 255) 500px) no-repeat;
+    background: url('../layout/images/pageglare.png') no-repeat, -webkit-linear-gradient(top, rgba(198, 198, 198, 0.05) 0, rgba(255, 255, 255, 0.16) 500px) no-repeat, url('../layout/images/page.png'), -webkit-linear-gradient(top, rgb(217, 217, 217) 0, rgb(255, 255, 255) 500px) no-repeat;
+    background: url('../layout/images/pageglare.png') no-repeat, -moz-linear-gradient(top, rgba(198, 198, 198, 0.05) 0, rgba(255, 255, 255, 0.16) 500px) no-repeat, url('../layout/images/page.png'), -moz-linear-gradient(top, rgb(217, 217, 217) 0, rgb(255, 255, 255) 500px) no-repeat;
+    background: url('../layout/images/pageglare.png') no-repeat, -o-linear-gradient(top, rgba(198, 198, 198, 0.05) 0, rgba(255, 255, 255, 0.16) 500px) no-repeat, url('../layout/images/page.png'), -o-linear-gradient(top, rgb(217, 217, 217) 0, rgb(255, 255, 255) 500px) no-repeat;
+    background: url('../layout/images/pageglare.png') no-repeat, -ms-linear-gradient(top, rgba(198, 198, 198, 0.05) 0, rgba(255, 255, 255, 0.16) 500px) no-repeat, url('../layout/images/page.png'), -ms-linear-gradient(top, rgb(217, 217, 217) 0, rgb(255, 255, 255) 500px) no-repeat;
+    background: url('../layout/images/pageglare.png') no-repeat, linear-gradient(top, rgba(198, 198, 198, 0.05) 0, rgba(255, 255, 255, 0.16) 500px) no-repeat, url('../layout/images/page.png'), linear-gradient(top, rgb(217, 217, 217) 0, rgb(255, 255, 255) 500px) no-repeat;
+    -svg-background: url('images/pageglare.png') no-repeat, linear-gradient(top, rgba(198, 198, 198, 0.05) 0, rgba(255, 255, 255, 0.16) 500px) no-repeat, url('../layout/images/page.png'), linear-gradient(top, #D9D9D9 0, #FFFFFF 500px) no-repeat;
     background-attachment: fixed, fixed, fixed, fixed !important;
     margin: 0 auto;
     font-size: 13px;

@@ -313,102 +313,25 @@ jQuery(function($) {
     });
 });
 
-jQuery(function($) {
-    "use strict";
-    $('nav.art-nav').addClass("desktop-nav");
-});
-
-
-jQuery(function ($) {
-    "use strict";
-    if (!browser.ie || browser.version > 7) {
-        return;
-    }
-    $('ul.art-hmenu>li:not(:first-child)').each(function () { $(this).prepend('<span class="art-hmenu-separator"> </span>'); });
-});
-
-jQuery(function ($) {
-    "use strict";
-    $("ul.art-hmenu a:not([href])").attr('href', '#').click(function (e) { e.preventDefault(); });
-});
-
-
-jQuery(function ($) {
-    "use strict";
-    if (!browser.ie || browser.version > 7) {
-        return;
-    }
-
-    /* Fix width of submenu items.
-    * The width of submenu item calculated incorrectly in IE6-7. IE6 has wider items, IE7 display items like stairs.
-    */
-    $.each($("ul.art-hmenu ul"), function () {
-        var maxSubitemWidth = 0;
-        var submenu = $(this);
-        var subitem = null;
-        $.each(submenu.children("li").children("a"), function () {
-            subitem = $(this);
-            var subitemWidth = subitem.outerWidth(false);
-            if (maxSubitemWidth < subitemWidth) {
-                maxSubitemWidth = subitemWidth;
-            }
-        });
-        if (subitem !== null) {
-            var subitemBorderLeft = parseInt(subitem.css("border-left-width"), 10) || 0;
-            var subitemBorderRight = parseInt(subitem.css("border-right-width"), 10) || 0;
-            var subitemPaddingLeft = parseInt(subitem.css("padding-left"), 10) || 0;
-            var subitemPaddingRight = parseInt(subitem.css("padding-right"), 10) || 0;
-            maxSubitemWidth -= subitemBorderLeft + subitemBorderRight + subitemPaddingLeft + subitemPaddingRight;
-            submenu.children("li").children("a").css("width", maxSubitemWidth + "px");
-        }
-    });
-});
-jQuery(function () {
-    "use strict";
-    setHMenuOpenDirection({
-        container: "div.art-sheet",
-        defaultContainer: "#art-main",
-        menuClass: "art-hmenu",
-        leftToRightClass: "art-hmenu-left-to-right",
-        rightToLeftClass: "art-hmenu-right-to-left"
-    });
-});
-
-var setHMenuOpenDirection = (function ($) {
-    "use strict";
-    return (function(menuInfo) {
-        var defaultContainer = $(menuInfo.defaultContainer);
-        defaultContainer = defaultContainer.length > 0 ? defaultContainer = $(defaultContainer[0]) : null;
-
-        $("ul." + menuInfo.menuClass + ">li>ul").each(function () {
-            var submenu = $(this);
-
-            var submenuWidth = submenu.outerWidth(false);
-            var submenuLeft = submenu.offset().left;
-
-            var mainContainer = submenu.parents(menuInfo.container);
-            mainContainer = mainContainer.length > 0 ? mainContainer = $(mainContainer[0]) : null;
-
-            var container = mainContainer || defaultContainer;
-            if (container !== null) {
-                var containerLeft = container.offset().left;
-                var containerWidth = container.outerWidth(false);
-
-                if (submenuLeft + submenuWidth >= containerLeft + containerWidth) {
-                    /* right to left */
-                    submenu.addClass(menuInfo.rightToLeftClass).find("ul").addClass(menuInfo.rightToLeftClass);
-                } else if (submenuLeft <= containerLeft) {
-                    /* left to right */
-                    submenu.addClass(menuInfo.leftToRightClass).find("ul").addClass(menuInfo.leftToRightClass);
-                }
-            }
-        });
-    });
-})(jQuery);
-
-
 jQuery(function ($) {
     'use strict';
+    $(window).bind('resize', function () {
+        var bh = $('body').height();
+        var mh = 0;
+        var c = $('div.art-content');
+        c.removeAttr('style');
+
+        $('#art-main').children().each(function() {
+            if ($(this).css('position') !== 'absolute') {
+                mh += $(this).outerHeight(true);
+            }
+        });
+        
+        if (mh < bh) {
+            var r = bh - mh;
+            c.css('height', (c.outerHeight(true) + r) + 'px');
+        }
+    });
 
     if (browser.ie && browser.version < 8) {
         $(window).bind('resize', function() {
@@ -1087,7 +1010,7 @@ var processHeaderMultipleBg = (function ($) {
     return (function (path) {
         var header = $(".art-header");
         var bgimages = "url('images/object416862152.png'),url('images/object688063435.png'), ".split(",");
-        var bgpositions = "842px 20px,568px 30px, ".split(",");
+        var bgpositions = "882px 10px,656px 12px, ".split(",");
         for (var i = bgimages.length - 1; i >= 0; i--) {
             var bgimage = $.trim(bgimages[i]);
             if (bgimage === "")
