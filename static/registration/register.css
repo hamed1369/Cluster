@@ -2,17 +2,65 @@
     margin: 1%;
 }
 
-#register_table {
+#register_form fieldset {
+    border-color: lightblue;
+    border-radius: 2px;
+    box-shadow: 1px 1px 9px rgb(187, 187, 187);
+}
+
+#register_table, .inner_formset table {
     width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+#register_table .label, .inner_formset .label {
+    font-size: 17px;
+}
+
+#register_table .label_td, .inner_formset .label_td {
+    text-align: right;
+    margin: 0;
+    padding: 7px;
+    width: 20%;
 
 }
 
-#register_table .label {
-    font-size: 17px;
+#register_table select, .inner_formset select {
+    background: #FFF;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border: 1px solid #ADBDBC;
+    width: 60%;
+    padding: 5px;
 }
 
 .formset_form_field {
     display: inline;
     width: 30%;
 
+}
+
+#only_for_cluster {
+    display: none;
+    margin: 20px;
+
+}
+
+#cluster_member_fieldset {
+    background-color: rgba(220, 238, 247, 0.8);
+}
+
+#cluster_member_fieldset table {
+    width: 90%;
+}
+
+#cluster_member_fieldset table .label_td {
+    text-align: center;
+
+}
+
+#cluster_member_fieldset input[type="text"] {
+    width: 100%;
 }

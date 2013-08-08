@@ -23,58 +23,8 @@
     <div class="panel panel-info" id="register_div">
         <form action="" method="post" enctype="multipart/form-data" id="register_form">
             {% csrf_token %}
-            <div id="cluster_form">
-                {{ cluster_form }}
-            </div>
-            <fieldset class="formset_fieldset">
-                <legend>اعضای خوشه</legend>
-                <div id="cluster_member_formset">
-                    {% for form in cluster_member_formset.forms %}
-                        <div class="formset_container">
-                            <table>
-                                <tr>
-                                    {% for field in form %}
-
-                                        <td class="label_td">
-                                            <span>{{ field.label }}    </span>
-                                            {% if field.field.required %}
-                                                <span class="required_field">*
-                                        </span>
-                                            {% endif %}
-                                        </td>
-                                        <td class="input_td">
-                                            {{ field }}</td>
-
-                                    {% endfor %}
-                                    <td class="delete_formset_td"></td>
-                                </tr>
-                            </table>
-                        </div>
-
-                    {% endfor %}
-
-                    {{ cluster_member_formset.management_form }}
-                </div>
-            </fieldset>
-            <table id="register_table">
-
-                {% for field in register_form %}
-                    {% if not forloop.last %}
-                        <tr>
-                            <td class="label_td">
-                                {{ field.label }}
-                                {% if field.field.required %}
-                                    <span class="required_field">*
-                                        </span>
-                                {% endif %}
-                            </td>
-                            <td class="input_td">
-                                {{ field }}
-                            </td>
-                        </tr>
-                    {% endif %}
-                {% endfor %}
-            </table>
+            {% include 'registration/cluster_form.html' %}
+            {% include 'registration/register_main_form.html' %}
 
 
             <div class="button_holder">

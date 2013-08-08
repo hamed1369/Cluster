@@ -1,0 +1,163 @@
+<table id="register_table">
+    <tr>
+        <td class="label_td">{{ register_form.first_name.label }}
+            {% if register_form.first_name.field.required %}<span class="required_field">*</span>{% endif %}
+        </td>
+        <td class="input_td">{{ register_form.first_name }}</td>
+    </tr>
+    <tr>
+        <td class="label_td">{{ register_form.last_name.label }}
+            {% if register_form.last_name.field.required %}<span class="required_field">*</span>{% endif %}
+        </td>
+        <td class="input_td">{{ register_form.last_name }}</td>
+    </tr>
+    <tr>
+
+        <td class="label_td">{{ register_form.username.label }}
+            {% if register_form.username.field.required %}<span class="required_field">*</span>{% endif %}
+        </td>
+        <td class="input_td">{{ register_form.username }}</td>
+    </tr>
+    <tr>
+
+        <td class="label_td">{{ register_form.email.label }}
+            {% if register_form.email.field.required %}<span class="required_field">*</span>{% endif %}
+        </td>
+        <td class="input_td">{{ register_form.email }}</td>
+    </tr>
+    <tr>
+
+        <td class="label_td">{{ register_form.gender.label }}
+            {% if register_form.gender.field.required %}<span class="required_field">*</span>{% endif %}
+        </td>
+        <td class="input_td">{{ register_form.gender }}</td>
+    </tr>
+    <tr>
+
+        <td class="label_td">{{ register_form.father_name.label }}
+            {% if register_form.father_name.field.required %}<span class="required_field">*</span>{% endif %}
+        </td>
+        <td class="input_td">{{ register_form.father_name }}</td>
+    </tr>
+    <tr>
+
+        <td class="label_td">{{ register_form.national_code.label }}
+            {% if register_form.national_code.field.required %}<span class="required_field">*</span>{% endif %}
+        </td>
+        <td class="input_td">{{ register_form.national_code }}</td>
+    </tr>
+    <tr>
+
+        <td class="label_td">{{ register_form.identification_number.label }}
+            {% if register_form.identification_number.field.required %}<span class="required_field">*</span>{% endif %}
+        </td>
+        <td class="input_td">{{ register_form.identification_number }}</td>
+    </tr>
+    <tr>
+
+        <td class="label_td">{{ register_form.birth_date.label }}
+            {% if register_form.birth_date.field.required %}<span class="required_field">*</span>{% endif %}
+        </td>
+        <td class="input_td">{{ register_form.birth_date }}</td>
+
+    </tr>
+    <tr>
+
+
+        <td class="label_td">{{ register_form.residence_city.label }}
+            {% if register_form.residence_city.field.required %}<span class="required_field">*</span>{% endif %}
+        </td>
+        <td class="input_td">{{ register_form.residence_city }}</td>
+    </tr>
+    <tr>
+
+        <td class="label_td">{{ register_form.telephone.label }}
+            {% if register_form.telephone.field.required %}<span class="required_field">*</span>{% endif %}
+        </td>
+        <td class="input_td">{{ register_form.telephone }}</td>
+    </tr>
+    <tr>
+
+        <td class="label_td">{{ register_form.mobile.label }}
+            {% if register_form.mobile.field.required %}<span class="required_field">*</span>{% endif %}
+        </td>
+        <td class="input_td">{{ register_form.mobile }}</td>
+    </tr>
+    <tr>
+
+        <td class="label_td">{{ register_form.essential_telephone.label }}
+            {% if register_form.essential_telephone.field.required %}<span class="required_field">*</span>{% endif %}
+        </td>
+        <td class="input_td">{{ register_form.essential_telephone }}</td>
+    </tr>
+    <tr>
+
+        <td class="label_td">{{ register_form.address.label }}
+            {% if register_form.address.field.required %}<span class="required_field">*</span>{% endif %}
+        </td>
+        <td class="input_td">{{ register_form.address }}</td>
+    </tr>
+    <tr>
+</table>
+
+<fieldset class="inner_formset">
+    <legend>وضعیت شغلی</legend>
+    <table>
+        <tr>
+            <td class="label_td">{{ register_form.employment_status.label }}
+                {% if register_form.employment_status.field.required %}<span class="required_field">*</span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.employment_status }}</td>
+        </tr>
+        <tr
+                {% if register_form.instance and register_form.instance.employment_status == 1 %}{% else %}style="display: none" {% endif %}>
+            <td class="label_td">{{ register_form.organization.label }}
+                {% if register_form.organization.field.required %}<span class="required_field">*</span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.organization }}</td>
+        </tr>
+    </table>
+</fieldset>
+<br/>
+<fieldset class="inner_formset">
+    <legend>وضعیت نظام وظیفه</legend>
+    <table>
+        <tr>
+            <td class="label_td">{{ register_form.military_status.label }}
+                {% if register_form.military_status.field.required %}<span class="required_field">*</span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.military_status }}</td>
+        </tr>
+        <tr
+                {% if register_form.instance and register_form.instance.military_status == 2 %}{% else %}style="display: none" {% endif %}>
+            <td class="label_td">{{ register_form.military_place.label }}
+                {% if register_form.military_place.field.required %}<span class="required_field">*</span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.military_place }}</td>
+        </tr>
+        <tr
+                {% if register_form.instance and register_form.instance.employment_status == 3 %}{% else %}style="display: none" {% endif %}>
+            <td class="label_td">{{ register_form.exemption_type.label }}
+                {% if register_form.exemption_type.field.required %}<span class="required_field">*</span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.exemption_type }}</td>
+        </tr>
+    </table>
+</fieldset>
+
+{#<table id="register_table">#}
+{#{% for field in register_form %}#}
+{#    <tr>#}
+{#        <td class="label_td">#}
+{#            {{ field.label }}#}
+{#            {% if field.field.required %}#}
+{#                <span class="required_field">*#}
+{#                                        </span>#}
+{#            {% endif %}#}
+{#        </td>#}
+{#        <td class="input_td">#}
+{#            {{ field }}#}
+{#        </td>#}
+{#    </tr>#}
+{#{% endfor %}#}
+{#</table>#}

@@ -57,15 +57,7 @@ select {
 
 }
 
-#register_table select {
-    background: #FFF;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    border: 1px solid #ADBDBC;
-    width: 60%;
-    padding: 5px;
-}
+
 
 .art-postcontent, .art-postheadericons, .art-postfootericons, .art-blockcontent, ul.art-vmenu a {
     text-align: right;
@@ -117,29 +109,30 @@ ul.art-hmenu>li>a, ul.art-vmenu>li>a {
     color: red;
 }
 
-.input_td input, .input_td select {
+.input_td input[type="text"], .input_td input[type="password"], .input_td input[type="email"], .input_td input[type="url"], .input_td input[type="file"], .input_td select, .input_td ul {
     float: right;
 }
 
 .label_td {
-    text-align: right !important;
-}
-#register_table .label_td{
-    width: 20%;
-
 }
 
-#cluster_form ul, #cluster_form ul li {
+
+#register_div ul, #register_div ul li {
     display: inline
 }
 
 /* validation Engine */
 .formError {
     margin-left: -7px;
+    margin-top: -4px !important;
 }
 
 .formError .formErrorContent {
-    background: rgba(255, 34, 17, 0.8);
+    /*background: rgba(255, 34, 17, 0.8);*/
+    background: rgba(255, 148, 148, 0.8);
+    color: rgb(0, 0, 0);
+    direction: rtl;
+    text-align: right;
 }
 
 /* formset */
@@ -170,10 +163,6 @@ ul.art-hmenu>li>a, ul.art-vmenu>li>a {
     text-align: center;
 }
 
-.formset_fieldset {
-    border-color: lightblue;
-    border-radius: 5px;
-}
 
 .formset_add:hover {
     background: #dddddd;
