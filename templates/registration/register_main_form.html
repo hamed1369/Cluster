@@ -1,4 +1,4 @@
-<table id="register_table">
+<table class="register_table">
     <tr>
         <td class="label_td">{{ register_form.first_name.label }}
             {% if register_form.first_name.field.required %}<span class="required_field">*</span>{% endif %}
@@ -145,6 +145,70 @@
     </table>
 </fieldset>
 
+<br/>
+{% include 'registration/skills.html' %}
+<br/>
+{% include 'registration/resume.html' %}
+<br/>
+
+<table class="register_table">
+    <tr>
+
+        <td class="label_td">{{ register_form.foundation_of_elites.label }}
+            {% if register_form.foundation_of_elites.field.required %}<span class="required_field">*</span>{% endif %}
+        </td>
+        <td class="input_td">{{ register_form.foundation_of_elites }}</td>
+    </tr>
+    <tr{% if register_form.instance and register_form.instance.foundation_of_elites %}{% else %}
+        style="display: none" {% endif %}>
+
+        <td class="label_td">{{ register_form.elite_certification.label }}
+            {% if register_form.elite_certification.field.required %}<span class="required_field">*</span>{% endif %}
+        </td>
+        <td class="input_td">{{ register_form.elite_certification }}</td>
+    </tr>
+    <tr>
+</table>
+
+<br/>
+{% include 'registration/executive_research.html' %}
+<br/>
+{% include 'registration/publication.html' %}
+<br/>
+{% include 'registration/invention.html' %}
+<br/>
+
+
+<fieldset class="inner_formset">
+    <legend>مدارک مورد نیاز جهت تشکیل پرونده</legend>
+    <table>
+        <tr>
+            <td class="label_td">{{ register_form.education_certification.label }}
+                {% if register_form.education_certification.field.required %}<span class="required_field">*
+                    </span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.education_certification }}</td>
+        </tr>
+        <tr>
+            <td class="label_td">{{ register_form.front_id_card.label }}
+                {% if register_form.front_id_card.field.required %}<span class="required_field">*</span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.front_id_card }}</td>
+        </tr>
+        <tr>
+            <td class="label_td">{{ register_form.back_id_card.label }}
+                {% if register_form.back_id_card.field.required %}<span class="required_field">*</span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.back_id_card }}</td>
+        </tr>
+        <tr>
+            <td class="label_td">{{ register_form.image.label }}
+                {% if register_form.image.field.required %}<span class="required_field">*</span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.image }}</td>
+        </tr>
+    </table>
+</fieldset>
 {#<table id="register_table">#}
 {#{% for field in register_form %}#}
 {#    <tr>#}

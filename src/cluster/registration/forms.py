@@ -1,8 +1,6 @@
 # -*- coding:utf-8 -*-
 from django import forms
 from cluster.account.account.models import Member
-from cluster.account.personal_info.models import EducationalResume, Publication, Invention, \
-    ExecutiveResearchProject, LanguageSkill, SoftwareSkill
 
 __author__ = 'M.Y'
 
@@ -48,37 +46,6 @@ class RegisterForm(forms.ModelForm):
 
 
 class MemberForm(forms.Form):
-    name = forms.CharField(label=u"نام و نام خانوادگی")
+    first_name = forms.CharField(label=u"نام")
+    last_name = forms.CharField(label=u"نام خانوادگی")
     email = forms.EmailField(label=u"پست الکترونیک")
-
-
-class EducationalResumeForm(forms.ModelForm):
-    class Meta:
-        model = EducationalResume
-
-
-class PublicationForm(forms.ModelForm):
-    class Meta:
-        model = Publication
-
-
-class InventionForm(forms.ModelForm):
-    class Meta:
-        model = Invention
-
-
-class ExecutiveResearchProjectForm(forms.ModelForm):
-    class Meta:
-        model = ExecutiveResearchProject
-
-
-class LanguageSkillForm(forms.ModelForm):
-    class Meta:
-        model = LanguageSkill
-
-
-class SoftwareSkillForm(forms.ModelForm):
-    class Meta:
-        model = SoftwareSkill
-
-

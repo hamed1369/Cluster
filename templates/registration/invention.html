@@ -1,0 +1,51 @@
+<fieldset class="formset_fieldset" id="invention_fieldset">
+    <legend>اختراعات</legend>
+    <div id="invention_formset">
+        <input type="hidden" name="formset_prefix" value="{{ invention_formset.prefix }}">
+
+        <div class="formset_container">
+            <table id="invention_table">
+                <thead>
+                <tr>
+                    {% for field in invention_formset.forms.0 %}
+
+                        <td class="label_td"{% if field.field.widget.is_hidden %} style="display: none"{% endif %}>
+                            <span>{{ field.label }}    </span>
+                            {% if field.field.required %}
+                                <span class="required_field">*
+                                        </span>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+                </thead>
+                {% for form in invention_formset.forms %}
+                    <tr>
+                        {% for field in form %}
+
+                            <td class="input_td">
+                                {{ field }}</td>
+
+                        {% endfor %}
+                        {#                        <td class="delete_formset_td"></td>#}
+                    </tr>
+
+                {% endfor %}
+            </table>
+            {{ invention_formset.management_form }}
+            <script type="text/javascript">
+                $(function () {
+                    $('#invention_table tbody tr').formset({
+                        prefix: '{{ invention_formset.prefix }}',
+                        formCssClass: 'dynamic-formset7',
+                        addText: 'افزودن',
+                        deleteText: 'حذف',
+                        addCssClass: 'formset_add',
+                        deleteCssClass: 'formset_delete'
+                    });
+                })
+            </script>
+        </div>
+
+    </div>
+</fieldset>

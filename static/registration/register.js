@@ -1,19 +1,26 @@
 $(document).ready(function () {
-    var $formsets = $('.formset_container');
-    $formsets.formset(
-        {
-            addText: 'افزودن',
-            deleteText: 'حذف',
-            addCssClass: 'formset_add',
-            deleteCssClass: 'formset_delete'
-        }
-    );
+//    var $formsets = $('.formset_container');
+//    $formsets.each(function () {
+//        var prefix = $(this).parent('div').find('input[name="formset_prefix"]').first().val();
+//        var table_id = $(this).find('table').attr('id');
+//        alert(table_id);
+//        $('#' + table_id + ' tbody tr').formset(
+//            {
+//                prefix: 'id_' + prefix,
+//                addText: 'افزودن',
+//                deleteText: 'حذف',
+//                addCssClass: 'formset_add',
+//                deleteCssClass: 'formset_delete'
+//            }
+//        );
+//
+//    });
 
     $("#register_form").validationEngine({promptPosition: "centerLeft", scroll: false});
 
 
-    $('input[name=is_cluster]').change(function () {
-        var is_cluster = $('input[name=is_cluster]:checked', '#register_form').val();
+    $('input[name*="is_cluster"]').change(function () {
+        var is_cluster = $('input[name*="is_cluster"]:checked', '#register_form').val();
 
         if (is_cluster == 1) {
             $('#only_for_cluster').slideDown();
@@ -31,6 +38,7 @@ $(document).ready(function () {
         }
     });
 
+
     $('select[name*="military_status"]').change(function () {
         if ($(this).val() == 2) {
             $('select[name*="exemption_type"]').parents('tr').first().fadeOut();
@@ -45,8 +53,20 @@ $(document).ready(function () {
     });
 
 
-    $('#register_table tr').click(function () {
-        $('#register_table tr').css({
+    $('input[name*="foundation_of_elites"]').change(function () {
+        var is_cluster = $('input[name*="foundation_of_elites"]:checked', '#register_form').val();
+
+        if (is_cluster == 'True') {
+            $('input[name*="elite_certification"]').parents('tr').first().fadeIn();
+        } else {
+            $('input[name*="elite_certification"]').parents('tr').first().fadeOut();
+        }
+
+    });
+
+
+    $('.register_table tr, .inner_formset tr').click(function () {
+        $('.register_table tr, .inner_formset tr').css({
             border: '0',
             backgroundColor: '#fff'
         });

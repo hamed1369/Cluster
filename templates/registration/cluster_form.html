@@ -1,11 +1,12 @@
+{% load account_template_tags %}
 <div id="cluster_form">
     <div>
         {{ cluster_form.is_cluster.label }}
         {{ cluster_form.is_cluster }}
     </div>
 </div>
-
-<div id="only_for_cluster">
+<div id="only_for_cluster"{% if not cluster_form.cleaned_data or cluster_form.cleaned_data|get_dict:'is_cluster' != '1' %}
+     style="display: none;"{% endif %}>
     <div>
         {{ cluster_form.name.label }}
         {{ cluster_form.name }}
@@ -14,27 +15,26 @@
     <fieldset class="formset_fieldset" id="cluster_member_fieldset">
         <legend>اعضای خوشه</legend>
         <div id="cluster_member_formset">
-            {% for form in cluster_member_formset.forms %}
-                <div class="formset_container">
-                    <table>
-                        <thead>
-                        <tr>
-                            <td class="label_td">
-                                <span>{{ form.name.label }}    </span>
-                                {% if form.name.field.required %}
+            <input type="hidden" name="formset_prefix" value="{{ cluster_member_formset.prefix }}">
+
+            <div class="formset_container">
+                <table id="cluster_member_table">
+                    <thead>
+                    <tr>
+                        {% for field in cluster_member_formset.forms.0 %}
+
+                            <td class="label_td"{% if field.field.widget.is_hidden %}
+                                style="display: none"{% endif %}>
+                                <span>{{ field.label }}    </span>
+                                {% if field.field.required %}
                                     <span class="required_field">*
                                         </span>
                                 {% endif %}
                             </td>
-                            <td class="label_td">
-                                <span>{{ form.email.label }}    </span>
-                                {% if form.email.field.required %}
-                                    <span class="required_field">*
-                                        </span>
-                                {% endif %}
-
-                        </tr>
-                        </thead>
+                        {% endfor %}
+                    </tr>
+                    </thead>
+                    {% for form in cluster_member_formset.forms %}
                         <tr>
                             {% for field in form %}
 
@@ -42,14 +42,26 @@
                                     {{ field }}</td>
 
                             {% endfor %}
-                            <td class="delete_formset_td"></td>
+                            {#                            <td class="delete_formset_td"></td>#}
                         </tr>
-                    </table>
-                </div>
 
-            {% endfor %}
+                    {% endfor %}
+                </table>
+                {{ cluster_member_formset.management_form }}
+                <script type="text/javascript">
+                    $(function () {
+                        $('#cluster_member_table tbody tr').formset({
+                            prefix: '{{ cluster_member_formset.prefix }}',
+                            formCssClass: 'dynamic-formset1',
+                            addText: 'افزودن',
+                            deleteText: 'حذف',
+                            addCssClass: 'formset_add',
+                            deleteCssClass: 'formset_delete'
+                        });
+                    })
+                </script>
+            </div>
 
-            {{ cluster_member_formset.management_form }}
         </div>
     </fieldset>
     <br/>
