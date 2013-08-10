@@ -136,6 +136,10 @@ ul.art-hmenu>li>a, ul.art-vmenu>li>a {
     text-align: right;
 }
 
+.error_td{
+    background-color: indianred;
+}
+
 /* formset */
 .formset_delete {
     background: #f78096;

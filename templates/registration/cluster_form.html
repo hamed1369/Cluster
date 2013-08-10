@@ -4,6 +4,9 @@
         <div>
             {{ cluster_form.is_cluster.label }}
             {{ cluster_form.is_cluster }}
+            {% if cluster_form.is_cluster.errors %}
+                {{ cluster_form.is_cluster.errors }}
+            {% endif %}
         </div>
     </div>
 {% endif %}
@@ -15,11 +18,17 @@
             <td class="label_td">{{ cluster_form.name.label }} <span class="required_field">*</span>
             </td>
             <td class="input_td">{{ cluster_form.name }}</td>
+            {% if cluster_form.name.errors %}
+                <td class="error_td" width="30%">{{ cluster_form.name.errors }}</td>
+            {% endif %}
         </tr>
         <tr>
             <td class="label_td">{{ cluster_form.institute.label }} <span class="required_field">*</span>
             </td>
             <td class="input_td">{{ cluster_form.institute }}</td>
+            {% if cluster_form.institute.errors %}
+                <td class="error_td" width="30%">{{ cluster_form.institute.errors }}</td>
+            {% endif %}
         </tr>
     </table>
 
