@@ -11,6 +11,7 @@ __author__ = 'M.Y'
 
 
 def login_view(request):
+
     if request.method == 'POST':
         login_form = SignInForm(request.POST)
         if login_form.is_valid():
@@ -30,5 +31,5 @@ def login_view(request):
     else:
         login_form = SignInForm()
 
-    return render_to_response('accounts/login.html', {'login_form': login_form},
+    return render_to_response('accounts/login_page.html', {'login_form': login_form},
                               context_instance=RequestContext(request))
