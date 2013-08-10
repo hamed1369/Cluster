@@ -223,3 +223,8 @@ form fieldset legend {
     border-radius: 8px;
     padding: 6px;
 }
+
+input[readonly], select[readonly] {
+    border: 0;
+    background-color: rgb(250, 250, 250);
+}

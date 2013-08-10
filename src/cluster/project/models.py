@@ -46,6 +46,6 @@ class Domain(models.Model):
 
     def __unicode__(self):
         if not self.confirmed:
-            return unicode(self.name)+"(تایید نشده)"
+            return unicode(self.name)+u"(تایید نشده)"
         else:
             return unicode(self.name)

@@ -1,13 +1,15 @@
 {% load account_template_tags %}
-<div id="cluster_form">
-    <div>
-        {{ cluster_form.is_cluster.label }}
-        {{ cluster_form.is_cluster }}
+{% if not cluster %}
+    <div id="cluster_form">
+        <div>
+            {{ cluster_form.is_cluster.label }}
+            {{ cluster_form.is_cluster }}
+        </div>
     </div>
-</div>
-<div id="only_for_cluster"
-        {% if not cluster_form.cleaned_data or cluster_form.cleaned_data|get_dict:'is_cluster' != '1' %}
-     style="display: none;"{% endif %}>
+{% endif %}
+<div id="only_for_cluster"{% if not cluster %}
+    {% if not cluster_form.cleaned_data or cluster_form.cleaned_data|get_dict:'is_cluster' != '1' %}
+     style="display: none;"{% endif %}{% endif %}>
     <table class="register_table">
         <tr>
             <td class="label_td">{{ cluster_form.name.label }} <span class="required_field">*</span>
@@ -58,76 +60,79 @@
                     {% endfor %}
                 </table>
                 {{ cluster_domain_formset.management_form }}
-                <script type="text/javascript">
-                    $(function () {
-                        $('#cluster_domain_table tbody tr').formset({
-                            prefix: '{{ cluster_domain_formset.prefix }}',
-                            formCssClass: 'dynamic-formset0',
-                            addText: 'افزودن',
-                            deleteText: 'حذف',
-                            addCssClass: 'formset_add',
-                            deleteCssClass: 'formset_delete'
-                        });
-                    })
-                </script>
+                {% if not cluster %}
+                    <script type="text/javascript">
+                        $(function () {
+                            $('#cluster_domain_table tbody tr').formset({
+                                prefix: '{{ cluster_domain_formset.prefix }}',
+                                formCssClass: 'dynamic-formset0',
+                                addText: 'افزودن',
+                                deleteText: 'حذف',
+                                addCssClass: 'formset_add',
+                                deleteCssClass: 'formset_delete'
+                            });
+                        })
+                    </script>
+                {% endif %}
             </div>
 
         </div>
     </fieldset>
 
+    {% if cluster_member_formset %}
+        <fieldset class="formset_fieldset" id="cluster_member_fieldset">
+            <legend>اعضای خوشه</legend>
+            <div id="cluster_member_formset">
+                <input type="hidden" name="formset_prefix" value="{{ cluster_member_formset.prefix }}">
 
-    <fieldset class="formset_fieldset" id="cluster_member_fieldset">
-        <legend>اعضای خوشه</legend>
-        <div id="cluster_member_formset">
-            <input type="hidden" name="formset_prefix" value="{{ cluster_member_formset.prefix }}">
-
-            <div class="formset_container">
-                <table id="cluster_member_table">
-                    <thead>
-                    <tr>
-                        {% for field in cluster_member_formset.forms.0 %}
-
-                            <td class="label_td"{% if field.field.widget.is_hidden %}
-                                style="display: none"{% endif %}>
-                                <span>{{ field.label }}    </span>
-                                {% if field.field.required %}
-                                    <span class="required_field">*
-                                        </span>
-                                {% endif %}
-                            </td>
-                        {% endfor %}
-                    </tr>
-                    </thead>
-                    {% for form in cluster_member_formset.forms %}
+                <div class="formset_container">
+                    <table id="cluster_member_table">
+                        <thead>
                         <tr>
-                            {% for field in form %}
+                            {% for field in cluster_member_formset.forms.0 %}
 
-                                <td class="input_td">
-                                    {{ field }}</td>
-
+                                <td class="label_td"{% if field.field.widget.is_hidden %}
+                                    style="display: none"{% endif %}>
+                                    <span>{{ field.label }}    </span>
+                                    {% if field.field.required %}
+                                        <span class="required_field">*
+                                        </span>
+                                    {% endif %}
+                                </td>
                             {% endfor %}
-                            {#                            <td class="delete_formset_td"></td>#}
                         </tr>
+                        </thead>
+                        {% for form in cluster_member_formset.forms %}
+                            <tr>
+                                {% for field in form %}
 
-                    {% endfor %}
-                </table>
-                {{ cluster_member_formset.management_form }}
-                <script type="text/javascript">
-                    $(function () {
-                        $('#cluster_member_table tbody tr').formset({
-                            prefix: '{{ cluster_member_formset.prefix }}',
-                            formCssClass: 'dynamic-formset1',
-                            addText: 'افزودن',
-                            deleteText: 'حذف',
-                            addCssClass: 'formset_add',
-                            deleteCssClass: 'formset_delete'
-                        });
-                    })
-                </script>
+                                    <td class="input_td">
+                                        {{ field }}</td>
+
+                                {% endfor %}
+                                {#                            <td class="delete_formset_td"></td>#}
+                            </tr>
+
+                        {% endfor %}
+                    </table>
+                    {{ cluster_member_formset.management_form }}
+                    <script type="text/javascript">
+                        $(function () {
+                            $('#cluster_member_table tbody tr').formset({
+                                prefix: '{{ cluster_member_formset.prefix }}',
+                                formCssClass: 'dynamic-formset1',
+                                addText: 'افزودن',
+                                deleteText: 'حذف',
+                                addCssClass: 'formset_add',
+                                deleteCssClass: 'formset_delete'
+                            });
+                        })
+                    </script>
+                </div>
+
             </div>
-
-        </div>
-    </fieldset>
+        </fieldset>
+    {% endif %}
     <br/>
 
     <p>* در صورتی که خوشه مذکور برای اولین بار ثبت میگردد، بصورت پیش فرض فرد ثبت کننده سرگروه خوشه به شمار

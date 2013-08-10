@@ -57,6 +57,9 @@ class Member(Account):
         verbose_name = u"عضو خوشه"
         verbose_name_plural =u"اعضای خوشه"
 
+    def __unicode__(self):
+        return u"%s %s"%(self.user.first_name, self.user.last_name)
+
 
 class Arbiter(Account):
     user            = models.OneToOneField(User,related_name = "arbiter")
@@ -72,6 +75,8 @@ class Arbiter(Account):
         app_label ='account'
         verbose_name = u"داور"
         verbose_name_plural =u"داورها"
+    def __unicode__(self):
+        return u"%s %s"%(self.user.first_name, self.user.last_name)
 
 class Cluster(models.Model):
     name        = models.CharField(u"نام خوشه", max_length=50)
@@ -83,3 +88,6 @@ class Cluster(models.Model):
         app_label ='account'
         verbose_name = u"خوشه"
         verbose_name_plural =u"خوشه ها"
+
+    def __unicode__(self):
+        return self.name

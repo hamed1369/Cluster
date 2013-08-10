@@ -69,7 +69,7 @@ class MemberForm(forms.Form):
     email = forms.EmailField(label=u"پست الکترونیک")
 
 
-CLusterMemberForm = formset_factory(MemberForm)
+ClusterMemberForm = formset_factory(MemberForm)
 ClusterDomainForm = modelformset_factory(Domain, exclude=('confirmed', ))
 
 ResumeForm = modelformset_factory(EducationalResume, exclude=('cluster_member', ))

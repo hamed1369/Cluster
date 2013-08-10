@@ -8,7 +8,7 @@ from cluster.registration.handlers import RegisterHandler
 
 
 def register(request, cluster_id=None):
-    register_handler = RegisterHandler(request)
+    register_handler = RegisterHandler(request, cluster_id)
     register_handler.initial_forms()
     if register_handler.is_valid_forms():
         register_handler.save_forms()
