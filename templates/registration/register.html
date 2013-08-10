@@ -2,18 +2,17 @@
 {% load staticfiles %}
 
 {% block CSS %}
-    <link rel="stylesheet" type="text/css" href="{% static 'lib/form-validation/validationEngine.jquery.css' %}"/>
+    <link rel="stylesheet" type="text/css" href='/static/lib/form-validation/validationEngine.jquery.css'/>
     {{ block.super }}
-    <link rel="stylesheet" type="text/css" href="{% static 'registration/register.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="/static/registration/register.css"/>
 {% endblock %}
 
 {% block JS %}
     {{ block.super }}
-    <script type="text/javascript" src="{% static "lib/jquery.formset.min.js" %}"></script>
-    <script type="text/javascript" src="{% static "registration/register.js" %}"></script>
-    <script type="text/javascript"
-            src="{% static 'lib/form-validation/languages/jquery.validationEngine-fa.js' %}"></script>
-    <script type="text/javascript" src="{% static 'lib/form-validation/jquery.validationEngine.js' %}"></script>
+    <script type="text/javascript" src="/static/lib/jquery.formset.min.js"></script>
+    <script type="text/javascript" src="/static/registration/register.js"></script>
+    <script type="text/javascript" src='/static/lib/form-validation/languages/jquery.validationEngine-fa.js'></script>
+    <script type="text/javascript" src='/static/lib/form-validation/jquery.validationEngine.js'></script>
 
 {% endblock %}
 

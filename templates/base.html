@@ -7,20 +7,20 @@
     <meta name="viewport" content="initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no, width = device-width">
 
     <!--[if lt IE 9]><script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-    <link rel="stylesheet" href="{% static "layout/style.css" %}" media="screen">
-    <!--[if lte IE 7]><link rel="stylesheet" href="{% static "layout/style.ie7.css" %}" media="screen" /><![endif]-->
-    <link rel="stylesheet" href="{% static "layout/style.responsive.css" %}" media="all">
+    <link rel="stylesheet" href="/static/layout/style.css" media="screen">
+    <!--[if lte IE 7]><link rel="stylesheet" href="/static/layout/style.ie7.css" media="screen" /><![endif]-->
+    <link rel="stylesheet" href="/static/layout/style.responsive.css" media="all">
 
 
 
     {% block CSS %}
-        <link rel="stylesheet" type="text/css" href="{% static "base.css" %}"/>
+        <link rel="stylesheet" type="text/css" href="/static/base.css"/>
     {% endblock %}
     {% block JS %}
-        <script type="text/javascript" src="{% static "lib/jquery-1.10.2.min.js" %}"></script>
-        <script src="{% static "layout/script.js" %}"></script>
-        <script src="{% static "layout/script.responsive.js" %}"></script>
-        <script type="text/javascript" src="{% static "base.js" %}"></script>
+        <script type="text/javascript" src="/static/lib/jquery-1.10.2.min.js"></script>
+        <script src="/static/layout/script.js"></script>
+        <script src="/static/layout/script.responsive.js"></script>
+        <script type="text/javascript" src="/static/base.js"></script>
     {% endblock %}
 
 
