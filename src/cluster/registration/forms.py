@@ -1,6 +1,11 @@
 # -*- coding:utf-8 -*-
 from django import forms
 from cluster.account.account.models import Member
+from django.forms.formsets import formset_factory
+from django.forms.models import modelformset_factory
+from cluster.account.personal_info.models import EducationalResume, Publication, Invention, \
+    ExecutiveResearchProject, LanguageSkill, SoftwareSkill
+from cluster.project.models import Domain
 
 __author__ = 'M.Y'
 
@@ -62,3 +67,14 @@ class MemberForm(forms.Form):
     first_name = forms.CharField(label=u"نام")
     last_name = forms.CharField(label=u"نام خانوادگی")
     email = forms.EmailField(label=u"پست الکترونیک")
+
+
+CLusterMemberForm = formset_factory(MemberForm)
+ClusterDomainForm = modelformset_factory(Domain, exclude=('confirmed', ))
+
+ResumeForm = modelformset_factory(EducationalResume, exclude=('cluster_member', ))
+PublicationForm = modelformset_factory(Publication, exclude=('cluster_member', ))
+InventionForm = modelformset_factory(Invention, exclude=('cluster_member', ))
+ExecutiveResearchProjectForm = modelformset_factory(ExecutiveResearchProject, exclude=('cluster_member', ))
+LanguageSkillForm = modelformset_factory(LanguageSkill, exclude=('cluster_member', ))
+SoftwareSkillForm = modelformset_factory(SoftwareSkill, exclude=('cluster_member', ))
