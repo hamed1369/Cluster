@@ -38,6 +38,7 @@ $(document).ready(function () {
             $('input[name*="organization"]').parents('tr').first().fadeIn();
         } else {
             $('input[name*="organization"]').parents('tr').first().fadeOut();
+            $('input[name*="organization"]').val('');
         }
     });
 
@@ -46,12 +47,16 @@ $(document).ready(function () {
         if ($(this).val() == 2) {
             $('select[name*="exemption_type"]').parents('tr').first().fadeOut();
             $('input[name*="military_place"]').parents('tr').first().fadeIn();
+            $('select[name*="exemption_type"]').val('');
         } else if ($(this).val() == 3) {
             $('select[name*="exemption_type"]').parents('tr').first().fadeIn();
             $('input[name*="military_place"]').parents('tr').first().fadeOut();
+            $('input[name*="military_place"]').val('');
         } else {
             $('select[name*="exemption_type"]').parents('tr').first().fadeOut();
             $('input[name*="military_place"]').parents('tr').first().fadeOut();
+            $('select[name*="exemption_type"]').val('');
+            $('input[name*="military_place"]').val('');
         }
     });
 
@@ -63,6 +68,7 @@ $(document).ready(function () {
             $('input[name*="elite_certification"]').parents('tr').first().fadeIn();
         } else {
             $('input[name*="elite_certification"]').parents('tr').first().fadeOut();
+            $('input[name*="elite_certification"]').val('');
         }
 
     });
