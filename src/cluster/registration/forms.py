@@ -15,10 +15,23 @@ class ClusterForm(forms.Form):
                                    u"آیا درخواست ثبت خوشه وجود دارد؟(در صورت تایید و ارسال فرم ثبت نام برای اعضاء خوشه)",
     )
 
-    name = forms.CharField(required=False, label=u"نام خوشه (خوشه + حوزه فعالیت + دانشگاه یا موسسه)")
+    name = forms.CharField(required=False, label=u"نام خوشه")
+    institute = forms.CharField(required=False, label=u"دانشگاه / موسسه", max_length=30)
 
     def __init__(self, *args, **kwargs):
         super(ClusterForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        cd = super(ClusterForm, self).clean()
+        is_cluster = cd.get('is_cluster')
+        name = cd.get('name')
+        institute = cd.get('institute')
+        if is_cluster == 1:
+            if not name:
+                self._errors['name'] = self.error_class([u"این فیلد برای ایجاد خوشه ضروری است."])
+            if not institute:
+                self._errors['institute'] = self.error_class([u"این فیلد برای ایجاد خوشه ضروری است."])
+        return cd
 
 
 class RegisterForm(forms.ModelForm):

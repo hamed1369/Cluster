@@ -115,7 +115,11 @@ ul.art-hmenu>li>a, ul.art-vmenu>li>a {
 }
 
 #register_div ul, #register_div ul li {
-    display: inline
+    display: inline;
+}
+
+.art-postcontent ul>li:before, .art-post ul>li:before, .art-textblock ul>li:before {
+    content: none;
 }
 
 /* validation Engine */

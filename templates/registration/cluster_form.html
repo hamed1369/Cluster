@@ -5,12 +5,76 @@
         {{ cluster_form.is_cluster }}
     </div>
 </div>
-<div id="only_for_cluster"{% if not cluster_form.cleaned_data or cluster_form.cleaned_data|get_dict:'is_cluster' != '1' %}
+<div id="only_for_cluster"
+        {% if not cluster_form.cleaned_data or cluster_form.cleaned_data|get_dict:'is_cluster' != '1' %}
      style="display: none;"{% endif %}>
-    <div>
-        {{ cluster_form.name.label }}
-        {{ cluster_form.name }}
-    </div>
+    <table class="register_table">
+        <tr>
+            <td class="label_td">{{ cluster_form.name.label }} <span class="required_field">*</span>
+            </td>
+            <td class="input_td">{{ cluster_form.name }}</td>
+        </tr>
+        <tr>
+            <td class="label_td">{{ cluster_form.institute.label }} <span class="required_field">*</span>
+            </td>
+            <td class="input_td">{{ cluster_form.institute }}</td>
+        </tr>
+    </table>
+
+
+    <fieldset class="formset_fieldset" id="cluster_domain_fieldset">
+        <legend>حوزه های فعالیت</legend>
+        <div id="cluster_domain_formset">
+            <input type="hidden" name="formset_prefix" value="{{ cluster_domain_formset.prefix }}">
+
+            <div class="formset_container">
+                <table id="cluster_domain_table">
+                    <thead>
+                    <tr>
+                        {% for field in cluster_domain_formset.forms.0 %}
+
+                            <td class="label_td"{% if field.field.widget.is_hidden %}
+                                style="display: none"{% endif %}>
+                                <span>{{ field.label }}    </span>
+                                {% if field.field.required %}
+                                    <span class="required_field">*
+                                        </span>
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    </thead>
+                    {% for form in cluster_domain_formset.forms %}
+                        <tr>
+                            {% for field in form %}
+
+                                <td class="input_td">
+                                    {{ field }}</td>
+
+                            {% endfor %}
+                            {#                            <td class="delete_formset_td"></td>#}
+                        </tr>
+
+                    {% endfor %}
+                </table>
+                {{ cluster_domain_formset.management_form }}
+                <script type="text/javascript">
+                    $(function () {
+                        $('#cluster_domain_table tbody tr').formset({
+                            prefix: '{{ cluster_domain_formset.prefix }}',
+                            formCssClass: 'dynamic-formset0',
+                            addText: 'افزودن',
+                            deleteText: 'حذف',
+                            addCssClass: 'formset_add',
+                            deleteCssClass: 'formset_delete'
+                        });
+                    })
+                </script>
+            </div>
+
+        </div>
+    </fieldset>
+
 
     <fieldset class="formset_fieldset" id="cluster_member_fieldset">
         <legend>اعضای خوشه</legend>

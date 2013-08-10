@@ -50,7 +50,7 @@
 
 }
 
-#cluster_member_fieldset {
+#cluster_member_fieldset, #cluster_domain_fieldset {
     background-color: rgba(220, 238, 247, 0.8);
 }
 

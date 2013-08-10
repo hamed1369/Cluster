@@ -24,8 +24,11 @@ $(document).ready(function () {
 
         if (is_cluster == 1) {
             $('#only_for_cluster').slideDown();
+            $('#only_for_cluster input[type="text"]').addClass('validate[required,] text-input');
+
         } else {
             $('#only_for_cluster').slideUp();
+            $('#only_for_cluster input[type="text"]').removeClass('validate[required,] text-input');
         }
 
     });

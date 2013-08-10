@@ -4,7 +4,7 @@
 <head>
     <title>ورود</title>
     <link rel="stylesheet" type="text/css" href="{% static "lib/bootstrap/css/bootstrap.min.css" %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static "base.css" %}"/>
+{#    <link rel="stylesheet" type="text/css" href="{% static "base.css" %}"/>#}
     <link rel="stylesheet" type="text/css" href="{% static 'accounts/login.css' %}"/>
     <script type="text/javascript" src="{% static "lib/jquery-1.10.2.min.js" %}"></script>
     <script type="text/javascript" src="{% static "lib/bootstrap/js/bootstrap.min.js" %}"></script>
@@ -14,6 +14,13 @@
 
 <form action="" method="post" id="login_form">
     {% csrf_token %}
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     <div id="login">
         <div class="input-group">
             {#                <span class="input-group-addon input-large">{{ login_form.username.label }}</span>#}
