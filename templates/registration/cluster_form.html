@@ -13,6 +13,9 @@
 <div id="only_for_cluster"{% if not cluster %}
     {% if not cluster_form.cleaned_data or cluster_form.cleaned_data|get_dict:'is_cluster' != '1' %}
      style="display: none;"{% endif %}{% endif %}>
+    <fieldset class="inner_formset">
+        <legend>اطلاعات خوشه</legend>
+
     <table class="register_table">
         <tr>
             <td class="label_td">{{ cluster_form.name.label }} <span class="required_field">*</span>
@@ -31,7 +34,6 @@
             {% endif %}
         </tr>
     </table>
-
 
     <fieldset class="formset_fieldset" id="cluster_domain_fieldset">
         <legend>حوزه های فعالیت</legend>
@@ -146,4 +148,6 @@
 
     <p>* در صورتی که خوشه مذکور برای اولین بار ثبت میگردد، بصورت پیش فرض فرد ثبت کننده سرگروه خوشه به شمار
         می آید.(نمایش شرایط و ضوابط خوشه)</p>
+    </fieldset>
+
 </div>

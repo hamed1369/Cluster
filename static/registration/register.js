@@ -16,7 +16,7 @@ $(document).ready(function () {
 //
 //    });
 
-    $("#register_form").validationEngine({promptPosition: "centerLeft", scroll: false});
+    $("#register_form").validationEngine({promptPosition: "centerLeft", scroll: false,validationEventTrigger:'submit'});
 
 
     $('input[name*="is_cluster"]').change(function () {
@@ -74,14 +74,14 @@ $(document).ready(function () {
     });
 
 
-    $('.register_table tr, .inner_formset tr').click(function () {
-        $('.register_table tr, .inner_formset tr').css({
-            border: '0',
-            backgroundColor: '#fff'
-        });
-        $(this).css({
-            border: '1px solid rgb(221, 221, 0)',
-            backgroundColor: 'rgb(255, 253, 226)'
-        });
-    });
+//    $('.register_table tr, .inner_formset tr').click(function () {
+//        $('.register_table tr, .inner_formset tr').css({
+//            border: '0',
+//            backgroundColor: '#fff'
+//        });
+//        $(this).css({
+//            border: '1px solid rgb(221, 221, 0)',
+//            backgroundColor: 'rgb(255, 253, 226)'
+//        });
+//    });
 });

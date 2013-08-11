@@ -3,10 +3,11 @@
 }
 
 #register_form fieldset {
-    border-color: lightblue;
+    border-color: #f1f1f1;
     border-radius: 2px;
-    box-shadow: 1px 1px 9px rgb(187, 187, 187);
     margin-top: 5px;
+    border-style: solid;
+    border-width: thin;
     /*box-shadow: 0 0 1px rgba(34, 25, 25, 0.4);*/
 
 }
@@ -16,9 +17,11 @@
     border-collapse: separate;
     border-spacing: 0 10px;
 }
-
-.register_table .label, .inner_formset .label {
-    font-size: 17px;
+form fieldset legend {
+    padding: 6px;
+    font-size: 20px;
+    color:#2E6E9E;
+    font-family: B Mitra;
 }
 
 .register_table .label_td, .inner_formset .label_td {
@@ -26,17 +29,12 @@
     margin: 0;
     padding: 7px;
     width: 20%;
+    font-size: 12px;
 
 }
 
 .register_table select, .inner_formset select {
-    background: #FFF;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    border: 1px solid #ADBDBC;
     width: 60%;
-    padding: 5px;
 }
 
 .formset_form_field {
@@ -50,16 +48,13 @@
 
 }
 
-#cluster_member_fieldset, #cluster_domain_fieldset {
-    background-color: rgba(220, 238, 247, 0.8);
-}
-
 .formset_fieldset table {
     width: 100%;
 }
 
-.formset_fieldset table .label_td {
-    text-align: center;
+.formset_fieldset table .label_td ,td,th,tr{
+    font-size: 12px;
+    text-align: right;
 }
 
 .formset_fieldset input[type="text"] {
@@ -75,4 +70,7 @@
     border: 1px solid rgb(173, 189, 188);
     padding: 3px;
     margin: 0;
+}
+.formset_fieldset thead{
+    text-align: right;
 }

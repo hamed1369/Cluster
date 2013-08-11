@@ -30,13 +30,14 @@
 
 body {
     direction: rtl;
-    font-family: B Mitra;
+    font-family: Tahoma;
+    font-size: 12px;
     padding: 0;
     margin: 0;
 
 }
 
-h1, h2, h3, h4, h5, h6, p, a, ul, ol, li {
+h1, h2, h3, h4, h5, h6 {
     font-family: B Mitra;
 
 }
@@ -49,11 +50,13 @@ input[type="text"], input[type="password"], input[type="email"], input[type="url
     border: 1px solid #ADBDBC;
     margin: 0 auto;
     width: 60%;
-    font-family: B Mitra;
+    font-family: Tahoma;
+    font-size: 12px;
 }
 
 select {
-    font-family: B Mitra;
+    font-family: Tahoma;
+    font-size: 12px;
 
 }
 
@@ -209,14 +212,7 @@ ul.art-hmenu>li>a, ul.art-vmenu>li>a {
     margin-bottom: 20px;
 }
 
-form fieldset legend {
-    background: rgb(238, 238, 255);
-    border: solid 1px lightblue;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    border-radius: 8px;
-    padding: 6px;
-}
+
 
 input[readonly], select[readonly] {
     border: 0;
@@ -268,3 +264,17 @@ input[readonly], select[readonly] {
 }
 #id_username { background-position: 10px 10px !important }
 #id_password { background-position: 10px -53px !important }
+
+
+ul.art-vmenu > li{
+    font-family: B Mitra;
+}
+table, ul.art-hmenu{
+    font-family: 12px;
+}
+#art-main{
+    font-family: 12px;
+}
+.art-sheet{
+
+}
