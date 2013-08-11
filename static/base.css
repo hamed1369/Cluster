@@ -243,14 +243,16 @@ input[readonly], select[readonly] {
     color: #777;
     font: 13px;
     margin: 0 0 10px;
-    padding: 15px 10px 15px 40px;
+    padding: 10px 10px 10px 40px;
     width: 50%;
     position: relative;
     left: 10%;
     right: 10%;
-    height: 10px;
+    height: 18px;
     direction: ltr;
 }
+
+
 .login-box form input[type="text"]:focus,
 .login-box form input[type="password"]:focus {
     -webkit-box-shadow: 0 0 2px #ed1c24 inset;
@@ -262,8 +264,11 @@ input[readonly], select[readonly] {
     border: 1px solid #ed1c24;
     outline: none;
 }
-#id_username { background-position: 10px 10px !important }
-#id_password { background-position: 10px -53px !important }
+#id_username { background-position: 10px 10px !important ;
+font-size: 11px;
+}
+#id_password { background-position: 10px -53px !important ;
+font-size: 11px;}
 
 
 ul.art-vmenu > li{
