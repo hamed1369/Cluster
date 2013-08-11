@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en-US">
 <head><!-- Created by Artisteer v4.1.0.60046 -->
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>{% block title %}صفحه اصلی{% endblock %}</title>
     <meta name="viewport" content="initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no, width = device-width">
 
@@ -15,9 +15,12 @@
 
     {% block CSS %}
         <link rel="stylesheet" type="text/css" href="/static/base.css"/>
+        <link rel="stylesheet" type="text/css" href="/static/lib/jquery-ui/jquery-ui-1.10.3.custom.min.css"/>
+
     {% endblock %}
     {% block JS %}
         <script type="text/javascript" src="/static/lib/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="/static/lib/jquery-ui/jquery-ui-1.10.3.custom.min.js"></script>
         <script src="/static/layout/script.js"></script>
         <script src="/static/layout/script.responsive.js"></script>
         <script type="text/javascript" src="/static/base.js"></script>
@@ -66,7 +69,8 @@
                         <div class="art-vmenublock clearfix">
                             <div class="art-vmenublockcontent">
                                 <ul class="art-vmenu">
-                                    <li><a href="{% url cluster.account.views.auth.login_view %}" class="active">صفحه اصلی</a></li>
+                                    <li><a href="{% url cluster.account.views.auth.login_view %}" class="active">صفحه
+                                        اصلی</a></li>
                                     <li><a href="{% url cluster.registration.views.register %}">ثبت نام</a></li>
                                     <li><a href="{% url cluster.account.views.auth.login_view %}">مشاهده طرح های ثبت
                                         شده</a></li>

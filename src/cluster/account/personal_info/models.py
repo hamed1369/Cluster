@@ -68,6 +68,7 @@ class ExecutiveResearchProject(models.Model):
     cluster_member = models.ForeignKey(Member,related_name="executive_research_projects")
 
     class Meta:
+        app_label ='account'
         verbose_name = u"اجرایی یا طرح پژوهشی"
         verbose_name_plural = u"اجرایی ها یا طرح های پژوهشی"
 

@@ -1,33 +1,21 @@
 # -*- coding:utf-8 -*-
-from django.forms.formsets import formset_factory
+from django.contrib import messages
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
-from cluster.registration.forms import RegisterForm, MemberForm, EducationalResumeForm, PublicationForm, \
-    InventionForm, ExecutiveResearchProjectForm, LanguageSkillForm, SoftwareSkillForm, ClusterForm
+from cluster.registration.handlers import RegisterHandler
 
 
 def register(request, cluster_id=None):
-    cluster_form = ClusterForm()
-    register_form = RegisterForm()
-    cluster_member_formset = formset_factory(MemberForm)
-    resume_formset = formset_factory(EducationalResumeForm)
-    publication_formset = formset_factory(PublicationForm)
-    invention_formset = formset_factory(InventionForm)
-    executive_research_formset = formset_factory(ExecutiveResearchProjectForm)
-    language_skill_formset = formset_factory(LanguageSkillForm)
-    software_skill_formset = formset_factory(SoftwareSkillForm)
+    register_handler = RegisterHandler(request, cluster_id)
+    register_handler.initial_forms()
+    if register_handler.is_valid_forms():
+        register_handler.save_forms()
+        messages.success(request, u"ثبت نام شما با موفقیت انجام شد.")
+        return HttpResponseRedirect(reverse('login'))
 
-    c = {
-        'cluster_form': cluster_form,
-        'register_form': register_form,
-        'cluster_member_formset': cluster_member_formset,
-        'resume_formset': resume_formset,
-        'publication_formset': publication_formset,
-        'invention_formset': invention_formset,
-        'executive_research_formset': executive_research_formset,
-        'language_skill_formset': language_skill_formset,
-        'software_skill_formset': software_skill_formset,
-    }
+    context = register_handler.get_context()
     return render_to_response('registration/register.html',
-                              c,
+                              context,
                               context_instance=RequestContext(request))

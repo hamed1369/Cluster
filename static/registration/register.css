@@ -2,17 +2,77 @@
     margin: 1%;
 }
 
-#register_table {
-    width: 100%;
+#register_form fieldset {
+    border-color: lightblue;
+    border-radius: 2px;
+    box-shadow: 1px 1px 9px rgb(187, 187, 187);
+    margin-top: 5px;
+    /*box-shadow: 0 0 1px rgba(34, 25, 25, 0.4);*/
 
 }
 
-#register_table .label {
+.register_table, .inner_formset table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.register_table .label, .inner_formset .label {
     font-size: 17px;
+}
+
+.register_table .label_td, .inner_formset .label_td {
+    text-align: right;
+    margin: 0;
+    padding: 7px;
+    width: 20%;
+
+}
+
+.register_table select, .inner_formset select {
+    background: #FFF;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border: 1px solid #ADBDBC;
+    width: 60%;
+    padding: 5px;
 }
 
 .formset_form_field {
     display: inline;
     width: 30%;
 
+}
+
+#only_for_cluster {
+    margin: 20px;
+
+}
+
+#cluster_member_fieldset, #cluster_domain_fieldset {
+    background-color: rgba(220, 238, 247, 0.8);
+}
+
+.formset_fieldset table {
+    width: 100%;
+}
+
+.formset_fieldset table .label_td {
+    text-align: center;
+}
+
+.formset_fieldset input[type="text"] {
+    width: 100%;
+}
+
+.formset_fieldset select {
+    width: 100%;
+    background: rgb(255, 255, 255);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border: 1px solid rgb(173, 189, 188);
+    padding: 3px;
+    margin: 0;
 }

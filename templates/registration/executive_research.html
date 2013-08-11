@@ -1,0 +1,51 @@
+<fieldset class="formset_fieldset" id="executive_research_fieldset">
+    <legend>اجرایی یا طرح پژوهشی</legend>
+    <div id="executive_research_formset">
+        <input type="hidden" name="formset_prefix" value="{{ executive_research_formset.prefix }}">
+
+        <div class="formset_container">
+            <table id="executive_research_table">
+                <thead>
+                <tr>
+                    {% for field in executive_research_formset.forms.0 %}
+
+                        <td class="label_td"{% if field.field.widget.is_hidden %} style="display: none"{% endif %}>
+                            <span>{{ field.label }}    </span>
+                            {% if field.field.required %}
+                                <span class="required_field">*
+                                        </span>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+                </thead>
+                {% for form in executive_research_formset.forms %}
+                    <tr>
+                        {% for field in form %}
+
+                            <td class="input_td">
+                                {{ field }}</td>
+
+                        {% endfor %}
+                        {#                        <td class="delete_formset_td"></td>#}
+                    </tr>
+
+                {% endfor %}
+            </table>
+            {{ executive_research_formset.management_form }}
+            <script type="text/javascript">
+                $(function () {
+                    $('#executive_research_table tbody tr').formset({
+                        prefix: '{{ executive_research_formset.prefix }}',
+                        formCssClass: 'dynamic-formset5',
+                        addText: 'افزودن',
+                        deleteText: 'حذف',
+                        addCssClass: 'formset_add',
+                        deleteCssClass: 'formset_delete'
+                    });
+                })
+            </script>
+        </div>
+
+    </div>
+</fieldset>

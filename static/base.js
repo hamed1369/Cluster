@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    $('input[type=text]').addClass('form-control');
-    $('input[type=password]').addClass('form-control');
+    $('button, input[type=submit], input[type=button], .button_link').button();
 
 });
