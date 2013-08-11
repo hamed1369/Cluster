@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load account_template_tags %}
 <!DOCTYPE html>
 <html dir="ltr" lang="en-US">
 <head><!-- Created by Artisteer v4.1.0.60046 -->
@@ -77,6 +77,37 @@
                                 </ul>
 
                             </div>
+                        </div>
+                        <div class="art-block clearfix login-box" style="text-align: center;">
+                            {% if user.is_anonymous %}
+                                <form action="" method="post" id="login_form">
+                                    {% csrf_token %}
+                                    <div class="art-blockheader">
+                                        <h3 class="t">ورود به سامانه</h3>
+                                    </div>
+                                    <div class="art-blockcontent">
+                                        <div>
+                                            {{ login_form.username }}
+                                        </div>
+                                        <div>
+                                            {{ login_form.password }}
+                                        </div>
+                                        <div style="width: 80%; position: relative; left: 10%; right: 10%;">
+                                            <input type="submit" value="ورود" name="login-submit"/>
+                                            <button class="button_link"
+                                                    onclick="location.href ='{% url cluster.registration.views.register %}';"
+                                                    >ثبت نام
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            {% else %}
+                                <div class="art-blockheader">
+                                    <p>{% welcome_st user %}</p>
+                                    <a class="button_link" href="{% url logout %}">خروج</a>
+                                </div>
+
+                            {% endif %}
                         </div>
                         <div class="art-block clearfix">
                             <div class="art-blockheader">
