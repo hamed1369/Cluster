@@ -23,7 +23,7 @@ class RegisterHandler(object):
 
     def initial_forms(self):
         self.__init_cluster_form()
-        if self.http_request.method == 'POST':
+        if self.http_request.method == 'POST' and self.http_request.POST.get('register-submit'):
             self.register_form = RegisterForm(prefix='register', data=self.http_request.POST)
             self.resume_formset = ResumeForm(prefix='resume', data=self.http_request.POST,
                                              queryset=EducationalResume.objects.none())
@@ -51,7 +51,7 @@ class RegisterHandler(object):
                                                             queryset=SoftwareSkill.objects.none())
 
     def __init_cluster_form(self):
-        if self.http_method == 'POST':
+        if self.http_method == 'POST' and self.http_request.POST.get('register-submit'):
             self.cluster_form = ClusterForm(prefix='cluster', data=self.http_request.POST)
             if not self.cluster:
                 self.cluster_member_formset = ClusterMemberForm(prefix='cluster_member', data=self.http_request.POST)
@@ -109,7 +109,7 @@ class RegisterHandler(object):
             member.cluster = self.cluster
 
     def is_valid_forms(self):
-        if self.http_request.method == 'POST':
+        if self.http_request.method == 'POST' and self.http_request.POST.get('register-submit'):
             if self.cluster:
                 if self.register_form.is_valid() and self.resume_formset.is_valid() \
                     and self.publication_formset.is_valid() and self.invention_formset.is_valid() \

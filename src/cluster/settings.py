@@ -9,7 +9,7 @@ except:
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+# ('Your Name', 'your_email@example.com'),
 )
 
 MANAGERS = ADMINS
@@ -50,7 +50,7 @@ USE_TZ = True
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = SITE_URL+'/media/'
+MEDIA_URL = SITE_URL + '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -60,7 +60,7 @@ MEDIA_URL = SITE_URL+'/media/'
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
-STATIC_URL = SITE_URL+'/static/'
+STATIC_URL = SITE_URL + '/static/'
 
 # Additional locations of static files
 
@@ -69,7 +69,7 @@ STATIC_URL = SITE_URL+'/static/'
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -79,7 +79,7 @@ SECRET_KEY = 'y(56@9^#4uf+@xopi!65s2^ise_1fr0q_899m#j7-7&q87&@a!'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    #     'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -91,13 +91,22 @@ MIDDLEWARE_CLASSES = (
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
-
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.request",
+    "django.contrib.messages.context_processors.messages",
+    'cluster.account.context_process.login_form_check',
+)
 ROOT_URLCONF = 'cluster.urls'
 LOGIN_URL = '/accounts/login/'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'cluster.wsgi.application'
 
-TEMPLATE_DIRS = BASE_PATH+"/templates/"
+TEMPLATE_DIRS = BASE_PATH + "/templates/"
 
 INSTALLED_APPS = (
     'django.contrib.auth',

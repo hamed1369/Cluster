@@ -2,6 +2,7 @@
 from django.conf.urls import patterns, url
 
 
-urlpatterns = patterns('cluster.account.views',
-                       url(r'^login/$', 'auth.login_view', name='login'),
+urlpatterns = patterns('',
+                       url(r'^login/$', 'cluster.account.views.auth.login_view', name='login'),
+                       url(r'^logout/$', 'django.contrib.auth.views.logout_then_login', name='logout'),
 )
