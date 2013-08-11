@@ -1,6 +1,11 @@
 @font-face {
     font-family: "B Mitra";
-    src: url("fonts/B%20Mitra.ttf") format("truetype");
+    src: url("fonts/BMitra.ttf") format("truetype");
+}
+
+@font-face{
+    font-family: "B Nazanin";
+    src: url("fonts/BNazanin.ttf");
 }
 
 @font-face {
