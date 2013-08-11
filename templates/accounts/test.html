@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html lang="en" class="ie6 ielt8"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="ie7 ielt8"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="ie8"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Paper Stack</title>
+<style>
+    /* Reset CSS */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -14,21 +24,11 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     font-size: 100%;
     vertical-align: baseline;
     background: transparent;
-    font-family: B Mitra;
 }
 body {
-    background: rgb(255, 255, 255) url('../layout/images/page.png') fixed;
-    background: url('../layout/images/pageglare.png') no-repeat, linear-gradient(top, rgba(198, 198, 198, 0.05) 0, rgba(255, 255, 255, 0.16) 500px) no-repeat, url('../layout/images/page.png'), linear-gradient(top, rgb(217, 217, 217) 0, rgb(255, 255, 255) 500px) no-repeat;
-    background: url('../layout/images/pageglare.png') no-repeat, -webkit-linear-gradient(top, rgba(198, 198, 198, 0.05) 0, rgba(255, 255, 255, 0.16) 500px) no-repeat, url('../layout/images/page.png'), -webkit-linear-gradient(top, rgb(217, 217, 217) 0, rgb(255, 255, 255) 500px) no-repeat;
-    background: url('../layout/images/pageglare.png') no-repeat, -moz-linear-gradient(top, rgba(198, 198, 198, 0.05) 0, rgba(255, 255, 255, 0.16) 500px) no-repeat, url('../layout/images/page.png'), -moz-linear-gradient(top, rgb(217, 217, 217) 0, rgb(255, 255, 255) 500px) no-repeat;
-    background: url('../layout/images/pageglare.png') no-repeat, -o-linear-gradient(top, rgba(198, 198, 198, 0.05) 0, rgba(255, 255, 255, 0.16) 500px) no-repeat, url('../layout/images/page.png'), -o-linear-gradient(top, rgb(217, 217, 217) 0, rgb(255, 255, 255) 500px) no-repeat;
-    background: url('../layout/images/pageglare.png') no-repeat, -ms-linear-gradient(top, rgba(198, 198, 198, 0.05) 0, rgba(255, 255, 255, 0.16) 500px) no-repeat, url('../layout/images/page.png'), -ms-linear-gradient(top, rgb(217, 217, 217) 0, rgb(255, 255, 255) 500px) no-repeat;
-    background: url('../layout/images/pageglare.png') no-repeat, linear-gradient(top, rgba(198, 198, 198, 0.05) 0, rgba(255, 255, 255, 0.16) 500px) no-repeat, url('../layout/images/page.png'), linear-gradient(top, rgb(217, 217, 217) 0, rgb(255, 255, 255) 500px) no-repeat;
-    -svg-background: url('images/pageglare.png') no-repeat, linear-gradient(top, rgba(198, 198, 198, 0.05) 0, rgba(255, 255, 255, 0.16) 500px) no-repeat, url('../layout/images/page.png'), linear-gradient(top, #D9D9D9 0, #FFFFFF 500px) no-repeat;
-    background-attachment: fixed, fixed, fixed, fixed !important;
-
+    background: #DCDDDF url(http://cssdeck.com/uploads/media/items/7/7AF2Qzt.png);
     color: #000;
-    font: 14px;
+    font: 14px Arial;
     margin: 0 auto;
     padding: 0;
     position: relative;
@@ -56,7 +56,7 @@ form:after {
     clear: both;
     visibility: hidden;
 }
-.container { margin: 15% auto; position: relative; width: 900px; }
+.container { margin: 25px auto; position: relative; width: 900px; }
 #content {
     background: #f9f9f9;
     background: -moz-linear-gradient(top,  rgba(248,248,248,1) 0%, rgba(249,249,249,1) 100%);
@@ -80,7 +80,7 @@ form:after {
 }
 #content h1 {
     color: #7E7E7E;
-    font: bold 25px;
+    font: bold 25px Helvetica, Arial, sans-serif;
     letter-spacing: -0.05em;
     line-height: 20px;
     margin: 10px 0 30px;
@@ -164,15 +164,13 @@ form:after {
     -ms-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
-    background: #eae7e7 url('../layout/images/8bcLQqF.png') no-repeat;
+    background: #eae7e7 url(http://cssdeck.com/uploads/media/items/8/8bcLQqF.png) no-repeat;
     border: 1px solid #c8c8c8;
     color: #777;
-    font: 13px;
+    font: 13px Helvetica, Arial, sans-serif;
     margin: 0 0 10px;
-    padding: 10px 10px 10px 40px;
+    padding: 15px 10px 15px 40px;
     width: 80%;
-    height: 45px;
-    direction: ltr;
 }
 #content form input[type="text"]:focus,
 #content form input[type="password"]:focus {
@@ -185,8 +183,8 @@ form:after {
     border: 1px solid #ed1c24;
     outline: none;
 }
-#id_username { background-position: 10px 10px !important }
-#id_password { background-position: 10px -53px !important }
+#username { background-position: 10px 10px !important }
+#password { background-position: 10px -53px !important }
 #content form input[type="submit"] {
     background: rgb(254,231,154);
     background: -moz-linear-gradient(top,  rgba(254,231,154,1) 0%, rgba(254,193,81,1) 100%);
@@ -208,8 +206,8 @@ form:after {
     border: 1px solid #D69E31;
     color: #85592e;
     cursor: pointer;
-    float: right;
-    font: bold 15px;
+    float: left;
+    font: bold 15px Helvetica, Arial, sans-serif;
     height: 35px;
     margin: 20px 0 35px 15px;
     position: relative;
@@ -224,6 +222,13 @@ form:after {
     background: -ms-linear-gradient(top,  rgba(254,193,81,1) 0%,rgba(254,231,154,1) 100%);
     background: linear-gradient(top,  rgba(254,193,81,1) 0%,rgba(254,231,154,1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fec151', endColorstr='#fee79a',GradientType=0 );
+}
+#content form div a {
+    color: #004a80;
+    float: right;
+    font-size: 12px;
+    margin: 30px 15px 0 0;
+    text-decoration: underline;
 }
 .button {
     background: rgb(247,249,250);
@@ -247,7 +252,7 @@ form:after {
     padding: 15px 0;
 }
 .button a {
-    background: url('../layout/images/8bcLQqF.png') 0 -112px no-repeat;
+    background: url(http://cssdeck.com/uploads/media/items/8/8bcLQqF.png) 0 -112px no-repeat;
     color: #7E7E7E;
     font-size: 17px;
     padding: 2px 0 2px 40px;
@@ -262,42 +267,29 @@ form:after {
     background-position: 0 -135px;
     color: #00aeef;
 }
-
-#content form div a {
-    background: rgb(254,231,154);
-    background: -moz-linear-gradient(top,  rgba(254,231,154,1) 0%, rgba(254,193,81,1) 100%);
-    background: -webkit-linear-gradient(top,  rgba(254,231,154,1) 0%,rgba(254,193,81,1) 100%);
-    background: -o-linear-gradient(top,  rgba(254,231,154,1) 0%,rgba(254,193,81,1) 100%);
-    background: -ms-linear-gradient(top,  rgba(254,231,154,1) 0%,rgba(254,193,81,1) 100%);
-    background: linear-gradient(top,  rgba(254,231,154,1) 0%,rgba(254,193,81,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fee79a', endColorstr='#fec151',GradientType=0 );
-    -webkit-border-radius: 30px;
-    -moz-border-radius: 30px;
-    -ms-border-radius: 30px;
-    -o-border-radius: 30px;
-    border-radius: 30px;
-    -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset;
-    -moz-box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset;
-    -ms-box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset;
-    -o-box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset;
-    box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset;
-    border: 1px solid #D69E31;
-    color: #85592e;
-    cursor: pointer;
-    float: left;
-    font: bold 15px;
-    height: 35px;
-    margin: 20px 0 35px 15px;
-    position: relative;
-    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
-    width: 120px;
-}
-#content form div a :hover  {
-    background: rgb(254,193,81);
-    background: -moz-linear-gradient(top,  rgba(254,193,81,1) 0%, rgba(254,231,154,1) 100%);
-    background: -webkit-linear-gradient(top,  rgba(254,193,81,1) 0%,rgba(254,231,154,1) 100%);
-    background: -o-linear-gradient(top,  rgba(254,193,81,1) 0%,rgba(254,231,154,1) 100%);
-    background: -ms-linear-gradient(top,  rgba(254,193,81,1) 0%,rgba(254,231,154,1) 100%);
-    background: linear-gradient(top,  rgba(254,193,81,1) 0%,rgba(254,231,154,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fec151', endColorstr='#fee79a',GradientType=0 );
-}
+</style>
+</head>
+<body>
+<div class="container">
+    <section id="content">
+        <form action="">
+            <h1>Login Form</h1>
+            <div>
+                <input type="text" placeholder="Username" id="username" />
+            </div>
+            <div>
+                <input type="password" placeholder="Password" required="" id="password" />
+            </div>
+            <div>
+                <input type="submit" value="Log in" />
+                <a href="#">Lost your password?</a>
+                <a href="#">Register</a>
+            </div>
+        </form><!-- form -->
+        <div class="button">
+            <a href="#">Download source file</a>
+        </div><!-- button -->
+    </section><!-- content -->
+</div><!-- container -->
+</body>
+</html>
