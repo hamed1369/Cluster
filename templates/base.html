@@ -1,4 +1,5 @@
 {% load account_template_tags %}
+{% load date_template_tags %}
 <!DOCTYPE html>
 <html dir="ltr" lang="en-US">
 <head><!-- Created by Artisteer v4.1.0.60046 -->
@@ -53,10 +54,15 @@
 <div id="art-main">
     <header class="art-header">
 
-        <div class="art-shapes">
+        <div class="wellcome_div">
+            <div>
+                <p>{% welcome_st user %}</p>
+                <a class="exit_btn" href="{% url logout %}">خروج</a>
+                <br/>
+                <span>{{ today|persian_date }}</span>
+            </div>
 
         </div>
-
 
     </header>
     {#    <nav class="art-nav">#}
@@ -107,10 +113,7 @@
                                     </div>
                                 </form>
                             {% else %}
-                                <div class="art-blockheader">
-                                    <p>{% welcome_st user %}</p>
-                                    <a class="button_link" href="{% url logout %}">خروج</a>
-                                </div>
+
 
                             {% endif %}
                         </div>

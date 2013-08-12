@@ -8,7 +8,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
                        # url(r'^$', 'cluster.views.home', name='home'),
-                       url(r'^cluster/', include('cluster.registration.urls')),
+                       url(r'^', include('cluster.registration.urls')),
 
                        # Uncomment the admin/doc line below to enable admin documentation:
                        #url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

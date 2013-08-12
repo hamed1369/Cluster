@@ -100,6 +100,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.request",
     "django.contrib.messages.context_processors.messages",
     'cluster.account.context_process.login_form_check',
+    'cluster.account.context_process.default_context',
 )
 ROOT_URLCONF = 'cluster.urls'
 LOGIN_URL = '/accounts/login/'
