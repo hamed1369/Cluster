@@ -138,10 +138,13 @@ ul.art-hmenu>li>a, ul.art-vmenu>li>a {
 
 .formError .formErrorContent {
     /*background: rgba(255, 34, 17, 0.8);*/
-    background: rgba(255, 148, 148, 0.8);
-    color: rgb(0, 0, 0);
+    background-color: white;
+    color:#FF3B65;
     direction: rtl;
     text-align: right;
+    box-shadow: none;
+    border-color: #FF3B65;
+    border-width: thin;
 }
 
 .error_td{
@@ -177,7 +180,6 @@ ul.art-hmenu>li>a, ul.art-vmenu>li>a {
 
 .formset_delete:hover {
     /*background: #f7a0bb;*/
-
 }
 
 .formset_add {
@@ -189,7 +191,9 @@ ul.art-hmenu>li>a, ul.art-vmenu>li>a {
     height:25px;
     text-decoration: none;
     background:url(./images/formset/add.png) no-repeat right center;
-
+    font-family: B Mitra;
+    font-size: 15px;
+    color:green;
     /*background: #5CCD00;*/
     /*background: -moz-linear-gradient(top, #5CCD00 0%, #4AA400 100%);*/
     /*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #5CCD00), color-stop(100%, #4AA400));*/
