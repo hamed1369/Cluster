@@ -8,16 +8,17 @@ from cluster.account.personal_info.models import EducationalResume, SoftwareSkil
 from cluster.project.models import Domain
 from cluster.registration.forms import ClusterForm, RegisterForm, ClusterMemberForm, ClusterDomainForm, ResumeForm, \
     PublicationForm, InventionForm, ExecutiveResearchProjectForm, LanguageSkillForm, SoftwareSkillForm
+from cluster.utils.messages import MessageServices
 
 __author__ = 'M.Y'
 
 
 class RegisterHandler(object):
-    def __init__(self, http_request, cluster_id):
+    def __init__(self, http_request, cluster_id=None):
         self.http_request = http_request
         self.http_method = self.http_request.method
         self.cluster_id = cluster_id
-        self.cluster = None
+        self.cluster = cluster_id
         if self.cluster_id:
             self.cluster = Cluster.objects.get(id=cluster_id)
 
@@ -67,7 +68,7 @@ class RegisterHandler(object):
                                                                 clusters=self.cluster))
 
         if self.cluster:
-            self.cluster_form.fields['is_cluster'].initial = 1
+            self.cluster_form.fields['is_cluster'].initial = True
             self.cluster_form.fields['name'].initial = self.cluster.name
             self.cluster_form.fields['name'].widget.attrs.update({'readonly': 'readonly'})
             self.cluster_form.fields['institute'].initial = self.cluster.institute
@@ -80,7 +81,7 @@ class RegisterHandler(object):
     def __save_cluster(self, member):
         if not self.cluster:
             is_cluster = self.cluster_form.cleaned_data.get('is_cluster')
-            if is_cluster:
+            if is_cluster == 'True':
                 name = self.cluster_form.cleaned_data.get('name')
                 institute = self.cluster_form.cleaned_data.get('institute')
                 cluster = Cluster.objects.create(name=name, institute=institute, head=member)
@@ -90,21 +91,21 @@ class RegisterHandler(object):
                 cluster_domains = self.cluster_domain_formset.save()
                 cluster.domains = cluster_domains
 
-                members_emails = []
+                users = []
                 for form in self.cluster_member_formset.forms:
                     if form.is_valid():
                         first_name = form.cleaned_data.get('first_name')
                         last_name = form.cleaned_data.get('last_name')
                         email = form.cleaned_data.get('email')
+                        password = User.objects.make_random_password()
                         user = User.objects.create(first_name=first_name, last_name=last_name, username=email,
-                                                   email=email, )
+                                                   email=email, password=password)
                         user.save()
-                        members_emails.append(email)
-                try:
-                    send_mail(subject=u"ثبت نام خوشه", message=u"<a></a>", from_email='mymy47@gmail.com',
-                              recipient_list=members_emails)
-                except Exception:
-                    pass
+                        users.append(user)
+
+                MessageServices.send_message(subject=u"ثبت نام خوشه",
+                                             message=MessageServices.REGISTRATION_MESSAGE,
+                                             users=users, cluster=cluster)
         else:
             member.cluster = self.cluster
 
@@ -131,9 +132,12 @@ class RegisterHandler(object):
         first_name = self.register_form.cleaned_data.get('first_name')
         last_name = self.register_form.cleaned_data.get('last_name')
         username = self.register_form.cleaned_data.get('username')
+        password = self.register_form.cleaned_data.get('password')
         email = self.register_form.cleaned_data.get('email')
 
         user = User.objects.create(first_name=first_name, last_name=last_name, username=username, email=email, )
+        user.set_password(password)
+        user.save()
         member = self.register_form.save(commit=False)
         member.user = user
 

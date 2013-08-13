@@ -31,6 +31,28 @@
             <td class="error_td" width="30%">{{ register_form.username.errors }}</td>
         {% endif %}
     </tr>
+
+    <tr>
+
+        <td class="label_td">{{ register_form.password.label }}
+            {% if register_form.password.field.required %}<span class="required_field">*</span>{% endif %}
+        </td>
+        <td class="input_td">{{ register_form.password }}</td>
+        {% if register_form.password.errors %}
+            <td class="error_td" width="30%">{{ register_form.password.errors }}</td>
+        {% endif %}
+    </tr>
+    <tr>
+
+        <td class="label_td">{{ register_form.re_password.label }}
+            {% if register_form.re_password.field.required %}<span class="required_field">*</span>{% endif %}
+        </td>
+        <td class="input_td">{{ register_form.re_password }}</td>
+        {% if register_form.re_password.errors %}
+            <td class="error_td" width="30%">{{ register_form.re_password.errors }}</td>
+        {% endif %}
+    </tr>
+
     <tr>
 
         <td class="label_td">{{ register_form.email.label }}

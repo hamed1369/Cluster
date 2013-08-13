@@ -12,9 +12,10 @@ __author__ = 'M.Y'
 
 class ClusterForm(forms.Form):
     BOOLEAN_CHOICES = (
-        (1, u"بله"),
-        (2, u"خیر"),
+        (True, u"بله"),
+        (False, u"خیر"),
     )
+
     is_cluster = forms.ChoiceField(required=False, choices=BOOLEAN_CHOICES, widget=forms.RadioSelect(),
                                    label=
                                    u"آیا درخواست ثبت خوشه وجود دارد؟(در صورت تایید و ارسال فرم ثبت نام برای اعضاء خوشه)",
@@ -31,7 +32,8 @@ class ClusterForm(forms.Form):
         is_cluster = cd.get('is_cluster')
         name = cd.get('name')
         institute = cd.get('institute')
-        if is_cluster == 1:
+        self.is_cluster_value = is_cluster
+        if is_cluster == 'True':
             if not name:
                 self._errors['name'] = self.error_class([u"این فیلد برای ایجاد خوشه ضروری است."])
             if not institute:
@@ -54,13 +56,24 @@ class RegisterForm(forms.ModelForm):
         self.fields.insert(0, 'first_name', forms.CharField(required=True, label=u"نام"))
         self.fields.insert(1, 'last_name', forms.CharField(required=True, label=u"نام خانوادگی"))
         self.fields.insert(2, 'username', forms.CharField(required=True, label=u"نام کاربری"))
-        self.fields.insert(3, 'email', forms.EmailField(label=u"پست الکترونیک"))
+        self.fields.insert(3, 'password', forms.CharField(required=True, label=u"گذرواژه", widget=forms.PasswordInput))
+        self.fields.insert(4, 're_password',
+                           forms.CharField(required=True, label=u"تکرار گذرواژه", widget=forms.PasswordInput))
+        self.fields.insert(5, 'email', forms.EmailField(label=u"پست الکترونیک"))
         self.fields['foundation_of_elites'] = forms.ChoiceField(required=True, choices=RegisterForm.BOOLEAN_CHOICES,
                                                                 widget=forms.RadioSelect(), )
         self.fields['foundation_of_elites'].label = u"آیا عضو بنیاد ملی نخبگان می باشید؟"
         for field in self.fields:
             if self.fields[field].required:
                 self.fields[field].widget.attrs.update({'class': 'validate[required,] text-input'})
+
+    def clean(self):
+        cd = super(RegisterForm, self).clean()
+        password = cd.get('password')
+        re_password = cd.get('re_password')
+        if password and re_password and password != re_password:
+            self._errors['password'] = self.error_class([u'گذرواژه با تکرار آن مطابقت ندارد.'])
+        return cd
 
 
 class MemberForm(forms.Form):
