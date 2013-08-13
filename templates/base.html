@@ -53,6 +53,7 @@
 <body>
 <div id="art-main">
     <header class="art-header">
+        {% if not user.is_anonymous %}
 
         <div class="wellcome_div">
             <div>
@@ -63,6 +64,7 @@
             </div>
 
         </div>
+        {% endif %}
 
     </header>
     {#    <nav class="art-nav">#}
@@ -89,8 +91,8 @@
 
                             </div>
                         </div>
+                        {% if user.is_anonymous %}
                         <div class="art-block clearfix login-box" style="text-align: center;">
-                            {% if user.is_anonymous %}
                                 <form action="" method="post" id="login_form">
                                     {% csrf_token %}
                                     <div class="art-blockheader">
@@ -112,11 +114,11 @@
                                         </div>
                                     </div>
                                 </form>
-                            {% else %}
 
 
-                            {% endif %}
                         </div>
+                        {% else %}
+                        {% endif %}
                         <div class="art-block clearfix">
                             <div class="art-blockheader">
                                 <h3 class="t">Block</h3>
@@ -152,7 +154,6 @@
     </footer>
 
 
-</div>
 </div>
 
 

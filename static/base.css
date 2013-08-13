@@ -1,21 +1,11 @@
 @font-face {
-    font-family: "B Mitra";
-    src: url("fonts/BMitra.ttf") format("truetype");
+    font-family: 'B Mitra';
+    src: url('fonts/B%20Mitra.eot?#') format('eot'), url('fonts/B%20Mitra.woff') format('woff'), url('fonts/B%20Mitra.ttf') format('truetype');
 }
 
-@font-face{
+@font-face {
     font-family: "B Nazanin";
     src: url("fonts/BNazanin.ttf");
-}
-
-@font-face {
-    font-family: "B Mitra";
-    src: url("fonts/B%20Mitra.eot") /* EOT file for IE */
-}
-
-@font-face {
-    font-family: "B Mitra";
-    src: url("fonts/B%20Mitra.woff") /* EOT file for IE */
 }
 
 @font-face {
@@ -23,20 +13,10 @@
     src: url("fonts/B%20Mitra%20Bold.ttf") format("truetype");
 }
 
-@font-face {
-    font-family: "B Mitra";
-    src: url("fonts/B%20Mitra%20Bold.eot") /* EOT file for IE */
-}
-
-@font-face {
-    font-family: "B Mitra";
-    src: url("fonts/B%20Mitra%20Bold.woff") /* EOT file for IE */
-}
-
 body {
     direction: rtl;
-    font-family: Tahoma;
-    font-size: 12px;
+    font-family: B Mitra, Tahoma, sans-serif;
+    font-size: 15px;
     padding: 0;
     margin: 0;
 
@@ -139,7 +119,7 @@ ul.art-hmenu>li>a, ul.art-vmenu>li>a {
 .formError .formErrorContent {
     /*background: rgba(255, 34, 17, 0.8);*/
     background-color: white;
-    color:#FF3B65;
+    color: #FF3B65;
     direction: rtl;
     text-align: right;
     box-shadow: none;
@@ -147,17 +127,17 @@ ul.art-hmenu>li>a, ul.art-vmenu>li>a {
     border-width: thin;
 }
 
-.error_td{
+.error_td {
     background-color: indianred;
 }
 
 /* formset */
 .formset_delete {
-    display:block;
+    display: block;
     text-align: left;
-    background:url(./images/formset/delete.png) no-repeat right center;
-    width:25px;
-    height:25px;
+    background: url(./images/formset/delete.png) no-repeat right center;
+    width: 25px;
+    height: 25px;
 
     /*background: #f78096;*/
     /*background: -moz-linear-gradient(top, #f78096 0%, #f56778 100%);*/
@@ -184,16 +164,16 @@ ul.art-hmenu>li>a, ul.art-vmenu>li>a {
 
 .formset_add {
 
-    padding-right:18px;
+    padding-right: 18px;
     text-align: right;
     /*display: block;*/
-    width:25px;
-    height:25px;
+    width: 25px;
+    height: 25px;
     text-decoration: none;
-    background:url(./images/formset/add.png) no-repeat right center;
+    background: url(./images/formset/add.png) no-repeat right center;
     font-family: B Mitra;
     font-size: 15px;
-    color:green;
+    color: green;
     /*background: #5CCD00;*/
     /*background: -moz-linear-gradient(top, #5CCD00 0%, #4AA400 100%);*/
     /*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #5CCD00), color-stop(100%, #4AA400));*/
@@ -221,13 +201,10 @@ ul.art-hmenu>li>a, ul.art-vmenu>li>a {
     margin-bottom: 20px;
 }
 
-
-
 input[readonly], select[readonly] {
     border: 0;
     background-color: rgb(250, 250, 250);
 }
-
 
 /* login box */
 .login-box form input[type="text"],
@@ -237,11 +214,11 @@ input[readonly], select[readonly] {
     -ms-border-radius: 3px;
     -o-border-radius: 3px;
     border-radius: 3px;
-    -webkit-box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0,0,0,0.08) inset;
-    -moz-box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0,0,0,0.08) inset;
-    -ms-box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0,0,0,0.08) inset;
-    -o-box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0,0,0,0.08) inset;
-    box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0,0,0,0.08) inset;
+    -webkit-box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0, 0, 0, 0.08) inset;
+    -moz-box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0, 0, 0, 0.08) inset;
+    -ms-box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0, 0, 0, 0.08) inset;
+    -o-box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0, 0, 0, 0.08) inset;
+    box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0, 0, 0, 0.08) inset;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -ms-transition: all 0.5s ease;
@@ -261,7 +238,6 @@ input[readonly], select[readonly] {
     direction: ltr;
 }
 
-
 .login-box form input[type="text"]:focus,
 .login-box form input[type="password"]:focus {
     -webkit-box-shadow: 0 0 2px #ed1c24 inset;
@@ -273,22 +249,29 @@ input[readonly], select[readonly] {
     border: 1px solid #ed1c24;
     outline: none;
 }
-#id_username { background-position: 10px 10px !important ;
-font-size: 11px;
+
+#id_username {
+    background-position: 10px 10px !important;
+    font-size: 11px;
 }
-#id_password { background-position: 10px -53px !important ;
-font-size: 11px;}
 
+#id_password {
+    background-position: 10px -53px !important;
+    font-size: 11px;
+}
 
-ul.art-vmenu > li{
+ul.art-vmenu > li {
     font-family: B Mitra;
 }
-table, ul.art-hmenu{
-    font-family: 12px;
+
+table, ul.art-hmenu {
+    font-size: 15px;
 }
-#art-main{
-    font-family: 12px;
+
+#art-main {
+    font-size: 15px;
 }
-.art-sheet{
+
+.art-sheet {
 
 }

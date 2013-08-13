@@ -1,6 +1,6 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <title>ورود</title>
     <link rel="stylesheet" type="text/css" href="/static/lib/bootstrap/css/bootstrap.min.css"/>
@@ -16,6 +16,7 @@
         <form action="" method="post" id="login_form">
             {% csrf_token %}
             <h1>ورود به سامانه</h1>
+
             <div>
                 {{ login_form.username }}
             </div>
@@ -23,9 +24,9 @@
                 {{ login_form.password }}
             </div>
             <div style="width: 80%; position: relative; left: 10%; right: 10%;">
-                <a type="button" class="btn btn-default"
-                   href="{% url cluster.registration.views.register %}">ثبت نام</a>
-                <input type="submit" value="ورود" />
+                <input type="button" onclick="location.href ='{% url cluster.registration.views.register %}';"
+                       value="ثبت نام"/>
+                <input type="submit" value="ورود"/>
             </div>
         </form>
     </section>

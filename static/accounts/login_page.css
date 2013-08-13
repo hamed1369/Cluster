@@ -210,7 +210,8 @@ form:after {
     cursor: pointer;
     float: right;
     font: bold 15px;
-    height: 35px;
+    /*height: 35px;*/
+    font-size: 21px;
     margin: 20px 0 35px 15px;
     position: relative;
     text-shadow: 0 1px 0 rgba(255,255,255,0.5);
@@ -263,7 +264,7 @@ form:after {
     color: #00aeef;
 }
 
-#content form div a {
+#content form div input[type=button] {
     background: rgb(254,231,154);
     background: -moz-linear-gradient(top,  rgba(254,231,154,1) 0%, rgba(254,193,81,1) 100%);
     background: -webkit-linear-gradient(top,  rgba(254,231,154,1) 0%,rgba(254,193,81,1) 100%);
@@ -286,13 +287,14 @@ form:after {
     cursor: pointer;
     float: left;
     font: bold 15px;
-    height: 35px;
+    /*height: 35px;*/
+    font-size: 21px;
     margin: 20px 0 35px 15px;
     position: relative;
     text-shadow: 0 1px 0 rgba(255,255,255,0.5);
     width: 120px;
 }
-#content form div a :hover  {
+#content form div input[type=button]:hover  {
     background: rgb(254,193,81);
     background: -moz-linear-gradient(top,  rgba(254,193,81,1) 0%, rgba(254,231,154,1) 100%);
     background: -webkit-linear-gradient(top,  rgba(254,193,81,1) 0%,rgba(254,231,154,1) 100%);
