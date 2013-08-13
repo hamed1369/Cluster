@@ -12,7 +12,7 @@ def get_dict(input_dict, key):
 
 @register.simple_tag
 def welcome_st(user):
-    return u"%s %s عزیز،<br/> خوش آمدید" % (user.first_name, user.last_name)
+    return u"%s %s خوش آمدید." % (user.first_name, user.last_name)
 
 @register.filter
 def is_false(value):
