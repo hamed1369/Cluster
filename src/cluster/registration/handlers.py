@@ -76,6 +76,7 @@ class RegisterHandler(object):
             for form in self.cluster_domain_formset.forms:
                 for field in form.fields:
                     form.fields[field].widget.attrs.update({'readonly': 'readonly'})
+            del self.cluster_domain_formset.forms[-1]
             self.cluster_member_formset = None
 
     def __save_cluster(self, member):
@@ -141,6 +142,7 @@ class RegisterHandler(object):
         member = self.register_form.save(commit=False)
         member.user = user
 
+        member.save()
         self.__save_cluster(member)
         member.save()
 

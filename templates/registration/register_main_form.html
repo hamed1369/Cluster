@@ -294,7 +294,12 @@
 {#            {% endif %}#}
 {#        </td>#}
 {#        <td class="input_td">#}
+{#        <td class="input_td{% if field.errors %} error_td{% endif %}">#}
 {#            {{ field }}#}
+{#            {% if field.errors %}#}
+{#                {{ field.errors }}#}
+{#            {% endif %}#}
+{#        </td>#}
 {#        </td>#}
 {#    </tr>#}
 {#{% endfor %}#}

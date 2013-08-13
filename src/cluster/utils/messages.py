@@ -1,4 +1,5 @@
 # -*- coding:utf-8 -*-
+import logging
 from django.core.mail import send_mail
 from cluster import settings
 
@@ -16,4 +17,4 @@ class MessageServices(object):
             send_mail(subject=subject, message=message, from_email=MessageServices.from_email,
                       recipient_list=[user.email for user in users])
         except Exception as s:
-            print s
+            logging.error(s)

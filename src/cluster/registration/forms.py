@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 from django import forms
+from django.contrib.auth.models import User
 from cluster.account.account.models import Member
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
@@ -73,6 +74,12 @@ class RegisterForm(forms.ModelForm):
         re_password = cd.get('re_password')
         if password and re_password and password != re_password:
             self._errors['password'] = self.error_class([u'گذرواژه با تکرار آن مطابقت ندارد.'])
+        username = cd.get('username')
+        if username:
+            users = User.objects.filter(username=username)
+            if users:
+                self._errors['username'] = self.error_class([u'این نام کاربری تکراری است. لطفا نام دیگری انتخاب کنید.'])
+
         return cd
 
 
@@ -80,6 +87,16 @@ class MemberForm(forms.Form):
     first_name = forms.CharField(label=u"نام")
     last_name = forms.CharField(label=u"نام خانوادگی")
     email = forms.EmailField(label=u"پست الکترونیک")
+
+    def clean(self):
+        cd = super(MemberForm, self).clean()
+        email = cd.get('email')
+        if email:
+            users = User.objects.filter(username=email)
+            if users:
+                self._errors['email'] = self.error_class([u'این ایمیل تکراری است.'])
+
+        return cd
 
 
 ClusterMemberForm = formset_factory(MemberForm)
