@@ -7,11 +7,12 @@ from django.forms.models import modelformset_factory
 from cluster.account.personal_info.models import EducationalResume, Publication, Invention, \
     ExecutiveResearchProject, LanguageSkill, SoftwareSkill
 from cluster.project.models import Domain
+from cluster.utils.forms import ClusterBaseForm, ClusterBaseModelForm
 
 __author__ = 'M.Y'
 
 
-class ClusterForm(forms.Form):
+class ClusterForm(ClusterBaseForm):
     BOOLEAN_CHOICES = (
         (True, u"بله"),
         (False, u"خیر"),
@@ -42,7 +43,7 @@ class ClusterForm(forms.Form):
         return cd
 
 
-class RegisterForm(forms.ModelForm):
+class RegisterForm(ClusterBaseModelForm):
     BOOLEAN_CHOICES = (
         (True, u"بله"),
         (False, u"خیر"),
@@ -83,7 +84,7 @@ class RegisterForm(forms.ModelForm):
         return cd
 
 
-class MemberForm(forms.Form):
+class MemberForm(ClusterBaseForm):
     first_name = forms.CharField(label=u"نام")
     last_name = forms.CharField(label=u"نام خانوادگی")
     email = forms.EmailField(label=u"پست الکترونیک")
@@ -100,11 +101,61 @@ class MemberForm(forms.Form):
 
 
 ClusterMemberForm = formset_factory(MemberForm)
-ClusterDomainForm = modelformset_factory(Domain, exclude=('confirmed', ))
 
-ResumeForm = modelformset_factory(EducationalResume, exclude=('cluster_member', ))
-PublicationForm = modelformset_factory(Publication, exclude=('cluster_member', ))
-InventionForm = modelformset_factory(Invention, exclude=('cluster_member', ))
-ExecutiveResearchProjectForm = modelformset_factory(ExecutiveResearchProject, exclude=('cluster_member', ))
-LanguageSkillForm = modelformset_factory(LanguageSkill, exclude=('cluster_member', ))
-SoftwareSkillForm = modelformset_factory(SoftwareSkill, exclude=('cluster_member', ))
+
+class DomainModelForm(ClusterBaseModelForm):
+    class Meta:
+        model = Domain
+
+
+ClusterDomainForm = modelformset_factory(Domain, form=DomainModelForm, exclude=('confirmed', ))
+
+
+class EducationalResumeModelForm(ClusterBaseModelForm):
+    class Meta:
+        model = EducationalResume
+
+
+ResumeForm = modelformset_factory(EducationalResume, form=EducationalResumeModelForm, exclude=('cluster_member', ))
+
+
+class PublicationModelForm(ClusterBaseModelForm):
+    class Meta:
+        model = Publication
+
+
+PublicationForm = modelformset_factory(Publication, form=PublicationModelForm, exclude=('cluster_member', ))
+
+
+class InventionModelForm(ClusterBaseModelForm):
+    class Meta:
+        model = Invention
+
+
+InventionForm = modelformset_factory(Invention, form=InventionModelForm, exclude=('cluster_member', ))
+
+
+class ExecutiveResearchProjectModelForm(ClusterBaseModelForm):
+    class Meta:
+        model = ExecutiveResearchProject
+
+
+ExecutiveResearchProjectForm = modelformset_factory(ExecutiveResearchProject, form=ExecutiveResearchProjectModelForm,
+                                                    exclude=('cluster_member', ))
+
+
+class LanguageSkillModelForm(ClusterBaseModelForm):
+    class Meta:
+        model = LanguageSkill
+
+
+LanguageSkillForm = modelformset_factory(LanguageSkill, form=LanguageSkillModelForm,
+                                         exclude=('cluster_member', ))
+
+
+class SoftwareSkillModelForm(ClusterBaseModelForm):
+    class Meta:
+        model = SoftwareSkill
+
+
+SoftwareSkillForm = modelformset_factory(SoftwareSkill, form=SoftwareSkillModelForm, exclude=('cluster_member', ))
