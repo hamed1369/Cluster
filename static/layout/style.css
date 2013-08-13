@@ -2192,6 +2192,32 @@ blockquote p,
    margin:0 auto;
 }
 
+.exit_btn{
+    float: left;
+    border: 1px solid #fad42e;
+    background-color: #fad42e;
+    padding: 5px 5px 10px 5px;
+    text-decoration: none;
+    color: black;
+    width: 50px;
+    text-align: center;
+}
+
+.wellcome_div
+{
+    text-align: right;
+    vertical-align: middle;
+    width: 250px;
+    float: left;
+    background:  rgba(255, 255, 255, 0.3);
+    color: #003147;
+    opacity: 1;
+    margin: 7px 5px 5px 15px;
+    padding: 10px;
+    border: 1px solid white;
+    border-radius: 5px;
+
+}
 /* Begin Additional CSS Styles */
 
 /* End Additional CSS Styles */

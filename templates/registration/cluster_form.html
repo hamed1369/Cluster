@@ -11,7 +11,7 @@
     </div>
 {% endif %}
 <div id="only_for_cluster"{% if not cluster %}
-    {% if not cluster_form.cleaned_data or cluster_form.cleaned_data|get_dict:'is_cluster' != '1' %}
+    {% if not cluster_form.is_cluster_value or cluster_form.is_cluster_value|is_false %}
      style="display: none;"{% endif %}{% endif %}>
     <fieldset class="inner_formset">
         <legend>اطلاعات خوشه</legend>
@@ -61,8 +61,12 @@
                         <tr>
                             {% for field in form %}
 
-                                <td class="input_td">
-                                    {{ field }}</td>
+                                <td class="input_td{% if field.errors %} error_td{% endif %}">
+                                    {{ field }}
+                                    {% if field.errors %}
+                                        {{ field.errors }}
+                                    {% endif %}
+                                </td>
 
                             {% endfor %}
                             {#                            <td class="delete_formset_td"></td>#}
@@ -117,8 +121,12 @@
                             <tr>
                                 {% for field in form %}
 
-                                    <td class="input_td">
-                                        {{ field }}</td>
+                                    <td class="input_td{% if field.errors %} error_td{% endif %}">
+                                        {{ field }}
+                                        {% if field.errors %}
+                                            {{ field.errors }}
+                                        {% endif %}
+                                    </td>
 
                                 {% endfor %}
                                 {#                            <td class="delete_formset_td"></td>#}

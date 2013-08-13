@@ -25,7 +25,7 @@ def login_view(request):
                 login(request, user)
                 next_page = request.GET.get('next')
                 if next_page:
-                    return HttpResponseRedirect(reverse(next_page))
+                    return HttpResponseRedirect(next_page)
                 else:
                     return HttpResponseRedirect(reverse('register'))
     else:

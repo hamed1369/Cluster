@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 from django import forms
+from django.contrib.auth.models import User
 from cluster.account.account.models import Member
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
@@ -12,9 +13,10 @@ __author__ = 'M.Y'
 
 class ClusterForm(forms.Form):
     BOOLEAN_CHOICES = (
-        (1, u"بله"),
-        (2, u"خیر"),
+        (True, u"بله"),
+        (False, u"خیر"),
     )
+
     is_cluster = forms.ChoiceField(required=False, choices=BOOLEAN_CHOICES, widget=forms.RadioSelect(),
                                    label=
                                    u"آیا درخواست ثبت خوشه وجود دارد؟(در صورت تایید و ارسال فرم ثبت نام برای اعضاء خوشه)",
@@ -31,7 +33,8 @@ class ClusterForm(forms.Form):
         is_cluster = cd.get('is_cluster')
         name = cd.get('name')
         institute = cd.get('institute')
-        if is_cluster == 1:
+        self.is_cluster_value = is_cluster
+        if is_cluster == 'True':
             if not name:
                 self._errors['name'] = self.error_class([u"این فیلد برای ایجاد خوشه ضروری است."])
             if not institute:
@@ -54,7 +57,10 @@ class RegisterForm(forms.ModelForm):
         self.fields.insert(0, 'first_name', forms.CharField(required=True, label=u"نام"))
         self.fields.insert(1, 'last_name', forms.CharField(required=True, label=u"نام خانوادگی"))
         self.fields.insert(2, 'username', forms.CharField(required=True, label=u"نام کاربری"))
-        self.fields.insert(3, 'email', forms.EmailField(label=u"پست الکترونیک"))
+        self.fields.insert(3, 'password', forms.CharField(required=True, label=u"گذرواژه", widget=forms.PasswordInput))
+        self.fields.insert(4, 're_password',
+                           forms.CharField(required=True, label=u"تکرار گذرواژه", widget=forms.PasswordInput))
+        self.fields.insert(5, 'email', forms.EmailField(label=u"پست الکترونیک"))
         self.fields['foundation_of_elites'] = forms.ChoiceField(required=True, choices=RegisterForm.BOOLEAN_CHOICES,
                                                                 widget=forms.RadioSelect(), )
         self.fields['foundation_of_elites'].label = u"آیا عضو بنیاد ملی نخبگان می باشید؟"
@@ -62,11 +68,35 @@ class RegisterForm(forms.ModelForm):
             if self.fields[field].required:
                 self.fields[field].widget.attrs.update({'class': 'validate[required,] text-input'})
 
+    def clean(self):
+        cd = super(RegisterForm, self).clean()
+        password = cd.get('password')
+        re_password = cd.get('re_password')
+        if password and re_password and password != re_password:
+            self._errors['password'] = self.error_class([u'گذرواژه با تکرار آن مطابقت ندارد.'])
+        username = cd.get('username')
+        if username:
+            users = User.objects.filter(username=username)
+            if users:
+                self._errors['username'] = self.error_class([u'این نام کاربری تکراری است. لطفا نام دیگری انتخاب کنید.'])
+
+        return cd
+
 
 class MemberForm(forms.Form):
     first_name = forms.CharField(label=u"نام")
     last_name = forms.CharField(label=u"نام خانوادگی")
     email = forms.EmailField(label=u"پست الکترونیک")
+
+    def clean(self):
+        cd = super(MemberForm, self).clean()
+        email = cd.get('email')
+        if email:
+            users = User.objects.filter(username=email)
+            if users:
+                self._errors['email'] = self.error_class([u'این ایمیل تکراری است.'])
+
+        return cd
 
 
 ClusterMemberForm = formset_factory(MemberForm)

@@ -43,7 +43,7 @@ $(document).ready(function () {
     $('input[name*="is_cluster"]').change(function () {
         var is_cluster = $('input[name*="is_cluster"]:checked', '#register_form').val();
 
-        if (is_cluster == 1) {
+        if (is_cluster == 'True') {
             $('#only_for_cluster').slideDown();
             $('#only_for_cluster input[type="text"]').addClass('validate[required,] text-input');
 

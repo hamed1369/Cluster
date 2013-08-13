@@ -1,4 +1,5 @@
 # -*- coding:utf-8 -*-
+import datetime
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse
@@ -29,3 +30,8 @@ def login_form_check(request):
 
         return {'login_form': login_form}
     return {}
+
+def default_context(request):
+    today = datetime.date.today()
+    return {'today':today}
+
