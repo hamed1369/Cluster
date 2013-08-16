@@ -16,7 +16,30 @@ $(document).ready(function () {
 //
 //    });
 
-    $("#register_form").validationEngine({promptPosition: "centerLeft", scroll: false,validationEventTrigger:'submit'});
+    $('select[name*="domain_choice"]').each(function () {
+        if ($(this).val().trim() == '') {
+            $(this).parents('tr').first().find('input[name*="new_domain_name"]').show();
+            $(this).parents('tr').first().find('input[name*="new_domain_name"]').addClass('validate[required,] text-input');
+        } else {
+            $(this).parents('tr').first().find('input[name*="new_domain_name"]').hide();
+            $(this).parents('tr').first().find('input[name*="new_domain_name"]').val('');
+            $(this).parents('tr').first().find('input[name*="new_domain_name"]').removeClass('validate[required,] text-input');
+        }
+    });
+
+    $('select[name*="domain_choice"]').change(function () {
+        if ($(this).val().trim() == '') {
+            $(this).parents('tr').first().find('input[name*="new_domain_name"]').show();
+            $(this).parents('tr').first().find('input[name*="new_domain_name"]').addClass('validate[required,] text-input');
+        } else {
+            $(this).parents('tr').first().find('input[name*="new_domain_name"]').hide();
+            $(this).parents('tr').first().find('input[name*="new_domain_name"]').val('');
+            $(this).parents('tr').first().find('input[name*="new_domain_name"]').removeClass('validate[required,] text-input');
+            $(this).parents('tr').first().find('.formError').remove();
+        }
+    });
+
+    $("#register_form").validationEngine({promptPosition: "centerLeft", scroll: false, validationEventTrigger: 'submit'});
 
 
     $('input[name*="is_cluster"]').change(function () {

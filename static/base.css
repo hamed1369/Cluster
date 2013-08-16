@@ -138,7 +138,7 @@ ul.art-hmenu>li>a, ul.art-vmenu>li>a {
     background: url(./images/formset/delete.png) no-repeat right center;
     width: 25px;
     height: 25px;
-
+    float: right;
     /*background: #f78096;*/
     /*background: -moz-linear-gradient(top, #f78096 0%, #f56778 100%);*/
     /*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f78096), color-stop(100%, #f56778));*/
