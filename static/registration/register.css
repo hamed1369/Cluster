@@ -15,7 +15,6 @@
 .register_table, .inner_formset table {
     width: 100%;
     border-collapse: separate;
-    border-spacing: 0 10px;
 }
 form fieldset legend {
     padding: 6px;

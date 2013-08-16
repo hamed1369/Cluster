@@ -30,3 +30,8 @@ def register(request):
 @login_required()
 def register_member(request, cluster_id):
     return handle_register_view(request, cluster_id)
+
+
+
+def email_test(request):
+    pass

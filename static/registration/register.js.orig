@@ -18,8 +18,8 @@ $(document).ready(function () {
     var validated = false;
     function updateValidations(){
         if (validated){
-//            $("#register_form").validationEngine("updatePromptsPosition");
-            $('#register_form').validationEngine('hideAll');
+            $("#register_form").validationEngine("updatePromptsPosition");
+            alert(1);
         }
     }
 //    function hideValidations(){
@@ -31,9 +31,10 @@ $(document).ready(function () {
     $("#register_form").validationEngine({
         promptPosition: "centerLeft",
         scroll: true,
+        autoPositionUpdate:true,
         validationEventTrigger:'submit',
         onValidationComplete: function(){
-            validated = true;k l
+            validated = true;
         }
 
     });
@@ -88,9 +89,15 @@ $(document).ready(function () {
 
 
     $('input[name*="foundation_of_elites"]').change(function () {
+<<<<<<< HEAD
         var foundation_of_elites = $('input[name*="foundation_of_elites"]:checked', '#register_form').val();
 
         if (foundation_of_elites == 'True') {
+=======
+        var is_foundation = $('input[name*="foundation_of_elites"]:checked', '#register_form').val();
+
+        if (is_foundation == 'True') {
+>>>>>>> origin/signup
             $('input[name*="elite_certification"]').parents('tr').first().fadeIn();
         } else {
             $('input[name*="elite_certification"]').parents('tr').first().fadeOut();
