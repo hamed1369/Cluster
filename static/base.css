@@ -15,8 +15,8 @@
 
 body {
     direction: rtl;
-    font-family: B Mitra, Tahoma, sans-serif;
-    font-size: 15px;
+    font-family: Tahoma, sans-serif;
+    font-size: 12px;
     padding: 0;
     margin: 0;
 
@@ -171,7 +171,6 @@ ul.art-hmenu>li>a, ul.art-vmenu>li>a {
     height: 25px;
     text-decoration: none;
     background: url(./images/formset/add.png) no-repeat right center;
-    font-family: B Mitra;
     font-size: 15px;
     color: green;
     /*background: #5CCD00;*/
