@@ -204,3 +204,64 @@ class Calverter:
 
         day = int(jd - self.jalali_to_jd(year, month, 1)) + 1
         return year, month, day
+
+
+from datetime import datetime, date
+
+
+def jalali_to_gregorian(dat_str):
+    """
+    Gets date in (char(8)) (or / delimited) (or char(10) / delimited)
+    returns Date
+    returns None on error
+    """
+    cal = Calverter()
+    try:
+        if len(dat_str) == 8:
+            year = dat_str[0:4]
+            month = dat_str[4:6]
+            day = dat_str[6:8]
+        elif len(dat_str) == 10:
+            year = dat_str[0:4]
+            month = dat_str[5:7]
+            day = dat_str[8:10]
+        else:
+            splited = dat_str.split('/')
+            year = splited[0]
+            month = splited[1]
+            day = splited[2]
+        if not year.isdigit():
+            return None
+        if not month.isdigit():
+            return None
+        if not day.isdigit():
+            return None
+        jd = cal.jalali_to_jd(int(year), int(month), int(day))
+        dat_tuple = cal.jd_to_gregorian(jd)
+        return date(dat_tuple[0], dat_tuple[1], dat_tuple[2])
+    except Exception:
+        return None
+
+
+def gregorian_to_jalali(date, sep='/'):
+    """
+    Gets georgian date
+    returns persian date in char(10) (/ separated)
+    """
+    if date == '' or date is None:
+        return ''
+    cal = Calverter()
+    date_str = str(date)
+    year = date_str[0:4]
+    month = date_str[5:7]
+    day = date_str[8:10]
+    jd = cal.gregorian_to_jd(int(year), int(month), int(day))
+    dat_tuple = cal.jd_to_jalali(jd)
+    format_date = "%s" + sep + "%s" + sep + "%s"
+    return format_date % (
+        str(dat_tuple[0]).rjust(4, '0'), str(dat_tuple[1]).rjust(2, '0'), str(dat_tuple[2]).rjust(2, '0'))
+
+
+def jalali_today():
+    date = datetime.now().date()
+    return gregorian_to_jalali(date)
