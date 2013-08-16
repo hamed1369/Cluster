@@ -24,7 +24,10 @@ class ShamsiWidget(forms.DateInput):
     def value_from_datadict(self, data, files, name):
         shamsi_val = data.get(name, None)
         miladi_val = jalali_to_gregorian(shamsi_val)
-        return miladi_val.isoformat()
+        if miladi_val:
+            return miladi_val.isoformat()
+        else:
+            return miladi_val
 
 
 class ShamsiDateField(forms.DateField):

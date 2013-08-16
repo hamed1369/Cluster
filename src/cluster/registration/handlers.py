@@ -129,12 +129,24 @@ class RegisterHandler(object):
                     and self.resume_formset.is_valid() and self.publication_formset.is_valid() \
                     and self.invention_formset.is_valid() and self.executive_research_formset.is_valid() and \
                         self.language_skill_formset.is_valid() and self.software_skill_formset.is_valid():
-                    if self.cluster_form.cleaned_data.get('is_cluster') == 'True':
-                        if self.cluster_domain_formset.is_valid():
-                            return True
-                        else:
-                            return False
-                    return True
+                    validate = True
+                else:
+                    validate = False
+                if self.cluster_form.is_valid() and self.cluster_form.cleaned_data.get('is_cluster') == 'True':
+                    if self.cluster_domain_formset.is_valid():
+                        domains = []
+                        for form in self.cluster_domain_formset.forms:
+                            domain = form.cleaned_data.get('domain_choice')
+                            if domain:
+                                if domain in domains:
+                                    form._errors['domain_choice'] = form.error_class(
+                                        [u"حوزه انتخاب شده تکراری است."])
+                                    validate = False
+                                else:
+                                    domains.append(form.cleaned_data.get('domain_choice'))
+                    else:
+                        validate = False
+                return validate
 
         return False
 
