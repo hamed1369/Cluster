@@ -1,7 +1,8 @@
 # -*- coding:utf-8 -*-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.core.mail import send_mass_mail
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from cluster.registration.handlers import RegisterHandler
@@ -30,3 +31,9 @@ def register(request):
 @login_required()
 def register_member(request, cluster_id):
     return handle_register_view(request, cluster_id)
+
+
+def email_test(request):
+    message1 = ('Subject here', 'Here is the message', 'from@example.com', ['hamed.tahmooresi@gmail.com'])
+    send_mass_mail((message1,), fail_silently=False)
+    return HttpResponse("done!")

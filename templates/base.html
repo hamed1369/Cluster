@@ -55,10 +55,9 @@
 
             <div class="wellcome_div">
                 <div>
-                    <p>{% welcome_st user %}</p>
+                    <span class="hello">{% welcome_st user %}</span>
                     <a class="exit_btn" href="{% url logout %}">خروج</a>
-                    <br/>
-                    <span>{{ today|persian_date }}</span>
+                    <span class="today_date">{{ today|persian_date }}</span>
                 </div>
 
             </div>
@@ -119,7 +118,7 @@
                         {% endif %}
                         <div class="art-block clearfix">
                             <div class="art-blockheader">
-                                <h3 class="t">Block</h3>
+                                <h3 class="t">پیوند ها</h3>
                             </div>
                             <div class="art-blockcontent"><p>Enter Block content here...</p>
                                 <br>

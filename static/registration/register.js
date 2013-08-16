@@ -15,6 +15,33 @@ $(document).ready(function () {
 //        );
 //
 //    });
+    function validate(){
+        $("#id_language_skill-0-language").validationEngine('validate');
+    }
+    $("[name=register-submit]").click(function(){
+        validate();
+    });
+    var validated = false;
+    function updateValidations(){
+        if (validated){
+//            $("#register_form").validationEngine("updatePromptsPosition");
+            $('#register_form').validationEngine('hideAll');
+        }
+    }
+//    function hideValidations(){
+//        if (validated){
+//            $('#register_form').validationEngine('hideAll');
+//        }
+//    }
+
+    $("#register_form").validationEngine({
+        promptPosition: "topLeft:-60,3",
+        scroll: true,
+        validationEventTrigger:'submit',
+        onValidationComplete: function(){
+            validated = true;
+        }
+    });
 
     $('select[name*="domain_choice"]').each(function () {
         if ($(this).val().trim() == '') {
@@ -39,11 +66,11 @@ $(document).ready(function () {
         }
     });
 
-    $("#register_form").validationEngine({promptPosition: "centerLeft", scroll: false, validationEventTrigger: 'submit'});
 
 
     $('input[name*="is_cluster"]').change(function () {
         var is_cluster = $('input[name*="is_cluster"]:checked', '#register_form').val();
+
 
         if (is_cluster == 'True') {
             $('#only_for_cluster').slideDown();
@@ -53,6 +80,8 @@ $(document).ready(function () {
             $('#only_for_cluster').slideUp();
             $('#only_for_cluster input[type="text"]').removeClass('validate[required,] text-input');
         }
+        updateValidations();
+
 
     });
 
@@ -63,6 +92,8 @@ $(document).ready(function () {
             $('input[name*="organization"]').parents('tr').first().fadeOut();
             $('input[name*="organization"]').val('');
         }
+        updateValidations();
+
     });
 
 
@@ -81,18 +112,22 @@ $(document).ready(function () {
             $('select[name*="exemption_type"]').val('');
             $('input[name*="military_place"]').val('');
         }
+        updateValidations();
+
     });
 
 
     $('input[name*="foundation_of_elites"]').change(function () {
-        var is_foundation = $('input[name*="foundation_of_elites"]:checked', '#register_form').val();
+        var foundation_of_elites = $('input[name*="foundation_of_elites"]:checked', '#register_form').val();
 
-        if (is_foundation == 'True') {
+        if (foundation_of_elites == 'True') {
             $('input[name*="elite_certification"]').parents('tr').first().fadeIn();
         } else {
             $('input[name*="elite_certification"]').parents('tr').first().fadeOut();
             $('input[name*="elite_certification"]').val('');
         }
+        updateValidations();
+
 
     });
 
@@ -108,3 +143,4 @@ $(document).ready(function () {
 //        });
 //    });
 });
+
