@@ -33,7 +33,7 @@ $(document).ready(function () {
         scroll: true,
         validationEventTrigger:'submit',
         onValidationComplete: function(){
-            validated = true;k l
+            validated = true;
         }
 
     });
@@ -41,6 +41,7 @@ $(document).ready(function () {
 
     $('input[name*="is_cluster"]').change(function () {
         var is_cluster = $('input[name*="is_cluster"]:checked', '#register_form').val();
+
 
         if (is_cluster == 'True') {
             $('#only_for_cluster').slideDown();
@@ -113,3 +114,4 @@ $(document).ready(function () {
 //        });
 //    });
 });
+
