@@ -124,6 +124,7 @@ ul.art-hmenu>li>a, ul.art-vmenu>li>a {
     margin-left: -50px;
     margin-top: -34px !important;
 }
+
 .formError .formErrorArrow div {
     background: none repeat scroll 0 0 white;
     border-left: 2px solid #FF3B64;
@@ -135,28 +136,33 @@ ul.art-hmenu>li>a, ul.art-vmenu>li>a {
     margin: 0 auto;
     box-shadow: none;
 }
+
 .formError .formErrorArrow .line3 {
     border-bottom: 0 solid #FF3B65;
     border-left: 2px solid #FF3B65;
     border-right: 2px solid #FF3B65;
     width: 1px;
 }
+
 .formError .formErrorArrow .line2 {
     background: none repeat scroll 0 0 #FF3B65;
     border: medium none;
     width: 3px;
 }
+
 .formError .formErrorArrow .line1 {
     background: none repeat scroll 0 0 #FF3B65;
     border: medium none;
     width: 1px;
 }
+
 .formError .formErrorArrow {
     margin-right: 8px;
     margin-top: -2px;
     position: relative;
     width: 15px;
 }
+
 .error_td {
     background-color: indianred;
 }
@@ -305,18 +311,19 @@ table, ul.art-hmenu {
     font-family: Tahoma;
     font-size: 12px;
 }
-ul.art-vmenu>li>a{
+
+ul.art-vmenu>li>a {
     font-size: 16px;
     font-weight: bold;
 }
-.wellcome_div
-{
+
+.wellcome_div {
     position: relative;
     text-align: right;
     vertical-align: middle;
     width: 250px;
     float: left;
-    background:  rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.3);
     color: #003147;
     opacity: 1;
     margin: 14px 5px 5px 15px;
@@ -328,7 +335,7 @@ ul.art-vmenu>li>a{
     height: 50px;
 }
 
-.exit_btn{
+.exit_btn {
     position: absolute;
     border: 1px solid #fad42e;
     background-color: #fad42e;
@@ -341,18 +348,36 @@ ul.art-vmenu>li>a{
     top: 15px;
     border-radius: 5px;
 }
-.exit_btn:hover{
+
+.exit_btn:hover {
     background-color: #1d5987;
     color: white;
     border-color: white;
 }
-.today_date{
+
+.today_date {
     position: absolute;
     right: 7px;
     bottom: 7px;
 }
-.hello{
+
+.hello {
     position: absolute;
     right: 7px;
     top: 10px;
+}
+
+.error_header {
+    background: #fa8072;
+    background: rgba(250, 128, 114, 0.6);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    padding: 1px;
+    padding-right: 25px;
+    margin-bottom: 5px;
+
 }

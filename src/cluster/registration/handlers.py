@@ -1,8 +1,7 @@
 # -*- coding:utf-8 -*-
 from django.contrib.auth.models import User
-from django.core.mail import send_mail
 from django.db import transaction
-from cluster.account.account.models import Cluster
+from cluster.account.account.models import Cluster, Member
 from cluster.account.personal_info.models import EducationalResume, SoftwareSkill, LanguageSkill, \
     ExecutiveResearchProject, Invention, Publication
 from cluster.project.models import Domain
@@ -105,13 +104,14 @@ class RegisterHandler(object):
                         email = form.cleaned_data.get('email')
                         password = User.objects.make_random_password()
                         user = User.objects.create(first_name=first_name, last_name=last_name, username=email,
-                                                   email=email, password=password)
+                                                   email=email)
+                        user.set_password(password)
                         user.save()
                         users.append(user)
-
-                MessageServices.send_message(subject=u"ثبت نام خوشه",
-                                             message=MessageServices.REGISTRATION_MESSAGE,
-                                             users=users, cluster=cluster)
+                        message = MessageServices.get_registration_message(cluster, email, password)
+                        MessageServices.send_message(subject=u"ثبت نام خوشه %s" % cluster.name,
+                                                     message=message,
+                                                     user=user, cluster=cluster)
         else:
             member.cluster = self.cluster
 
@@ -201,3 +201,11 @@ class RegisterHandler(object):
             'cluster': self.cluster,
         }
         return c
+
+    def has_permission(self):
+        if self.cluster:
+            try:
+                self.cluster.members.get(user=self.http_request.user)
+            except Member.DoesNotExist:
+                return False
+        return True
