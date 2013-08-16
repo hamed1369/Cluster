@@ -15,6 +15,12 @@ $(document).ready(function () {
 //        );
 //
 //    });
+    function validate(){
+        $("#id_language_skill-0-language").validationEngine('validate');
+    }
+    $("[name=register-submit]").click(function(){
+        validate();
+    });
     var validated = false;
     function updateValidations(){
         if (validated){
@@ -29,14 +35,14 @@ $(document).ready(function () {
 //    }
 
     $("#register_form").validationEngine({
-        promptPosition: "centerLeft",
+        promptPosition: "topLeft:-60,3",
         scroll: true,
         validationEventTrigger:'submit',
         onValidationComplete: function(){
             validated = true;
         }
-
     });
+
 
 
     $('input[name*="is_cluster"]').change(function () {

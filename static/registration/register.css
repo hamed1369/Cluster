@@ -28,7 +28,7 @@ form fieldset legend {
     margin: 0;
     padding: 7px;
     width: 20%;
-    font-size: 15px;
+    font-size: 12px;
 
 }
 
@@ -58,7 +58,7 @@ form fieldset legend {
 }
 
 .formset_fieldset table .label_td ,td,th,tr{
-    font-size: 15px;
+    font-size: 12px;
     text-align: right;
 }
 
@@ -78,4 +78,9 @@ form fieldset legend {
 }
 .formset_fieldset thead{
     text-align: right;
+}
+.formset_add{
+    font-family: B Mitra;
+    font-size: 16px;
+    font-weight: bold;
 }

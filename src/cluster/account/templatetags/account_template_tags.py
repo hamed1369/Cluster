@@ -12,7 +12,8 @@ def get_dict(input_dict, key):
 
 @register.simple_tag
 def welcome_st(user):
-    return u"%s %s خوش آمدید." % (user.first_name, user.last_name)
+    overall_name = u"%s %s"%(user.first_name, user.last_name) if (user.first_name and user.last_name) else u"%s"%user.username
+    return u"%s خوش آمدید." % overall_name
 
 @register.filter
 def is_false(value):
