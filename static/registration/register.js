@@ -20,6 +20,7 @@ $(document).ready(function () {
     }
     $("[name=register-submit]").click(function(){
         validate();
+        return true;
     });
     var validated = false;
     function updateValidations(){
@@ -64,6 +65,7 @@ $(document).ready(function () {
             $(this).parents('tr').first().find('input[name*="new_domain_name"]').removeClass('validate[required,] text-input');
             $(this).parents('tr').first().find('.formError').remove();
         }
+        updateValidations();
     });
 
 
