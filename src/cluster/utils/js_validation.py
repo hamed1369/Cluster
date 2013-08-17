@@ -13,4 +13,9 @@ def process_js_validations(form):
             validations += 'custom[date],'
         elif isinstance(form.fields[field], forms.EmailField):
             validations += 'custom[email],'
+        elif isinstance(form.fields[field], forms.IntegerField):
+            validations += 'custom[integer]'
+        if hasattr(form,'extra_js_validation') and form.extra_js_validation.get(field):
+            validations += form.extra_js_validation.get(field)
+
         form.fields[field].widget.attrs.update({'class': 'validate[%s] text-input' % validations})

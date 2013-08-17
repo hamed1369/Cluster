@@ -11,6 +11,17 @@
     <script type="text/javascript" src="/static/base.js"></script>
 </head>
 <body>
+
+{% if messages %}
+    <h2 class="success_header">
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    </h2>
+{% endif %}
+
 <div class="container">
     <section id="content">
         <form action="" method="post" id="login_form">

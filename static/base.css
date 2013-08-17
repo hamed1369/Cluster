@@ -381,3 +381,22 @@ ul.art-vmenu>li>a {
     margin-bottom: 5px;
 
 }
+
+.success_header {
+    background: #5aee55;
+    background: rgba(90, 238, 85, 0.6);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    position: relative;
+    z-index: 1;
+    padding: 1px;
+    padding-right: 25px;
+    margin: 0;
+
+}
+
+.success_header ul {
+    list-style-type: none;
+
+}

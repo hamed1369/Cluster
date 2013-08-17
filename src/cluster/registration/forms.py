@@ -51,6 +51,10 @@ class RegisterForm(ClusterBaseModelForm):
         model = Member
         exclude = ('cluster', 'user')
 
+    extra_js_validation = {
+        're_password': 'equals[password]'
+    }
+
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__(*args, **kwargs)
         self.fields.insert(0, 'first_name', forms.CharField(required=True, label=u"نام"))
