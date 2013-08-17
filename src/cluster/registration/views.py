@@ -2,16 +2,24 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mass_mail
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
+from cluster.account.account.models import Cluster
 from cluster.registration.handlers import RegisterHandler
 
 
 def handle_register_view(request, cluster_id=None):
     from django.core.urlresolvers import reverse
 
-    register_handler = RegisterHandler(request, cluster_id)
+    try:
+        register_handler = RegisterHandler(request, cluster_id)
+    except Cluster.DoesNotExist:
+        raise Http404
+    if not register_handler.has_permission():
+        messages.error(request, u"شما جزو اعضای این خوشه نیستید.")
+        return render_to_response('message.html', {}, context_instance=RequestContext(request))
+
     register_handler.initial_forms()
     if register_handler.is_valid_forms():
         register_handler.save_forms()

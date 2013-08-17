@@ -15,19 +15,17 @@ $(document).ready(function () {
 //        );
 //
 //    });
-    function validate(){
-        $("#id_language_skill-0-language").validationEngine('validate');
-    }
-    $("[name=register-submit]").click(function(){
-        validate();
-    });
-    var validated = false;
-    function updateValidations(){
-        if (validated){
+//    function validate(){
+//        $("#id_language_skill-0-language").validationEngine('validate');
+//    }
+//    $("[name=register-submit]").click(function(){
+//        validate();
+//        return true;
+//    });
+//    var validated = false;
+//        if (validated){
 //            $("#register_form").validationEngine("updatePromptsPosition");
-            $('#register_form').validationEngine('hideAll');
-        }
-    }
+//        }
 //    function hideValidations(){
 //        if (validated){
 //            $('#register_form').validationEngine('hideAll');
@@ -37,9 +35,29 @@ $(document).ready(function () {
     $("#register_form").validationEngine({
         promptPosition: "topLeft:-60,3",
         scroll: true,
-        validationEventTrigger:'submit',
-        onValidationComplete: function(){
-            validated = true;
+      validationEventTrigger:'submit',
+    });
+
+    $('select[name*="domain_choice"]').each(function () {
+        if ($(this).val().trim() == '') {
+            $(this).parents('tr').first().find('input[name*="new_domain_name"]').show();
+            $(this).parents('tr').first().find('input[name*="new_domain_name"]').addClass('validate[required,] text-input');
+        } else {
+            $(this).parents('tr').first().find('input[name*="new_domain_name"]').hide();
+            $(this).parents('tr').first().find('input[name*="new_domain_name"]').val('');
+            $(this).parents('tr').first().find('input[name*="new_domain_name"]').removeClass('validate[required,] text-input');
+        }
+    });
+
+    $('select[name*="domain_choice"]').change(function () {
+        if ($(this).val().trim() == '') {
+            $(this).parents('tr').first().find('input[name*="new_domain_name"]').show();
+            $(this).parents('tr').first().find('input[name*="new_domain_name"]').addClass('validate[required,] text-input');
+        } else {
+            $(this).parents('tr').first().find('input[name*="new_domain_name"]').hide();
+            $(this).parents('tr').first().find('input[name*="new_domain_name"]').val('');
+            $(this).parents('tr').first().find('input[name*="new_domain_name"]').removeClass('validate[required,] text-input');
+            $(this).parents('tr').first().find('.formError').remove();
         }
     });
 
@@ -57,7 +75,6 @@ $(document).ready(function () {
             $('#only_for_cluster').slideUp();
             $('#only_for_cluster input[type="text"]').removeClass('validate[required,] text-input');
         }
-        updateValidations();
 
 
     });
@@ -69,7 +86,6 @@ $(document).ready(function () {
             $('input[name*="organization"]').parents('tr').first().fadeOut();
             $('input[name*="organization"]').val('');
         }
-        updateValidations();
 
     });
 
@@ -89,7 +105,6 @@ $(document).ready(function () {
             $('select[name*="exemption_type"]').val('');
             $('input[name*="military_place"]').val('');
         }
-        updateValidations();
 
     });
 
@@ -103,7 +118,6 @@ $(document).ready(function () {
             $('input[name*="elite_certification"]').parents('tr').first().fadeOut();
             $('input[name*="elite_certification"]').val('');
         }
-        updateValidations();
 
 
     });

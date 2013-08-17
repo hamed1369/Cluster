@@ -8,6 +8,7 @@ from cluster.account.personal_info.models import EducationalResume, Publication,
     ExecutiveResearchProject, LanguageSkill, SoftwareSkill
 from cluster.project.models import Domain
 from cluster.utils.forms import ClusterBaseForm, ClusterBaseModelForm
+from cluster.utils.js_validation import process_js_validations
 
 __author__ = 'M.Y'
 
@@ -25,9 +26,6 @@ class ClusterForm(ClusterBaseForm):
 
     name = forms.CharField(required=False, label=u"نام خوشه")
     institute = forms.CharField(required=False, label=u"دانشگاه / موسسه", max_length=30)
-
-    def __init__(self, *args, **kwargs):
-        super(ClusterForm, self).__init__(*args, **kwargs)
 
     def clean(self):
         cd = super(ClusterForm, self).clean()
@@ -53,6 +51,10 @@ class RegisterForm(ClusterBaseModelForm):
         model = Member
         exclude = ('cluster', 'user')
 
+    extra_js_validation = {
+        're_password': 'equals[id_register-password]'
+    }
+
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__(*args, **kwargs)
         self.fields.insert(0, 'first_name', forms.CharField(required=True, label=u"نام"))
@@ -65,9 +67,7 @@ class RegisterForm(ClusterBaseModelForm):
         self.fields['foundation_of_elites'] = forms.ChoiceField(required=True, choices=RegisterForm.BOOLEAN_CHOICES,
                                                                 widget=forms.RadioSelect(), )
         self.fields['foundation_of_elites'].label = u"آیا عضو بنیاد ملی نخبگان می باشید؟"
-        for field in self.fields:
-            if self.fields[field].required:
-                self.fields[field].widget.attrs.update({'class': 'validate[required,] text-input'})
+        process_js_validations(self)
 
     def clean(self):
         cd = super(RegisterForm, self).clean()
@@ -87,7 +87,7 @@ class RegisterForm(ClusterBaseModelForm):
 class MemberForm(ClusterBaseForm):
     first_name = forms.CharField(label=u"نام")
     last_name = forms.CharField(label=u"نام خانوادگی")
-    email = forms.EmailField(label=u"پست الکترونیک")
+    email = forms.EmailField(label=u"پست الکترونیک", widget=forms.TextInput(attrs={'style': 'width:85%;'}))
 
     def clean(self):
         cd = super(MemberForm, self).clean()
@@ -103,12 +103,16 @@ class MemberForm(ClusterBaseForm):
 ClusterMemberForm = formset_factory(MemberForm)
 
 
-class DomainModelForm(ClusterBaseModelForm):
-    class Meta:
-        model = Domain
+class DomainForm(ClusterBaseForm):
+    domain_choice = forms.ModelChoiceField(queryset=Domain.objects.filter(confirmed=True), label=u"نام حوزه",
+                                           required=False, empty_label=u"سایر")
+    new_domain_name_widget = forms.TextInput(attrs={"style": 'display:none; width:50%;'})
+    new_domain_name_widget.is_hidden = True
+    new_domain_name = forms.CharField(label=u"نام حوزه", max_length=40,
+                                      widget=new_domain_name_widget, required=False)
 
 
-ClusterDomainForm = modelformset_factory(Domain, form=DomainModelForm, exclude=('confirmed', ))
+ClusterDomainForm = formset_factory(DomainForm)
 
 
 class EducationalResumeModelForm(ClusterBaseModelForm):

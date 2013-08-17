@@ -15,6 +15,7 @@ class ShamsiWidget(forms.DateInput):
             $('#id_%s').datepicker({
                 changeMonth: true,
                 changeYear: true,
+                yearRange:'1300,1400',
                 dateFormat: 'yy/mm/dd'
             });
         </script>
@@ -24,7 +25,10 @@ class ShamsiWidget(forms.DateInput):
     def value_from_datadict(self, data, files, name):
         shamsi_val = data.get(name, None)
         miladi_val = jalali_to_gregorian(shamsi_val)
-        return miladi_val.isoformat()
+        if miladi_val:
+            return miladi_val.isoformat()
+        else:
+            return miladi_val
 
 
 class ShamsiDateField(forms.DateField):
@@ -32,5 +36,3 @@ class ShamsiDateField(forms.DateField):
 
     def to_python(self, value):
         return super(ShamsiDateField, self).to_python(value)
-
-

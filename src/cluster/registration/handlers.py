@@ -1,6 +1,5 @@
 # -*- coding:utf-8 -*-
 from django.contrib.auth.models import User
-from django.core.mail import send_mail
 from django.db import transaction
 from cluster.account.account.models import Cluster
 from cluster.account.personal_info.models import EducationalResume, SoftwareSkill, LanguageSkill, \
@@ -57,15 +56,13 @@ class RegisterHandler(object):
             if not self.cluster:
                 self.cluster_member_formset = ClusterMemberForm(prefix='cluster_member', data=self.http_request.POST)
             self.cluster_domain_formset = ClusterDomainForm(prefix='cluster_domain', data=self.http_request.POST,
-                                                            queryset=Domain.objects.none() if not self.cluster else Domain.objects.filter(
-                                                                clusters=self.cluster))
+            )
         else:
             self.cluster_form = ClusterForm(prefix='cluster')
             if not self.cluster:
                 self.cluster_member_formset = ClusterMemberForm(prefix='cluster_member')
             self.cluster_domain_formset = ClusterDomainForm(prefix='cluster_domain',
-                                                            queryset=Domain.objects.none() if not self.cluster else Domain.objects.filter(
-                                                                clusters=self.cluster))
+            )
 
         if self.cluster:
             self.cluster_form.fields['is_cluster'].initial = True
@@ -89,7 +86,14 @@ class RegisterHandler(object):
 
                 member.cluster = cluster
 
-                cluster_domains = self.cluster_domain_formset.save()
+                cluster_domains = []
+                for form in self.cluster_domain_formset.forms:
+                    domain_choice = form.cleaned_data.get('domain_choice')
+                    new_domain_name = form.cleaned_data.get('new_domain_name')
+                    if not domain_choice and new_domain_name:
+                        domain_choice = Domain.objects.create(name=new_domain_name)
+                    cluster_domains.append(domain_choice)
+                    # cluster_domains = self.cluster_domain_formset.save()
                 cluster.domains = cluster_domains
 
                 users = []
@@ -100,13 +104,17 @@ class RegisterHandler(object):
                         email = form.cleaned_data.get('email')
                         password = User.objects.make_random_password()
                         user = User.objects.create(first_name=first_name, last_name=last_name, username=email,
-                                                   email=email, password=password)
+                                                   email=email)
+                        user.set_password(password)
                         user.save()
                         users.append(user)
+                        message = MessageServices.get_registration_message(cluster, user, email, password)
+                        MessageServices.send_message(subject=u"ثبت نام خوشه %s" % cluster.name,
+                                                     message=message,
+                                                     user=user, cluster=cluster)
+                users.append(member.user)
 
-                MessageServices.send_message(subject=u"ثبت نام خوشه",
-                                             message=MessageServices.REGISTRATION_MESSAGE,
-                                             users=users, cluster=cluster)
+                cluster.users = users
         else:
             member.cluster = self.cluster
 
@@ -120,11 +128,28 @@ class RegisterHandler(object):
                     return True
             else:
                 if self.cluster_form.is_valid() and self.register_form.is_valid() \
-                    and self.cluster_member_formset.is_valid() and self.cluster_domain_formset.is_valid() \
+                    and self.cluster_member_formset.is_valid() \
                     and self.resume_formset.is_valid() and self.publication_formset.is_valid() \
                     and self.invention_formset.is_valid() and self.executive_research_formset.is_valid() and \
                         self.language_skill_formset.is_valid() and self.software_skill_formset.is_valid():
-                    return True
+                    validate = True
+                else:
+                    validate = False
+                if self.cluster_form.is_valid() and self.cluster_form.cleaned_data.get('is_cluster') == 'True':
+                    if self.cluster_domain_formset.is_valid():
+                        domains = []
+                        for form in self.cluster_domain_formset.forms:
+                            domain = form.cleaned_data.get('domain_choice')
+                            if domain:
+                                if domain in domains:
+                                    form._errors['domain_choice'] = form.error_class(
+                                        [u"حوزه انتخاب شده تکراری است."])
+                                    validate = False
+                                else:
+                                    domains.append(form.cleaned_data.get('domain_choice'))
+                    else:
+                        validate = False
+                return validate
 
         return False
 
@@ -191,3 +216,11 @@ class RegisterHandler(object):
             'cluster': self.cluster,
         }
         return c
+
+    def has_permission(self):
+        if self.cluster:
+            try:
+                self.cluster.users.get(id=self.http_request.user.id)
+            except User.DoesNotExist:
+                return False
+        return True

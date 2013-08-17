@@ -1,20 +1,58 @@
 # -*- coding:utf-8 -*-
 import logging
-from django.core.mail import send_mail
+from django.core.mail import send_mail, send_mass_mail, EmailMultiAlternatives
+from django.template.base import Template
+from django.template.context import Context
+from django.utils.safestring import mark_safe
 from cluster import settings
 
 __author__ = 'M.Y'
 
 
 class MessageServices(object):
-    from_email = 'a@b.co'
-
-    REGISTRATION_MESSAGE = u"لینک ثبت نام خوشه : " + settings.SITE_URL + u"%s" + u"\n\r نام کاربری شما: %s \n\r گذرواژه شما: %s"
+    from_email = u'موسسه‌پژوهشی‌نگاه‌نو'
 
     @staticmethod
-    def send_message(subject, message, users, *args, **kwargs):
+    def send_message(subject, message, user, *args, **kwargs):
         try:
-            send_mail(subject=subject, message=message, from_email=MessageServices.from_email,
-                      recipient_list=[user.email for user in users])
+            msg = EmailMultiAlternatives(subject=subject, body='', from_email=MessageServices.from_email,
+                                         to=[user.email])
+            msg.attach_alternative(message, "text/html")
+            msg.send()
+            # send_mail(subject=subject, message=message, from_email=MessageServices.from_email,
+            #           recipient_list=[user.email])
         except Exception as s:
             logging.error(s)
+
+
+    @staticmethod
+    def get_registration_message(cluster, user, username, password):
+
+        url = settings.SITE_URL + u"/register/%s/" % cluster.id
+        message = Template("""
+            <div style="direction:rtl;">
+            <h1>ثبت نام در خوشه {{cluster_name}} </h1>
+            <p> {{name}} ،</p>
+            <p>سلام</p>
+            <p>
+            شما توسط <b>{{head}}</b> به خوشه <b>{{cluster_name}}</b> دعوت شده اید.
+            برای تکمیل فرایند ثبت نام به آدرس زیر مراجعه کرده و اطلاعات خود را تکمیل کنید.
+            </p>
+            نام کاربری شما: {{username}} <br/>
+            گذرواژه شما: {{password}} <br/>
+            لینک ثبت نام خوشه : {{url}} <br/>
+
+            باتشکر<br/>
+            موسسه پژوهشی نگاه نو
+            </div>
+        """).render(Context({
+            'name': u"%s %s" % (user.first_name, user.last_name) if (
+                user.first_name and user.last_name) else u"%s" % user.username,
+            'head': unicode(cluster.head),
+            'cluster_name': cluster.name,
+            'url': url,
+            'username': username,
+            'password': password,
+        }))
+        return mark_safe(message)
+

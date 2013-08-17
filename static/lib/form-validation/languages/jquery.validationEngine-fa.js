@@ -71,7 +71,7 @@
                 },
                 "equals": {
                     "regex": "none",
-                    "alertText": "* فیلد نامعتبر است"
+                    "alertText": "* فیلدها با هم یکی نیستند"
                 },
                 "creditCard": {
                     "regex": "none",

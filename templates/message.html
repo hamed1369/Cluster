@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block header %}
+    {% if messages %}
+        <h2 class="error_header">
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </h2>
+    {% endif %}
+{% endblock %}
