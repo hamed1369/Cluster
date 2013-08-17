@@ -52,7 +52,7 @@ class RegisterForm(ClusterBaseModelForm):
         exclude = ('cluster', 'user')
 
     extra_js_validation = {
-        're_password': 'equals[password]'
+        're_password': 'equals[id_register-password]'
     }
 
     def __init__(self, *args, **kwargs):

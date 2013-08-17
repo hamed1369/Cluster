@@ -58,7 +58,8 @@ class Member(Account):
         verbose_name_plural =u"اعضای خوشه"
 
     def __unicode__(self):
-        return u"%s %s"%(self.user.first_name, self.user.last_name)
+        return u"%s %s"%(self.user.first_name, self.user.last_name) if (
+            self.user.first_name and self.user.last_name) else u"%s" % self.user.username
 
 
 class Arbiter(Account):
@@ -83,6 +84,7 @@ class Cluster(models.Model):
     domains     = models.ManyToManyField(Domain,related_name='clusters',verbose_name=u"حوزه فعالیت",) # TODO : ابهام
     institute   = models.CharField(u"دانشگاه / موسسه", max_length=30)
     head        = models.OneToOneField(Member,verbose_name=u"سر خوشه",related_name='head_cluster')
+    users       = models.ManyToManyField(User, verbose_name=u"اعضا", related_name='clusters')
 
     class Meta:
         app_label ='account'

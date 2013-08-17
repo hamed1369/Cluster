@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 from django.contrib.auth.models import User
 from django.db import transaction
-from cluster.account.account.models import Cluster, Member
+from cluster.account.account.models import Cluster
 from cluster.account.personal_info.models import EducationalResume, SoftwareSkill, LanguageSkill, \
     ExecutiveResearchProject, Invention, Publication
 from cluster.project.models import Domain
@@ -108,10 +108,13 @@ class RegisterHandler(object):
                         user.set_password(password)
                         user.save()
                         users.append(user)
-                        message = MessageServices.get_registration_message(cluster, email, password)
+                        message = MessageServices.get_registration_message(cluster, user, email, password)
                         MessageServices.send_message(subject=u"ثبت نام خوشه %s" % cluster.name,
                                                      message=message,
                                                      user=user, cluster=cluster)
+                users.append(member.user)
+
+                cluster.users = users
         else:
             member.cluster = self.cluster
 
@@ -217,7 +220,7 @@ class RegisterHandler(object):
     def has_permission(self):
         if self.cluster:
             try:
-                self.cluster.members.get(user=self.http_request.user)
-            except Member.DoesNotExist:
+                self.cluster.users.get(id=self.http_request.user.id)
+            except User.DoesNotExist:
                 return False
         return True
