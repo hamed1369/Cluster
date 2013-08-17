@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 import logging
-from django.core.mail import send_mail, send_mass_mail, EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives
 from django.template.base import Template
 from django.template.context import Context
 from django.utils.safestring import mark_safe

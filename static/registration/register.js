@@ -35,7 +35,7 @@ $(document).ready(function () {
     $("#register_form").validationEngine({
         promptPosition: "topLeft:-60,3",
         scroll: true,
-      validationEventTrigger:'submit',
+        validationEventTrigger: 'submit',
     });
 
     $('select[name*="domain_choice"]').each(function () {
@@ -60,7 +60,6 @@ $(document).ready(function () {
             $(this).parents('tr').first().find('.formError').remove();
         }
     });
-
 
 
     $('input[name*="is_cluster"]').change(function () {
@@ -131,6 +130,16 @@ $(document).ready(function () {
 //        $(this).css({
 //            border: '1px solid rgb(221, 221, 0)',
 //            backgroundColor: 'rgb(255, 253, 226)'
+//        });
+//    });
+
+
+
+
+    // important for disable first formsets row delete icon
+//    $(function () {
+//        $('.formset_container').each(function () {
+//            $(this).find('tbody tr').first().find('.formset_delete').remove();
 //        });
 //    });
 });
