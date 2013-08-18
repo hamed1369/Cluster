@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block CSS %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="/static/lib/jqgrid/css/ui.jqgrid.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/lib/fancybox/jquery.fancybox.css"/>
+{% endblock %}
+
+{% block JS %}
+    {{ block.super }}
+    <script type="text/javascript" src="/static/lib/jqgrid/js/jquery.jqGrid.min.js"></script>
+    <script type="text/javascript" src="/static/lib/fancybox/jquery.fancybox.pack.js"></script>
+{% endblock %}
+
+
+{% block content %}
+    <table id="manager_list">
+        <tr>
+            <td></td>
+        </tr>
+    </table>
+    <div id="manager_pager"></div>
+    <script type="text/javascript">
+        $(function () {
+            $("#manager_list").jqGrid({
+                url: "/manager/{{ manager.manager_name }}/actions/",
+                datatype: "json",
+                mtype: "GET",
+                colNames: [
+                    {% for column in manager.columns %}
+                        {{ column.column_verbose_name }}
+                        {% if not forloop.last %}
+                            ,
+                        {% endif %}
+                    {% endfor %}
+                ],
+                colModel: [
+                    {% for column in manager.columns %}
+                        { name: "{{ column.column_name }}", width: {{ column.column_width }}, align: "right" }
+                        {{ column.column_verbose_name }}
+                        {% if not forloop.last %}
+                            ,
+                        {% endif %}
+                    {% endfor %}
+                ],
+                pager: "#manager_pager",
+                rowNum: 10,
+                rowList: [10, 20, 30],
+                sortname: "id",
+                sortorder: "desc",
+                viewrecords: true,
+                gridview: true,
+                autoencode: true,
+                caption: "{{ manager.verbose_name }}"
+            });
+        });
+    </script>
+{% endblock %}
