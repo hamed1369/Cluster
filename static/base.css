@@ -400,3 +400,7 @@ ul.art-vmenu>li>a {
     list-style-type: none;
 
 }
+
+input[name$=email]{
+    direction: ltr;
+}

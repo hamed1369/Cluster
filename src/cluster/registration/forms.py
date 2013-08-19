@@ -1,4 +1,5 @@
 # -*- coding:utf-8 -*-
+from captcha.fields import CaptchaField
 from django import forms
 from django.contrib.auth.models import User
 from cluster.account.account.models import Member
@@ -67,6 +68,8 @@ class RegisterForm(ClusterBaseModelForm):
         self.fields['foundation_of_elites'] = forms.ChoiceField(required=True, choices=RegisterForm.BOOLEAN_CHOICES,
                                                                 widget=forms.RadioSelect(), )
         self.fields['foundation_of_elites'].label = u"آیا عضو بنیاد ملی نخبگان می باشید؟"
+
+        self.fields.insert(len(self.fields), 'captcha', CaptchaField(label=u"کد امنیتی"))
         process_js_validations(self)
 
     def clean(self):

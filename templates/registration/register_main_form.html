@@ -263,24 +263,54 @@
                     </span>{% endif %}
             </td>
             <td class="input_td">{{ register_form.education_certification }}</td>
+            {% if register_form.education_certification.errors %}
+                <td class="error_td" width="30%">{{ register_form.education_certification.errors }}</td>
+            {% endif %}
         </tr>
         <tr>
             <td class="label_td">{{ register_form.front_id_card.label }}
                 {% if register_form.front_id_card.field.required %}<span class="required_field">*</span>{% endif %}
             </td>
             <td class="input_td">{{ register_form.front_id_card }}</td>
+            {% if register_form.front_id_card.errors %}
+                <td class="error_td" width="30%">{{ register_form.front_id_card.errors }}</td>
+            {% endif %}
+
         </tr>
         <tr>
             <td class="label_td">{{ register_form.back_id_card.label }}
                 {% if register_form.back_id_card.field.required %}<span class="required_field">*</span>{% endif %}
             </td>
             <td class="input_td">{{ register_form.back_id_card }}</td>
+            {% if register_form.back_id_card.errors %}
+                <td class="error_td" width="30%">{{ register_form.back_id_card.errors }}</td>
+            {% endif %}
+
         </tr>
         <tr>
             <td class="label_td">{{ register_form.image.label }}
                 {% if register_form.image.field.required %}<span class="required_field">*</span>{% endif %}
             </td>
             <td class="input_td">{{ register_form.image }}</td>
+            {% if register_form.image.errors %}
+                <td class="error_td" width="30%">{{ register_form.image.errors }}</td>
+            {% endif %}
+
+        </tr>
+
+    </table>
+</fieldset>
+<fieldset class="inner_formset">
+    <legend>تایید ثبت نام</legend>
+    <table>
+        <tr>
+            <td class="label_td">{{ register_form.captcha.label }}
+                {% if register_form.captcha.field.required %}<span class="required_field">*</span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.captcha }}</td>
+            {% if register_form.captcha.errors %}
+                <td class="error_td" width="30%">{{ register_form.captcha.errors }}</td>
+            {% endif %}
         </tr>
     </table>
 </fieldset>

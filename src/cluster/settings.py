@@ -120,6 +120,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'captcha',
     'cluster.registration',
     'cluster.account',
     'cluster.project'
@@ -160,3 +161,9 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'persianelitesinfo@gmail.com'
 EMAIL_HOST_PASSWORD = '!persianelitesinfo'
+
+
+#captcha
+CAPTCHA_NOISE_FUNCTIONS = ('captcha.helpers.noise_arcs',)
+CAPTCHA_LENGTH = 4
+CAPTCHA_FONT_SIZE = 30
