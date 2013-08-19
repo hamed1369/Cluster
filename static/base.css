@@ -195,6 +195,7 @@ ul.art-hmenu>li>a, ul.art-vmenu>li>a {
 }
 
 .formset_delete:hover {
+    opacity: 0.7;
     /*background: #f7a0bb;*/
 }
 
@@ -229,6 +230,7 @@ ul.art-hmenu>li>a, ul.art-vmenu>li>a {
 }
 
 .formset_add:hover {
+    opacity: 0.7;
     /*background: #5CdD33;*/
 }
 
