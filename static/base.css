@@ -401,6 +401,6 @@ ul.art-vmenu>li>a {
 
 }
 
-input[name$=email]{
+input[name$=email], input[name$=username], input[name$=phone], input[name$=mobile], input[name$=password] {
     direction: ltr;
 }
