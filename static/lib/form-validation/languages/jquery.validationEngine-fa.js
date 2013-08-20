@@ -71,7 +71,7 @@
                 },
                 "equals": {
                     "regex": "none",
-                    "alertText": "* فیلدها با هم یکی نیستند"
+                    "alertText": "* فیلدهای گذرواژه و تکرار آن ، با یکدیگر یکسان نیستند."
                 },
                 "creditCard": {
                     "regex": "none",
