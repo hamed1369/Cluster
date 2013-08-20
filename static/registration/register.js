@@ -144,3 +144,14 @@ $(document).ready(function () {
 //    });
 });
 
+
+function  check_date_picker() {
+    var $date_fields = $('.' + $(this)[0].formCssClass).last().find('.hasDatepicker');
+    $date_fields.removeClass('hasDatepicker');
+    $date_fields.datepicker({
+        changeMonth: true,
+        changeYear: true,
+        yearRange: '1300,1400',
+        dateFormat: 'yy/mm/dd'
+    });
+}
