@@ -385,8 +385,8 @@ ul.art-vmenu>li>a {
 }
 
 .success_header {
-    background: #5aee55;
-    background: rgba(90, 238, 85, 0.6);
+    background: rgb(50, 238, 85);
+    background: rgba(50, 238, 85, 0.6);
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;

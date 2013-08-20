@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block header %}
     {% if messages %}
-        <h2 class="error_header">
+        {% for message in messages %}
+        <h2 class="{% if 'error' in message.tags %} error_header{% else %} success_header{% endif %}">
             <ul>
-                {% for message in messages %}
                     <li>{{ message }}</li>
-                {% endfor %}
             </ul>
         </h2>
+        {% endfor %}
     {% endif %}
 {% endblock %}

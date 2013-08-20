@@ -10,8 +10,6 @@ from cluster.registration.handlers import RegisterHandler
 
 
 def handle_register_view(request, cluster_id=None):
-    from django.core.urlresolvers import reverse
-
     try:
         register_handler = RegisterHandler(request, cluster_id)
     except Cluster.DoesNotExist:
@@ -24,7 +22,7 @@ def handle_register_view(request, cluster_id=None):
     if register_handler.is_valid_forms():
         register_handler.save_forms()
         messages.success(request, u"ثبت نام شما با موفقیت انجام شد.")
-        return HttpResponseRedirect(reverse('login'))
+        return render_to_response('message.html', {}, context_instance=RequestContext(request))
 
     context = register_handler.get_context()
     return render_to_response('registration/register.html',
