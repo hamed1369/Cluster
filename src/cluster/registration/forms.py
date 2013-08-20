@@ -69,7 +69,7 @@ class RegisterForm(ClusterBaseModelForm):
                                                                 widget=forms.RadioSelect(), )
         self.fields['foundation_of_elites'].label = u"آیا عضو بنیاد ملی نخبگان می باشید؟"
 
-        self.fields.insert(len(self.fields), 'captcha', CaptchaField(label=u"کد امنیتی"))
+        self.fields.insert(len(self.fields), 'captcha', CaptchaField(label=u"کد امنیتی",error_messages=u"کد امنیتی وارد شده صحیح نمی باشد."))
         process_js_validations(self)
 
     def clean(self):
