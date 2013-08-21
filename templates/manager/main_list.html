@@ -1,0 +1,54 @@
+<table id="manager_list">
+    <tr>
+        <td></td>
+    </tr>
+</table>
+<div id="manager_pager"></div>
+<script type="text/javascript">
+    $(function () {
+        $("#manager_list").jqGrid({
+            url: "/manager/{{ manager.manager_name }}/actions/",
+            datatype: "json",
+            mtype: "GET",
+            direction: "rtl",
+            recordpos: "left",
+            colNames: [
+                {% for column in manager.columns %}
+                    '{{ column.column_verbose_name }}'
+                    {% if not forloop.last %}
+                        ,
+                    {% endif %}
+                {% endfor %}
+            ],
+            colModel: [
+                {% for column in manager.columns %}
+                    { name: "{{ column.column_name }}", width: '{{ column.column_width }}', align: "right" }
+                    {% if not forloop.last %}
+                        ,
+                    {% endif %}
+                {% endfor %}
+            ],
+            pager: "#manager_pager",
+            rowNum: 10,
+            rowList: [10, 20, 30],
+            sortname: "id",
+            sortorder: "desc",
+            viewrecords: true,
+            gridview: true,
+            autoencode: true,
+            autowidth: true,
+            shrinkToFit: false,
+            caption: "{{ manager.verbose_name }}",
+            jsonReader: {
+                root: "rows",
+                page: "page",
+                total: "total",
+                records: "records",
+                repeatitems: true,
+                cell: "",
+                id: "0"
+            }
+        });
+    });
+
+</script>

@@ -4,6 +4,7 @@ from cluster.utils.manager.main import ObjectsManager, ManagerColumn
 
 __author__ = 'M.Y'
 
+
 class UserManager(ObjectsManager):
     manager_name = u"users"
     manager__verbose_name = u"کاربران"
