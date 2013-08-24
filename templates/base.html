@@ -79,11 +79,13 @@
                         <div class="art-vmenublock clearfix">
                             <div class="art-vmenublockcontent">
                                 <ul class="art-vmenu">
-                                    <li><a href="{% url cluster.account.views.auth.login_view %}" class="active">صفحه
-                                        اصلی</a></li>
-                                    <li><a href="{% url cluster.registration.views.register %}">ثبت نام</a></li>
-                                    <li><a href="{% url cluster.account.views.auth.login_view %}">مشاهده طرح های ثبت
-                                        شده</a></li>
+                                    {% render_url_li 'login' 'صفحه اصلی' %}
+                                    {% render_url_li 'register' 'ثبت نام' %}
+                                    {% render_url_li 'login' 'مشاهده طرح های ثبت شده' %}
+{#                                    <li><a href="{% url login %}" class="active"></a></li>#}
+{#                                    <li><a href="{% url register %}">ثبت نام</a></li>#}
+{#                                    <li><a href="{% url login %}">مشاهده طرح های ثبت#}
+{#                                        شده</a></li>#}
                                 </ul>
 
                             </div>
