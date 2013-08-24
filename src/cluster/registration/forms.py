@@ -69,7 +69,8 @@ class RegisterForm(ClusterBaseModelForm):
                                                                 widget=forms.RadioSelect(), )
         self.fields['foundation_of_elites'].label = u"آیا عضو بنیاد ملی نخبگان می باشید؟"
 
-        self.fields.insert(len(self.fields), 'captcha', CaptchaField(label=u"کد امنیتی",error_messages={'invalid':u"کد امنیتی وارد شده صحیح نمی باشد."}))
+        self.fields.insert(len(self.fields), 'captcha', CaptchaField(label=u"کد امنیتی", error_messages={
+            'invalid': u"کد امنیتی وارد شده صحیح نمی باشد."}))
         process_js_validations(self)
 
     def clean(self):
@@ -114,6 +115,10 @@ class DomainForm(ClusterBaseForm):
     new_domain_name = forms.CharField(label=u"نام حوزه", max_length=40,
                                       widget=new_domain_name_widget, required=False)
 
+    def init_by_domain(self, domain):
+        self.fields['domain_choice'] = forms.CharField(label=u"نام حوزه")
+        self.fields['domain_choice'].initial = domain.name
+        self.fields['domain_choice'].widget.attrs.update({'readonly': 'readonly'})
 
 ClusterDomainForm = formset_factory(DomainForm)
 

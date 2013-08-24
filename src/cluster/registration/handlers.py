@@ -12,7 +12,7 @@ from cluster.utils.messages import MessageServices
 __author__ = 'M.Y'
 
 
-class RegisterHandler(object):
+class ClusterHandler(object):
     def __init__(self, http_request, cluster_id=None):
         self.http_request = http_request
         self.http_method = self.http_request.method
@@ -21,34 +21,34 @@ class RegisterHandler(object):
         if self.cluster_id:
             self.cluster = Cluster.objects.get(id=cluster_id)
 
-    def initial_forms(self):
+    def initial_forms(self, member=None):
         self.__init_cluster_form()
         if self.http_request.method == 'POST' and self.http_request.POST.get('register-submit'):
-            self.register_form = RegisterForm(prefix='register', data=self.http_request.POST)
+            self.register_form = RegisterForm(prefix='register', data=self.http_request.POST, instance=member)
             self.resume_formset = ResumeForm(prefix='resume', data=self.http_request.POST,
-                                             queryset=EducationalResume.objects.none())
+                                             queryset=EducationalResume.objects.filter(cluster_member=member))
             self.publication_formset = PublicationForm(prefix='publication', data=self.http_request.POST,
-                                                       queryset=Publication.objects.none())
+                                                       queryset=Publication.objects.filter(cluster_member=member))
             self.invention_formset = InventionForm(prefix='invention', data=self.http_request.POST,
-                                                   queryset=Invention.objects.none())
+                                                   queryset=Invention.objects.filter(cluster_member=member))
             self.executive_research_formset = ExecutiveResearchProjectForm(prefix='executive_research',
                                                                            data=self.http_request.POST,
-                                                                           queryset=ExecutiveResearchProject.objects.none())
+                                                                           queryset=ExecutiveResearchProject.objects.filter(cluster_member=member))
             self.language_skill_formset = LanguageSkillForm(prefix='language_skill', data=self.http_request.POST,
-                                                            queryset=LanguageSkill.objects.none())
+                                                            queryset=LanguageSkill.objects.filter(cluster_member=member))
             self.software_skill_formset = SoftwareSkillForm(prefix='software_skill', data=self.http_request.POST,
-                                                            queryset=SoftwareSkill.objects.none())
+                                                            queryset=SoftwareSkill.objects.filter(cluster_member=member))
         else:
-            self.register_form = RegisterForm(prefix='register')
-            self.resume_formset = ResumeForm(prefix='resume', queryset=EducationalResume.objects.none())
-            self.publication_formset = PublicationForm(prefix='publication', queryset=Publication.objects.none())
-            self.invention_formset = InventionForm(prefix='invention', queryset=Invention.objects.none())
+            self.register_form = RegisterForm(prefix='register', instance=member)
+            self.resume_formset = ResumeForm(prefix='resume', queryset=EducationalResume.objects.filter(cluster_member=member))
+            self.publication_formset = PublicationForm(prefix='publication', queryset=Publication.objects.filter(cluster_member=member))
+            self.invention_formset = InventionForm(prefix='invention', queryset=Invention.objects.filter(cluster_member=member))
             self.executive_research_formset = ExecutiveResearchProjectForm(prefix='executive_research',
-                                                                           queryset=ExecutiveResearchProject.objects.none())
+                                                                           queryset=ExecutiveResearchProject.objects.filter(cluster_member=member))
             self.language_skill_formset = LanguageSkillForm(prefix='language_skill',
-                                                            queryset=LanguageSkill.objects.none())
+                                                            queryset=LanguageSkill.objects.filter(cluster_member=member))
             self.software_skill_formset = SoftwareSkillForm(prefix='software_skill',
-                                                            queryset=SoftwareSkill.objects.none())
+                                                            queryset=SoftwareSkill.objects.filter(cluster_member=member))
 
     def __init_cluster_form(self):
         if self.http_method == 'POST' and self.http_request.POST.get('register-submit'):
@@ -65,15 +65,20 @@ class RegisterHandler(object):
             )
 
         if self.cluster:
+            domains = self.cluster.domains.all()
+            domains_count = domains.count()
+            ClusterDomainForm.extra = domains_count
+            self.cluster_domain_formset = ClusterDomainForm(prefix='cluster_domain',
+            )
+            for i in range(domains_count):
+                domain = domains[i]
+                self.cluster_domain_formset.forms[i].init_by_domain(domain)
+
             self.cluster_form.fields['is_cluster'].initial = True
             self.cluster_form.fields['name'].initial = self.cluster.name
             self.cluster_form.fields['name'].widget.attrs.update({'readonly': 'readonly'})
             self.cluster_form.fields['institute'].initial = self.cluster.institute
             self.cluster_form.fields['institute'].widget.attrs.update({'readonly': 'readonly'})
-            for form in self.cluster_domain_formset.forms:
-                for field in form.fields:
-                    form.fields[field].widget.attrs.update({'readonly': 'readonly'})
-            del self.cluster_domain_formset.forms[-1]
             self.cluster_member_formset = None
 
     def __save_cluster(self, member):

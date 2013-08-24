@@ -2,16 +2,16 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mass_mail
-from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.http import HttpResponse, Http404
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from cluster.account.account.models import Cluster
-from cluster.registration.handlers import RegisterHandler
+from cluster.registration.handlers import ClusterHandler
 
 
 def handle_register_view(request, cluster_id=None):
     try:
-        register_handler = RegisterHandler(request, cluster_id)
+        register_handler = ClusterHandler(request, cluster_id)
     except Cluster.DoesNotExist:
         raise Http404
     if not register_handler.has_permission():
