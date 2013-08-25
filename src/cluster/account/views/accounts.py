@@ -22,6 +22,6 @@ def edit_account(request):
     handler = ClusterHandler(request, cluster_id=member.cluster_id)
     handler.initial_forms(member=member)
     c = handler.get_context()
-    return render_to_response('registration/register.html',
+    return render_to_response('accounts/edit_accounts.html',
                               c,
                               context_instance=RequestContext(request))

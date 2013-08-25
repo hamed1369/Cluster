@@ -13,12 +13,13 @@ from cluster.utils.js_validation import process_js_validations
 
 __author__ = 'M.Y'
 
+BOOLEAN_CHOICES = (
+    (True, u"بله"),
+    (False, u"خیر"),
+)
+
 
 class ClusterForm(ClusterBaseForm):
-    BOOLEAN_CHOICES = (
-        (True, u"بله"),
-        (False, u"خیر"),
-    )
 
     is_cluster = forms.ChoiceField(required=False, choices=BOOLEAN_CHOICES, widget=forms.RadioSelect(),
                                    label=
@@ -65,12 +66,18 @@ class RegisterForm(ClusterBaseModelForm):
         self.fields.insert(4, 're_password',
                            forms.CharField(required=True, label=u"تکرار گذرواژه", widget=forms.PasswordInput))
         self.fields.insert(5, 'email', forms.EmailField(label=u"پست الکترونیک"))
-        self.fields['foundation_of_elites'] = forms.ChoiceField(required=True, choices=RegisterForm.BOOLEAN_CHOICES,
+        self.fields['foundation_of_elites'] = forms.ChoiceField(required=True, choices=BOOLEAN_CHOICES,
                                                                 widget=forms.RadioSelect(), )
         self.fields['foundation_of_elites'].label = u"آیا عضو بنیاد ملی نخبگان می باشید؟"
 
         self.fields.insert(len(self.fields), 'captcha', CaptchaField(label=u"کد امنیتی", error_messages={
             'invalid': u"کد امنیتی وارد شده صحیح نمی باشد."}))
+
+        if self.instance and self.instance.id:
+            self.fields.insert(3, 'change_password', forms.ChoiceField(required=False, choices=BOOLEAN_CHOICES, widget=forms.RadioSelect(), label=u"ویرایش گذرواژه", initial=False))
+            self.fields['password'].label = u"گذرواژه جدید"
+            self.fields['re_password'].label = u"تکرار گذرواژه جدید"
+
         process_js_validations(self)
 
     def clean(self):

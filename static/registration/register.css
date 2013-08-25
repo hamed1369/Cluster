@@ -16,10 +16,11 @@
     width: 100%;
     border-collapse: separate;
 }
+
 form fieldset legend {
     padding: 6px;
     font-size: 23px;
-    color:#2E6E9E;
+    color: #2E6E9E;
     font-family: B Mitra;
 }
 
@@ -42,6 +43,10 @@ form fieldset legend {
     padding: 5px;
 }
 
+.register_table input[type=checkbox] {
+    float: right;
+}
+
 .formset_form_field {
     display: inline;
     width: 30%;
@@ -57,7 +62,7 @@ form fieldset legend {
     width: 100%;
 }
 
-.formset_fieldset table .label_td ,td,th,tr{
+.formset_fieldset table .label_td, td, th, tr {
     font-size: 12px;
     text-align: right;
 }
@@ -76,10 +81,12 @@ form fieldset legend {
     padding: 3px;
     margin: 0;
 }
-.formset_fieldset thead{
+
+.formset_fieldset thead {
     text-align: right;
 }
-.formset_add{
+
+.formset_add {
     font-family: B Mitra;
     font-size: 16px;
     font-weight: bold;

@@ -32,6 +32,19 @@
         {% endif %}
     </tr>
 
+    {% if register_form.change_password %}
+        <tr>
+
+            <td class="label_td">{{ register_form.change_password.label }}
+                {% if register_form.change_password.field.required %}<span class="required_field">*</span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.change_password }}</td>
+            {% if register_form.change_password.errors %}
+                <td class="error_td" width="30%">{{ register_form.change_password.errors }}</td>
+            {% endif %}
+        </tr>
+    {% endif %}
+
     <tr>
 
         <td class="label_td">{{ register_form.password.label }}

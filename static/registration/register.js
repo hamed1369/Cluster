@@ -121,6 +121,20 @@ $(document).ready(function () {
 
     });
 
+    $('input[name*="change_password"]').change(function () {
+        var change_pass = $('input[name*="change_password"]:checked', '#register_form').val();
+        var $first_tr = $(this).parents('tr').first().next('tr');
+        var $second_tr = $first_tr.next('tr');
+
+        if (change_pass == 'True') {
+            $first_tr.show(500);
+            $second_tr.show(500);
+        } else {
+            $first_tr.hide(500);
+            $second_tr.hide(500);
+        }
+    });
+    $('input[name*="change_password"]').change();
 
 //    $('.register_table tr, .inner_formset tr').click(function () {
 //        $('.register_table tr, .inner_formset tr').css({
@@ -134,8 +148,6 @@ $(document).ready(function () {
 //    });
 
 
-
-
     // important for disable first formsets row delete icon
 //    $(function () {
 //        $('.formset_container').each(function () {
@@ -145,7 +157,7 @@ $(document).ready(function () {
 });
 
 
-function  check_date_picker() {
+function check_date_picker() {
     var $date_fields = $('.' + $(this)[0].formCssClass).last().find('.hasDatepicker');
     $date_fields.removeClass('hasDatepicker');
     $date_fields.datepicker({
