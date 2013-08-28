@@ -13,10 +13,12 @@
 <body>
 
 {% if messages %}
-    <h2 class="success_header">
+    <h2>
         <ul>
             {% for message in messages %}
-                <li>{{ message }}</li>
+                <li class="{% if message.tags == 'error' %}error_header{% else %}success_header{% endif %}">
+                    {{ message }}
+                </li>
             {% endfor %}
         </ul>
     </h2>

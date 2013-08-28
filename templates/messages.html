@@ -1,0 +1,9 @@
+{% if messages %}
+    {% for message in messages %}
+        <h2 class="{% if 'error' in message.tags %} error_header{% else %} success_header{% endif %}">
+            <ul>
+                <li>{{ message }}</li>
+            </ul>
+        </h2>
+    {% endfor %}
+{% endif %}

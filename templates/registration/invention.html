@@ -8,28 +8,27 @@
                 <thead>
                 <tr>
                     {% for field in invention_formset.forms.0 %}
-
-                        <td class="label_td"{% if field.field.widget.is_hidden %} style="display: none"{% endif %}>
-                            <span>{{ field.label }}    </span>
-                            {% if field.field.required %}
-                                <span class="required_field">*
+                        {% if field.name != 'DELETE' %}
+                            <td class="label_td"{% if field.field.widget.is_hidden %} style="display: none"{% endif %}>
+                                <span>{{ field.label }}    </span>
+                                {% if field.field.required %}
+                                    <span class="required_field">*
                                         </span>
-                            {% endif %}
-                        </td>
+                                {% endif %}
+                            </td>
+                        {% endif %}
                     {% endfor %}
                 </tr>
                 </thead>
                 {% for form in invention_formset.forms %}
                     <tr>
                         {% for field in form %}
-
                             <td class="input_td{% if field.errors %} error_td{% endif %}">
                                 {{ field }}
                                 {% if field.errors %}
                                     {{ field.errors }}
                                 {% endif %}
                             </td>
-
                         {% endfor %}
                         {#                        <td class="delete_formset_td"></td>#}
                     </tr>
@@ -46,7 +45,7 @@
                         deleteText: '',
                         addCssClass: 'formset_add',
                         deleteCssClass: 'formset_delete',
-                        added:check_date_picker
+                        added: check_date_picker
                     });
                 })
             </script>

@@ -16,13 +16,13 @@ def handle_register_view(request, cluster_id=None):
         raise Http404
     if not register_handler.has_permission():
         messages.error(request, u"شما جزو اعضای این خوشه نیستید.")
-        return render_to_response('message.html', {}, context_instance=RequestContext(request))
+        return render_to_response('show_message.html', {}, context_instance=RequestContext(request))
 
     register_handler.initial_forms()
     if register_handler.is_valid_forms():
         register_handler.save_forms()
         messages.success(request, u"ثبت نام شما با موفقیت انجام شد.")
-        return render_to_response('message.html', {}, context_instance=RequestContext(request))
+        return render_to_response('show_message.html', {}, context_instance=RequestContext(request))
 
     context = register_handler.get_context()
     return render_to_response('registration/register.html',

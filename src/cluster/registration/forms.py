@@ -20,7 +20,6 @@ BOOLEAN_CHOICES = (
 
 
 class ClusterForm(ClusterBaseForm):
-
     is_cluster = forms.ChoiceField(required=False, choices=BOOLEAN_CHOICES, widget=forms.RadioSelect(),
                                    label=
                                    u"آیا درخواست ثبت خوشه وجود دارد؟(در صورت تایید و ارسال فرم ثبت نام برای اعضاء خوشه)",
@@ -74,9 +73,18 @@ class RegisterForm(ClusterBaseModelForm):
             'invalid': u"کد امنیتی وارد شده صحیح نمی باشد."}))
 
         if self.instance and self.instance.id:
-            self.fields.insert(3, 'change_password', forms.ChoiceField(required=False, choices=BOOLEAN_CHOICES, widget=forms.RadioSelect(), label=u"ویرایش گذرواژه", initial=False))
+            self.fields.insert(3, 'change_password',
+                               forms.ChoiceField(required=False, choices=BOOLEAN_CHOICES, widget=forms.RadioSelect(),
+                                                 label=u"ویرایش گذرواژه", initial=False))
             self.fields['password'].label = u"گذرواژه جدید"
+            self.fields['password'].required = False
             self.fields['re_password'].label = u"تکرار گذرواژه جدید"
+            self.fields['re_password'].required = False
+            if self.instance.user:
+                self.fields['first_name'].initial = self.instance.user.first_name
+                self.fields['last_name'].initial = self.instance.user.last_name
+                self.fields['username'].initial = self.instance.user.username
+                self.fields['email'].initial = self.instance.user.email
 
         process_js_validations(self)
 
@@ -89,10 +97,36 @@ class RegisterForm(ClusterBaseModelForm):
         username = cd.get('username')
         if username:
             users = User.objects.filter(username=username)
+            if self.instance.id:
+                users = users.exclude(id=self.instance.user.id)
             if users:
                 self._errors['username'] = self.error_class([u'این نام کاربری تکراری است. لطفا نام دیگری انتخاب کنید.'])
 
         return cd
+
+    def save(self, commit=True):
+        member = super(RegisterForm, self).save(commit)
+        first_name = self.cleaned_data.get('first_name')
+        last_name = self.cleaned_data.get('last_name')
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+        email = self.cleaned_data.get('email')
+        change_pass = self.cleaned_data.get('change_password')
+
+        if not member.user:
+            user = User.objects.create(first_name=first_name, last_name=last_name, username=username, email=email, )
+            user.set_password(password)
+            member.user = user
+        else:
+            user = member.user
+            user.first_name = first_name
+            user.last_name = last_name
+            user.username = username
+            user.email = email
+            if change_pass is True or change_pass == 'True':
+                user.set_password(password)
+        user.save()
+        return member
 
 
 class MemberForm(ClusterBaseForm):
@@ -111,7 +145,7 @@ class MemberForm(ClusterBaseForm):
         return cd
 
 
-ClusterMemberForm = formset_factory(MemberForm)
+ClusterMemberForm = formset_factory(MemberForm, can_delete=True)
 
 
 class DomainForm(ClusterBaseForm):
@@ -127,7 +161,8 @@ class DomainForm(ClusterBaseForm):
         self.fields['domain_choice'].initial = domain.name
         self.fields['domain_choice'].widget.attrs.update({'readonly': 'readonly'})
 
-ClusterDomainForm = formset_factory(DomainForm)
+
+ClusterDomainForm = formset_factory(DomainForm, can_delete=True)
 
 
 class EducationalResumeModelForm(ClusterBaseModelForm):
@@ -135,7 +170,7 @@ class EducationalResumeModelForm(ClusterBaseModelForm):
         model = EducationalResume
 
 
-ResumeForm = modelformset_factory(EducationalResume, form=EducationalResumeModelForm, exclude=('cluster_member', ))
+ResumeForm = modelformset_factory(EducationalResume, form=EducationalResumeModelForm, exclude=('cluster_member', ), can_delete=True)
 
 
 class PublicationModelForm(ClusterBaseModelForm):
@@ -143,7 +178,7 @@ class PublicationModelForm(ClusterBaseModelForm):
         model = Publication
 
 
-PublicationForm = modelformset_factory(Publication, form=PublicationModelForm, exclude=('cluster_member', ))
+PublicationForm = modelformset_factory(Publication, form=PublicationModelForm, exclude=('cluster_member', ), can_delete=True)
 
 
 class InventionModelForm(ClusterBaseModelForm):
@@ -151,7 +186,7 @@ class InventionModelForm(ClusterBaseModelForm):
         model = Invention
 
 
-InventionForm = modelformset_factory(Invention, form=InventionModelForm, exclude=('cluster_member', ))
+InventionForm = modelformset_factory(Invention, form=InventionModelForm, exclude=('cluster_member', ), can_delete=True)
 
 
 class ExecutiveResearchProjectModelForm(ClusterBaseModelForm):
@@ -160,7 +195,7 @@ class ExecutiveResearchProjectModelForm(ClusterBaseModelForm):
 
 
 ExecutiveResearchProjectForm = modelformset_factory(ExecutiveResearchProject, form=ExecutiveResearchProjectModelForm,
-                                                    exclude=('cluster_member', ))
+                                                    exclude=('cluster_member', ), can_delete=True)
 
 
 class LanguageSkillModelForm(ClusterBaseModelForm):
@@ -169,7 +204,7 @@ class LanguageSkillModelForm(ClusterBaseModelForm):
 
 
 LanguageSkillForm = modelformset_factory(LanguageSkill, form=LanguageSkillModelForm,
-                                         exclude=('cluster_member', ))
+                                         exclude=('cluster_member', ), can_delete=True)
 
 
 class SoftwareSkillModelForm(ClusterBaseModelForm):
@@ -177,4 +212,4 @@ class SoftwareSkillModelForm(ClusterBaseModelForm):
         model = SoftwareSkill
 
 
-SoftwareSkillForm = modelformset_factory(SoftwareSkill, form=SoftwareSkillModelForm, exclude=('cluster_member', ))
+SoftwareSkillForm = modelformset_factory(SoftwareSkill, form=SoftwareSkillModelForm, exclude=('cluster_member', ), can_delete=True)

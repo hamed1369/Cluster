@@ -8,7 +8,7 @@
                 <thead>
                 <tr>
                     {% for field in resume_formset.forms.0 %}
-
+                        {% if field.name != 'DELETE' %}
                         <td class="label_td"{% if field.field.widget.is_hidden %} style="display: none"{% endif %}>
                             <span>{{ field.label }}    </span>
                             {% if field.field.required %}
@@ -16,20 +16,19 @@
                                         </span>
                             {% endif %}
                         </td>
+                        {% endif %}
                     {% endfor %}
                 </tr>
                 </thead>
                 {% for form in resume_formset.forms %}
                     <tr>
                         {% for field in form %}
-
                             <td class="input_td{% if field.errors %} error_td{% endif %}">
                                 {{ field }}
                                 {% if field.errors %}
                                     {{ field.errors }}
                                 {% endif %}
                             </td>
-
                         {% endfor %}
                         {#                        <td class="delete_formset_td"></td>#}
                     </tr>
