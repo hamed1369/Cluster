@@ -144,6 +144,16 @@ class MemberForm(ClusterBaseForm):
 
         return cd
 
+    def init_by_member(self, member, is_head):
+        self.fields['first_name'].initial = member.user.first_name
+        self.fields['last_name'].initial = member.user.last_name
+        self.fields['email'].initial = member.user.email
+        if not is_head:
+            self.fields['first_name'].widget.attrs.update({'readonly': 'readonly'})
+            self.fields['last_name'].widget.attrs.update({'readonly': 'readonly'})
+            self.fields['email'].widget.attrs.update({'readonly': 'readonly'})
+
+
 
 ClusterMemberForm = formset_factory(MemberForm, can_delete=True)
 
@@ -151,15 +161,21 @@ ClusterMemberForm = formset_factory(MemberForm, can_delete=True)
 class DomainForm(ClusterBaseForm):
     domain_choice = forms.ModelChoiceField(queryset=Domain.objects.filter(confirmed=True), label=u"نام حوزه",
                                            required=False, empty_label=u"سایر")
-    new_domain_name_widget = forms.TextInput(attrs={"style": 'display:none; width:50%;'})
+    new_domain_name_widget = forms.TextInput(attrs={"style": 'display:none;'})
     new_domain_name_widget.is_hidden = True
     new_domain_name = forms.CharField(label=u"نام حوزه", max_length=40,
                                       widget=new_domain_name_widget, required=False)
 
-    def init_by_domain(self, domain):
-        self.fields['domain_choice'] = forms.CharField(label=u"نام حوزه")
-        self.fields['domain_choice'].initial = domain.name
-        self.fields['domain_choice'].widget.attrs.update({'readonly': 'readonly'})
+    def init_by_domain(self, domain, is_head):
+        if is_head:
+            if domain.confirmed:
+                self.fields['domain_choice'].initial = domain
+            else:
+                self.fields['new_domain_name'].initial = domain.name
+        else:
+            self.fields['domain_choice'] = forms.CharField(label=u"نام حوزه")
+            self.fields['domain_choice'].initial = domain.name
+            self.fields['domain_choice'].widget.attrs.update({'readonly': 'readonly'})
 
 
 ClusterDomainForm = formset_factory(DomainForm, can_delete=True)

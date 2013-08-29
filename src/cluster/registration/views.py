@@ -14,8 +14,9 @@ def handle_register_view(request, cluster_id=None):
         register_handler = ClusterHandler(request, cluster_id)
     except Cluster.DoesNotExist:
         raise Http404
-    if not register_handler.has_permission():
-        messages.error(request, u"شما جزو اعضای این خوشه نیستید.")
+    message = register_handler.has_permission()
+    if message:
+        messages.error(request, message)
         return render_to_response('show_message.html', {}, context_instance=RequestContext(request))
 
     register_handler.initial_forms()

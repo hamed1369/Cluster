@@ -1,0 +1,63 @@
+<fieldset class="formset_fieldset">
+    <legend>{{ legend }}</legend>
+    <div id="cluster_domain_formset">
+        <input type="hidden" name="formset_prefix" value="{{ formset.prefix }}">
+
+        <div class="formset_container">
+
+            <table id="{{ formset.prefix }}_table">
+                <thead>
+                <tr>
+                    {% for field in formset.forms.0 %}
+                        {% if field.name != 'DELETE' %}
+                            <td class="label_td"{% if field.field.widget.is_hidden %}
+                                style="display: none"{% endif %}>
+                                <span>{{ field.label }}    </span>
+                                {% if field.field.required %}
+                                    <span class="required_field">*
+                                        </span>
+                                {% endif %}
+                            </td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                </thead>
+                {% for form in formset.forms %}
+                    <tr>
+                        {% for field in form %}
+                            <td class="input_td{% if field.errors %} error_td{% endif %}">
+                                {% if field.name != 'DELETE' %}
+                                    {{ field }}
+                                {% else %}
+                                    <input type="hidden" name="{{ field.html_name }}" id="{{ field.auto_id }}">
+                                {% endif %}
+                                {% if field.errors %}
+                                    {{ field.errors }}
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                        {#                            <td class="delete_formset_td"></td>#}
+                    </tr>
+
+                {% endfor %}
+            </table>
+            {{ formset.management_form }}
+            {% if not formset.readonly %}
+                <script type="text/javascript">
+                    $(function () {
+                        $('#' + '{{ formset.prefix }}' + '_table tbody tr').formset({
+                            prefix: '{{ formset.prefix }}',
+                            formCssClass: 'dynamic-formset0',
+                            addText: 'افزودن',
+                            deleteText: '',
+                            addCssClass: 'formset_add',
+                            deleteCssClass: 'formset_delete',
+                            added: check_date_picker
+                        });
+                    });
+                </script>
+            {% endif %}
+        </div>
+
+    </div>
+</fieldset>

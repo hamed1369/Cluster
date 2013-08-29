@@ -35,7 +35,7 @@ $(document).ready(function () {
     $("#register_form").validationEngine({
         promptPosition: "topLeft:-60,3",
         scroll: true,
-        validationEventTrigger: 'submit',
+        validationEventTrigger: 'submit'
     });
 
     $('select[name*="domain_choice"]').each(function () {
@@ -136,7 +136,6 @@ $(document).ready(function () {
     });
     $('input[name*="change_password"]').change();
 
-    $('input[type="checkbox"][name*="DELETE"]').hide();
 
 //    $('.register_table tr, .inner_formset tr').click(function () {
 //        $('.register_table tr, .inner_formset tr').css({

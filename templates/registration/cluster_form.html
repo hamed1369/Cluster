@@ -13,149 +13,38 @@
 <div id="only_for_cluster"{% if not cluster %}
     {% if not cluster_form.is_cluster_value or cluster_form.is_cluster_value|is_false %}
      style="display: none;"{% endif %}{% endif %}>
+
     <fieldset class="inner_formset">
         <legend>اطلاعات خوشه</legend>
 
-    <table class="register_table">
-        <tr>
-            <td class="label_td">{{ cluster_form.name.label }} <span class="required_field">*</span>
-            </td>
-            <td class="input_td">{{ cluster_form.name }}</td>
-            {% if cluster_form.name.errors %}
-                <td class="error_td" width="30%">{{ cluster_form.name.errors }}</td>
-            {% endif %}
-        </tr>
-        <tr>
-            <td class="label_td">{{ cluster_form.institute.label }} <span class="required_field">*</span>
-            </td>
-            <td class="input_td">{{ cluster_form.institute }}</td>
-            {% if cluster_form.institute.errors %}
-                <td class="error_td" width="30%">{{ cluster_form.institute.errors }}</td>
-            {% endif %}
-        </tr>
-    </table>
-
-    <fieldset class="formset_fieldset" id="cluster_domain_fieldset">
-        <legend>حوزه های فعالیت</legend>
-        <div id="cluster_domain_formset">
-            <input type="hidden" name="formset_prefix" value="{{ cluster_domain_formset.prefix }}">
-
-            <div class="formset_container">
-                <table id="cluster_domain_table">
-                    <thead>
-                    <tr>
-                        {% for field in cluster_domain_formset.forms.0 %}
-                            {% if field.name != 'DELETE' %}
-                            <td class="label_td"{% if field.field.widget.is_hidden %}
-                                style="display: none"{% endif %}>
-                                <span>{{ field.label }}    </span>
-                                {% if field.field.required %}
-                                    <span class="required_field">*
-                                        </span>
-                                {% endif %}
-                            </td>
-                            {% endif %}
-                        {% endfor %}
-                    </tr>
-                    </thead>
-                    {% for form in cluster_domain_formset.forms %}
-                        <tr>
-                            {% for field in form %}
-                                <td class="input_td{% if field.errors %} error_td{% endif %}">
-                                    {{ field }}
-                                    {% if field.errors %}
-                                        {{ field.errors }}
-                                    {% endif %}
-                                </td>
-                            {% endfor %}
-                            {#                            <td class="delete_formset_td"></td>#}
-                        </tr>
-
-                    {% endfor %}
-                </table>
-                {{ cluster_domain_formset.management_form }}
-                {% if not cluster %}
-                    <script type="text/javascript">
-                        $(function () {
-                            $('#cluster_domain_table tbody tr').formset({
-                                prefix: '{{ cluster_domain_formset.prefix }}',
-                                formCssClass: 'dynamic-formset0',
-                                addText: 'افزودن',
-                                deleteText: '',
-                                addCssClass: 'formset_add',
-                                deleteCssClass: 'formset_delete',
-                                added:check_date_picker
-                            });
-                        });
-                    </script>
+        <table class="register_table">
+            <tr>
+                <td class="label_td">{{ cluster_form.name.label }} <span class="required_field">*</span>
+                </td>
+                <td class="input_td">{{ cluster_form.name }}</td>
+                {% if cluster_form.name.errors %}
+                    <td class="error_td" width="30%">{{ cluster_form.name.errors }}</td>
                 {% endif %}
-            </div>
+            </tr>
+            <tr>
+                <td class="label_td">{{ cluster_form.institute.label }} <span class="required_field">*</span>
+                </td>
+                <td class="input_td">{{ cluster_form.institute }}</td>
+                {% if cluster_form.institute.errors %}
+                    <td class="error_td" width="30%">{{ cluster_form.institute.errors }}</td>
+                {% endif %}
+            </tr>
+        </table>
 
-        </div>
-    </fieldset>
+        {% include 'formset.html' with legend="حوزه های فعالیت" formset=cluster_domain_formset cluster=cluster%}
 
-    {% if cluster_member_formset %}
-        <fieldset class="formset_fieldset" id="cluster_member_fieldset">
-            <legend>اعضای خوشه</legend>
-            <div id="cluster_member_formset">
-                <input type="hidden" name="formset_prefix" value="{{ cluster_member_formset.prefix }}">
+        {% if cluster_member_formset %}
+            {% include 'formset.html' with legend="اعضای خوشه" formset=cluster_member_formset cluster=cluster%}
+        {% endif %}
+        <br/>
 
-                <div class="formset_container">
-                    <table id="cluster_member_table">
-                        <thead>
-                        <tr>
-                            {% for field in cluster_member_formset.forms.0 %}
-                                {% if field.name != 'DELETE' %}
-                                <td class="label_td"{% if field.field.widget.is_hidden %}
-                                    style="display: none"{% endif %}>
-                                    <span>{{ field.label }}    </span>
-                                    {% if field.field.required %}
-                                        <span class="required_field">*
-                                        </span>
-                                    {% endif %}
-                                </td>
-                                {% endif %}
-                            {% endfor %}
-                        </tr>
-                        </thead>
-                        {% for form in cluster_member_formset.forms %}
-                            <tr>
-                                {% for field in form %}
-                                    <td class="input_td{% if field.errors %} error_td{% endif %}">
-                                        {{ field }}
-                                        {% if field.errors %}
-                                            {{ field.errors }}
-                                        {% endif %}
-                                    </td>
-                                {% endfor %}
-                                {#                            <td class="delete_formset_td"></td>#}
-                            </tr>
-
-                        {% endfor %}
-                    </table>
-                    {{ cluster_member_formset.management_form }}
-                    <script type="text/javascript">
-                        $(function () {
-                            $('#cluster_member_table tbody tr').formset({
-                                prefix: '{{ cluster_member_formset.prefix }}',
-                                formCssClass: 'dynamic-formset1',
-                                addText: 'افزودن',
-                                deleteText: '',
-                                addCssClass: 'formset_add',
-                                deleteCssClass: 'formset_delete',
-                                added:check_date_picker
-                            });
-                        })
-                    </script>
-                </div>
-
-            </div>
-        </fieldset>
-    {% endif %}
-    <br/>
-
-    <p>* در صورتی که خوشه مذکور برای اولین بار ثبت میگردد، بصورت پیش فرض فرد ثبت کننده سرگروه خوشه به شمار
-        می آید.(نمایش شرایط و ضوابط خوشه)</p>
+        <p>* در صورتی که خوشه مذکور برای اولین بار ثبت میگردد، بصورت پیش فرض فرد ثبت کننده سرگروه خوشه به شمار
+            می آید.(نمایش شرایط و ضوابط خوشه)</p>
     </fieldset>
 
 </div>
