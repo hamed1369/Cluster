@@ -13,15 +13,7 @@ def process_main_page(request, manager_name):
     for manager in manager_children:
         if manager.manager_name == manager_name:
             manager_obj = manager(http_request=request)
-            if not manager_obj.can_view():
-                raise Http404()
-            manager_content = manager_obj.render_main_list()
-
-            c = {
-                'manager_content': manager_content
-            }
-
-            return render_to_response('manager/main.html', c, context_instance=RequestContext(request))
+            return manager_obj.render_main_list()
     raise Http404()
 
 

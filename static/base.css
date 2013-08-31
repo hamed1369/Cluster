@@ -400,3 +400,20 @@ ul.art-vmenu>li>a {
     list-style-type: none;
 
 }
+
+fieldset {
+    border-color: #f1f1f1;
+    border-radius: 2px;
+    margin-top: 5px;
+    border-style: solid;
+    border-width: thin;
+    /*box-shadow: 0 0 1px rgba(34, 25, 25, 0.4);*/
+
+}
+
+fieldset legend {
+    padding: 6px;
+    font-size: 23px;
+    color:#2E6E9E;
+    font-family: B Mitra;
+}

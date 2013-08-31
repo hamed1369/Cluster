@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
+from django.shortcuts import render_to_response
 from django.template.context import RequestContext
-from django.template.loader import render_to_string
 from cluster.utils.manager.filter import Filter
 from cluster.utils.manager.table import Table, Header, Row
 
@@ -40,6 +40,10 @@ class ObjectsManager(object):
 
     def __init__(self, http_request):
         self.http_request = http_request
+        self.columns = self.get_columns()
+        self.filter_obj = Filter(self.http_request, self.filter_form, self.filter_handlers, self.data_per_page)
+        all_data = self.get_all_data()
+        self.filter_form, self.page_data = self.filter_obj.process_filter(all_data)
 
     def get_all_data(self):
         """
@@ -60,20 +64,16 @@ class ObjectsManager(object):
         return True
 
     def render_main_list(self):
-        self.columns = self.get_columns()
+        if not self.can_view():
+            raise Http404()
         c = {
             'manager': self
         }
-        main_list_content = render_to_string('manager/main_list.html', c,
-                                             context_instance=RequestContext(self.http_request))
-        return main_list_content
+        return render_to_response('manager/main.html', c, context_instance=RequestContext(self.http_request))
 
     def process_action_request(self):
-        all_data = self.get_all_data()
-        filter_obj = Filter(all_data, self.http_request, self.filter_form, self.filter_handlers, self.data_per_page)
-        filter_form, page_data = filter_obj.process_filter()
-        table = self._create_data_table(page_data)
-        json = table.get_dgrid_json(filter_obj.total_pages, filter_obj.page_num, filter_obj.total_data)
+        table = self._create_data_table(self.page_data)
+        json = table.get_dgrid_json(self.filter_obj.total_pages, self.filter_obj.page_num, self.filter_obj.total_data)
         return HttpResponse(json, mimetype='application/json')
 
     def _create_data_table(self, page_data):
@@ -91,8 +91,4 @@ class ObjectsManager(object):
                 value = getattr(data, column.column_name)
                 row.create_cell(column.column_name, unicode(value), column.column_width)
             table.add_row(row)
-
         return table
-
-
-
