@@ -23,11 +23,16 @@ class Filter(object):
             for handler in self.filter_handlers:
                 field_name = handler[0]
                 field_type = handler[1]
-                django_lookup = handler[2] or field_name
+
+                if len(handler) > 2:
+                    django_lookup = handler[2] or field_name
+                else:
+                    django_lookup = field_name
+
                 field_value = form_data.get(field_name)
                 if field_value and field_value != 'None':
                     if field_type == 'str':
-                        kwargs[django_lookup + 'icontains'] = field_value
+                        kwargs[django_lookup + '__icontains'] = field_value
                     elif field_type == 'bool':
                         if field_value == 'on':
                             kwargs[django_lookup] = True

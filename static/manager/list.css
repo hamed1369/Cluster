@@ -6,6 +6,10 @@
     text-align: right;
 }
 
-.filter-formset table{
+.filter-formset table {
     font-size: 10px;
+}
+
+.ui-jqgrid tr.ui-row-rtl td {
+    padding: 4px;
 }

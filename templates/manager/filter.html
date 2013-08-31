@@ -1,16 +1,24 @@
 {% if manager.filter_form %}
     <div>
-        <fieldset style="margin-bottom: 9px;" class="filter-formset">
-            <legend>جستجو</legend>
-            <table width="100%" dir="rtl">
-                <tr>
-                    {% for field in manager.filter_form %}
-                        <td width="50px">{{ field.label }}:</td>
-                        <td width="120px">{{ field }}</td>
-                        {% cycle '' '</tr><tr>' %}
-                    {% endfor %}
-                </tr>
-            </table>
-        </fieldset>
+        <form class="filter-form">
+            <fieldset style="margin-bottom: 9px;" class="filter-formset">
+                <legend>جستجو</legend>
+                <table width="100%" dir="rtl">
+                    <tr>
+                        {% for field in manager.filter_form %}
+                            <td width="50px">{{ field.label }}:</td>
+                            <td width="120px">{{ field }}</td>
+                            {% cycle '' '</tr><tr>' %}
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td colspan="10" style="text-align: left;">
+                            <input type="reset" value="بازنشانی" class="filter-reset">
+                            <input type="submit" value="جستجو" class="filter-submit">
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+        </form>
     </div>
 {% endif %}

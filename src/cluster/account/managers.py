@@ -16,6 +16,12 @@ class UserManager(ObjectsManager):
     manager_name = u"users"
     manager_verbose_name = u"کاربران"
     filter_form = UserForm
+    filter_handlers = (
+        ('username', 'str'),
+        ('first_name', 'str'),
+        ('last_name', 'str'),
+
+    )
 
     def get_all_data(self):
         return User.objects.filter()

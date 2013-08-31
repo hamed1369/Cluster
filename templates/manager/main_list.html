@@ -39,7 +39,8 @@
             autoencode: true,
             autowidth: true,
             shrinkToFit: true,
-            height: 400,
+            height: 300,
+            stype: 'select',
             caption: "{{ manager.verbose_name }}",
             jsonReader: {
                 root: "rows",
@@ -53,6 +54,14 @@
         });
         $manager.jqGrid('navGrid', '#manager_pager',
                 {position: "right", edit: false, add: false, del: false, search: false, refresh: true });
+
+        $('.filter-submit').click(function () {
+            var new_url = '/manager/{{ manager.manager_name }}/actions/';
+            var serialize_form = $('.filter-form').serialize();
+            new_url = new_url + '?' + serialize_form;
+            $manager.jqGrid().setGridParam({url: new_url}).trigger("reloadGrid");
+            return false;
+        });
     });
 
 </script>
