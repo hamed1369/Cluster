@@ -1,0 +1,85 @@
+@font-face {
+    font-family: 'B Mitra';
+    src: url('fonts/B%20Mitra.eot?#') format('eot'), url('fonts/B%20Mitra.woff') format('woff'), url('fonts/B%20Mitra.ttf') format('truetype');
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: B Mitra;
+
+}
+body {
+    direction: rtl;
+    font-family: Tahoma, sans-serif;
+    font-size: 12px;
+    padding: 0;
+    margin: 0;
+}
+.left-nav, .btn{
+    font-family: B Mitra;
+    font-size: 16px;
+    font-weight: bold;
+}
+.breadcrumb{
+    font-family: B Mitra;
+    font-size: 16px;
+    font-weight: bold;
+}
+.object-tools{
+    clear: both;
+    float: right;
+}
+#content-main{
+    float: none;
+}
+.table th, .table td{
+    text-align: right;
+}
+.header #branding{
+    float: right;
+}
+.header #user-tools{
+    float: left;
+}
+.pagination-info{
+    float: right;
+}
+.change-list .filtered .results, .change-list .filtered .paginator, .filtered #toolbar, .filtered div.xfull{
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+}
+#suit-left{
+    right:0px;
+    margin-left: 10px;
+    float:right;
+    width: 200px;
+}
+#suit-center{
+    width: auto;
+}
+#wrap{
+    background: url(suit/img/bg_right_white.jpg) top right repeat-y;
+}
+.left-nav>ul>li.active>a:after{
+    content: url('suit/img/cc_active_nav.png');
+    display: inline-block;
+    margin-left: 21px;
+    float: left;
+    margin-top: -5px;
+}
+.suit-columns{
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+}
+.suit-columns .suit-column{
+    float: right;
+}
+
+.change-list .filtered{
+    background-image: none !important;
+}
+.left-nav>ul>li ul li a{
+    margin-right: 10px;
+}
+.left-nav>ul>li>a i{
+    margin-left: 10px;
+}

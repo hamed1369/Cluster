@@ -112,12 +112,12 @@ WSGI_APPLICATION = 'cluster.wsgi.application'
 TEMPLATE_DIRS = BASE_PATH + "/templates/"
 
 INSTALLED_APPS = (
+    'django.contrib.staticfiles',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
     'suit',
     # Uncomment the next line to enable the admin:
     'suit',
@@ -175,30 +175,35 @@ CAPTCHA_FONT_SIZE = 30
 
 # Django Suit configuration example
 SUIT_CONFIG = {
-    # header
     'ADMIN_NAME': u'مدیریت  سامانه موسسه نگاه نو',
-    # 'HEADER_DATE_FORMAT': 'l, j. F Y',
-    # 'HEADER_TIME_FORMAT': 'H:i',
+    'MENU': (
 
-    # forms
-    # 'SHOW_REQUIRED_ASTERISK': True,  # Default True
-    # 'CONFIRM_UNSAVED_CHANGES': True, # Default True
+        # Keep original label and models
+        'sites',
 
-    # menu
-    # 'SEARCH_URL': '/admin/auth/user/',
-    # 'MENU_ICONS': {
-    #    'sites': 'icon-leaf',
-    #    'auth': 'icon-lock',
-    # },
-    # 'MENU_OPEN_FIRST_CHILD': True, # Default True
-    # 'MENU_EXCLUDE': ('auth.group',),
-    # 'MENU': (
-    #     'sites',
-    #     {'app': 'auth', 'icon':'icon-lock', 'models': ('user', 'group')},
-    #     {'label': 'Settings', 'icon':'icon-cog', 'models': ('auth.user', 'auth.group')},
-    #     {'label': 'Support', 'icon':'icon-question-sign', 'url': '/support/'},
-    # ),
+        # Rename app and set icon
+        {'app': 'auth', 'label': u'مدیریت کاربران', 'icon':'icon-lock'},
 
-    # misc
-    # 'LIST_PER_PAGE': 15
+        # Reorder app models
+
+        # Custom app, with models
+        {'label': 'Settings', 'icon':'icon-cog', 'models': ('auth.user', 'auth.group')},
+
+        # Cross-linked models with custom name; Hide default icon
+        {'label': 'Custom', 'icon':None, 'models': (
+            'auth.group',
+            {'model': 'auth.user', 'label': 'Staff'}
+        )},
+
+        # Custom app, no models (child links)
+        {'label': 'Users', 'url': 'auth.user', 'icon':'icon-user'},
+
+        # Separator
+        '-',
+
+        # Custom app and model with permissions
+        {'label': 'Secure', 'permissions': 'auth.add_user', 'models': [
+            {'label': 'custom-child', 'permissions': ('auth.add_user', 'auth.add_group')}
+        ]},
+    )
 }
