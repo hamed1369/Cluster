@@ -6,7 +6,8 @@
 <div id="manager_pager"></div>
 <script type="text/javascript">
     $(function () {
-        $("#manager_list").jqGrid({
+        var $manager = $("#manager_list");
+        $manager.jqGrid({
             url: "/manager/{{ manager.manager_name }}/actions/",
             datatype: "json",
             mtype: "GET",
@@ -37,7 +38,8 @@
             gridview: true,
             autoencode: true,
             autowidth: true,
-            shrinkToFit: false,
+            shrinkToFit: true,
+            height: 400,
             caption: "{{ manager.verbose_name }}",
             jsonReader: {
                 root: "rows",
@@ -49,6 +51,8 @@
                 id: "0"
             }
         });
+        $manager.jqGrid('navGrid', '#manager_pager',
+                {position: "right", edit: false, add: false, del: false, search: false, refresh: true });
     });
 
 </script>

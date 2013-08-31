@@ -3,15 +3,20 @@
     {{ block.super }}
     <link rel="stylesheet" type="text/css" href="/static/lib/jqgrid/css/ui.jqgrid.css"/>
     <link rel="stylesheet" type="text/css" href="/static/lib/fancybox/jquery.fancybox.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/manager/list.css"/>
 {% endblock %}
 
 {% block JS %}
     {{ block.super }}
+    <script type="text/javascript" src="/static/lib/jqgrid/js/i18n/grid.locale-fa.js"></script>
     <script type="text/javascript" src="/static/lib/jqgrid/js/jquery.jqGrid.min.js"></script>
     <script type="text/javascript" src="/static/lib/fancybox/jquery.fancybox.pack.js"></script>
 {% endblock %}
 
-
+{% block header_title %}
+    {{ manager.manager_verbose_name }}
+{% endblock %}
 {% block content %}
-    {{ manager_content }}
+    {% include 'manager/filter.html' %}
+    {% include 'manager/main_list.html' %}
 {% endblock %}
