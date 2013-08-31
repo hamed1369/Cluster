@@ -1,20 +1,3 @@
-{% extends 'base.html' %}
-
-{% block CSS %}
-    <link rel="stylesheet" type="text/css" href='/static/lib/form-validation/validationEngine.jquery.css'/>
-    {{ block.super }}
-{% endblock %}
-
-{% block JS %}
-    {{ block.super }}
-    <script type="text/javascript" src="/static/lib/jquery.formset.min.js"></script>
-    <script type="text/javascript" src='/static/lib/form-validation/languages/jquery.validationEngine-fa.js'></script>
-    <script type="text/javascript" src='/static/lib/form-validation/jquery.validationEngine.js'></script>
-
-{% endblock %}
-
+{% extends 'registration/register.html' %}
 
 {% block header_title %}ویرایش اطلاعات فردی{% endblock %}
-{% block content %}
-
-{% endblock %}

@@ -7,6 +7,7 @@
     border-collapse: separate;
 }
 
+    color: #2E6E9E;
 
 .register_table .label_td, .inner_formset .label_td {
     text-align: right;
@@ -27,6 +28,10 @@
     padding: 5px;
 }
 
+.register_table input[type=checkbox] {
+    float: right;
+}
+
 .formset_form_field {
     display: inline;
     width: 30%;
@@ -42,7 +47,7 @@
     width: 100%;
 }
 
-.formset_fieldset table .label_td ,td,th,tr{
+.formset_fieldset table .label_td, td, th, tr {
     font-size: 12px;
     text-align: right;
 }
@@ -61,10 +66,12 @@
     padding: 3px;
     margin: 0;
 }
-.formset_fieldset thead{
+
+.formset_fieldset thead {
     text-align: right;
 }
-.formset_add{
+
+.formset_add {
     font-family: B Mitra;
     font-size: 16px;
     font-weight: bold;

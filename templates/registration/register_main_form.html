@@ -32,6 +32,19 @@
         {% endif %}
     </tr>
 
+    {% if register_form.change_password %}
+        <tr>
+
+            <td class="label_td">{{ register_form.change_password.label }}
+                {% if register_form.change_password.field.required %}<span class="required_field">*</span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.change_password }}</td>
+            {% if register_form.change_password.errors %}
+                <td class="error_td" width="30%">{{ register_form.change_password.errors }}</td>
+            {% endif %}
+        </tr>
+    {% endif %}
+
     <tr>
 
         <td class="label_td">{{ register_form.password.label }}
@@ -214,9 +227,11 @@
 </fieldset>
 
 <br/>
-{% include 'registration/skills.html' %}
+{% include 'formset.html' with legend="مهارت های زبان" formset=language_skill_formset cluster=cluster%}
 <br/>
-{% include 'registration/resume.html' %}
+{% include 'formset.html' with legend="مهارت های نرم افزاری" formset=software_skill_formset cluster=cluster%}
+<br/>
+{% include 'formset.html' with legend="رزومه تحصیلی" formset=resume_formset cluster=cluster%}
 <br/>
 <fieldset class="inner_formset">
     <legend>عضویت در بنیاد ملی نخبگان</legend>
@@ -246,11 +261,11 @@
 </table>
 </fieldset>
 <br/>
-{% include 'registration/executive_research.html' %}
+{% include 'formset.html' with legend="اجرایی یا طرح پژوهشی" formset=executive_research_formset cluster=cluster%}
 <br/>
-{% include 'registration/publication.html' %}
+{% include 'formset.html' with legend="مقالات پژوهشی / کتابهای چاپ شده" formset=publication_formset cluster=cluster%}
 <br/>
-{% include 'registration/invention.html' %}
+{% include 'formset.html' with legend="اختراعات" formset=invention_formset cluster=cluster%}
 <br/>
 
 

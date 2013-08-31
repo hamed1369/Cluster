@@ -21,9 +21,9 @@ class ClusterHandler(object):
         if self.cluster_id:
             self.cluster = Cluster.objects.get(id=cluster_id)
 
-    def initial_forms(self, member=None):
+    def initial_forms(self, member=None, check_post=True):
         self.__init_cluster_form()
-        if self.http_request.method == 'POST' and self.http_request.POST.get('register-submit'):
+        if self.http_request.method == 'POST' and self.http_request.POST.get('register-submit') and check_post:
             self.register_form = RegisterForm(prefix='register', data=self.http_request.POST, instance=member)
             self.resume_formset = ResumeForm(prefix='resume', data=self.http_request.POST,
                                              queryset=EducationalResume.objects.filter(cluster_member=member))
@@ -33,53 +33,79 @@ class ClusterHandler(object):
                                                    queryset=Invention.objects.filter(cluster_member=member))
             self.executive_research_formset = ExecutiveResearchProjectForm(prefix='executive_research',
                                                                            data=self.http_request.POST,
-                                                                           queryset=ExecutiveResearchProject.objects.filter(cluster_member=member))
+                                                                           queryset=ExecutiveResearchProject.objects.filter(
+                                                                               cluster_member=member))
             self.language_skill_formset = LanguageSkillForm(prefix='language_skill', data=self.http_request.POST,
-                                                            queryset=LanguageSkill.objects.filter(cluster_member=member))
+                                                            queryset=LanguageSkill.objects.filter(
+                                                                cluster_member=member))
             self.software_skill_formset = SoftwareSkillForm(prefix='software_skill', data=self.http_request.POST,
-                                                            queryset=SoftwareSkill.objects.filter(cluster_member=member))
+                                                            queryset=SoftwareSkill.objects.filter(
+                                                                cluster_member=member))
         else:
             self.register_form = RegisterForm(prefix='register', instance=member)
-            self.resume_formset = ResumeForm(prefix='resume', queryset=EducationalResume.objects.filter(cluster_member=member))
-            self.publication_formset = PublicationForm(prefix='publication', queryset=Publication.objects.filter(cluster_member=member))
-            self.invention_formset = InventionForm(prefix='invention', queryset=Invention.objects.filter(cluster_member=member))
+            self.resume_formset = ResumeForm(prefix='resume',
+                                             queryset=EducationalResume.objects.filter(cluster_member=member))
+            self.publication_formset = PublicationForm(prefix='publication',
+                                                       queryset=Publication.objects.filter(cluster_member=member))
+            self.invention_formset = InventionForm(prefix='invention',
+                                                   queryset=Invention.objects.filter(cluster_member=member))
             self.executive_research_formset = ExecutiveResearchProjectForm(prefix='executive_research',
-                                                                           queryset=ExecutiveResearchProject.objects.filter(cluster_member=member))
+                                                                           queryset=ExecutiveResearchProject.objects.filter(
+                                                                               cluster_member=member))
             self.language_skill_formset = LanguageSkillForm(prefix='language_skill',
-                                                            queryset=LanguageSkill.objects.filter(cluster_member=member))
+                                                            queryset=LanguageSkill.objects.filter(
+                                                                cluster_member=member))
             self.software_skill_formset = SoftwareSkillForm(prefix='software_skill',
-                                                            queryset=SoftwareSkill.objects.filter(cluster_member=member))
+                                                            queryset=SoftwareSkill.objects.filter(
+                                                                cluster_member=member))
 
     def __init_cluster_form(self):
+        self.cluster_member_formset = None
         if self.http_method == 'POST' and self.http_request.POST.get('register-submit'):
             self.cluster_form = ClusterForm(prefix='cluster', data=self.http_request.POST)
             if not self.cluster:
                 self.cluster_member_formset = ClusterMemberForm(prefix='cluster_member', data=self.http_request.POST)
-            self.cluster_domain_formset = ClusterDomainForm(prefix='cluster_domain', data=self.http_request.POST,
-            )
+                ClusterDomainForm.extra = 1
+                self.cluster_domain_formset = ClusterDomainForm(prefix='cluster_domain', data=self.http_request.POST, )
         else:
             self.cluster_form = ClusterForm(prefix='cluster')
             if not self.cluster:
                 self.cluster_member_formset = ClusterMemberForm(prefix='cluster_member')
-            self.cluster_domain_formset = ClusterDomainForm(prefix='cluster_domain',
-            )
+                ClusterDomainForm.extra = 1
+                self.cluster_domain_formset = ClusterDomainForm(prefix='cluster_domain', )
 
         if self.cluster:
+            is_head = self.cluster.head == self.http_request.user.member
+            self.cluster_form.fields['is_cluster'].initial = True
+            self.cluster_form.fields['institute'].initial = self.cluster.institute
+            self.cluster_form.fields['name'].initial = self.cluster.name
+
             domains = self.cluster.domains.all()
             domains_count = domains.count()
             ClusterDomainForm.extra = domains_count
-            self.cluster_domain_formset = ClusterDomainForm(prefix='cluster_domain',
-            )
+            if is_head and self.http_method == 'POST' and self.http_request.POST.get('register-submit'):
+                self.cluster_domain_formset = ClusterDomainForm(prefix='cluster_domain', data=self.http_request.POST)
+            else:
+                self.cluster_domain_formset = ClusterDomainForm(prefix='cluster_domain', )
             for i in range(domains_count):
                 domain = domains[i]
-                self.cluster_domain_formset.forms[i].init_by_domain(domain)
+                self.cluster_domain_formset.forms[i].init_by_domain(domain, is_head)
 
-            self.cluster_form.fields['is_cluster'].initial = True
-            self.cluster_form.fields['name'].initial = self.cluster.name
-            self.cluster_form.fields['name'].widget.attrs.update({'readonly': 'readonly'})
-            self.cluster_form.fields['institute'].initial = self.cluster.institute
-            self.cluster_form.fields['institute'].widget.attrs.update({'readonly': 'readonly'})
-            self.cluster_member_formset = None
+            members = self.cluster.members.all()
+            members_count = members.count()
+            ClusterMemberForm.extra = members_count
+            if is_head and self.http_method == 'POST' and self.http_request.POST.get('register-submit'):
+                self.cluster_member_formset = ClusterMemberForm(prefix='cluster_member', data=self.http_request.POST)
+            else:
+                self.cluster_member_formset = ClusterMemberForm(prefix='cluster_member')
+            for i in range(members_count):
+                member = members[i]
+                self.cluster_member_formset.forms[i].init_by_member(member, is_head)
+
+            if not is_head:
+                self.cluster_domain_formset.readonly = True
+                self.cluster_form.fields['name'].widget.attrs.update({'readonly': 'readonly'})
+                self.cluster_form.fields['institute'].widget.attrs.update({'readonly': 'readonly'})
 
     def __save_cluster(self, member):
         if not self.cluster:
@@ -122,15 +148,40 @@ class ClusterHandler(object):
                 cluster.users = users
         else:
             member.cluster = self.cluster
+            #TODO : SAVE MEMBER CHANGES AND DOMAIN CHANGES
+            if self.cluster.head == self.http_request.user.member:
+                name = self.cluster_form.cleaned_data.get('name')
+                institute = self.cluster_form.cleaned_data.get('institute')
+                self.cluster.name = name
+                self.cluster.institute = institute
+
+                self.cluster.domains.filter(confirmed=False).delete()
+                cluster_domains = []
+                for form in self.cluster_domain_formset.forms:
+                    domain_choice = form.cleaned_data.get('domain_choice')
+                    new_domain_name = form.cleaned_data.get('new_domain_name')
+                    if not domain_choice and new_domain_name:
+                        domain_choice = Domain.objects.create(name=new_domain_name)
+                    if domain_choice:
+                        cluster_domains.append(domain_choice)
+                self.cluster.domains = cluster_domains
+                self.cluster.save()
 
     def is_valid_forms(self):
+        validate = False
         if self.http_request.method == 'POST' and self.http_request.POST.get('register-submit'):
             if self.cluster:
                 if self.register_form.is_valid() and self.resume_formset.is_valid() \
                     and self.publication_formset.is_valid() and self.invention_formset.is_valid() \
                     and self.executive_research_formset.is_valid() and self.language_skill_formset.is_valid() and \
                         self.software_skill_formset.is_valid():
-                    return True
+                    validate = True
+                if self.cluster.head == self.http_request.user.member:
+                    if self.cluster_form.is_valid() and self.cluster_domain_formset.is_valid() and \
+                            self.cluster_member_formset.is_valid():
+                        validate = True
+                    else:
+                        validate = False
             else:
                 if self.cluster_form.is_valid() and self.register_form.is_valid() \
                     and self.cluster_member_formset.is_valid() \
@@ -154,23 +205,11 @@ class ClusterHandler(object):
                                     domains.append(form.cleaned_data.get('domain_choice'))
                     else:
                         validate = False
-                return validate
-
-        return False
+        return validate
 
     @transaction.commit_on_success
     def save_forms(self):
-        first_name = self.register_form.cleaned_data.get('first_name')
-        last_name = self.register_form.cleaned_data.get('last_name')
-        username = self.register_form.cleaned_data.get('username')
-        password = self.register_form.cleaned_data.get('password')
-        email = self.register_form.cleaned_data.get('email')
-
-        user = User.objects.create(first_name=first_name, last_name=last_name, username=username, email=email, )
-        user.set_password(password)
-        user.save()
         member = self.register_form.save(commit=False)
-        member.user = user
 
         member.save()
         self.__save_cluster(member)
@@ -226,6 +265,8 @@ class ClusterHandler(object):
         if self.cluster:
             try:
                 self.cluster.users.get(id=self.http_request.user.id)
+                if self.http_request.user.member.cluster == self.cluster:
+                    return u"شما قبلا در این خوشه ثبت نام کردید."
             except User.DoesNotExist:
-                return False
-        return True
+                return u"شما جزو اعضای این خوشه نیستید."
+        return ''
