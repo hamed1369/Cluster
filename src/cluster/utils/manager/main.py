@@ -38,6 +38,8 @@ class ObjectsManager(object):
     )
     data_per_page = 20
 
+    actions = []
+
     def __init__(self, http_request):
         self.http_request = http_request
         self.columns = self.get_columns()

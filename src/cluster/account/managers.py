@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
+from cluster.account.actions import DeleteUserAction, ChangeUserName
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
 
@@ -22,6 +23,8 @@ class UserManager(ObjectsManager):
         ('last_name', 'str'),
 
     )
+
+    actions = [DeleteUserAction(), ChangeUserName()]
 
     def get_all_data(self):
         return User.objects.filter()

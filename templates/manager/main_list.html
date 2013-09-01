@@ -5,63 +5,78 @@
 </table>
 <div id="manager_pager"></div>
 <script type="text/javascript">
-    $(function () {
-        var $manager = $("#manager_list");
-        $manager.jqGrid({
-            url: "/manager/{{ manager.manager_name }}/actions/",
-            datatype: "json",
-            mtype: "GET",
-            direction: "rtl",
-            recordpos: "left",
-            colNames: [
-                {% for column in manager.columns %}
-                    '{{ column.column_verbose_name }}'
-                    {% if not forloop.last %}
-                        ,
-                    {% endif %}
-                {% endfor %}
-            ],
-            colModel: [
-                {% for column in manager.columns %}
-                    { name: "{{ column.column_name }}", width: '{{ column.column_width }}', align: "right" }
-                    {% if not forloop.last %}
-                        ,
-                    {% endif %}
-                {% endfor %}
-            ],
-            pager: "#manager_pager",
-            rowNum: 10,
-            rowList: [10, 20, 30],
-            sortname: "id",
-            sortorder: "desc",
-            viewrecords: true,
-            gridview: true,
-            autoencode: true,
-            autowidth: true,
-            shrinkToFit: true,
-            height: 300,
-            stype: 'select',
-            caption: "{{ manager.verbose_name }}",
-            jsonReader: {
-                root: "rows",
-                page: "page",
-                total: "total",
-                records: "records",
-                repeatitems: true,
-                cell: "",
-                id: "0"
-            }
-        });
-        $manager.jqGrid('navGrid', '#manager_pager',
-                {position: "right", edit: false, add: false, del: false, search: false, refresh: true });
+    var $manager = $("#manager_list");
+    $manager.jqGrid({
+        url: "/manager/{{ manager.manager_name }}/actions/",
+        datatype: "json",
+        mtype: "GET",
+        direction: "rtl",
+        recordpos: "left",
+        colNames: [
+            {% for column in manager.columns %}
+                '{{ column.column_verbose_name }}'
+                {% if not forloop.last %}
+                    ,
+                {% endif %}
+            {% endfor %}
+        ],
+        colModel: [
+            {% for column in manager.columns %}
+                { name: "{{ column.column_name }}", width: '{{ column.column_width }}', align: "right" }
+                {% if not forloop.last %}
+                    ,
+                {% endif %}
+            {% endfor %}
+        ],
+        pager: "#manager_pager",
+        rowNum: {{ manager.data_per_page }},
+        rowList: [10, 20, 30],
+        sortname: "id",
+        sortorder: "desc",
+        viewrecords: true,
+        gridview: true,
+        autoencode: true,
+        autowidth: true,
+        shrinkToFit: true,
+        height: 300,
+        multiselect: true,
+        stype: 'select',
+        caption: "{{ manager.verbose_name }}",
+        toolbar: [true, "top"],
+        jsonReader: {
+            root: "rows",
+            page: "page",
+            total: "total",
+            records: "records",
+            repeatitems: true,
+            cell: "",
+            id: "0"
+        }
+    });
+    $manager.jqGrid('navGrid', '#manager_pager',
+            {position: "right", edit: false, add: false, del: false, search: false, refresh: true });
 
-        $('.filter-submit').click(function () {
-            var new_url = '/manager/{{ manager.manager_name }}/actions/';
-            var serialize_form = $('.filter-form').serialize();
-            new_url = new_url + '?' + serialize_form;
-            $manager.jqGrid().setGridParam({url: new_url}).trigger("reloadGrid");
-            return false;
-        });
+    $('.filter-submit').click(function () {
+        var new_url = '/manager/{{ manager.manager_name }}/actions/';
+        var serialize_form = $('.filter-form').serialize();
+        new_url = new_url + '?' + serialize_form;
+        $manager.jqGrid().setGridParam({url: new_url}).trigger("reloadGrid");
+        return false;
+    });
+
+    {% for action in manager.actions %}
+        $('#t_manager_list').append('<button id="action-{{ action.action_name }}" class="manager-action" is_view="{{ action.is_view }}" action_name={{action.action_name }}">{{ action.action_verbose_name }}</button>');
+    {% endfor %}
+    $('.manager-action').click(function () {
+        var selected_items = $manager.jqGrid('getGridParam', 'selarrrow');
+        var name = $(this).attr('action_name');
+        var is_view = $(this).attr('is_view');
+
+        $.ajax({url: "/manager/{{ manager.manager_name }}/actions/?t=action&name=" + name,
+            success: function (result) {
+                $manager.trigger("reloadGrid");
+            }});
+        return false;
     });
 
 </script>
