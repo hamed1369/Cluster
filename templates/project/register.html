@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block CSS %}
+    <link rel="stylesheet" type="text/css" href='/static/lib/form-validation/validationEngine.jquery.css'/>
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="/static/registration/register.css"/>
+{% endblock %}
+
+{% block JS %}
+    {{ block.super }}
+    <script type="text/javascript" src="/static/lib/jquery.formset.min.js"></script>
+    <script type="text/javascript" src="/static/registration/register.js"></script>
+    <script type="text/javascript" src='/static/lib/form-validation/languages/jquery.validationEngine-fa.js'></script>
+    <script type="text/javascript" src='/static/lib/form-validation/jquery.validationEngine.js'></script>
+
+{% endblock %}
+
+
+{% block header_title %}فرم ثبت طرح{% endblock %}
+{% block content %}
+    {% include 'messages.html' %}
+    <div class="panel panel-info" id="project_div">
+        <form action="" method="post" enctype="multipart/form-data" id="project_form">
+            {% csrf_token %}
+            {% include 'project/project_main_form.html' %}
+            <div class="button_holder">
+                <input type="submit" value="ثبت" name="register-submit">
+            </div>
+        </form>
+    </div>
+{% endblock %}

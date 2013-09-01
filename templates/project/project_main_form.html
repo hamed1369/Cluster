@@ -1,0 +1,172 @@
+<fieldset class="inner_formset">
+    <legend>اطلاعات طرح</legend>
+    <table class="register_table">
+        <tr>
+            <td class="label_td">{{ register_form.title.label }}
+                {% if register_form.title.field.required %}<span class="required_field">*</span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.title }}</td>
+            {% if cluster_form.title.errors %}
+                <td class="error_td" width="30%">{{ cluster_form.title.errors }}</td>
+            {% endif %}
+
+        </tr>
+        <tr>
+            <td class="label_td">{{ register_form.confirmation_type.label }}
+                {% if register_form.confirmation_type.field.required %}<span class="required_field">*</span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.confirmation_type }}</td>
+            {% if register_form.confirmation_type.errors %}
+                <td class="error_td" width="30%">{{ register_form.confirmation_type.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr>
+
+            <td class="label_td">{{ register_form.certificate_image.label }}
+                {% if register_form.certificate_image.field.required %}<span class="required_field">*</span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.certificate_image }}</td>
+            {% if register_form.certificate_image.errors %}
+                <td class="error_td" width="30%">{{ register_form.certificate_image.errors }}</td>
+            {% endif %}
+        </tr>
+
+        <tr>
+
+            <td class="label_td">{{ register_form.has_patent.label }}
+                {% if register_form.has_patent.field.required %}<span class="required_field">*</span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.has_patent }}</td>
+            {% if register_form.has_patent.errors %}
+                <td class="error_td" width="30%">{{ register_form.has_patent.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr>
+
+            <td class="label_td">{{ register_form.patent_number.label }}
+                {% if register_form.patent_number.field.required %}<span class="required_field">*</span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.patent_number }}</td>
+            {% if register_form.patent_number.errors %}
+                <td class="error_td" width="30%">{{ register_form.patent_number.errors }}</td>
+            {% endif %}
+        </tr>
+
+        <tr>
+
+            <td class="label_td">{{ register_form.patent_date.label }}
+                {% if register_form.patent_date.field.required %}<span class="required_field">*</span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.patent_date }}</td>
+            {% if register_form.patent_date.errors %}
+                <td class="error_td" width="30%">{{ register_form.patent_date.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr>
+
+            <td class="label_td">{{ register_form.patent_certificate.label }}
+                {% if register_form.patent_certificate.field.required %}<span class="required_field">*</span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.patent_certificate }}</td>
+            {% if register_form.patent_certificate.errors %}
+                <td class="error_td" width="30%">{{ register_form.patent_certificate.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr>
+
+            <td class="label_td">{{ register_form.patent_request.label }}
+                {% if register_form.patent_request.field.required %}<span class="required_field">*</span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.patent_request }}</td>
+            {% if register_form.patent_request.errors %}
+                <td class="error_td" width="30%">{{ register_form.patent_request.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr>
+
+            <td class="label_td">{{ register_form.summary.label }}
+                {% if register_form.summary.field.required %}<span class="required_field">*</span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.summary }}</td>
+            {% if register_form.summary.errors %}
+                <td class="error_td" width="30%">{{ register_form.summary.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr>
+
+            <td class="label_td">{{ register_form.keywords.label }}
+                {% if register_form.keywords.field.required %}<span class="required_field">*
+                    </span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.keywords }}</td>
+            {% if register_form.keywords.errors %}
+                <td class="error_td" width="30%">{{ register_form.keywords.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr>
+
+            <td class="label_td">{{ register_form.innovations.label }}
+                {% if register_form.innovations.field.required %}<span class="required_field">*</span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.innovations }}</td>
+            {% if register_form.innovations.errors %}
+                <td class="error_td" width="30%">{{ register_form.innovations.errors }}</td>
+            {% endif %}
+
+        </tr>
+        <tr>
+
+
+            <td class="label_td">{{ register_form.state.label }}
+                {% if register_form.state.field.required %}<span class="required_field">*</span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.state }}</td>
+            {% if register_form.state.errors %}
+                <td class="error_td" width="30%">{{ register_form.state.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr>
+
+            <td class="label_td">{{ register_form.telephone.label }}
+                {% if register_form.telephone.field.required %}<span class="required_field">*</span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.telephone }}</td>
+            {% if register_form.telephone.errors %}
+                <td class="error_td" width="30%">{{ register_form.telephone.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr>
+
+            <td class="label_td">{{ register_form.mobile.label }}
+                {% if register_form.mobile.field.required %}<span class="required_field">*</span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.mobile }}</td>
+            {% if register_form.mobile.errors %}
+                <td class="error_td" width="30%">{{ register_form.mobile.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr>
+
+            <td class="label_td">{{ register_form.essential_telephone.label }}
+                {% if register_form.essential_telephone.field.required %}<span class="required_field">*
+                    </span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.essential_telephone }}</td>
+            {% if register_form.essential_telephone.errors %}
+                <td class="error_td" width="30%">{{ register_form.essential_telephone.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr>
+
+            <td class="label_td">{{ register_form.address.label }}
+                {% if register_form.address.field.required %}<span class="required_field">*</span>{% endif %}
+            </td>
+            <td class="input_td">{{ register_form.address }}</td>
+            {% if register_form.address.errors %}
+                <td class="error_td" width="30%">{{ register_form.address.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr>
+    </table>
+
+</fieldset>
