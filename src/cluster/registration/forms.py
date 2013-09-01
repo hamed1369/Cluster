@@ -8,15 +8,11 @@ from django.forms.models import modelformset_factory
 from cluster.account.personal_info.models import EducationalResume, Publication, Invention, \
     ExecutiveResearchProject, LanguageSkill, SoftwareSkill
 from cluster.project.models import Domain
+from cluster.utils.fields import BOOLEAN_CHOICES
 from cluster.utils.forms import ClusterBaseForm, ClusterBaseModelForm
 from cluster.utils.js_validation import process_js_validations
 
 __author__ = 'M.Y'
-
-BOOLEAN_CHOICES = (
-    (True, u"بله"),
-    (False, u"خیر"),
-)
 
 
 class ClusterForm(ClusterBaseForm):

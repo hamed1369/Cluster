@@ -20,8 +20,8 @@
 {% block header_title %}فرم ثبت نام{% endblock %}
 {% block content %}
     {% include 'messages.html' %}
-    <div class="panel panel-info" id="register_div">
-        <form action="" method="post" enctype="multipart/form-data" id="register_form">
+    <div class="panel panel-info form-div" id="register_div">
+        <form action="" method="post" enctype="multipart/form-data" id="register_form" class="js-validation-from">
             {% csrf_token %}
             {% include 'registration/cluster_form.html' %}
             {% include 'registration/register_main_form.html' %}

@@ -10,7 +10,7 @@
 {% block JS %}
     {{ block.super }}
     <script type="text/javascript" src="/static/lib/jquery.formset.min.js"></script>
-    <script type="text/javascript" src="/static/registration/register.js"></script>
+    <script type="text/javascript" src="/static/project/register.js"></script>
     <script type="text/javascript" src='/static/lib/form-validation/languages/jquery.validationEngine-fa.js'></script>
     <script type="text/javascript" src='/static/lib/form-validation/jquery.validationEngine.js'></script>
 
@@ -20,8 +20,8 @@
 {% block header_title %}فرم ثبت طرح{% endblock %}
 {% block content %}
     {% include 'messages.html' %}
-    <div class="panel panel-info" id="project_div">
-        <form action="" method="post" enctype="multipart/form-data" id="project_form">
+    <div class="panel panel-info form-div" id="project_div">
+        <form action="" method="post" enctype="multipart/form-data" id="project_form" class="js-validation-from">
             {% csrf_token %}
             {% include 'project/project_main_form.html' %}
             <div class="button_holder">

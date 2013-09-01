@@ -1,8 +1,8 @@
-#register_div {
+.form-div {
     margin: 1%;
 }
 
-#register_form fieldset {
+#register_form fieldset , .inner_fieldset{
     border-color: #f1f1f1;
     border-radius: 2px;
     margin-top: 5px;
@@ -12,7 +12,7 @@
 
 }
 
-.register_table, .inner_formset table {
+.register_table, .inner_fieldset table {
     width: 100%;
     border-collapse: separate;
 }
@@ -24,7 +24,7 @@ form fieldset legend {
     font-family: B Mitra;
 }
 
-.register_table .label_td, .inner_formset .label_td {
+.register_table .label_td, .inner_fieldset .label_td {
     text-align: right;
     margin: 0;
     padding: 7px;
@@ -33,7 +33,7 @@ form fieldset legend {
 
 }
 
-.register_table select, .inner_formset select {
+.register_table select, .inner_fieldset select {
     background: #FFF;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
