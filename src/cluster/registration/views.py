@@ -6,6 +6,7 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from cluster.account.account.models import Cluster
+from cluster.registration.forms import ArbiterForm
 from cluster.registration.handlers import ClusterHandler
 
 
@@ -44,3 +45,19 @@ def email_test(request):
     message1 = ('Subject here', 'Here is the message', 'from@example.com', ['hamed.tahmooresi@gmail.com'])
     send_mass_mail((message1,), fail_silently=False)
     return HttpResponse("done!")
+
+def arbiter_register(request):
+
+    if request.POST:
+        arbiter_form = ArbiterForm(request.POST)
+        if arbiter_form.is_valid():
+            arbiter_form.save()
+            messages.success(request, u"ثبت نام شما با موفقیت انجام شد.")
+        return render_to_response('show_message.html', {}, context_instance=RequestContext(request))
+    arbiter_form = ArbiterForm()
+    context = {
+        'arbiter_form' : arbiter_form,
+    }
+    return render_to_response('registration/arbiter_register.html',
+                              context,
+                              context_instance=RequestContext(request))
