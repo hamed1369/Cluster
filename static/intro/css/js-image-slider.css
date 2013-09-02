@@ -1,6 +1,9 @@
 ﻿/* http://www.menucool.com */
 
 /*slider frame*/
+body{
+    font-family: B Mitra;
+}
 #sliderFrame 
 {
     width:920px;
@@ -52,7 +55,6 @@
     background:none;
 }
 #slider div.mc-caption {
-	font:bold 13px/16px Arial;
 	color:#069;
 	z-index:4;
 	text-align:center;
@@ -162,4 +164,99 @@
     font-weight:bold;
     padding:0;
     margin-top: 25px;
+}
+.sign-in-div{
+    position: relative;
+    text-align: right;
+    vertical-align: middle;
+    width: 260px;
+    float: left;
+    color: #003147;
+    margin: 14px 5px 5px 15px;
+    padding: 10px;
+    font-family: B Mitra;
+    font-size: 17px;
+    height: 30px;
+    margin-top: 30px;
+}
+.art-object688063435
+{
+    position: absolute;
+    top: 13px;
+    width: 201px;
+    height: 80px;
+    background-image: url('../images/object688063435.png');
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    z-index: 2;
+    right: 100px;
+}
+.art-object416862152{
+    position: absolute;
+    top: 12px;
+    width: 79px;
+    height: 71px;
+    background-image: url('../images/object416862152.png');
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    z-index: 3;
+    right: 20px;
+}
+.inside-header{
+    width: 980px;
+    height: 90px;
+    position: relative;
+    margin: 0 auto;
+}
+#intro-login-submit {
+    position: absolute;
+    height: 30px;
+    border: 1px solid #fad42e;
+    background-color: #fad42e;
+    padding: 2px 5px 5px 5px;
+    text-decoration: none;
+    color: black;
+    width: 100px;
+    text-align: center;
+    right: 50px;
+    bottom: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: B Mitra;
+    font-size: 20px;
+    font-weight: bold;
+    vertical-align: middle;
+}
+#intro-login-submit:hover {
+    background-color: #1d5987;
+    color: white;
+    border-color: white;
+}
+#intro-signup {
+    position: absolute;
+    height: 30px;
+    border: 1px solid #c9302c;
+    background-color: #e9322d;
+    padding: 2px 5px 5px 5px;
+    text-decoration: none;
+    color: white;
+    width: 100px;
+    text-align: center;
+    right: 170px;
+    bottom: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: B Mitra;
+    font-size: 20px;
+    font-weight: bold;
+}
+#intro-signup:hover {
+    background-color: #1d5987;
+    color: white;
+    border-color: white;
+}
+#id_username, #id_password{
+    font-family: B Mitra;
+    text-align: right;
+    direction: rtl;
 }
