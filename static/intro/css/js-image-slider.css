@@ -15,7 +15,6 @@
 
 #slider {
     float:left;
-	background:#fff url(loading.gif) no-repeat 50% 50%;
 	position:relative;
     transform: translate3d(0,0,0);
 }
@@ -74,7 +73,6 @@
 #slider div.loading 
 {
     width:100%; height:100%;
-    background:transparent url(loading.gif) no-repeat 50% 50%;
     filter: alpha(opacity=60);
     opacity:0.6;
     position:absolute;
@@ -107,38 +105,42 @@
 	position: relative;
 	cursor: pointer;
 }
-#thumbs .thumb-middle,.thumb-1,.thumb-2,.thumb-3
+#thumbs .thumb-1,.thumb-2,.thumb-3
 {
-	background-image:url('default.png');
+	background-image:url('../images/default.png');
 	background-repeat:no-repeat;
 	background-position:18px 0px;
+    color:#1d5987;
 	
 }
 #thumbs .thumb-1{
-	z-index: 4;
+	z-index: 400;
 }
 #thumbs .thumb-2{
-	z-index: 3;
+	z-index: 300;
 	margin-top: -23px;
 }
 #thumbs .thumb-3{
-	z-index: 2;
+	z-index: 200;
 	margin-top: -23px
 }
 #thumbs .thumb-4{
-	z-index: 1;
-	background-image:url('default-last.png');
+    color:#1d5987;
+	z-index: 100;
+	background-image:url('../images/default-last.png');
 	background-repeat:no-repeat;
 	background-position:18px 0px;
 	margin-top: -23px;
 }
-#thumbs .thumb-1:hover,.thumb-2:hover,.thumb-3:hover{
-	background-image:url('hover.png');
+#thumbs .thumb-1-focused,.thumb-2-focused,.thumb-3-focused{
+	background-image:url('../images/hover.png');
 	background-position:1px;
+    color:white;
 }
-#thumbs .thumb-4:hover{
-	background-image:url('hover-last.png');
+#thumbs .thumb-4-focused{
+	background-image:url('../images/hover-last.png');
 	background-position:1px;
+    color:white;
 }
 
 
@@ -147,9 +149,17 @@
 }
 
 #thumbs .frame {float:left;padding:2px;border:1px solid #CCC;background:white;border-radius:3px;box-shadow:0 0 3px #BBB;font-size:0;line-height:0;}
-#thumbs .thumb-content {float:left;width:110px;padding-left:18px;}
+#thumbs .thumb-content {}
 
 /* Captions in #thumbs .thumb-content */
-#thumbs .thumb-content p {font-weight:bold; color:#BF5D9B; margin:0 0 3px;padding:0;}
 #thumbs .thumb-on .thumb-content p {color:#BB0000;}
 
+#thumbs .thumb-content p{
+    font-family: B Mitra;
+    font-size: 25px;
+    text-align: center;
+    vertical-align: middle;
+    font-weight:bold;
+    padding:0;
+    margin-top: 25px;
+}
