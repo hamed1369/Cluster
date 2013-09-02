@@ -48,10 +48,6 @@ class RegisterForm(ClusterBaseModelForm):
         model = Member
         exclude = ('cluster', 'user')
 
-    extra_js_validation = {
-        're_password': 'equals[id_register-password]'
-    }
-
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__(*args, **kwargs)
         self.fields.insert(0, 'first_name', forms.CharField(required=True, label=u"نام"))
@@ -81,6 +77,15 @@ class RegisterForm(ClusterBaseModelForm):
                 self.fields['last_name'].initial = self.instance.user.last_name
                 self.fields['username'].initial = self.instance.user.username
                 self.fields['email'].initial = self.instance.user.email
+            self.extra_js_validation = {
+                'username': 'ajax[ajaxEngineCall]',
+            }
+        else:
+            self.extra_js_validation = {
+                're_password': 'equals[id_register-password]',
+                'username': 'ajax[usernameAjaxEngineCall]',
+                'email': 'ajax[emailAjaxEngineCall]',
+            }
 
         process_js_validations(self)
 
@@ -130,6 +135,10 @@ class MemberForm(ClusterBaseForm):
     last_name = forms.CharField(label=u"نام خانوادگی")
     email = forms.EmailField(label=u"پست الکترونیک", widget=forms.TextInput(attrs={'style': 'width:85%;'}))
 
+    extra_js_validation = {
+        'email': 'ajax[emailAjaxEngineCall]',
+    }
+
     def clean(self):
         cd = super(MemberForm, self).clean()
         email = cd.get('email')
@@ -148,7 +157,6 @@ class MemberForm(ClusterBaseForm):
             self.fields['first_name'].widget.attrs.update({'readonly': 'readonly'})
             self.fields['last_name'].widget.attrs.update({'readonly': 'readonly'})
             self.fields['email'].widget.attrs.update({'readonly': 'readonly'})
-
 
 
 ClusterMemberForm = formset_factory(MemberForm, can_delete=True)
@@ -182,7 +190,8 @@ class EducationalResumeModelForm(ClusterBaseModelForm):
         model = EducationalResume
 
 
-ResumeForm = modelformset_factory(EducationalResume, form=EducationalResumeModelForm, exclude=('cluster_member', ), can_delete=True)
+ResumeForm = modelformset_factory(EducationalResume, form=EducationalResumeModelForm, exclude=('cluster_member', ),
+                                  can_delete=True)
 
 
 class PublicationModelForm(ClusterBaseModelForm):
@@ -190,7 +199,8 @@ class PublicationModelForm(ClusterBaseModelForm):
         model = Publication
 
 
-PublicationForm = modelformset_factory(Publication, form=PublicationModelForm, exclude=('cluster_member', ), can_delete=True)
+PublicationForm = modelformset_factory(Publication, form=PublicationModelForm, exclude=('cluster_member', ),
+                                       can_delete=True)
 
 
 class InventionModelForm(ClusterBaseModelForm):
@@ -224,4 +234,5 @@ class SoftwareSkillModelForm(ClusterBaseModelForm):
         model = SoftwareSkill
 
 
-SoftwareSkillForm = modelformset_factory(SoftwareSkill, form=SoftwareSkillModelForm, exclude=('cluster_member', ), can_delete=True)
+SoftwareSkillForm = modelformset_factory(SoftwareSkill, form=SoftwareSkillModelForm, exclude=('cluster_member', ),
+                                         can_delete=True)
