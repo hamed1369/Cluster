@@ -37,7 +37,9 @@ class ObjectsManager(object):
         # ('name_of_field', 'type_of_field', 'django_lookup')
         # type_of_field = str|bool|m2o|m2m|pdate
     )
-    data_per_page = 20
+    data_per_page = 10
+
+    actions = []
 
     def __init__(self, http_request):
         self.http_request = http_request
@@ -73,9 +75,31 @@ class ObjectsManager(object):
         return render_to_response('manager/main.html', c, context_instance=RequestContext(self.http_request))
 
     def process_action_request(self):
+        action_type = self.http_request.GET.get('t')
+        if action_type == 'json':
+            return self.process_json()
+        elif action_type == 'action':
+            return self.process_manages_actions()
+
+        raise Http404()
+
+    def process_json(self):
         table = self._create_data_table(self.page_data)
         json = table.get_dgrid_json(self.filter_obj.total_pages, self.filter_obj.page_num, self.filter_obj.total_data)
         return HttpResponse(json, mimetype='application/json')
+
+    def process_manages_actions(self):
+        action_name = self.http_request.GET.get('n')
+        instances_id = self.http_request.GET.get('i')
+        selected_instances = self._get_instances_by_ids(instances_id)
+        for action in self.actions:
+            if action.action_name == action_name:
+                if action.is_view:
+                    return action.action_view(self.http_request, selected_instances)
+                else:
+                    action.do(self.http_request, selected_instances)
+                    return HttpResponse('OK')
+        raise Http404()
 
     def _create_data_table(self, page_data):
         id_columns = ManagerColumn('id', 'id', '0')
@@ -94,10 +118,24 @@ class ObjectsManager(object):
             table.add_row(row)
         return table
 
-
     def get_filter_form_content(self):
         return None
 
     def get_compiled_filter_form_content(self):
         content = self.get_filter_form_content()
         return Template(content).render(Context({'form':self.filter_form}))
+
+        
+    def _get_instances_by_ids(self, instances_id):
+        if instances_id:
+            try:
+                instances_id = [int(x) for x in instances_id.split(',')]
+            except ValueError:
+                return []
+            instances = []
+            all_data = self.get_all_data()
+            for data in all_data:
+                if data.id in instances_id:
+                    instances.append(data)
+            return instances
+        return []

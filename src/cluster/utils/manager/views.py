@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponseForbidden
-from django.shortcuts import render_to_response
-from django.template.context import RequestContext
+from django.http import Http404
 from cluster.utils.manager.main import manager_children
 
 __author__ = 'M.Y'

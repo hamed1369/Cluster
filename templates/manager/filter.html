@@ -1,7 +1,8 @@
 {% if manager.filter_form %}
     <div>
-        <fieldset style="margin-bottom: 9px;" class="filter-formset">
-            <legend>جستجو</legend>
+        <form class="filter-form">
+            <fieldset style="margin-bottom: 9px;" class="filter-formset">
+                <legend>جستجو</legend>
             {% if manager.get_filter_form_content %}
                 {{ manager.get_compiled_filter_form_content|safe }}
             {% else %}
@@ -13,8 +14,15 @@
                             {% cycle '' '</tr><tr>' %}
                         {% endfor %}
                     </tr>
+                    <tr>
+                        <td colspan="10" style="text-align: left;">
+                            <input type="reset" value="بازنشانی" class="filter-reset">
+                            <input type="submit" value="جستجو" class="filter-submit">
+                        </td>
+                    </tr>
                 </table>
             {% endif %}
             </fieldset>
+        </form>
     </div>
 {% endif %}

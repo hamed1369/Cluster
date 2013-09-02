@@ -1,11 +1,19 @@
 .ui-jqgrid .ui-jqgrid-htable th div {
-    padding: 12px;
+    padding: 12px 0;
 }
 
 .filter-formset table, .filter-formset table tr td {
     text-align: right;
 }
 
-.filter-formset table{
+.filter-formset table {
     font-size: 10px;
+}
+
+.ui-jqgrid tr.ui-row-rtl td {
+    padding: 4px;
+}
+
+.ui-jqgrid .ui-userdata {
+    height: 32px;
 }
