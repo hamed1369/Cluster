@@ -3,12 +3,26 @@
 }
 
 #register_form fieldset , .inner_fieldset{
+    border-color: #f1f1f1;
+    border-radius: 2px;
+    margin-top: 5px;
+    border-style: solid;
+    border-width: thin;
+    /*box-shadow: 0 0 1px rgba(34, 25, 25, 0.4);*/
+
+}
+
 .register_table, .inner_fieldset table {
     width: 100%;
     border-collapse: separate;
 }
 
+form fieldset legend {
+    padding: 6px;
+    font-size: 23px;
     color: #2E6E9E;
+    font-family: B Mitra;
+}
 
 .register_table .label_td, .inner_fieldset .label_td {
     text-align: right;
