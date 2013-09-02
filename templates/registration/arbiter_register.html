@@ -1,0 +1,265 @@
+{% extends 'registration/register.html' %}
+{% block title %}ثبت نام داور{% endblock %}
+{% block header_title %}فرم ثبت نام داور{% endblock %}
+{% block content %}
+    {% include 'messages.html' %}
+    <div class="panel panel-info" id="register_div">
+        <form action="" method="post" enctype="multipart/form-data" id="register_form">
+            {% csrf_token %}
+            <fieldset class="inner_formset">
+                <legend>اطلاعات عمومی</legend>
+                <table class="register_table">
+                    <tr>
+                        <td class="label_td">{{ arbiter_form.first_name.label }}
+                            {% if arbiter_form.first_name.field.required %}<span class="required_field">*</span>{% endif %}
+                        </td>
+                        <td class="input_td">{{ arbiter_form.first_name }}</td>
+                        {% if arbiter_form.first_name.errors %}
+                            <td class="error_td" style="width: 30%">{{ arbiter_form.first_name.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td class="label_td">{{ arbiter_form.last_name.label }}
+                            {% if arbiter_form.last_name.field.required %}<span class="required_field">*</span>{% endif %}
+                        </td>
+                        <td class="input_td">{{ arbiter_form.last_name }}</td>
+                        {% if arbiter_form.last_name.errors %}
+                            <td class="error_td" style="width: 30%">{{ arbiter_form.last_name.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td class="label_td">{{ arbiter_form.father_name.label }}
+                            {% if arbiter_form.father_name.field.required %}<span class="required_field">*</span>{% endif %}
+                        </td>
+                        <td class="input_td">{{ arbiter_form.father_name }}</td>
+                        {% if arbiter_form.father_name.errors %}
+                            <td class="error_td" style="width: 30%">{{ arbiter_form.father_name.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td class="label_td">{{ arbiter_form.gender.label }}
+                            {% if arbiter_form.gender.field.required %}<span class="required_field">*</span>{% endif %}
+                        </td>
+                        <td class="input_td">{{ arbiter_form.gender }}</td>
+                        {% if arbiter_form.gender.errors %}
+                            <td class="error_td" style="width: 30%">{{ arbiter_form.gender.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td class="label_td">{{ arbiter_form.username.label }}
+                            {% if arbiter_form.username.field.required %}<span class="required_field">*</span>{% endif %}
+                        </td>
+                        <td class="input_td">{{ arbiter_form.username }}</td>
+                        {% if arbiter_form.username.errors %}
+                            <td class="error_td" width="30%">{{ arbiter_form.username.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    {% if arbiter_form.change_password %}
+                        <tr>
+
+                            <td class="label_td">{{ arbiter_form.change_password.label }}
+                                {% if arbiter_form.change_password.field.required %}<span class="required_field">*</span>{% endif %}
+                            </td>
+                            <td class="input_td">{{ arbiter_form.change_password }}</td>
+                            {% if arbiter_form.change_password.errors %}
+                                <td class="error_td" style="width: 30%">{{ arbiter_form.change_password.errors }}</td>
+                            {% endif %}
+                        </tr>
+                    {% endif %}
+                    <tr>
+                        <td class="label_td">{{ arbiter_form.password.label }}
+                            {% if arbiter_form.password.field.required %}<span class="required_field">*</span>{% endif %}
+                        </td>
+                        <td class="input_td">{{ arbiter_form.password }}</td>
+                        {% if arbiter_form.password.errors %}
+                            <td class="error_td" style="width: 30%">{{ arbiter_form.password.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td class="label_td">{{ arbiter_form.re_password.label }}
+                            {% if arbiter_form.re_password.field.required %}<span class="required_field">*</span>{% endif %}
+                        </td>
+                        <td class="input_td">{{ arbiter_form.re_password }}</td>
+                        {% if arbiter_form.re_password.errors %}
+                            <td class="error_td" style="width: 30%">{{ arbiter_form.re_password.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td class="label_td">{{ arbiter_form.email.label }}
+                            {% if arbiter_form.email.field.required %}<span class="required_field">*</span>{% endif %}
+                        </td>
+                        <td class="input_td">{{ arbiter_form.email }}</td>
+                        {% if arbiter_form.email.errors %}
+                            <td class="error_td" style="width: 30%">{{ arbiter_form.email.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td class="label_td">{{ arbiter_form.national_code.label }}
+                            {% if arbiter_form.national_code.field.required %}<span class="required_field">*</span>{% endif %}
+                        </td>
+                        <td class="input_td">{{ arbiter_form.national_code }}</td>
+                        {% if arbiter_form.national_code.errors %}
+                            <td class="error_td" style="width: 30%">{{ arbiter_form.national_code.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+
+                        <td class="label_td">{{ arbiter_form.identification_number.label }}
+                            {% if arbiter_form.identification_number.field.required %}<span class="required_field">*</span>{% endif %}
+                        </td>
+                        <td class="input_td">{{ arbiter_form.identification_number }}</td>
+                        {% if arbiter_form.identification_number.errors %}
+                            <td class="error_td" style="width: 30%">{{ arbiter_form.identification_number.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td class="label_td">{{ arbiter_form.birth_date.label }}
+                            {% if arbiter_form.birth_date.field.required %}<span class="required_field">*</span>{% endif %}
+                        </td>
+                        <td class="input_td">{{ arbiter_form.birth_date }}</td>
+                        {% if arbiter_form.birth_date.errors %}
+                            <td class="error_td" style="width: 30%">{{ arbiter_form.birth_date.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td class="label_td">{{ arbiter_form.residence_city.label }}
+                            {% if arbiter_form.residence_city.field.required %}<span class="required_field">*</span>{% endif %}
+                        </td>
+                        <td class="input_td">{{ arbiter_form.residence_city }}</td>
+                        {% if arbiter_form.residence_city.errors %}
+                            <td class="error_td" style="width: 30%">{{ arbiter_form.residence_city.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td class="label_td">{{ arbiter_form.telephone.label }}
+                            {% if arbiter_form.telephone.field.required %}<span class="required_field">*</span>{% endif %}
+                        </td>
+                        <td class="input_td">{{ arbiter_form.telephone }}</td>
+                        {% if arbiter_form.telephone.errors %}
+                            <td class="error_td" style="width: 30%">{{ arbiter_form.telephone.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td class="label_td">{{ arbiter_form.mobile.label }}
+                            {% if arbiter_form.mobile.field.required %}<span class="required_field">*</span>{% endif %}
+                        </td>
+                        <td class="input_td">{{ arbiter_form.mobile }}</td>
+                        {% if arbiter_form.mobile.errors %}
+                            <td class="error_td" style="width: 30%">{{ arbiter_form.mobile.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td class="label_td">{{ arbiter_form.essential_telephone.label }}
+                            {% if arbiter_form.essential_telephone.field.required %}<span class="required_field">*</span>{% endif %}
+                        </td>
+                        <td class="input_td">{{ arbiter_form.essential_telephone }}</td>
+                        {% if arbiter_form.essential_telephone.errors %}
+                            <td class="error_td" style="width: 30%">{{ arbiter_form.essential_telephone.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td class="label_td">{{ arbiter_form.address.label }}
+                            {% if arbiter_form.address.field.required %}<span class="required_field">*</span>{% endif %}
+                        </td>
+                        <td class="input_td">{{ arbiter_form.address }}</td>
+                        {% if arbiter_form.address.errors %}
+                            <td class="error_td" style="width: 30%">{{ arbiter_form.address.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                </table>
+                </fieldset>
+                <fieldset class="inner_formset">
+                    <legend>اطلاعات تخصصی</legend>
+                    <table class="register_table">
+                        <tr>
+                            <td class="label_td">{{ arbiter_form.workplace.label }}
+                                {% if arbiter_form.workplace.field.required %}<span class="required_field">*</span>{% endif %}
+                            </td>
+                            <td class="input_td">{{ arbiter_form.workplace }}</td>
+                            {% if arbiter_form.workplace.errors %}
+                                <td class="error_td" style="width: 30%">{{ arbiter_form.workplace.errors }}</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td class="label_td">{{ arbiter_form.field.label }}
+                                {% if arbiter_form.field.field.required %}<span class="required_field">*</span>{% endif %}
+                            </td>
+                            <td class="input_td">{{ arbiter_form.field }}</td>
+                            {% if arbiter_form.field.errors %}
+                                <td class="error_td" style="width: 30%">{{ arbiter_form.field.errors }}</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td class="label_td">{{ arbiter_form.professional.label }}
+                                {% if arbiter_form.professional.field.required %}<span class="required_field">*</span>{% endif %}
+                            </td>
+                            <td class="input_td">{{ arbiter_form.professional }}</td>
+                            {% if arbiter_form.professional.errors %}
+                                <td class="error_td" style="width: 30%">{{ arbiter_form.professional.errors }}</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td class="label_td">{{ arbiter_form.degree.label }}
+                                {% if arbiter_form.degree.field.required %}<span class="required_field">*</span>{% endif %}
+                            </td>
+                            <td class="input_td">{{ arbiter_form.degree }}</td>
+                            {% if arbiter_form.degree.errors %}
+                                <td class="error_td" style="width: 30%">{{ arbiter_form.degree.errors }}</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td class="label_td">{{ arbiter_form.office_phone.label }}
+                                {% if arbiter_form.office_phone.field.required %}<span class="required_field">*</span>{% endif %}
+                            </td>
+                            <td class="input_td">{{ arbiter_form.office_phone }}</td>
+                            {% if arbiter_form.office_phone.errors %}
+                                <td class="error_td" style="width: 30%">{{ arbiter_form.office_phone.errors }}</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td class="label_td">{{ arbiter_form.fax.label }}
+                                {% if arbiter_form.fax.field.required %}<span class="required_field">*</span>{% endif %}
+                            </td>
+                            <td class="input_td">{{ arbiter_form.fax }}</td>
+                            {% if arbiter_form.fax.errors %}
+                                <td class="error_td" style="width: 30%">{{ arbiter_form.fax.errors }}</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td class="label_td">{{ arbiter_form.interested_domain.label }}
+                                {% if arbiter_form.interested_domain.field.required %}<span class="required_field">*</span>{% endif %}
+                            </td>
+                        <td class="input_td">
+                        {% if arbiter_form.interested_domain.field.queryset %}
+                        <table>
+                                    {% for choice in arbiter_form.interested_domain.field.queryset %}
+                                        {% if forloop.counter0|divisibleby:"3" %}<tr>{% endif %}
+                                            <td style="text-align: right">
+                                                {{ choice.name }}
+                                                <input  id="id_interested_domain_{{ choice.id }}"  value="{{ choice.id }}" type="checkbox" name="interested_domain"/>
+                                            </td>
+                                        {% if forloop.last or forloop.counter|divisibleby:"3" %}</tr>{% endif %}
+                                    {% endfor %}
+                        </table>
+                        {% else %}
+                            <div style="text-align: right; color: firebrick">
+                            هنوز حوزه تایید شده ای در سیستم تعریف نشده است.
+                            </div>
+                        {% endif %}
+                        </td>
+
+                            {% if arbiter_form.interested_domain.errors %}
+                                <td class="error_td" style="width: 30%">{{ arbiter_form.interested_domain.errors }}</td>
+                            {% endif %}
+                        </tr>
+
+                    </table>
+                </fieldset>
+
+            <div class="button_holder">
+                <input type="submit" value="ثبت" name="register-submit">
+            </div>
+        </form>
+    </div>
+{% endblock %}

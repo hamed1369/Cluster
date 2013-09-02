@@ -2,7 +2,7 @@
 from captcha.fields import CaptchaField
 from django import forms
 from django.contrib.auth.models import User
-from cluster.account.account.models import Member
+from cluster.account.account.models import Member, Arbiter
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
 from cluster.account.personal_info.models import EducationalResume, Publication, Invention, \
@@ -229,3 +229,48 @@ class SoftwareSkillModelForm(ClusterBaseModelForm):
 
 
 SoftwareSkillForm = modelformset_factory(SoftwareSkill, form=SoftwareSkillModelForm, exclude=('cluster_member', ), can_delete=True)
+
+class ArbiterForm(ClusterBaseModelForm):
+    interested_domain = forms.ModelMultipleChoiceField(queryset=Domain.objects.filter(confirmed=True),required=True,
+                                                       widget=forms.CheckboxSelectMultiple, label=u"حوزه های مورد علاقه برای داوری")
+    class Meta:
+        model = Arbiter
+        exclude = ('user','is_confirmed','interested_domain')
+
+    def __init__(self, *args, **kwargs):
+        super(ArbiterForm, self).__init__(*args, **kwargs)
+        self.fields.insert(0, 'first_name', forms.CharField(required=True, label=u"نام"))
+        self.fields.insert(1, 'last_name', forms.CharField(required=True, label=u"نام خانوادگی"))
+        self.fields.insert(2, 'username', forms.CharField(required=True, label=u"نام کاربری"))
+        self.fields.insert(3, 'password', forms.CharField(required=True, label=u"گذرواژه", widget=forms.PasswordInput))
+        self.fields.insert(4, 're_password',
+                           forms.CharField(required=True, label=u"تکرار گذرواژه", widget=forms.PasswordInput))
+        self.fields.insert(5, 'email', forms.EmailField(label=u"پست الکترونیک"))
+
+        process_js_validations(self)
+
+    def save(self, commit=True):
+        instance = super(ArbiterForm,self).save(commit=False)
+        first_name = self.cleaned_data.get('first_name')
+        last_name = self.cleaned_data.get('last_name')
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+        email = self.cleaned_data.get('email')
+
+        try:
+            user = instance.user
+            user.first_name = first_name
+            user.last_name = last_name
+            user.username = username
+            user.email = email
+
+        except Exception:
+            user = User.objects.create(first_name=first_name, last_name=last_name, username=username, email=email, )
+            user.set_password(password)
+
+        user.save()
+        instance.user = user
+        instance.save()
+        return instance
+
+
