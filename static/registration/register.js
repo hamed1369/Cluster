@@ -32,12 +32,6 @@ $(document).ready(function () {
 //        }
 //    }
 
-    $("#register_form").validationEngine({
-        promptPosition: "topLeft:-60,3",
-        scroll: true,
-        validationEventTrigger: 'submit'
-    });
-
     $('select[name*="domain_choice"]').each(function () {
         if ($(this).val().trim() == '') {
             $(this).parents('tr').first().find('input[name*="new_domain_name"]').show();

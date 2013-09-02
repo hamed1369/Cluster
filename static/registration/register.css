@@ -1,15 +1,16 @@
-#register_div {
+.form-div {
     margin: 1%;
 }
 
-.register_table, .inner_formset table {
+#register_form fieldset , .inner_fieldset{
+.register_table, .inner_fieldset table {
     width: 100%;
     border-collapse: separate;
 }
 
     color: #2E6E9E;
 
-.register_table .label_td, .inner_formset .label_td {
+.register_table .label_td, .inner_fieldset .label_td {
     text-align: right;
     margin: 0;
     padding: 7px;
@@ -18,7 +19,7 @@
 
 }
 
-.register_table select, .inner_formset select {
+.register_table select, .inner_fieldset select {
     background: #FFF;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
