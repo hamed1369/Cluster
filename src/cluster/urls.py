@@ -16,7 +16,11 @@ urlpatterns = patterns('',
 
                        # Uncomment the next line to enable the admin:
                        url(r'^admin/', include(admin.site.urls)),
-                       url(r'^accounts/', include('cluster.account.urls')), )
+                       url(r'^accounts/', include('cluster.account.urls')),
+                       url(r'^project/', include('cluster.project.urls')),
+
+
+)
 
 urlpatterns += patterns('',
                         (r'^static/(?P<path>.*)$', 'django.views.static.serve',
