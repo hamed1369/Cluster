@@ -17,3 +17,11 @@
 .ui-jqgrid .ui-userdata {
     height: 32px;
 }
+
+#next_manager_pager {
+    padding-right: 22px;
+}
+
+.ui-jqgrid .ui-pg-button span.ui-separator {
+    display: none;
+}

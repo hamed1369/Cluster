@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>{% block title %}{{ title }}{% endblock %}</title>
+    {% block CSS %}
+        <link rel="stylesheet" type="text/css" href='/static/lib/form-validation/validationEngine.jquery.css'/>
+        <link rel="stylesheet" type="text/css" href="/static/base.css"/>
+        <link rel="stylesheet" type="text/css" href="/static/lib/jquery-ui/jquery-ui-1.10.3.custom.min.css"/>
+        <link rel="stylesheet" type="text/css" href="/static/registration/register.css"/>
+    {% endblock %}
+    {% block JS %}
+        <script type="text/javascript" src="/static/lib/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="/static/lib/jquery-ui/jquery-ui-1.10.3.custom.min.js"></script>
+        <script type="text/javascript" src="/static/lib/jquery.ui.datepicker-cc.all.min.js"></script>
+        <script type="text/javascript" src="/static/base.js"></script>
+        <script type="text/javascript" src="/static/datepicker/scripts/jquery.ui.core.js"></script>
+        <script type="text/javascript" src="/static/datepicker/scripts/jquery.ui.datepicker-cc.js"></script>
+        <script type="text/javascript" src="/static/datepicker/scripts/calendar.js"></script>
+        <script type="text/javascript" src="/static/datepicker/scripts/jquery.ui.datepicker-cc-ar.js"></script>
+        <script type="text/javascript" src="/static/datepicker/scripts/jquery.ui.datepicker-cc-fa.js"></script>
+        <script type="text/javascript" src="/static/lib/jquery.formset.min.js"></script>
+        <script type="text/javascript" src="/static/registration/register.js"></script>
+        <script type="text/javascript"
+                src='/static/lib/form-validation/languages/jquery.validationEngine-fa.js'></script>
+        <script type="text/javascript" src='/static/lib/form-validation/jquery.validationEngine.js'></script>
+    {% endblock %}
+
+</head>
+<body>
+<div class="panel panel-info form-div" id="register_div">
+    {% if form %}
+        <form action="" method="post" enctype="multipart/form-data" id="register_form" class="js-validation-from">
+            {% csrf_token %}
+            <fieldset class="inner_fieldset">
+                <legend>{{ title }}</legend>
+                <table>
+                    {% for field in form %}
+                        <tr>
+                            <td class="label_td">{{ field.label }}
+                                {% if field.field.required %}<span class="required_field">*</span>{% endif %}
+                            </td>
+                            <td class="input_td">{{ field }}</td>
+                            {% if field.errors %}
+                                <td class="error_td" width="30%">{{ field.errors }}</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </table>
+            </fieldset>
+            <div class="button_holder">
+                <input type="submit" value="ثبت" name="register-submit">
+            </div>
+        </form>
+    {% else %}
+        {% include 'messages.html' %}
+    {% endif %}
+</div>
+
+
+</body>
+</html>

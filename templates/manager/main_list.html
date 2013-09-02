@@ -5,6 +5,31 @@
 </table>
 <div id="manager_pager"></div>
 <script type="text/javascript">
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie != '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+
+            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                // Only send the token to relative URLs i.e. locally.
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+        }
+    });
+
     var $manager = $("#manager_list");
     $manager.jqGrid({
         url: "/manager/{{ manager.manager_name }}/actions/?t=json",
@@ -39,10 +64,14 @@
         autowidth: true,
         shrinkToFit: true,
         height: 310,
-        multiselect: true,
+        {% if manager.actions %}
+            multiselect: true,
+        {% endif %}
         stype: 'select',
         caption: "{{ manager.verbose_name }}",
-        toolbar: [true, "top"],
+        {% if manager.actions %}
+            toolbar: [true, "top"],
+        {% endif %}
         jsonReader: {
             root: "rows",
             page: "page",
@@ -74,7 +103,7 @@
         var url = "/manager/{{ manager.manager_name }}/actions/?t=action&n=" + name + "&i=" + selected_items;
 
         if (is_view == 'False')
-            $.ajax({url: url,
+            $.ajax({url: url, method: 'POST',
                 success: function (result) {
                     $manager.trigger("reloadGrid");
                 }});

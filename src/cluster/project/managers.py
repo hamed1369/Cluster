@@ -42,3 +42,27 @@ class PublicProjectsForMembersManager(ObjectsManager):
                 </tr>
             </table>
         """
+
+
+class ProjectsForArbitersFilterForm(ClusterBaseModelForm):
+    class Meta:
+        model = Project
+        fields = ('title', 'keywords', 'domain', 'project_status')
+
+
+class ProjectsForArbitersManager(ObjectsManager):
+    manager_name = u"projects_for_arbiters"
+    manager_verbose_name = u"مدیریت طرح ها"
+    filter_form = ProjectsForArbitersFilterForm
+
+    def get_all_data(self):
+        return Project.objects.filter()
+
+    def get_columns(self):
+        columns = [
+            ManagerColumn('title', u"عنوان", '10'),
+            ManagerColumn('keywords', u"کلید واژه ها", '10'),
+            ManagerColumn('domain', u"حوزه طرح", '10'),
+            ManagerColumn('project_status', u"مرحله داوری", '10'),
+        ]
+        return columns
