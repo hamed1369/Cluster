@@ -1,0 +1,86 @@
+#register_div {
+    margin: 1%;
+}
+
+.register_table, .inner_formset table {
+    width: 100%;
+    border-collapse: separate;
+}
+
+<<<<<<< HEAD
+=======
+form fieldset legend {
+    padding: 6px;
+    font-size: 23px;
+    color: #2E6E9E;
+    font-family: B Mitra;
+}
+>>>>>>> origin/signup
+
+.register_table .label_td, .inner_formset .label_td {
+    text-align: right;
+    margin: 0;
+    padding: 7px;
+    width: 20%;
+    font-size: 12px;
+
+}
+
+.register_table select, .inner_formset select {
+    background: #FFF;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border: 1px solid #ADBDBC;
+    width: 60%;
+    padding: 5px;
+}
+
+.register_table input[type=checkbox] {
+    float: right;
+}
+
+.formset_form_field {
+    display: inline;
+    width: 30%;
+
+}
+
+#only_for_cluster {
+    margin: 20px;
+
+}
+
+.formset_fieldset table {
+    width: 100%;
+}
+
+.formset_fieldset table .label_td, td, th, tr {
+    font-size: 12px;
+    text-align: right;
+}
+
+.formset_fieldset input[type="text"] {
+    width: 100%;
+}
+
+.formset_fieldset select {
+    width: 100%;
+    background: rgb(255, 255, 255);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border: 1px solid rgb(173, 189, 188);
+    padding: 3px;
+    margin: 0;
+}
+
+.formset_fieldset thead {
+    text-align: right;
+}
+
+.formset_add {
+    font-family: B Mitra;
+    font-size: 16px;
+    font-weight: bold;
+}

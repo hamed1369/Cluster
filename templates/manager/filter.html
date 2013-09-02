@@ -2,15 +2,19 @@
     <div>
         <fieldset style="margin-bottom: 9px;" class="filter-formset">
             <legend>جستجو</legend>
-            <table width="100%" dir="rtl">
-                <tr>
-                    {% for field in manager.filter_form %}
-                        <td width="50px">{{ field.label }}:</td>
-                        <td width="120px">{{ field }}</td>
-                        {% cycle '' '</tr><tr>' %}
-                    {% endfor %}
-                </tr>
-            </table>
-        </fieldset>
+            {% if manager.get_filter_form_content %}
+                {{ manager.get_compiled_filter_form_content|safe }}
+            {% else %}
+                <table width="100%" dir="rtl">
+                    <tr>
+                        {% for field in manager.filter_form %}
+                            <td width="20px">{{ field.label }}:</td>
+                            <td width="120px">{{ field }}</td>
+                            {% cycle '' '</tr><tr>' %}
+                        {% endfor %}
+                    </tr>
+                </table>
+            {% endif %}
+            </fieldset>
     </div>
 {% endif %}

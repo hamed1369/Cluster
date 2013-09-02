@@ -17,6 +17,13 @@ class Project(models.Model):
         (3,u"نمونه آزمایشی"),
         (4,u"در حال تولید"),
     )
+    STATUS = (
+        (-1,u"رد شده"),
+        (0,u"در مرحله درخواست"),
+        (1,u"تایید مرحله اول"),
+        (2,u"تایید مرحله دوم"),
+
+    )
     title               = models.CharField(u"عنوان طرح", max_length=300)
     confirmation_type   = models.IntegerField(u"تاییدیه علمی و نوآوری", choices=CONFIRM_TYPE, default=1)
     certificate_image   = models.FileField(u"تصویر مدرک تاییدیه", upload_to="project_certificate_images/", null=True, blank=True)
@@ -30,6 +37,7 @@ class Project(models.Model):
     keywords            = models.CharField(u"کلید واژه", max_length=100)
     innovations         = models.CharField(u"نوآوری های طرح" , max_length=300)
     state               = models.IntegerField(u"مرحله", choices=STATE)
+    project_status      = models.IntegerField(u"مرحله داوری", choices=STATE)
 
 
     class Meta:

@@ -4,6 +4,7 @@ from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from cluster.utils.manager.filter import Filter
 from cluster.utils.manager.table import Table, Header, Row
+from django.template import Template, Context
 
 __author__ = 'M.Y'
 
@@ -92,3 +93,11 @@ class ObjectsManager(object):
                 row.create_cell(column.column_name, unicode(value), column.column_width)
             table.add_row(row)
         return table
+
+
+    def get_filter_form_content(self):
+        return None
+
+    def get_compiled_filter_form_content(self):
+        content = self.get_filter_form_content()
+        return Template(content).render(Context({'form':self.filter_form}))
