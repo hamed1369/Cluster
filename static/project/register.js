@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     $('input[name*="has_confirmation"]').change(function () {
-        var field_val = $('input[name*="has_confirmation"]:checked', '#project_form').val();
+        var field_val = $('input[name*="has_confirmation"]:checked').val();
 
         if (field_val == 'True') {
             $('select[name*="confirmation_type"]').parents('tr').first().fadeIn();
@@ -13,10 +13,11 @@ $(document).ready(function () {
             $('input[name*="certificate_image"]').val('');
         }
     });
+    $('input[name*="has_confirmation"]').change();
 
 
     $('input[name*="has_patent"]').change(function () {
-        var field_val = $('input[name*="has_patent"]:checked', '#project_form').val();
+        var field_val = $('input[name*="has_patent"]:checked').val();
 
         if (field_val == 'True') {
             $('input[name*="patent_number"]').parents('tr').first().fadeIn();
@@ -31,5 +32,6 @@ $(document).ready(function () {
             $('input[name*="patent_certificate"]').val('');
         }
     });
+    $('input[name*="has_patent"]').change();
 
 });

@@ -1,15 +1,8 @@
 # -*- coding:utf-8 -*-
-from captcha.fields import CaptchaField
 from django import forms
-from django.contrib.auth.models import User
-from cluster.account.account.models import Member
-from django.forms.formsets import formset_factory
-from django.forms.models import modelformset_factory
-from cluster.account.personal_info.models import EducationalResume, Publication, Invention, \
-    ExecutiveResearchProject, LanguageSkill, SoftwareSkill
-from cluster.project.models import Domain, Project
+from cluster.project.models import Project
 from cluster.utils.fields import BOOLEAN_CHOICES
-from cluster.utils.forms import ClusterBaseForm, ClusterBaseModelForm
+from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.js_validation import process_js_validations
 
 __author__ = 'M.Y'
@@ -47,10 +40,20 @@ class ProjectForm(ClusterBaseModelForm):
         self.fields['summary'].widget = forms.Textarea()
 
         self.fields['agreement'] = forms.BooleanField(required=True)
-        self.fields['agreement'].label = u"اينجانب با اطلاع کامل از رويه‌ها و ضوابط ارائه اختراع، اين پرسشنامه را تکميل نموده و کليه اطلاعات مندرج در آن را تأئيد مي‌نمايم. مسئوليت هرگونه نقص يا اشتباه در اطلاعات ارسالي به عهده اينجانب است."
+        self.fields[
+            'agreement'].label = u"اينجانب با اطلاع کامل از رويه‌ها و ضوابط ارائه اختراع، اين پرسشنامه را تکميل نموده و کليه اطلاعات مندرج در آن را تأئيد مي‌نمايم. مسئوليت هرگونه نقص يا اشتباه در اطلاعات ارسالي به عهده اينجانب است."
 
         process_js_validations(self)
 
     def clean(self):
         cd = super(ProjectForm, self).clean()
         return cd
+
+
+class ProjectManagerForm(ProjectForm):
+    def __init__(self, *args, **kwargs):
+        super(ProjectManagerForm, self).__init__(*args, **kwargs)
+        if 'agreement' in self.fields:
+            del self.fields['agreement']
+        self.fields.keyOrder = ['title', 'has_confirmation', 'confirmation_type', 'certificate_image', 'has_patent', 'patent_number', 'patent_date', 'patent_certificate', 'patent_request', 'domain', 'summary', 'keywords', 'innovations', 'state', 'project_status']
+        process_js_validations(self)

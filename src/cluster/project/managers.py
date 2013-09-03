@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-from django.contrib.auth.models import User
+from cluster.project.forms import ProjectManagerForm
 from cluster.project.models import Project
 from cluster.utils.forms import ClusterBaseModelForm
+from cluster.utils.manager.action import AddAction, EditAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
 
 __author__ = 'M.Y'
@@ -54,6 +55,7 @@ class ProjectsForArbitersManager(ObjectsManager):
     manager_name = u"projects_for_arbiters"
     manager_verbose_name = u"مدیریت طرح ها"
     filter_form = ProjectsForArbitersFilterForm
+    actions = [EditAction(ProjectManagerForm)]
 
     def get_all_data(self):
         return Project.objects.filter()
