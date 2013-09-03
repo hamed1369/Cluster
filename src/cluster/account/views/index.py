@@ -8,6 +8,6 @@ from django.template import RequestContext
 __author__ = 'M.Y'
 
 
-@login_required
+
 def index(request):
     return render_to_response('intro.html', {}, context_instance=RequestContext(request))
