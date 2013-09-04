@@ -8,9 +8,10 @@ body{
 {
     width:965px;
     margin:0 auto; /*center-aligned*/
+    margin-top:20px;
     padding:20px;
     position: relative;
-    box-shadow: 0 0 5px #BBB;border:1px solid #CCC; background-color:#FFF;
+    /*box-shadow: 0 0 5px #BBB;border:1px solid #CCC; background-color:#FFF;*/
 }
 
 
@@ -153,4 +154,21 @@ body{
 .form-control{
     font-size: 12px;
     font-family: Tahoma;
+}
+#introduction{
+    width: 100%;
+    background-color: #A3DFFF;
+    background-image: url(../images/pageglare.png);
+    background-position: center top;
+    background-repeat: no-repeat;
+}
+#inner-introduction{
+    width: 920px;
+    position: relative;
+    margin: 0 auto;
+    direction: rtl;
+    font-size: 20px;
+    padding: 20px;
+    text-align: justify;
+    height: 170px;
 }
