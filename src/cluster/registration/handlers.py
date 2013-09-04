@@ -22,7 +22,7 @@ class ClusterHandler(object):
             self.cluster = Cluster.objects.get(id=cluster_id)
         try:
             self.member = self.http_request.user.member
-        except Member.DoesNotExist:
+        except (Member.DoesNotExist, AttributeError):
             self.member = None
 
     def initial_forms(self, member=None, check_post=True):

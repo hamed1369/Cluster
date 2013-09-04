@@ -79,12 +79,16 @@ class RegisterForm(ClusterBaseModelForm):
                 self.fields['email'].initial = self.instance.user.email
             self.extra_js_validation = {
                 'username': 'ajax[usernameAjaxEngineCall]',
+                'essential_telephone': 'custom[phone]',
+                'mobile': 'custom[mobile]',
             }
         else:
             self.extra_js_validation = {
                 're_password': 'equals[id_register-password]',
                 'username': 'ajax[usernameAjaxEngineCall]',
                 'email': 'ajax[emailAjaxEngineCall]',
+                'essential_telephone': 'custom[phone]',
+                'mobile': 'custom[mobile]',
             }
 
         process_js_validations(self)
