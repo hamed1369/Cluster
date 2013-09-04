@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 from django.contrib.auth.models import User
 from django.db import transaction
-from cluster.account.account.models import Cluster
+from cluster.account.account.models import Cluster, Member
 from cluster.account.personal_info.models import EducationalResume, SoftwareSkill, LanguageSkill, \
     ExecutiveResearchProject, Invention, Publication
 from cluster.project.models import Domain
@@ -20,9 +20,13 @@ class ClusterHandler(object):
         self.cluster = cluster_id
         if self.cluster_id:
             self.cluster = Cluster.objects.get(id=cluster_id)
+        try:
+            self.member = self.http_request.user.member
+        except Member.DoesNotExist:
+            self.member = None
 
     def initial_forms(self, member=None, check_post=True):
-        self.__init_cluster_form()
+        self.__init_cluster_form(check_post)
         if self.http_request.method == 'POST' and self.http_request.POST.get('register-submit') and check_post:
             self.register_form = RegisterForm(prefix='register', data=self.http_request.POST, instance=member)
             self.resume_formset = ResumeForm(prefix='resume', data=self.http_request.POST,
@@ -59,9 +63,9 @@ class ClusterHandler(object):
                                                             queryset=SoftwareSkill.objects.filter(
                                                                 cluster_member=member))
 
-    def __init_cluster_form(self):
+    def __init_cluster_form(self, check_post):
         self.cluster_member_formset = None
-        if self.http_method == 'POST' and self.http_request.POST.get('register-submit'):
+        if self.http_method == 'POST' and self.http_request.POST.get('register-submit') and check_post:
             self.cluster_form = ClusterForm(prefix='cluster', data=self.http_request.POST)
             if not self.cluster:
                 self.cluster_member_formset = ClusterMemberForm(prefix='cluster_member', data=self.http_request.POST)
@@ -75,7 +79,7 @@ class ClusterHandler(object):
                 self.cluster_domain_formset = ClusterDomainForm(prefix='cluster_domain', )
 
         if self.cluster:
-            is_head = self.cluster.head == self.http_request.user.member
+            is_head = self.cluster.head == self.member
             self.cluster_form.fields['is_cluster'].initial = True
             self.cluster_form.fields['institute'].initial = self.cluster.institute
             self.cluster_form.fields['name'].initial = self.cluster.name
@@ -91,19 +95,20 @@ class ClusterHandler(object):
                 domain = domains[i]
                 self.cluster_domain_formset.forms[i].init_by_domain(domain, is_head)
 
-            members = self.cluster.members.all()
-            members_count = members.count()
-            ClusterMemberForm.extra = members_count
+            member_users = self.cluster.users.all()
+            users_count = member_users.count()
+            ClusterMemberForm.extra = users_count
             if is_head and self.http_method == 'POST' and self.http_request.POST.get('register-submit'):
                 self.cluster_member_formset = ClusterMemberForm(prefix='cluster_member', data=self.http_request.POST)
             else:
                 self.cluster_member_formset = ClusterMemberForm(prefix='cluster_member')
-            for i in range(members_count):
-                member = members[i]
-                self.cluster_member_formset.forms[i].init_by_member(member, is_head)
+            for i in range(users_count):
+                user = member_users[i]
+                self.cluster_member_formset.forms[i].init_by_member(user, is_head)
 
             if not is_head:
                 self.cluster_domain_formset.readonly = True
+                self.cluster_member_formset.readonly = True
                 self.cluster_form.fields['name'].widget.attrs.update({'readonly': 'readonly'})
                 self.cluster_form.fields['institute'].widget.attrs.update({'readonly': 'readonly'})
 
@@ -123,8 +128,9 @@ class ClusterHandler(object):
                     new_domain_name = form.cleaned_data.get('new_domain_name')
                     if not domain_choice and new_domain_name:
                         domain_choice = Domain.objects.create(name=new_domain_name)
-                    cluster_domains.append(domain_choice)
-                    # cluster_domains = self.cluster_domain_formset.save()
+                    if domain_choice:
+                        cluster_domains.append(domain_choice)
+                        # cluster_domains = self.cluster_domain_formset.save()
                 cluster.domains = cluster_domains
 
                 users = []
@@ -148,8 +154,8 @@ class ClusterHandler(object):
                 cluster.users = users
         else:
             member.cluster = self.cluster
-            #TODO : SAVE MEMBER CHANGES AND DOMAIN CHANGES
-            if self.cluster.head == self.http_request.user.member:
+            #TODO : SAVE MEMBER CHANGES
+            if self.cluster.head == self.member:
                 name = self.cluster_form.cleaned_data.get('name')
                 institute = self.cluster_form.cleaned_data.get('institute')
                 self.cluster.name = name
@@ -158,12 +164,13 @@ class ClusterHandler(object):
                 self.cluster.domains.filter(confirmed=False).delete()
                 cluster_domains = []
                 for form in self.cluster_domain_formset.forms:
-                    domain_choice = form.cleaned_data.get('domain_choice')
-                    new_domain_name = form.cleaned_data.get('new_domain_name')
-                    if not domain_choice and new_domain_name:
-                        domain_choice = Domain.objects.create(name=new_domain_name)
-                    if domain_choice:
-                        cluster_domains.append(domain_choice)
+                    if form not in self.cluster_domain_formset.deleted_forms:
+                        domain_choice = form.cleaned_data.get('domain_choice') or form.fields['domain_choice'].initial
+                        new_domain_name = form.cleaned_data.get('new_domain_name') or form.fields['new_domain_name'].initial
+                        if not domain_choice and new_domain_name:
+                            domain_choice = Domain.objects.create(name=new_domain_name)
+                        if domain_choice:
+                            cluster_domains.append(domain_choice)
                 self.cluster.domains = cluster_domains
                 self.cluster.save()
 
@@ -176,10 +183,12 @@ class ClusterHandler(object):
                     and self.executive_research_formset.is_valid() and self.language_skill_formset.is_valid() and \
                         self.software_skill_formset.is_valid():
                     validate = True
-                if self.cluster.head == self.http_request.user.member:
+                else:
+                    validate = False
+                if self.cluster.head == self.member:
                     if self.cluster_form.is_valid() and self.cluster_domain_formset.is_valid() and \
                             self.cluster_member_formset.is_valid():
-                        validate = True
+                        pass
                     else:
                         validate = False
             else:
@@ -209,7 +218,8 @@ class ClusterHandler(object):
 
     @transaction.commit_on_success
     def save_forms(self):
-        member = self.register_form.save(commit=False)
+        member = self.register_form.save(commit=False,
+                                         user=self.http_request.user if not self.http_request.user.is_anonymous() else None)
 
         member.save()
         self.__save_cluster(member)
@@ -265,8 +275,11 @@ class ClusterHandler(object):
         if self.cluster:
             try:
                 self.cluster.users.get(id=self.http_request.user.id)
-                if self.http_request.user.member.cluster == self.cluster:
-                    return u"شما قبلا در این خوشه ثبت نام کردید."
+                try:
+                    if self.member and self.member.cluster == self.cluster:
+                        return u"شما قبلا در این خوشه ثبت نام کردید."
+                except Member.DoesNotExist:
+                    pass
             except User.DoesNotExist:
                 return u"شما جزو اعضای این خوشه نیستید."
         return ''

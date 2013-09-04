@@ -59,6 +59,7 @@ select {
 
 .art-article th, .art-article td {
     border: 0;
+    text-align: right;
 }
 
 .art-block {
@@ -403,8 +404,17 @@ ul.art-vmenu>li>a {
 
 }
 
-input[name$=email], input[name$=username], input[name$=phone], input[name$=mobile], input[name$=password] {
+input[name$=email], input[name$=username], input[name*=phone], input[name*=mobile], input[name$=password] {
     direction: ltr;
+}
+
+.phone-sign{
+    position: relative;
+    top: 4px;
+    left: -4px;
+}
+
+input[name*=phone], input[name*=mobile]{
 }
 
 fieldset {
@@ -420,6 +430,6 @@ fieldset {
 fieldset legend {
     padding: 6px;
     font-size: 23px;
-    color:#2E6E9E;
+    color: #2E6E9E;
     font-family: B Mitra;
 }
