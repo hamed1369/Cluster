@@ -4,6 +4,10 @@ $(document).ready(function () {
     if (typeof $.validationEngineLanguage != 'undefined') {
 
         $.extend($.validationEngineLanguage.allRules, {
+            only_english: {
+                "regex": /^[0-9a-zA-Z!#\$%&'\*\+\-\/=\?\^_`{\|}~@.,]+$/,
+                "alertText": "* فقط اعداد و حروف انگلیسی وارد کنید"
+            },
             usernameAjaxEngineCall: {
                 "url": "/ajax/validationEngine/",
                 "alertTextOk": "این نام کاربری در دسترس است",
