@@ -1,4 +1,6 @@
 {% load staticfiles %}
+{% load account_template_tags %}
+{% load date_template_tags %}
 <!DOCTYPE html>
 <html dir="ltr" lang="en-US"><head><!-- Created by Artisteer v4.1.0.60046 -->
     <meta charset="utf-8">
@@ -29,7 +31,7 @@
             $('#slider').cycle({
                 fx:    'scrollRight',
                 sync:  1,
-                delay: -2000,
+                delay: 10000,
                 before: function(currSlideElement, nextSlideElement, options, forwardFlag){
                     var curr_class = $(currSlideElement).attr('target-button');
                     var next_class = $(nextSlideElement).attr('target-button');
@@ -65,6 +67,7 @@
 </head>
 <body>
     <div id="header">
+        {% if not user.is_authenticated %}
         <div id="upper-header" style="display: none;">
             <div id="inner-upper-header">
                 <form class="form-inline" role="form" method="post" action="{% url account.views.auth.login_view %}">
@@ -81,30 +84,72 @@
                 </form>
             </div>
         </div>
+        {% endif %}
         <div id="inner-header">
             <div id="logo-container">
                 <div id="logo"></div>
                 <div id="logo-name"></div>
             </div>
+
             <div id="top-button-div">
-                <a class="btn btn-default" id="login-button" href="{% url cluster.account.views.auth.login_view %}">ورود</a>
-                <a class="btn btn-danger" href="{% url cluster.registration.views.register %}">ثبت نام</a>
+                {% if not user.is_authenticated %}
+                    <a class="btn btn-default" id="login-button" href="{% url cluster.account.views.auth.login_view %}">ورود</a>
+                    <a class="btn btn-danger" href="{% url cluster.registration.views.register %}">ثبت نام</a>
+                {% else %}
+                    <div id="user-info">
+                        <div id="welcome">{% welcome_st user %}</div>
+                        <div id="today-date">{{ today|persian_date }}</div>
+                        <a class="btn btn-warning" id="exit-button" href="{% url logout %}">خروج</a>
+                    </div>
+                {% endif %}
             </div>
+
         </div>
     </div>
     <div id="introduction">
         <div id="inner-introduction">
             <p>
-                موسسه پژوهشی نگاه نو، نهادی غیردولتی و غیرسیاسی بوده که به منظور حمایت و توانمند سازی نخبگان، استعدادهای درخشان و گروه های جوان و کوچک (دارای توان بالقوه توسعه و آتی اقتصادی در زمینه های مختلف علمی و صنعتی)، در سال 1392 شکل گرفته است. این موسسه، منابع مالی و تجارب مدیریتی خود را در اختیار جوانان نخبه دارای ایده قرار می‌دهد و آن‌ها نیز این امکانات را برای پژوهش، ایجاد زیرساخت، تولید ایده و تبدیل آن به محصول استفاده می‌کنند. از جمله اهداف بنیادی این موسسه، در سرمایه گذاری در طرح ها و ایده هایی می باشد که به تکنولوژی جدید و یا روش کار نویی دست پیدا کرده باشند.
+                موسسه پژوهشی نگاه نو، نهادی غیردولتی و غیرسیاسی بوده که به منظور حمایت و توانمند سازی نخبگان، استعدادهای درخشان و گروه های جوان و کوچک (دارای توان بالقوه توسعه و آتی اقتصادی در زمینه های مختلف علمی و صنعتی)، در سال 1392 شکل گرفته است. این موسسه، منابع مالی و تجارب مدیریتی خود را در اختیار جوانان نخبه دارای ایده قرار می‌دهد و آن‌ها نیز این امکانات را برای پژوهش، ایجاد زیرساخت، تولید ایده و تبدیل آن به محصول استفاده می‌کنند. از جمله اهداف بنیادی این موسسه، در سرمایه گذاری در طرح ها و ایده هایی می باشد که به تکنولوژی جدید و یا روش کار نوینی دست پیدا کرده باشند.
             </p>
         </div>
     </div>
     <div id="sliderFrame">
         <div id="slider">
-            <div target-button="thumb-1" style="width: 680px;height: 306px;">???? ?????</div>
-            <img target-button="thumb-2" width="680" height="306" src="{% static 'intro/images/image-slider-2.jpg'%}"/>
-            <img target-button="thumb-3" width="680" height="306" src="{% static 'intro/images/image-slider-3.jpg'%}"/>
-            <img target-button="thumb-4" width="680" height="306" src="{% static 'intro/images/image-slider-4.jpg'%}" />
+            <div target-button="thumb-1" style="width: 680px;height: 306px;">
+                <div id="slide-1" class="slide">
+                    <div class="container">
+                        <h1>اولین قدم ثبت نام در سامانه است</h1>
+                        <p class="slide-paragraph">ثبت نام کنید. خیلی خوبه، ثبت نام دو گونه فردی و خوشه ای انجام میشه. در ثبت نام خوشه ای یه تیم ثبت می کنید و در ثبت نام فردی فردی عمل می کنید. کلا سعی کنید تیم ورک داشته باشید!</p>
+                        <p><a class="btn btn-primary btn-lg" style="margin-right: 30px;" href="{% url register %}">هم اکنون ثبت نام کنید</a></p>
+                    </div>
+                </div>
+            </div>
+            <div target-button="thumb-2" style="width: 680px;height: 306px;">
+                <div id="slide-2" class="slide">
+                    <div class="container">
+                        <h1>طرح خود را برای ما ارسال کنید</h1>
+                        <p class="slide-paragraph">ثبت نام کنید. خیلی خوبه، ثبت نام دو گونه فردی و خوشه ای انجام میشه. در ثبت نام خوشه ای یه تیم ثبت می کنید و در ثبت نام فردی فردی عمل می کنید. کلا سعی کنید تیم ورک داشته باشید!</p>
+                        <p><a class="btn btn-primary btn-lg" style="margin-right: 30px;" href="{% url register %}">مشاهده معیارها و مراحل داوری</a></p>
+                    </div>
+                </div>
+            </div>            <div target-button="thumb-3" style="width: 680px;height: 306px;">
+                <div id="slide-3" class="slide">
+                    <div class="container">
+                        <h1>بررسی و کارشناسی طرح ارسالی</h1>
+                        <p class="slide-paragraph">ثبت نام کنید. خیلی خوبه، ثبت نام دو گونه فردی و خوشه ای انجام میشه. در ثبت نام خوشه ای یه تیم ثبت می کنید و در ثبت نام فردی فردی عمل می کنید. کلا سعی کنید تیم ورک داشته باشید!</p>
+                        <p><a class="btn btn-primary btn-lg" style="margin-right: 30px;" href="{% url register %}">مشاهده معیارها و مراحل داوری</a></p>
+                    </div>
+                </div>
+            </div>
+            <div target-button="thumb-4" style="width: 680px;height: 306px;">
+                <div id="slide-4" class="slide">
+                    <div class="container">
+                        <h1>حمایت می شوید!</h1>
+                        <p class="slide-paragraph">ثبت نام کنید. خیلی خوبه، ثبت نام دو گونه فردی و خوشه ای انجام میشه. در ثبت نام خوشه ای یه تیم ثبت می کنید و در ثبت نام فردی فردی عمل می کنید. کلا سعی کنید تیم ورک داشته باشید!</p>
+                        <p><a class="btn btn-primary btn-lg" style="margin-right: 30px;" href="{% url register %}">هم اکنون ثبت نام کنید</a></p>
+                    </div>
+                </div>
+            </div>
         </div>
         <!--thumbnails-->
         <div id="thumbs">

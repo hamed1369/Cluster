@@ -3,6 +3,8 @@
 /*slider frame*/
 body{
     font-family: B Mitra;
+    background-image: url(../images/page.png);
+    background-repeat: repeat;
 }
 #sliderFrame 
 {
@@ -19,7 +21,7 @@ body{
 #thumbs{
     position: absolute;
     right: 10px;
-    top: 14px;
+    top: 19px;
     width: 250px;
 }
 #thumbs .thumb
@@ -171,4 +173,101 @@ body{
     padding: 20px;
     text-align: justify;
     height: 170px;
+}
+#user-info{
+    direction: rtl;
+    text-align: right;
+    color:white;
+    width: 210px;
+    padding: 5px;
+    border-color: white;
+    border-width: thin;
+    border-style: solid;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    margin-top: -4px;
+    font-family: B Mitra;
+    font-size: 15px;
+}
+#welcome{
+
+}
+#exit-button{
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    font-family: B Mitra;
+    font-size: 15px;
+}
+.slide{
+    direction: rtl;
+    background-color: white;
+    width: 680px;
+    height: 310px;
+}
+.slide h1{
+    font-family: B Mitra;
+    font-size: 35px;
+}
+
+/*slide 1*/
+
+#slide-1{
+    background-image: url(../images/register.jpg);
+}
+#slide-1 .slide-paragraph{
+    font-size: 20px;
+    margin: 20px;
+    width: 350px;
+    text-align: justify;
+}
+/*slide 3*/
+#slide-3{
+    background-image: url(../images/judge.jpg);
+}
+#slide-3 .slide-paragraph{
+    font-size: 20px;
+    color:white;
+    margin: 20px;
+    width: 350px;
+    text-align: justify;
+}
+#slide-3 h1{
+    font-family: B Mitra;
+    font-size: 35px;
+    color:white;
+}
+/*slide 2*/
+#slide-2{
+    background-image: url(../images/project.jpg);
+}
+#slide-2 .slide-paragraph{
+    font-size: 20px;
+    color:black;
+    margin: 20px;
+    width: 350px;
+    text-align: justify;
+}
+#slide-2 h1{
+    font-family: B Mitra;
+    font-size: 35px;
+    color:#003147;
+}
+/*slide 4*/
+
+#slide-4{
+    background-image: url(../images/support.jpg);
+}
+#slide-4 .slide-paragraph{
+    font-size: 20px;
+    color:white;
+    margin: 20px;
+    width: 350px;
+    text-align: justify;
+}
+#slide-4 h1{
+    font-family: B Mitra;
+    font-size: 35px;
+    color:white;
 }
