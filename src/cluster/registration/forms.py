@@ -78,7 +78,7 @@ class RegisterForm(ClusterBaseModelForm):
                 self.fields['username'].initial = self.instance.user.username
                 self.fields['email'].initial = self.instance.user.email
             self.extra_js_validation = {
-                'username': 'ajax[ajaxEngineCall]',
+                'username': 'ajax[usernameAjaxEngineCall]',
             }
         else:
             self.extra_js_validation = {

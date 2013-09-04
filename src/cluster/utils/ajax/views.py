@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import Http404, HttpResponse
+from django.db.models import Q
+from django.http import HttpResponse
 from django.utils import simplejson
-from cluster.utils.manager.main import manager_children
 
 __author__ = 'M.Y'
 
@@ -12,15 +11,22 @@ def validationEngine(request):
     field_id = request.GET.get('fieldId')
     field_val = request.GET.get('fieldValue')
     result = [field_id, True]
+
     if field_id.find('username') > -1:
         try:
-            User.objects.get(username=field_val)
+            if request.user.is_anonymous():
+                User.objects.get(username=field_val)
+            else:
+                User.objects.get(Q(username=field_val), ~Q(id=request.user.id))
             result = [field_id, False]
         except User.DoesNotExist:
             pass
     elif field_id.find('email') > -1:
         try:
-            users = User.objects.filter(email=field_val)
+            if request.user.is_anonymous():
+                users = User.objects.filter(email=field_val)
+            else:
+                users = User.objects.filter(Q(email=field_val), ~Q(id=request.user.id))
             if users:
                 result = [field_id, False]
         except User.DoesNotExist:

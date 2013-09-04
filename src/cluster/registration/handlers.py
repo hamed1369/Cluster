@@ -26,7 +26,7 @@ class ClusterHandler(object):
             self.member = None
 
     def initial_forms(self, member=None, check_post=True):
-        self.__init_cluster_form()
+        self.__init_cluster_form(check_post)
         if self.http_request.method == 'POST' and self.http_request.POST.get('register-submit') and check_post:
             self.register_form = RegisterForm(prefix='register', data=self.http_request.POST, instance=member)
             self.resume_formset = ResumeForm(prefix='resume', data=self.http_request.POST,
@@ -63,9 +63,9 @@ class ClusterHandler(object):
                                                             queryset=SoftwareSkill.objects.filter(
                                                                 cluster_member=member))
 
-    def __init_cluster_form(self):
+    def __init_cluster_form(self, check_post):
         self.cluster_member_formset = None
-        if self.http_method == 'POST' and self.http_request.POST.get('register-submit'):
+        if self.http_method == 'POST' and self.http_request.POST.get('register-submit') and check_post:
             self.cluster_form = ClusterForm(prefix='cluster', data=self.http_request.POST)
             if not self.cluster:
                 self.cluster_member_formset = ClusterMemberForm(prefix='cluster_member', data=self.http_request.POST)
@@ -154,7 +154,7 @@ class ClusterHandler(object):
                 cluster.users = users
         else:
             member.cluster = self.cluster
-            #TODO : SAVE MEMBER CHANGES AND DOMAIN CHANGES
+            #TODO : SAVE MEMBER CHANGES
             if self.cluster.head == self.member:
                 name = self.cluster_form.cleaned_data.get('name')
                 institute = self.cluster_form.cleaned_data.get('institute')
@@ -164,12 +164,13 @@ class ClusterHandler(object):
                 self.cluster.domains.filter(confirmed=False).delete()
                 cluster_domains = []
                 for form in self.cluster_domain_formset.forms:
-                    domain_choice = form.cleaned_data.get('domain_choice')
-                    new_domain_name = form.cleaned_data.get('new_domain_name')
-                    if not domain_choice and new_domain_name:
-                        domain_choice = Domain.objects.create(name=new_domain_name)
-                    if domain_choice:
-                        cluster_domains.append(domain_choice)
+                    if form not in self.cluster_domain_formset.deleted_forms:
+                        domain_choice = form.cleaned_data.get('domain_choice') or form.fields['domain_choice'].initial
+                        new_domain_name = form.cleaned_data.get('new_domain_name') or form.fields['new_domain_name'].initial
+                        if not domain_choice and new_domain_name:
+                            domain_choice = Domain.objects.create(name=new_domain_name)
+                        if domain_choice:
+                            cluster_domains.append(domain_choice)
                 self.cluster.domains = cluster_domains
                 self.cluster.save()
 
