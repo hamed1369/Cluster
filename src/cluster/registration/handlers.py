@@ -183,10 +183,12 @@ class ClusterHandler(object):
                     and self.executive_research_formset.is_valid() and self.language_skill_formset.is_valid() and \
                         self.software_skill_formset.is_valid():
                     validate = True
+                else:
+                    validate = False
                 if self.cluster.head == self.member:
                     if self.cluster_form.is_valid() and self.cluster_domain_formset.is_valid() and \
                             self.cluster_member_formset.is_valid():
-                        validate = True
+                        pass
                     else:
                         validate = False
             else:
