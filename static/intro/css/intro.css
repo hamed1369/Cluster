@@ -1,0 +1,156 @@
+﻿/* http://www.menucool.com */
+
+/*slider frame*/
+body{
+    font-family: B Mitra;
+}
+#sliderFrame 
+{
+    width:965px;
+    margin:0 auto; /*center-aligned*/
+    padding:20px;
+    position: relative;
+    box-shadow: 0 0 5px #BBB;border:1px solid #CCC; background-color:#FFF;
+}
+
+
+/* -- thumbnails -- */
+#thumbs{
+    position: absolute;
+    right: 10px;
+    top: 14px;
+    width: 250px;
+}
+#thumbs .thumb
+{
+    float:left;
+    margin-left:-10px;
+    width:250px;
+	height: 100px;
+	position: relative;
+	cursor: pointer;
+}
+#thumbs .thumb-1,.thumb-2,.thumb-3
+{
+	background-image:url('../images/default.png');
+	background-repeat:no-repeat;
+	background-position:18px 0px;
+    color:#1d5987;
+	
+}
+#thumbs .thumb-1{
+	z-index: 400;
+}
+#thumbs .thumb-2{
+	z-index: 300;
+	margin-top: -23px;
+}
+#thumbs .thumb-3{
+	z-index: 200;
+	margin-top: -23px
+}
+#thumbs .thumb-4{
+    color:#1d5987;
+	z-index: 100;
+	background-image:url('../images/default-last.png');
+	background-repeat:no-repeat;
+	background-position:18px 0px;
+	margin-top: -23px;
+}
+#thumbs .thumb-1-focused,.thumb-2-focused,.thumb-3-focused{
+	background-image:url('../images/hover.png');
+	background-position:1px;
+    color:white;
+}
+#thumbs .thumb-4-focused{
+	background-image:url('../images/hover-last.png');
+	background-position:1px;
+    color:white;
+}
+
+#thumbs p{
+    font-family: B Mitra;
+    font-size: 20px;
+    text-align: center;
+    vertical-align: middle;
+    font-weight:bold;
+    padding:0;
+    margin-top: 25px;
+}
+#top-button-div{
+    position: relative;
+    text-align: left;
+    vertical-align: middle;
+    width: 200px;
+    float: left;
+    color: #003147;
+    margin: 14px 5px 5px 15px;
+    font-family: B Mitra;
+    font-size: 17px;
+    height: 30px;
+    margin-top: 13px;
+}
+#logo-name
+{
+    position: absolute;
+    top: 5px;
+    width: 150px;
+    height: 65px;
+    background-image: url('../images/object688063435.png');
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    z-index: 2;
+    right: 60px;
+}
+#logo{
+    position: absolute;
+    top: 5px;
+    width: 60px;
+    height: 65px;
+    background-image: url('../images/object416862152.png');
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    z-index: 3;
+}
+#logo-container{
+    position: relative;
+    float: right;
+    width: 300px;
+    height: 65px;
+    direction: rtl;
+}
+#header{
+    width: 100%;
+    background-color: #5B5B5B;
+}
+#inner-header{
+    width: 920px;
+    position: relative;
+    height: 70px;
+    margin: 0 auto;
+}
+#upper-header{
+    background-color: black;
+    padding-top: 3px;
+    padding-bottom: 3px;
+
+}
+#inner-upper-header{
+    width: 920px;
+    position: relative;
+    margin: 0 auto;
+    text-align: right;
+    direction: rtl;
+}
+
+.btn{
+    font-size: 15px;
+    font-weight: bold;
+}
+.art-header{
+    height: 60px;
+}
+.form-control{
+    font-size: 12px;
+    font-family: Tahoma;
+}

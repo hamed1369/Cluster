@@ -322,7 +322,7 @@
             <td class="label_td">{{ register_form.captcha.label }}
                 {% if register_form.captcha.field.required %}<span class="required_field">*</span>{% endif %}
             </td>
-            <td class="input_td">{{ register_form.captcha }}</td>
+            <td class="input_td" style="width: 300px;">{{ register_form.captcha }}</td>
             {% if register_form.captcha.errors %}
                 <td class="error_td" width="30%">{{ register_form.captcha.errors }}</td>
             {% endif %}
