@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
+from cluster.account.account.models import Member
 from cluster.account.forms import SignInForm
 
 __author__ = 'M.Y'
@@ -27,7 +28,11 @@ def login_view(request):
                 if next_page:
                     return HttpResponseRedirect(next_page)
                 else:
-                    return HttpResponseRedirect(reverse('register'))
+                    try:
+                        member = user.member
+                        return HttpResponseRedirect(reverse('edit_accounts'))
+                    except Member.DoesNotExist:
+                        return HttpResponseRedirect(reverse('register'))
     else:
         login_form = SignInForm()
 

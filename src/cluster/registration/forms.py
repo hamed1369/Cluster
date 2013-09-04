@@ -105,7 +105,7 @@ class RegisterForm(ClusterBaseModelForm):
 
         return cd
 
-    def save(self, commit=True):
+    def save(self, commit=True, user=None):
         member = super(RegisterForm, self).save(commit)
         first_name = self.cleaned_data.get('first_name')
         last_name = self.cleaned_data.get('last_name')
@@ -114,18 +114,22 @@ class RegisterForm(ClusterBaseModelForm):
         email = self.cleaned_data.get('email')
         change_pass = self.cleaned_data.get('change_password')
 
-        if not member.user:
-            user = User.objects.create(first_name=first_name, last_name=last_name, username=username, email=email, )
-            user.set_password(password)
-            member.user = user
-        else:
-            user = member.user
+        try:
+            if not user:
+                user = member.user
+            else:
+                change_pass = True
             user.first_name = first_name
             user.last_name = last_name
             user.username = username
             user.email = email
             if change_pass is True or change_pass == 'True':
                 user.set_password(password)
+            member.user = user
+        except User.DoesNotExist:
+            user = User.objects.create(first_name=first_name, last_name=last_name, username=username, email=email, )
+            user.set_password(password)
+            member.user = user
         user.save()
         return member
 
@@ -149,14 +153,16 @@ class MemberForm(ClusterBaseForm):
 
         return cd
 
-    def init_by_member(self, member, is_head):
-        self.fields['first_name'].initial = member.user.first_name
-        self.fields['last_name'].initial = member.user.last_name
-        self.fields['email'].initial = member.user.email
+    def init_by_member(self, user, is_head):
+        self.fields['first_name'].initial = user.first_name
+        self.fields['last_name'].initial = user.last_name
+        self.fields['email'].initial = user.email
         if not is_head:
             self.fields['first_name'].widget.attrs.update({'readonly': 'readonly'})
             self.fields['last_name'].widget.attrs.update({'readonly': 'readonly'})
             self.fields['email'].widget.attrs.update({'readonly': 'readonly'})
+        self.extra_js_validation.clear()
+        process_js_validations(self)
 
 
 ClusterMemberForm = formset_factory(MemberForm, can_delete=True)

@@ -42,7 +42,7 @@ class Publication(models.Model):
     class Meta:
         app_label ='account'
         verbose_name = u"مقاله پژوهشی/کتاب چاپ شده"
-        verbose_name_plural = u"مقالات پژوهشی/ کتاب های چاپ شده"
+        verbose_name_plural = u"مقاله ها پژوهشی/ کتاب های چاپ شده"
 
     def __unicode__(self):
         return unicode(self.title)
@@ -57,7 +57,7 @@ class Invention(models.Model):
     class Meta:
         app_label ='account'
         verbose_name = u"اختراع"
-        verbose_name_plural = u"اختراعات"
+        verbose_name_plural = u"اختراع ها"
 
 class ExecutiveResearchProject(models.Model):
     title       = models.CharField(u"عنوان", max_length=300)
@@ -69,8 +69,8 @@ class ExecutiveResearchProject(models.Model):
 
     class Meta:
         app_label ='account'
-        verbose_name = u"اجرایی یا طرح پژوهشی"
-        verbose_name_plural = u"اجرایی ها یا طرح های پژوهشی"
+        verbose_name = u"طرح اجرایی یا طرح پژوهشی"
+        verbose_name_plural = u"طرح های اجرایی یا طرح های پژوهشی"
 
 class LanguageSkill(models.Model):
     STATUS = (

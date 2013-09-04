@@ -8,7 +8,6 @@ from cluster.utils.manager.main import manager_children
 __author__ = 'M.Y'
 
 
-@login_required
 def validationEngine(request):
     field_id = request.GET.get('fieldId')
     field_val = request.GET.get('fieldValue')
