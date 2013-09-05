@@ -1,11 +1,10 @@
 # -*- coding:utf-8 -*-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mass_mail
-from django.http import HttpResponse, Http404
+from django.http import Http404
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
-from cluster.account.account.models import Cluster
+from cluster.account.account.models import Cluster, Arbiter
 from cluster.registration.forms import ArbiterForm
 from cluster.registration.handlers import ClusterHandler
 
@@ -41,23 +40,36 @@ def register_member(request, cluster_id):
     return handle_register_view(request, cluster_id)
 
 
-def email_test(request):
-    message1 = ('Subject here', 'Here is the message', 'from@example.com', ['hamed.tahmooresi@gmail.com'])
-    send_mass_mail((message1,), fail_silently=False)
-    return HttpResponse("done!")
-
 def arbiter_register(request):
-
     if request.POST:
-        arbiter_form = ArbiterForm(request.POST)
+        arbiter_form = ArbiterForm(request.POST, prefix='register')
         if arbiter_form.is_valid():
             arbiter_form.save()
             messages.success(request, u"ثبت نام شما با موفقیت انجام شد.")
-        return render_to_response('show_message.html', {}, context_instance=RequestContext(request))
-    arbiter_form = ArbiterForm()
+            return render_to_response('show_message.html', {}, context_instance=RequestContext(request))
+    else:
+        arbiter_form = ArbiterForm(prefix='register')
     context = {
-        'arbiter_form' : arbiter_form,
+        'arbiter_form': arbiter_form,
     }
-    return render_to_response('registration/arbiter_register.html',
-                              context,
-                              context_instance=RequestContext(request))
+    return render_to_response('registration/arbiter_register.html', context, context_instance=RequestContext(request))
+
+
+@login_required
+def arbiter_edit(request):
+    try:
+        arbiter = request.user.arbiter
+    except Arbiter.DoesNotExist:
+        raise Http404
+    if request.POST:
+        arbiter_form = ArbiterForm(request.POST, instance=arbiter, prefix='edit')
+        if arbiter_form.is_valid():
+            arbiter_form.save()
+            messages.success(request, u"ویرایش اطلاعات با موفقیت انجام شد.")
+            return render_to_response('show_message.html', {}, context_instance=RequestContext(request))
+    else:
+        arbiter_form = ArbiterForm(instance=arbiter, prefix='edit')
+    context = {
+        'arbiter_form': arbiter_form,
+    }
+    return render_to_response('registration/arbiter_edit.html', context, context_instance=RequestContext(request))
