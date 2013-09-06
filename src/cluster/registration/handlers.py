@@ -86,8 +86,9 @@ class ClusterHandler(object):
 
             domains = self.cluster.domains.all()
             domains_count = domains.count()
-            ClusterDomainForm.extra = domains_count
-            if is_head and self.http_method == 'POST' and self.http_request.POST.get('register-submit'):
+            if domains:
+                ClusterDomainForm.extra = domains_count
+            if is_head and self.http_method == 'POST' and self.http_request.POST.get('register-submit') and check_post:
                 self.cluster_domain_formset = ClusterDomainForm(prefix='cluster_domain', data=self.http_request.POST)
             else:
                 self.cluster_domain_formset = ClusterDomainForm(prefix='cluster_domain', )
@@ -95,10 +96,11 @@ class ClusterHandler(object):
                 domain = domains[i]
                 self.cluster_domain_formset.forms[i].init_by_domain(domain, is_head)
 
-            member_users = self.cluster.users.all()
+            member_users = self.cluster.users.exclude(id=self.http_request.user.id)
             users_count = member_users.count()
-            ClusterMemberForm.extra = users_count
-            if is_head and self.http_method == 'POST' and self.http_request.POST.get('register-submit'):
+            if member_users:
+                ClusterMemberForm.extra = users_count
+            if is_head and self.http_method == 'POST' and self.http_request.POST.get('register-submit') and check_post:
                 self.cluster_member_formset = ClusterMemberForm(prefix='cluster_member', data=self.http_request.POST)
             else:
                 self.cluster_member_formset = ClusterMemberForm(prefix='cluster_member')
@@ -166,12 +168,68 @@ class ClusterHandler(object):
                 for form in self.cluster_domain_formset.forms:
                     if form not in self.cluster_domain_formset.deleted_forms:
                         domain_choice = form.cleaned_data.get('domain_choice') or form.fields['domain_choice'].initial
-                        new_domain_name = form.cleaned_data.get('new_domain_name') or form.fields['new_domain_name'].initial
+                        new_domain_name = form.cleaned_data.get('new_domain_name') or form.fields[
+                            'new_domain_name'].initial
                         if not domain_choice and new_domain_name:
                             domain_choice = Domain.objects.create(name=new_domain_name)
                         if domain_choice:
                             cluster_domains.append(domain_choice)
                 self.cluster.domains = cluster_domains
+
+                users = []
+                for form in self.cluster_member_formset.forms:
+                    if form not in self.cluster_member_formset.deleted_forms:
+                        if form.is_valid():
+                            first_name = form.cleaned_data.get('first_name')
+                            last_name = form.cleaned_data.get('last_name')
+                            email = form.cleaned_data.get('email')
+                            if 'user_id' in form.fields:
+                                user_id = form.fields['user_id'].initial
+                            else:
+                                user_id = None
+                            if user_id:
+                                try:
+                                    user = self.cluster.users.get(id=user_id)
+                                    if first_name:
+                                        user.first_name = first_name
+                                    if last_name:
+                                        user.last_name = last_name
+                                    if email:
+                                        user.email = email
+                                    user.save()
+                                    users.append(user)
+                                except User.DoesNotExist:
+                                    pass
+                            else:
+                                if email:
+                                    password = User.objects.make_random_password()
+                                    user = User.objects.create(first_name=first_name, last_name=last_name, username=email,
+                                                               email=email)
+                                    user.set_password(password)
+                                    user.save()
+                                    users.append(user)
+                                    message = MessageServices.get_registration_message(self.cluster, user, email, password)
+                                    MessageServices.send_message(subject=u"ثبت نام خوشه %s" % self.cluster.name,
+                                                                 message=message,
+                                                                 user=user, cluster=self.cluster)
+
+                for form in self.cluster_member_formset.deleted_forms:
+                    if form.is_valid():
+                        user_id = form.cleaned_data.get('user_id')
+                        if user_id:
+                            try:
+                                user = self.cluster.users.get(id=user_id)
+                                message = MessageServices.get_delete_member_message(self.cluster, user)
+                                MessageServices.send_message(subject=u"حذف از خوشه %s" % self.cluster.name,
+                                                             message=message,
+                                                             user=user, cluster=self.cluster)
+                                user.delete()
+                            except User.DoesNotExist:
+                                pass
+                users.append(member.user)
+
+                self.cluster.users = users
+
                 self.cluster.save()
 
     def is_valid_forms(self):

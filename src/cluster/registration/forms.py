@@ -121,8 +121,6 @@ class RegisterForm(ClusterBaseModelForm):
         try:
             if not user:
                 user = member.user
-            else:
-                change_pass = True
             user.first_name = first_name
             user.last_name = last_name
             user.username = username
@@ -149,9 +147,15 @@ class MemberForm(ClusterBaseForm):
 
     def clean(self):
         cd = super(MemberForm, self).clean()
+        user_id = None
+        if 'user_id' in self.fields:
+            user_id = self.fields['user_id'].initial
+            cd['user_id'] = self.fields['user_id'].initial
         email = cd.get('email')
         if email:
             users = User.objects.filter(username=email)
+            if user_id:
+                users = users.exclude(id=user_id)
             if users:
                 self._errors['email'] = self.error_class([u'این ایمیل تکراری است.'])
 
@@ -165,6 +169,7 @@ class MemberForm(ClusterBaseForm):
             self.fields['first_name'].widget.attrs.update({'readonly': 'readonly'})
             self.fields['last_name'].widget.attrs.update({'readonly': 'readonly'})
             self.fields['email'].widget.attrs.update({'readonly': 'readonly'})
+        self.fields.insert(0, 'user_id', forms.CharField(widget=forms.HiddenInput(), initial=user.id))
         self.extra_js_validation.clear()
         process_js_validations(self)
 

@@ -56,3 +56,26 @@ class MessageServices(object):
         }))
         return mark_safe(message)
 
+
+    @staticmethod
+    def get_delete_member_message(cluster, user):
+        message = Template("""
+                <div style="direction:rtl;">
+                <h1>حذف از خوشه {{cluster_name}} </h1>
+                <p> {{name}} ،</p>
+                <p>سلام</p>
+                <p>
+                شما توسط <b>{{head}}</b> از خوشه <b>{{cluster_name}}</b> حذف شده اید.
+                </p>
+
+                باتشکر<br/>
+                موسسه پژوهشی نگاه نو
+                </div>
+            """).render(Context({
+            'name': u"%s %s" % (user.first_name, user.last_name) if (
+                user.first_name and user.last_name) else u"%s" % user.username,
+            'head': unicode(cluster.head),
+            'cluster_name': cluster.name,
+            }))
+        return mark_safe(message)
+

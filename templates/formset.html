@@ -25,6 +25,9 @@
                 {% for form in formset.forms %}
                     <tr>
                         {% for field in form %}
+                            {% if field.field.widget.input_type == 'hidden' %}
+                            {{ field }}
+                            {% else %}
                             <td class="input_td{% if field.errors %} error_td{% endif %}">
                                 {% if field.name != 'DELETE' %}
                                     {{ field }}
@@ -35,6 +38,7 @@
                                     {{ field.errors }}
                                 {% endif %}
                             </td>
+                            {% endif %}
                         {% endfor %}
                         {#                            <td class="delete_formset_td"></td>#}
                     </tr>
