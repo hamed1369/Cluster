@@ -201,6 +201,10 @@ ClusterDomainForm = formset_factory(DomainForm, can_delete=True)
 
 
 class EducationalResumeModelForm(ClusterBaseModelForm):
+    js_validation_configs = {
+        'required': False,
+    }
+
     class Meta:
         model = EducationalResume
 
@@ -210,6 +214,10 @@ ResumeForm = modelformset_factory(EducationalResume, form=EducationalResumeModel
 
 
 class PublicationModelForm(ClusterBaseModelForm):
+    js_validation_configs = {
+        'required': False,
+    }
+
     class Meta:
         model = Publication
 
@@ -219,6 +227,10 @@ PublicationForm = modelformset_factory(Publication, form=PublicationModelForm, e
 
 
 class InventionModelForm(ClusterBaseModelForm):
+    js_validation_configs = {
+        'required': False,
+    }
+
     class Meta:
         model = Invention
 
@@ -227,6 +239,10 @@ InventionForm = modelformset_factory(Invention, form=InventionModelForm, exclude
 
 
 class ExecutiveResearchProjectModelForm(ClusterBaseModelForm):
+    js_validation_configs = {
+        'required': False,
+    }
+
     class Meta:
         model = ExecutiveResearchProject
 
@@ -236,6 +252,10 @@ ExecutiveResearchProjectForm = modelformset_factory(ExecutiveResearchProject, fo
 
 
 class LanguageSkillModelForm(ClusterBaseModelForm):
+    js_validation_configs = {
+        'required': False,
+    }
+
     class Meta:
         model = LanguageSkill
 
@@ -245,6 +265,10 @@ LanguageSkillForm = modelformset_factory(LanguageSkill, form=LanguageSkillModelF
 
 
 class SoftwareSkillModelForm(ClusterBaseModelForm):
+    js_validation_configs = {
+        'required': False,
+    }
+
     class Meta:
         model = SoftwareSkill
 

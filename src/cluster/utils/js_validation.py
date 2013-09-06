@@ -5,10 +5,16 @@ __author__ = 'M.Y'
 def process_js_validations(form):
     from django import forms
 
+    required = True
+    if hasattr(form, 'js_validation_configs'):
+        if 'required' in form.js_validation_configs:
+            required = form.js_validation_configs.get('required')
+
     for field in form.fields:
         validations = ''
-        if form.fields[field].required:
+        if form.fields[field].required and required:
             validations += 'required,'
+
         if isinstance(form.fields[field], (forms.DateField, forms.DateTimeField)):
             validations += 'custom[date],'
         elif isinstance(form.fields[field], forms.EmailField):
