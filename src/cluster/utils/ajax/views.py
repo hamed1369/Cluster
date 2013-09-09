@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import HttpResponse
 from django.utils import simplejson
+from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
 
@@ -32,5 +34,20 @@ def validationEngine(request):
         except User.DoesNotExist:
             pass
 
+    json = simplejson.dumps(result)
+    return HttpResponse(json, mimetype='application/json')
+
+
+@login_required
+def select2(request):
+    term = request.GET.get('q')
+    result = {}
+    if term:
+        allow_users = PermissionController.get_available_receivers(request.user)
+        if term:
+            query = Q(username__icontains=term) | Q(first_name__icontains=term) | Q(last_name__icontains=term)
+            allow_users = allow_users.filter(query)
+            for user in allow_users:
+                result[user.username] = {'id': user.id, 'name': unicode(user)}
     json = simplejson.dumps(result)
     return HttpResponse(json, mimetype='application/json')
