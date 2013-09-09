@@ -24,7 +24,6 @@ class MessageServices(object):
         except Exception as s:
             logging.error(s)
 
-
     @staticmethod
     def get_registration_message(cluster, user, username, password):
 
@@ -56,7 +55,6 @@ class MessageServices(object):
         }))
         return mark_safe(message)
 
-
     @staticmethod
     def get_delete_member_message(cluster, user):
         message = Template("""
@@ -76,6 +74,26 @@ class MessageServices(object):
                 user.first_name and user.last_name) else u"%s" % user.username,
             'head': unicode(cluster.head),
             'cluster_name': cluster.name,
-            }))
+        }))
         return mark_safe(message)
 
+    @staticmethod
+    def get_send_message(sender, title, body):
+        message = Template("""
+                <div style="direction:rtl;">
+                <h2> این پیام از طرف {{name}} برای شما ارسال شده است <h2>
+                <h1>{{title}} </h1>
+                <p> {{body}} ،</p>
+                <p>
+                شما توسط <b>{{head}}</b> از خوشه <b>{{cluster_name}}</b> حذف شده اید.
+                </p>
+
+                موسسه پژوهشی نگاه نو
+                </div>
+            """).render(Context({
+            'name': u"%s %s" % (sender.first_name, sender.last_name) if (
+                sender.first_name and sender.last_name) else u"%s" % sender.username,
+            'title': title,
+            'body': body
+        }))
+        return mark_safe(message)

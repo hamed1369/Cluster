@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from cluster.message.forms import MessageForm, MessageShowForm
 from cluster.message.models import Message
+from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
 
@@ -20,6 +21,11 @@ class SendMessage(ManagerAction):
     is_view = True
 
     def action_view(self, http_request, selected_instances):
+
+        if PermissionController.is_arbiter(http_request.user):
+            self.action_verbose_name = u"ارسال پیام به مدیر"
+        else:
+            self.action_verbose_name = u"ارسال پیام جدید"
 
         if http_request.method == 'POST':
             form = MessageForm(http_request.POST, user=http_request.user)
