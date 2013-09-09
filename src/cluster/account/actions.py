@@ -33,6 +33,6 @@ class ChangeUserName(ManagerAction):
                     messages.success(http_request, u"تغییر نام با موفقیت انجام شد.")
             else:
                 form = UserForm()
-            return render_to_response('accounts/change_name_action.html', {'form': form},
+            return render_to_response('accounts/simple_action_form.html', {'form': form},
                                       context_instance=RequestContext(http_request))
         raise Http404()

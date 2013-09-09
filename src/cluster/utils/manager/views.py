@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
+from django.utils.safestring import mark_safe
 from cluster.utils.manager.main import manager_children
 
 __author__ = 'M.Y'

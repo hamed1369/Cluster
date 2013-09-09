@@ -1,0 +1,20 @@
+{% extends 'no_base.html' %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+    {% if form %}
+        <fieldset class="inner_fieldset">
+            <legend>{{ title }}</legend>
+            <table>
+                {% for field in form %}
+                    <tr>
+                        <td class="label_td">{{ field.label }}
+                        </td>
+                        <td class="input_td">{{ field }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </fieldset>
+    {% else %}
+        {% include 'messages.html' %}
+    {% endif %}
+{% endblock %}
