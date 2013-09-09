@@ -328,7 +328,6 @@ class ArbiterForm(ClusterBaseModelForm):
         password = self.cleaned_data.get('password')
         email = self.cleaned_data.get('email')
         change_pass = self.cleaned_data.get('change_password')
-        instance.interested_domain = self.cleaned_data.get('interested_domain')
         try:
             user = instance.user
             user.first_name = first_name
@@ -344,5 +343,8 @@ class ArbiterForm(ClusterBaseModelForm):
         user.save()
         instance.user = user
         instance.save()
+
+        instance.interested_domain = self.cleaned_data.get('interested_domain')
+
         return instance
 

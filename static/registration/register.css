@@ -87,6 +87,3 @@ form fieldset legend {
     font-weight: bold;
 }
 
-input[name*='captcha']{
-    width: 60%;
-}

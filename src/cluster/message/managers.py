@@ -41,7 +41,7 @@ class MessageManager(ObjectsManager):
         return columns
 
     def get_body(self, obj):
-        body = obj.body.replace('\r\n', ' ').replace('\r', ' ').replace('\n', ' ').replace('\n\r', ' ')
+        body = obj.body.replace('\r\n', ' ').replace('\n\r', ' ').replace('\r', ' ').replace('\n', ' ')
         if len(body) > 45:
             body = body[:45] + ' ...'
         return body

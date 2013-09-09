@@ -33,6 +33,7 @@ input[type="text"], input[type="password"], input[type="email"], input[type="url
     -moz-border-radius: 4px;
     border-radius: 4px;
     border: 1px solid #ADBDBC;
+    width: 60%;
     margin: 0 auto;
     font-family: Tahoma;
     font-size: 12px;
@@ -96,6 +97,7 @@ ul.art-hmenu>li>a, ul.art-vmenu>li>a {
 }
 
 .input_td input[type="text"], .input_td input[type="password"], .input_td input[type="email"], .input_td input[type="url"], .input_td input[type="file"], .input_td select, .input_td ul, textarea {
+    padding: 4px 0;
     float: right;
 }
 
@@ -413,13 +415,13 @@ input[name$=email], input[name$=username], input[name*=phone], input[name*=mobil
     direction: ltr;
 }
 
-.phone-sign{
+.phone-sign {
     position: relative;
     top: 4px;
     left: -4px;
 }
 
-input[name*=phone], input[name*=mobile]{
+input[name*=phone], input[name*=mobile] {
 }
 
 fieldset {

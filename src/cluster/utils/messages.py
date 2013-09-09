@@ -83,10 +83,7 @@ class MessageServices(object):
                 <div style="direction:rtl;">
                 <h2> این پیام از طرف {{name}} برای شما ارسال شده است <h2>
                 <h1>{{title}} </h1>
-                <p> {{body}} ،</p>
-                <p>
-                شما توسط <b>{{head}}</b> از خوشه <b>{{cluster_name}}</b> حذف شده اید.
-                </p>
+                <p> {{body|safe}} ،</p>
 
                 موسسه پژوهشی نگاه نو
                 </div>
@@ -94,6 +91,6 @@ class MessageServices(object):
             'name': u"%s %s" % (sender.first_name, sender.last_name) if (
                 sender.first_name and sender.last_name) else u"%s" % sender.username,
             'title': title,
-            'body': body
+            'body': body.replace('\r\n', '<br/>').replace('\n\r', '<br/>').replace('\r', '<br/>').replace('\n', '<br/>')
         }))
         return mark_safe(message)

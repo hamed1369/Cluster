@@ -21,7 +21,7 @@ class PhoneNumberMultiWidget(forms.MultiWidget):
 
     def decompress(self, value):
         if value:
-            return list(reversed(value.split('-')))
+            return [value[:3], value[3:6], value[6:]]
         return tuple([None, None, None])
 
     def value_from_datadict(self, data, files, name):
@@ -32,7 +32,7 @@ class PhoneNumberMultiWidget(forms.MultiWidget):
         if value[0] == value[1] == value[2] == u'':
             return None
         value = list(reversed(value))
-        return u'%s-%s-%s' % tuple(value)
+        return u'%s%s%s' % tuple(value)
 
     def render(self, name, value, attrs=None):
         content = super(PhoneNumberMultiWidget, self).render(name, value, attrs)

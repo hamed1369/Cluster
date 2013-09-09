@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from cluster.message.forms import MessageForm, MessageShowForm
+from cluster.message.forms import MessageShowForm, ArbiterMessageForm, MemberMessageForm, AdminMessageForm
 from cluster.message.models import Message
 from cluster.utils.permissions import PermissionController
 
@@ -21,20 +21,22 @@ class SendMessage(ManagerAction):
     is_view = True
 
     def action_view(self, http_request, selected_instances):
-
         if PermissionController.is_arbiter(http_request.user):
-            self.action_verbose_name = u"ارسال پیام به مدیر"
+            model_form = ArbiterMessageForm
+        elif PermissionController.is_admin(http_request.user):
+            model_form = AdminMessageForm
         else:
-            self.action_verbose_name = u"ارسال پیام جدید"
+            model_form = MemberMessageForm
 
         if http_request.method == 'POST':
-            form = MessageForm(http_request.POST, user=http_request.user)
+            form = model_form(http_request.POST, user=http_request.user)
             if form.is_valid():
                 form.save()
                 form = None
                 messages.success(http_request, u"پیام ارسال شد.")
         else:
-            form = MessageForm(user=http_request.user)
+            form = model_form(user=http_request.user)
+
         return render_to_response('manager/actions/add_edit.html', {'form': form, 'title': u"ارسال پیام"},
                                   context_instance=RequestContext(http_request))
 

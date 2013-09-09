@@ -156,7 +156,6 @@ class ClusterHandler(object):
                 cluster.users = users
         else:
             member.cluster = self.cluster
-            #TODO : SAVE MEMBER CHANGES
             if self.cluster.head == self.member:
                 name = self.cluster_form.cleaned_data.get('name')
                 institute = self.cluster_form.cleaned_data.get('institute')

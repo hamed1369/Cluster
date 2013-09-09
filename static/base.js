@@ -1,7 +1,5 @@
 $(document).ready(function () {
-//    $('button, input[type=submit], input[type=reset], input[type=button], .button_link').button();
-    $('input[type=text], textarea, select').addClass('form-control');
-    $('button, input[type=submit], input[type=reset], input[type=button], .button_link').addClass('btn btn-primary');
+    $('button, input[type=submit], input[type=reset], input[type=button], .button_link').button();
 
     if (typeof $.validationEngineLanguage != 'undefined') {
 

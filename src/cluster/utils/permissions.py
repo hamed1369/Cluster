@@ -46,4 +46,3 @@ class PermissionController:
             return user.member.cluster.users.filter()
         else:
             return User.objects.none()
-
