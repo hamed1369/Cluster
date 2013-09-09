@@ -1,5 +1,6 @@
 .ui-jqgrid .ui-jqgrid-htable th div {
-    padding: 12px 0;
+    margin: 3px;
+    overflow: visible;
 }
 
 .filter-formset table, .filter-formset table tr td {
@@ -24,4 +25,9 @@
 
 .ui-jqgrid .ui-pg-button span.ui-separator {
     display: none;
+}
+
+.manager-action{
+    margin: 0 2px;
+    padding: 3px 8px;
 }

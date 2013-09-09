@@ -34,7 +34,6 @@ input[type="text"], input[type="password"], input[type="email"], input[type="url
     border-radius: 4px;
     border: 1px solid #ADBDBC;
     margin: 0 auto;
-    width: 60%;
     font-family: Tahoma;
     font-size: 12px;
 }
@@ -101,6 +100,12 @@ ul.art-hmenu>li>a, ul.art-vmenu>li>a {
 }
 
 .label_td {
+    vertical-align: middle !important;
+    text-align: right;
+    margin: 0;
+    padding: 7px;
+    font-size: 12px;
+    font-family: Tahoma;
 }
 
 .form-div ul, .form-div ul li {
