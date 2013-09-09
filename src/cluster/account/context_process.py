@@ -2,9 +2,9 @@
 import datetime
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from cluster.account.forms import SignInForm
+from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
 
@@ -31,7 +31,8 @@ def login_form_check(request):
         return {'login_form': login_form}
     return {}
 
+
 def default_context(request):
     today = datetime.date.today()
-    return {'today':today}
-
+    user_menus = PermissionController.get_user_menus(request.user)
+    return {'today': today, 'menus': user_menus}

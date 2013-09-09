@@ -46,3 +46,44 @@ class PermissionController:
             return user.member.cluster.users.filter()
         else:
             return User.objects.none()
+
+
+    @classmethod
+    def get_user_menus(cls, user):
+        if cls.is_admin(user):
+            return MENU_MAPPERS['admin']
+        elif cls.is_arbiter(user):
+            return MENU_MAPPERS['arbiter']
+        elif cls.is_member(user):
+            return MENU_MAPPERS['member']
+        else:
+            return []
+
+
+class MenuMapper:
+    def __init__(self, url, show_name):
+        self.url = url
+        self.show_name = show_name
+
+
+MENU_MAPPERS = {
+    'admin': [
+        MenuMapper('/manager/domains/', u"مدیریت حوزه ها"),
+        MenuMapper('/accounts/edit/', u"ویرایش اطلاعات فردی"),
+        MenuMapper('/manager/users/', u"مدیریت کاربران"),
+        MenuMapper('/manager/clusters/', u"مدیریت خوشه ها"),
+        MenuMapper('/manager/messages/', u"جعبه پیام"),
+    ],
+    'arbiter': [
+        MenuMapper('/', u"صفحه اصلی"),
+        MenuMapper('/arbiter_edit/', u"ویرایش اطلاعات فردی"),
+        MenuMapper('/manager/projects/', u"بررسی طرح ها"),
+        MenuMapper('/manager/messages/', u"جعبه پیام"),
+    ],
+    'member': [
+        MenuMapper('/', u"صفحه اصلی"),
+        MenuMapper('/accounts/edit/', u"ویرایش اطلاعات فردی"),
+        MenuMapper('/manager/accepts_innovations/', u"مشاهده اختراعات تاییدشده"),
+        MenuMapper('/manager/messages/', u"جعبه پیام"),
+    ]
+}
