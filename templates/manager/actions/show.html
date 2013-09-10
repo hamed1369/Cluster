@@ -11,7 +11,7 @@
             <table>
                 {% for field in form %}
                     <tr>
-                        <td class="label_td">{{ field.label }}
+                        <td class="label_td">{{ field.label }} :
                         </td>
                         {% if field.field.widget.input_type == 'text' %}
                             <td class="input_td"><p>{{ field.value }}</p></td>

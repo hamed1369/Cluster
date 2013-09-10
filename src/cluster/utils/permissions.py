@@ -72,7 +72,7 @@ MENU_MAPPERS = {
     'admin': [
         MenuMapper('/manager/domains/', u"مدیریت حوزه ها"),
         MenuMapper('/accounts/edit/', u"ویرایش اطلاعات فردی"),
-        MenuMapper('/manager/users/', u"مدیریت کاربران"),
+        MenuMapper('/manager/members/', u"مدیریت افراد"),
         MenuMapper('/manager/clusters/', u"مدیریت خوشه ها"),
         MenuMapper('/manager/messages/', u"جعبه پیام"),
     ],
