@@ -3,6 +3,7 @@ from cluster.account.account.models import Cluster
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.manager.action import ShowAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
+from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
 
@@ -44,3 +45,7 @@ class ClusterManager(ObjectsManager):
     def get_users(self, data):
         return u', '.join([unicode(u) for u in data.users.filter()])
 
+    def can_view(self):
+        if PermissionController.is_admin(self.http_request.user):
+            return True
+        return False

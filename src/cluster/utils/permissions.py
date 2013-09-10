@@ -50,16 +50,17 @@ class PermissionController:
 
     @classmethod
     def get_user_menus(cls, user):
+        perms = []
         if user.is_anonymous():
             return []
-        elif cls.is_admin(user):
-            return MENU_MAPPERS['admin']
-        elif cls.is_arbiter(user):
-            return MENU_MAPPERS['arbiter']
-        elif cls.is_member(user):
-            return MENU_MAPPERS['member']
-        else:
-            return []
+        if cls.is_admin(user):
+            perms = perms + MENU_MAPPERS['admin']
+        if cls.is_arbiter(user):
+            perms = perms + MENU_MAPPERS['arbiter']
+        if cls.is_member(user):
+            perms = perms + MENU_MAPPERS['member']
+
+        return perms
 
 
 class MenuMapper:
@@ -67,6 +68,9 @@ class MenuMapper:
         self.url = url
         self.show_name = show_name
 
+    def __eq__(self, other):
+        if other.url == self.url:
+            return True
 
 MENU_MAPPERS = {
     'admin': [

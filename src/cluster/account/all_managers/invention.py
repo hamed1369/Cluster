@@ -5,6 +5,7 @@ from cluster.account.personal_info.models import Invention
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.manager.action import ShowAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
+from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
 
@@ -55,3 +56,8 @@ class ConfirmedInventionManager(ObjectsManager):
 
     def get_cluster(self, data):
         return unicode(data.cluster_member.cluster)
+
+    def can_view(self):
+        if PermissionController.is_member(self.http_request.user):
+            return True
+        return False

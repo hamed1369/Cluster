@@ -21,10 +21,10 @@ class SendMessage(ManagerAction):
     is_view = True
 
     def action_view(self, http_request, selected_instances):
-        if PermissionController.is_arbiter(http_request.user):
-            model_form = ArbiterMessageForm
-        elif PermissionController.is_admin(http_request.user):
+        if PermissionController.is_admin(http_request.user):
             model_form = AdminMessageForm
+        elif PermissionController.is_arbiter(http_request.user):
+            model_form = ArbiterMessageForm
         else:
             model_form = MemberMessageForm
 

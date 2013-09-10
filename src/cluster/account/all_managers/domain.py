@@ -3,6 +3,7 @@ from cluster.project.models import Domain
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.manager.action import AddAction, EditAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
+from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
 
@@ -29,3 +30,7 @@ class DomainManager(ObjectsManager):
         ]
         return columns
 
+    def can_view(self):
+        if PermissionController.is_admin(self.http_request.user):
+            return True
+        return False
