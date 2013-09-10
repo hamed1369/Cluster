@@ -12,7 +12,7 @@ $(document).ready(function () {
             $(this).parents('tr').first().next('tr').fadeIn();
         }
     });
-
+    $('select[name*=send_type]').change();
 
 //    $('select[name*=receivers]').select2({
 //        placeholder: "جستجو کاربران",

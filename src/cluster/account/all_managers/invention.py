@@ -20,17 +20,23 @@ class InventionForm(ClusterBaseModelForm):
                                                         required=False)
 
 
+class InventionActionForm(ClusterBaseModelForm):
+    class Meta:
+        model = Invention
+        fields = ('title', 'registration_number', 'registration_date', 'participation')
+
+
 class ConfirmedInventionManager(ObjectsManager):
     manager_name = u"confirmed_inventions"
     manager_verbose_name = u"مشاهده اختراعات تاییدشده"
     filter_form = InventionForm
-    actions = [ShowAction(InventionForm)]
+    actions = [ShowAction(InventionActionForm)]
     filter_handlers = (
         ('cluster', 'cluster_member__cluster', 'm2o'),
-        ('title', '', 'str'),
-        ('registration_number', 'registration_number'),
-        ('registration_date', '', 'pdate'),
-        ('participation', 'participation'),
+        ('title', 'str'),
+        ('registration_number', 'this'),
+        ('registration_date', 'pdate'),
+        ('participation', 'this'),
     )
 
     def get_all_data(self):
@@ -43,9 +49,9 @@ class ConfirmedInventionManager(ObjectsManager):
             ManagerColumn('registration_date', u"تاریخ ثبت", '10'),
             ManagerColumn('participation', u"شماره ثبت", '10'),
             ManagerColumn('cluster_member', u"عضو خوشه", '10'),
-            ManagerColumn('get_cluster', u"خوشه مربوطه", '10', True),
+            ManagerColumn('cluster', u"خوشه مربوطه", '10', True),
         ]
         return columns
 
     def get_cluster(self, data):
-        return unicode(data.member.cluster)
+        return unicode(data.cluster_member.cluster)
