@@ -50,7 +50,9 @@ class PermissionController:
 
     @classmethod
     def get_user_menus(cls, user):
-        if cls.is_admin(user):
+        if user.is_anonymous():
+            return []
+        elif cls.is_admin(user):
             return MENU_MAPPERS['admin']
         elif cls.is_arbiter(user):
             return MENU_MAPPERS['arbiter']
@@ -83,7 +85,7 @@ MENU_MAPPERS = {
     'member': [
         MenuMapper('/', u"صفحه اصلی"),
         MenuMapper('/accounts/edit/', u"ویرایش اطلاعات فردی"),
-        MenuMapper('/manager/accepts_innovations/', u"مشاهده اختراعات تاییدشده"),
+        MenuMapper('/manager/confirmed_inventions/', u"مشاهده اختراعات تاییدشده"),
         MenuMapper('/manager/messages/', u"جعبه پیام"),
     ]
 }

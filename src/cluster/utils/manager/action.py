@@ -80,3 +80,22 @@ class DeleteAction(ManagerAction):
     def do(self, http_request, selected_instances):
         for user in selected_instances:
             user.delete()
+
+
+class ShowAction(ManagerAction):
+    action_name = 'show'
+    action_verbose_name = u"مشاهده جزئیات"
+    is_view = True
+
+    def __init__(self, modelForm, action_name='show', action_verbose_name=u"مشاهده جزئیات", form_title=u"مشاهده"):
+        self.action_name = action_name
+        self.action_verbose_name = action_verbose_name
+        self.modelForm = modelForm
+        self.form_title = form_title
+
+    def action_view(self, http_request, selected_instances):
+        form = self.modelForm(instance=selected_instances[0])
+        for field in form.fields:
+            form.fields[field].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})
+        return render_to_response('manager/actions/show.html', {'form': form, 'title': self.form_title},
+                                  context_instance=RequestContext(http_request))

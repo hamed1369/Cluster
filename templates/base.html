@@ -78,60 +78,68 @@
         <div class="art-layout-wrapper">
             <div class="art-content-layout">
                 <div class="art-content-layout-row">
-                    <div class="art-layout-cell art-sidebar1">
-                        <div class="art-vmenublock clearfix">
-                            <div class="art-vmenublockcontent">
-                                <ul class="art-vmenu">
-                                    {% for menu in menus %}
-                                        {% render_url_li menu.url menu.show_name %}
-                                    {% endfor %}
-{#                                    <li><a href="{% url login %}" class="active"></a></li>#}
-{#                                    <li><a href="{% url register %}">ثبت نام</a></li>#}
-{#                                    <li><a href="{% url login %}">مشاهده طرح های ثبت#}
-{#                                        شده</a></li>#}
-                                </ul>
+                    {% if menus %}
+                        <div class="art-layout-cell art-sidebar1">
+                            <div class="art-vmenublock clearfix">
+                                <div class="art-vmenublockcontent">
+                                    <ul class="art-vmenu">
+                                        {% for menu in menus %}
+                                            {% render_url_li menu.url menu.show_name %}
+                                        {% endfor %}
+                                        {#                                    <li><a href="{% url login %}" class="active"></a></li>#}
+                                        {#                                    <li><a href="{% url register %}">ثبت نام</a></li>#}
+                                        {#                                    <li><a href="{% url login %}">مشاهده طرح های ثبت#}
+                                        {#                                        شده</a></li>#}
+                                    </ul>
 
+                                </div>
+                            </div>
+                            {% if user.is_anonymous %}
+                                <div class="art-block clearfix login-box" style="text-align: center;">
+                                    <form action="" method="post" id="login_form">
+                                        {% csrf_token %}
+                                        <div class="art-blockheader">
+                                            <h3 class="t">ورود به سامانه</h3>
+                                        </div>
+                                        <div class="art-blockcontent">
+                                            <div>
+                                                {{ login_form.username }}
+                                            </div>
+                                            <div>
+                                                {{ login_form.password }}
+                                            </div>
+                                            <div style="width: 80%; position: relative; left: 10%; right: 10%;">
+                                                <input type="submit" value="ورود" name="login-submit"/>
+                                                <button class="button_link"
+                                                        onclick="location.href ='{% url cluster.registration.views.register %}';"
+                                                        >ثبت نام
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            {% else %}
+                            {% endif %}
+                            <div class="art-block clearfix">
+                                <div class="art-blockheader">
+                                    <h3 class="t">پیوند ها</h3>
+                                </div>
+                                <div class="art-blockcontent"><p>Enter Block content here...</p>
+                                    <br>
+
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam pharetra, tellus
+                                        sit
+                                        amet congue vulputate, nisi erat iaculis nibh, vitae feugiat sapien ante eget
+                                        mauris.</p></div>
                             </div>
                         </div>
-                        {% if user.is_anonymous %}
-                            <div class="art-block clearfix login-box" style="text-align: center;">
-                                <form action="" method="post" id="login_form">
-                                    {% csrf_token %}
-                                    <div class="art-blockheader">
-                                        <h3 class="t">ورود به سامانه</h3>
-                                    </div>
-                                    <div class="art-blockcontent">
-                                        <div>
-                                            {{ login_form.username }}
-                                        </div>
-                                        <div>
-                                            {{ login_form.password }}
-                                        </div>
-                                        <div style="width: 80%; position: relative; left: 10%; right: 10%;">
-                                            <input type="submit" value="ورود" name="login-submit"/>
-                                            <button class="button_link"
-                                                    onclick="location.href ='{% url cluster.registration.views.register %}';"
-                                                    >ثبت نام
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        {% else %}
-                        {% endif %}
-                        <div class="art-block clearfix">
-                            <div class="art-blockheader">
-                                <h3 class="t">پیوند ها</h3>
-                            </div>
-                            <div class="art-blockcontent"><p>Enter Block content here...</p>
-                                <br>
-
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam pharetra, tellus
-                                    sit
-                                    amet congue vulputate, nisi erat iaculis nibh, vitae feugiat sapien ante eget
-                                    mauris.</p></div>
-                        </div>
-                    </div>
+                    {% else %}
+                        <style>
+                            .art-content-layout .art-content{
+                                padding-right: 0;
+                            }
+                        </style>
+                    {% endif %}
                     <div class="art-layout-cell art-content">
                         <article class="art-post art-article">
                             {% block header %}
