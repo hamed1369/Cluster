@@ -56,10 +56,6 @@ class Table(object):
             "total": total_page,
             "page": current_page,
             "records": all_data_count,
-            "rows": [
-                {"id": "1", "cell": ["cell11", "cell12", "cell13"]},
-                {"id": "2", "cell": ["cell21", "cell22", "cell23"]},
-            ]
         })
         json_rows = []
         for row in self.rows:

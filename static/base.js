@@ -4,6 +4,10 @@ $(document).ready(function () {
     if (typeof $.validationEngineLanguage != 'undefined') {
 
         $.extend($.validationEngineLanguage.allRules, {
+            "mobile": {
+                "regex": /^0\d{10}$/,
+                "alertText": "* شماره تلفن همراه معتبر وارد کنید"
+            },
             only_english: {
                 "regex": /^[0-9a-zA-Z!#\$%&'\*\+\-\/=\?\^_`{\|}~@.,]+$/,
                 "alertText": "* فقط اعداد و حروف انگلیسی وارد کنید"

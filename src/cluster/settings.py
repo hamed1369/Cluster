@@ -126,7 +126,8 @@ INSTALLED_APPS = (
     'captcha',
     'cluster.registration',
     'cluster.account',
-    'cluster.project'
+    'cluster.project',
+    'cluster.message',
 )
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

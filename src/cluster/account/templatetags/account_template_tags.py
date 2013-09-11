@@ -26,8 +26,8 @@ def is_false(value):
 
 
 @register.simple_tag(takes_context=True)
-def render_url_li(context, name, persian_name):
-    url = reverse(name)
+def render_url_li(context, url, persian_name):
+    # url = reverse(name)
     html_class = 'active' if context.get('request').path.startswith(url) else ''
     res = u"""
     <li>

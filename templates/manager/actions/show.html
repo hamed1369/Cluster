@@ -1,0 +1,28 @@
+{% extends 'no_base.html' %}
+{% block CSS %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="/static/manager/show.css"/>
+{% endblock %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+    {% if form %}
+        <fieldset class="inner_fieldset">
+            <legend>{{ title }}</legend>
+            <table>
+                {% for field in form %}
+                    <tr>
+                        <td class="label_td">{{ field.label }} :
+                        </td>
+                        {% if field.field.widget.input_type == 'text' %}
+                            <td class="input_td"><p>{{ field.value }}</p></td>
+                        {% else %}
+                            <td class="input_td">{{ field }}</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </fieldset>
+    {% else %}
+        {% include 'messages.html' %}
+    {% endif %}
+{% endblock %}

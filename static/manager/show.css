@@ -1,0 +1,3 @@
+.input_td input[type="text"], .input_td input[type="password"], .input_td input[type="email"], .input_td input[type="url"], .input_td input[type="file"], .input_td select, .input_td ul, textarea, select, .select2-container {
+    width: 100% !important;
+}

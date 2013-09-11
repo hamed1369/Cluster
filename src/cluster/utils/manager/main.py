@@ -2,6 +2,7 @@
 from django.http import HttpResponse, Http404
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
+from django.utils.safestring import SafeUnicode, SafeString
 from cluster.utils.manager.filter import Filter
 from cluster.utils.manager.table import Table, Header, Row
 from django.template import Template, Context
@@ -20,10 +21,11 @@ class ManagerRegister(type):
 
 
 class ManagerColumn(object):
-    def __init__(self, column_name, column_verbose_name, column_width):
+    def __init__(self, column_name, column_verbose_name, column_width, is_variable=False):
         self.column_name = column_name
         self.column_verbose_name = column_verbose_name
         self.column_width = column_width
+        self.is_variable = is_variable
 
 
 class ObjectsManager(object):
@@ -113,8 +115,14 @@ class ObjectsManager(object):
         for data in page_data:
             row = Row()
             for column in columns:
-                value = getattr(data, column.column_name)
-                row.create_cell(column.column_name, unicode(value), column.column_width)
+                if column.is_variable:
+                    function = getattr(self, 'get_' + column.column_name)
+                    value = function(data)
+                else:
+                    value = getattr(data, column.column_name)
+                if not isinstance(value, (SafeUnicode, SafeString)):
+                    value = unicode(value)
+                row.create_cell(column.column_name, value, column.column_width)
             table.add_row(row)
         return table
 
@@ -123,9 +131,8 @@ class ObjectsManager(object):
 
     def get_compiled_filter_form_content(self):
         content = self.get_filter_form_content()
-        return Template(content).render(Context({'form':self.filter_form}))
+        return Template(content).render(Context({'form': self.filter_form}))
 
-        
     def _get_instances_by_ids(self, instances_id):
         if instances_id:
             try:

@@ -25,12 +25,7 @@ form fieldset legend {
 }
 
 .register_table .label_td, .inner_fieldset .label_td {
-    text-align: right;
-    margin: 0;
-    padding: 7px;
     width: 20%;
-    font-size: 12px;
-
 }
 
 .register_table select, .inner_fieldset select {
@@ -91,3 +86,4 @@ form fieldset legend {
     font-size: 16px;
     font-weight: bold;
 }
+

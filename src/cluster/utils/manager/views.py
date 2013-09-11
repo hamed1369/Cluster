@@ -11,7 +11,9 @@ def process_main_page(request, manager_name):
     for manager in manager_children:
         if manager.manager_name == manager_name:
             manager_obj = manager(http_request=request)
-            return manager_obj.render_main_list()
+            if manager_obj.can_view():
+                return manager_obj.render_main_list()
+            break
     raise Http404()
 
 
@@ -20,7 +22,7 @@ def process_actions(request, manager_name):
     for manager in manager_children:
         if manager.manager_name == manager_name:
             manager_obj = manager(http_request=request)
-            if not manager_obj.can_view():
-                raise Http404()
-            return manager_obj.process_action_request()
+            if manager_obj.can_view():
+                return manager_obj.process_action_request()
+            break
     raise Http404()

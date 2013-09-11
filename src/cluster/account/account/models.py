@@ -97,3 +97,10 @@ class Cluster(models.Model):
 
     def __unicode__(self):
         return self.name
+
+
+def user_new_unicode(self):
+    return u"%s %s" % (self.first_name, self.last_name) if (
+        self.first_name and self.last_name) else u"%s" % self.username
+
+User.__unicode__ = user_new_unicode

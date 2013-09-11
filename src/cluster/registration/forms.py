@@ -79,12 +79,16 @@ class RegisterForm(ClusterBaseModelForm):
                 self.fields['email'].initial = self.instance.user.email
             self.extra_js_validation = {
                 'username': 'ajax[usernameAjaxEngineCall]',
+                'essential_telephone': 'custom[phone]',
+                'mobile': 'custom[mobile]',
             }
         else:
             self.extra_js_validation = {
                 're_password': 'equals[id_register-password]',
                 'username': 'ajax[usernameAjaxEngineCall]',
                 'email': 'ajax[emailAjaxEngineCall]',
+                'essential_telephone': 'custom[phone]',
+                'mobile': 'custom[mobile]',
             }
 
         process_js_validations(self)
@@ -117,8 +121,6 @@ class RegisterForm(ClusterBaseModelForm):
         try:
             if not user:
                 user = member.user
-            else:
-                change_pass = True
             user.first_name = first_name
             user.last_name = last_name
             user.username = username
@@ -145,9 +147,15 @@ class MemberForm(ClusterBaseForm):
 
     def clean(self):
         cd = super(MemberForm, self).clean()
+        user_id = None
+        if 'user_id' in self.fields:
+            user_id = self.fields['user_id'].initial
+            cd['user_id'] = self.fields['user_id'].initial
         email = cd.get('email')
         if email:
             users = User.objects.filter(username=email)
+            if user_id:
+                users = users.exclude(id=user_id)
             if users:
                 self._errors['email'] = self.error_class([u'این ایمیل تکراری است.'])
 
@@ -161,6 +169,7 @@ class MemberForm(ClusterBaseForm):
             self.fields['first_name'].widget.attrs.update({'readonly': 'readonly'})
             self.fields['last_name'].widget.attrs.update({'readonly': 'readonly'})
             self.fields['email'].widget.attrs.update({'readonly': 'readonly'})
+        self.fields.insert(0, 'user_id', forms.CharField(widget=forms.HiddenInput(), initial=user.id))
         self.extra_js_validation.clear()
         process_js_validations(self)
 
@@ -192,6 +201,10 @@ ClusterDomainForm = formset_factory(DomainForm, can_delete=True)
 
 
 class EducationalResumeModelForm(ClusterBaseModelForm):
+    js_validation_configs = {
+        'required': False,
+    }
+
     class Meta:
         model = EducationalResume
 
@@ -201,6 +214,10 @@ ResumeForm = modelformset_factory(EducationalResume, form=EducationalResumeModel
 
 
 class PublicationModelForm(ClusterBaseModelForm):
+    js_validation_configs = {
+        'required': False,
+    }
+
     class Meta:
         model = Publication
 
@@ -210,6 +227,10 @@ PublicationForm = modelformset_factory(Publication, form=PublicationModelForm, e
 
 
 class InventionModelForm(ClusterBaseModelForm):
+    js_validation_configs = {
+        'required': False,
+    }
+
     class Meta:
         model = Invention
 
@@ -218,6 +239,10 @@ InventionForm = modelformset_factory(Invention, form=InventionModelForm, exclude
 
 
 class ExecutiveResearchProjectModelForm(ClusterBaseModelForm):
+    js_validation_configs = {
+        'required': False,
+    }
+
     class Meta:
         model = ExecutiveResearchProject
 
@@ -227,6 +252,10 @@ ExecutiveResearchProjectForm = modelformset_factory(ExecutiveResearchProject, fo
 
 
 class LanguageSkillModelForm(ClusterBaseModelForm):
+    js_validation_configs = {
+        'required': False,
+    }
+
     class Meta:
         model = LanguageSkill
 
@@ -236,18 +265,32 @@ LanguageSkillForm = modelformset_factory(LanguageSkill, form=LanguageSkillModelF
 
 
 class SoftwareSkillModelForm(ClusterBaseModelForm):
+    js_validation_configs = {
+        'required': False,
+    }
+
     class Meta:
         model = SoftwareSkill
 
 
 SoftwareSkillForm = modelformset_factory(SoftwareSkill, form=SoftwareSkillModelForm, exclude=('cluster_member', ),
                                          can_delete=True)
+
+
 class ArbiterForm(ClusterBaseModelForm):
-    interested_domain = forms.ModelMultipleChoiceField(queryset=Domain.objects.filter(confirmed=True),required=True,
-                                                       widget=forms.CheckboxSelectMultiple, label=u"حوزه های مورد علاقه برای داوری")
     class Meta:
         model = Arbiter
-        exclude = ('user','is_confirmed','interested_domain')
+        exclude = ('user', 'is_confirmed')
+
+    extra_js_validation = {
+        're_password': 'equals[id_register-password]',
+        'username': 'ajax[usernameAjaxEngineCall]',
+        'email': 'ajax[emailAjaxEngineCall]',
+        'essential_telephone': 'custom[phone]',
+        'mobile': 'custom[mobile]',
+        'office_phone': 'custom[phone]',
+        'fax': 'custom[phone]',
+    }
 
     def __init__(self, *args, **kwargs):
         super(ArbiterForm, self).__init__(*args, **kwargs)
@@ -258,24 +301,41 @@ class ArbiterForm(ClusterBaseModelForm):
         self.fields.insert(4, 're_password',
                            forms.CharField(required=True, label=u"تکرار گذرواژه", widget=forms.PasswordInput))
         self.fields.insert(5, 'email', forms.EmailField(label=u"پست الکترونیک"))
+        if self.instance and self.instance.id:
+            self.fields.insert(3, 'change_password',
+                               forms.ChoiceField(required=False, choices=BOOLEAN_CHOICES, widget=forms.RadioSelect(),
+                                                 label=u"ویرایش گذرواژه", initial=False))
+            self.fields['password'].label = u"گذرواژه جدید"
+            self.fields['password'].required = False
+            self.fields['re_password'].label = u"تکرار گذرواژه جدید"
+            self.fields['re_password'].required = False
+            if self.instance.user:
+                self.fields['first_name'].initial = self.instance.user.first_name
+                self.fields['last_name'].initial = self.instance.user.last_name
+                self.fields['username'].initial = self.instance.user.username
+                self.fields['email'].initial = self.instance.user.email
 
+        self.fields['interested_domain'].queryset = Domain.objects.filter(confirmed=True)
+        self.fields['interested_domain'].widget = forms.CheckboxSelectMultiple()
+        self.fields['interested_domain'].label = u"حوزه های مورد علاقه برای داوری"
         process_js_validations(self)
 
     def save(self, commit=True):
-        instance = super(ArbiterForm,self).save(commit=False)
+        instance = super(ArbiterForm, self).save(commit=False)
         first_name = self.cleaned_data.get('first_name')
         last_name = self.cleaned_data.get('last_name')
         username = self.cleaned_data.get('username')
         password = self.cleaned_data.get('password')
         email = self.cleaned_data.get('email')
-
+        change_pass = self.cleaned_data.get('change_password')
         try:
             user = instance.user
             user.first_name = first_name
             user.last_name = last_name
             user.username = username
             user.email = email
-
+            if change_pass is True or change_pass == 'True':
+                user.set_password(password)
         except Exception:
             user = User.objects.create(first_name=first_name, last_name=last_name, username=username, email=email, )
             user.set_password(password)
@@ -283,6 +343,8 @@ class ArbiterForm(ClusterBaseModelForm):
         user.save()
         instance.user = user
         instance.save()
-        return instance
 
+        instance.interested_domain = self.cleaned_data.get('interested_domain')
+
+        return instance
 
