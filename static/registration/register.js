@@ -55,6 +55,38 @@ $(document).ready(function () {
         }
     });
 
+    $('#cluster_member_formset select').focusin(function () {
+
+        var options = {};
+
+        $('select[name*="domain_choice"]').each(function () {
+            if ($(this).parents('tr').first().css('display') != 'none')
+                if ($(this).val().trim() == '') {
+                    var text_val = $(this).parents('tr').first().find('input[name*="new_domain_name"]').val().trim();
+                    if (text_val != "") {
+                        options[text_val] = text_val;
+                    }
+                } else {
+                    options[$(this).val()] = $(this).find(':selected').text();
+                }
+        });
+
+        var $this_select = $(this);
+        $this_select
+            .find('option')
+            .remove();
+        $this_select
+            .append($("<option></option>")
+                .attr("value", '')
+                .text('---------'));
+        $.each(options, function (key, value) {
+            $this_select
+                .append($("<option></option>")
+                    .attr("value", key)
+                    .text(value));
+        });
+    });
+
 
     $('input[name*="is_cluster"]').change(function () {
         var is_cluster = $('input[name*="is_cluster"]:checked', '#register_form').val();

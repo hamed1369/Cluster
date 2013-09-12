@@ -33,7 +33,7 @@ class ConfirmedInventionManager(ObjectsManager):
     filter_form = InventionForm
     actions = [ShowAction(InventionActionForm)]
     filter_handlers = (
-        ('cluster', 'cluster_member__cluster', 'm2o'),
+        ('cluster', '', 'cluster_member__cluster'),
         ('title', 'str'),
         ('registration_number', 'this'),
         ('registration_date', 'pdate'),

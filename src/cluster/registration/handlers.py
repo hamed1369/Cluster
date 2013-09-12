@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 from django.contrib.auth.models import User
 from django.db import transaction
-from cluster.account.account.models import Cluster, Member
+from cluster.account.account.models import Cluster, Member, UserDomain
 from cluster.account.personal_info.models import EducationalResume, SoftwareSkill, LanguageSkill, \
     ExecutiveResearchProject, Invention, Publication
 from cluster.project.models import Domain
@@ -99,17 +99,17 @@ class ClusterHandler(object):
                 domain = domains[i]
                 self.cluster_domain_formset.forms[i].init_by_domain(domain, is_head)
 
-            member_users = self.cluster.users.exclude(id=self.http_request.user.id)
-            users_count = member_users.count()
-            if member_users:
+            user_domains = self.cluster.user_domains.exclude(user__id=self.http_request.user.id)
+            users_count = user_domains.count()
+            if user_domains:
                 ClusterMemberForm.extra = users_count
             if is_head and self.http_method == 'POST' and self.http_request.POST.get('register-submit') and check_post:
                 self.cluster_member_formset = ClusterMemberForm(prefix='cluster_member', data=self.http_request.POST)
             else:
                 self.cluster_member_formset = ClusterMemberForm(prefix='cluster_member')
             for i in range(users_count):
-                user = member_users[i]
-                self.cluster_member_formset.forms[i].init_by_member(user, is_head)
+                user_domain = user_domains[i]
+                self.cluster_member_formset.forms[i].init_by_user_domain(user_domain, is_head)
 
             if not is_head:
                 self.cluster_domain_formset.readonly = True
@@ -138,25 +138,35 @@ class ClusterHandler(object):
                         # cluster_domains = self.cluster_domain_formset.save()
                 cluster.domains = cluster_domains
 
-                users = []
+                user_domains = []
                 for form in self.cluster_member_formset.forms:
                     if form.is_valid():
                         first_name = form.cleaned_data.get('first_name')
                         last_name = form.cleaned_data.get('last_name')
                         email = form.cleaned_data.get('email')
+                        domain = form.cleaned_data.get('domain')
                         password = User.objects.make_random_password()
                         user = User.objects.create(first_name=first_name, last_name=last_name, username=email,
                                                    email=email)
                         user.set_password(password)
                         user.save()
-                        users.append(user)
+                        try:
+                            domain = cluster.domains.get(id=int(domain))
+                        except (Domain.DoesNotExist, ValueError):
+                            try:
+                                domain = cluster.domains.get(name=domain)
+                            except Domain.DoesNotExist:
+                                domain = None
+                        user_domain = UserDomain.objects.create(user=user, domain=domain)
+                        user_domains.append(user_domain)
                         message = MessageServices.get_registration_message(cluster, user, email, password)
                         MessageServices.send_message(subject=u"ثبت نام خوشه %s" % cluster.name,
                                                      message=message,
                                                      user=user, cluster=cluster)
-                users.append(member.user)
+                user_domain = UserDomain.objects.create(user=member.user)
+                user_domains.append(user_domain)
 
-                cluster.users = users
+                cluster.user_domains = user_domains
         else:
             member.cluster = self.cluster
             if self.cluster.head == self.member:
@@ -178,29 +188,40 @@ class ClusterHandler(object):
                             cluster_domains.append(domain_choice)
                 self.cluster.domains = cluster_domains
 
-                users = []
+                user_domains = []
                 for form in self.cluster_member_formset.forms:
                     if form not in self.cluster_member_formset.deleted_forms:
                         if form.is_valid():
                             first_name = form.cleaned_data.get('first_name')
                             last_name = form.cleaned_data.get('last_name')
                             email = form.cleaned_data.get('email')
-                            if 'user_id' in form.fields:
-                                user_id = form.fields['user_id'].initial
-                            else:
-                                user_id = None
-                            if user_id:
+                            domain = form.cleaned_data.get('domain')
+                            try:
+                                domain = self.cluster.domains.get(id=int(domain))
+                            except (Domain.DoesNotExist, ValueError, TypeError):
                                 try:
-                                    user = self.cluster.users.get(id=user_id)
+                                    domain = self.cluster.domains.get(name=domain)
+                                except Domain.DoesNotExist:
+                                    domain = None
+                            if 'user_domain_id' in form.fields:
+                                user_domain_id = form.fields['user_domain_id'].initial
+                            else:
+                                user_domain_id = None
+                            if user_domain_id:
+                                try:
+                                    user_domain = self.cluster.user_domains.get(id=user_domain_id)
                                     if first_name:
-                                        user.first_name = first_name
+                                        user_domain.user.first_name = first_name
                                     if last_name:
-                                        user.last_name = last_name
+                                        user_domain.user.last_name = last_name
                                     if email:
-                                        user.email = email
-                                    user.save()
-                                    users.append(user)
-                                except User.DoesNotExist:
+                                        user_domain.user.email = email
+                                    if domain:
+                                        user_domain.domain = domain
+                                    user_domain.user.save()
+                                    user_domain.save()
+                                    user_domains.append(user_domain)
+                                except UserDomain.DoesNotExist:
                                     pass
                             else:
                                 if email:
@@ -209,7 +230,8 @@ class ClusterHandler(object):
                                                                email=email)
                                     user.set_password(password)
                                     user.save()
-                                    users.append(user)
+                                    user_domain = UserDomain.objects.create(user=user,domain=domain)
+                                    user_domains.append(user_domain)
                                     message = MessageServices.get_registration_message(self.cluster, user, email, password)
                                     MessageServices.send_message(subject=u"ثبت نام خوشه %s" % self.cluster.name,
                                                                  message=message,
@@ -217,20 +239,22 @@ class ClusterHandler(object):
 
                 for form in self.cluster_member_formset.deleted_forms:
                     if form.is_valid():
-                        user_id = form.cleaned_data.get('user_id')
-                        if user_id:
+                        user_domain_id = form.cleaned_data.get('user_domain_id')
+                        if user_domain_id:
                             try:
-                                user = self.cluster.users.get(id=user_id)
-                                message = MessageServices.get_delete_member_message(self.cluster, user)
+                                user_domain = self.cluster.user_domains.get(id=user_domain_id)
+                                message = MessageServices.get_delete_member_message(self.cluster, user_domain.user)
                                 MessageServices.send_message(subject=u"حذف از خوشه %s" % self.cluster.name,
                                                              message=message,
-                                                             user=user, cluster=self.cluster)
+                                                             user=user_domain.user, cluster=self.cluster)
+                                user = user_domain.user
+                                user_domain.delete()
                                 user.delete()
-                            except User.DoesNotExist:
+                            except UserDomain.DoesNotExist:
                                 pass
-                users.append(member.user)
+                user_domains.append(member.user.user_domain)
 
-                self.cluster.users = users
+                self.cluster.user_domains = user_domains
 
                 self.cluster.save()
 
@@ -334,12 +358,12 @@ class ClusterHandler(object):
     def has_permission(self):
         if self.cluster:
             try:
-                self.cluster.users.get(id=self.http_request.user.id)
+                self.cluster.user_domains.get(user__id=self.http_request.user.id)
                 try:
                     if self.member and self.member.cluster == self.cluster:
                         return u"شما قبلا در این خوشه ثبت نام کردید."
                 except Member.DoesNotExist:
                     pass
-            except User.DoesNotExist:
+            except UserDomain.DoesNotExist:
                 return u"شما جزو اعضای این خوشه نیستید."
         return ''

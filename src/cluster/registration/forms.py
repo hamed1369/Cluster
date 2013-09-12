@@ -140,6 +140,7 @@ class MemberForm(ClusterBaseForm):
     first_name = forms.CharField(label=u"نام")
     last_name = forms.CharField(label=u"نام خانوادگی")
     email = forms.EmailField(label=u"پست الکترونیک", widget=forms.TextInput(attrs={'style': 'width:85%;'}))
+    domain = forms.CharField(label=u"حوزه فعالیت", widget=forms.Select(choices=[(u'', '---------'), ]))
 
     extra_js_validation = {
         'email': 'ajax[emailAjaxEngineCall]',
@@ -147,29 +148,36 @@ class MemberForm(ClusterBaseForm):
 
     def clean(self):
         cd = super(MemberForm, self).clean()
-        user_id = None
-        if 'user_id' in self.fields:
-            user_id = self.fields['user_id'].initial
-            cd['user_id'] = self.fields['user_id'].initial
+        user_domain_id = None
+        if 'user_domain_id' in self.fields:
+            user_domain_id = self.fields['user_domain_id'].initial
+            cd['user_domain_id'] = self.fields['user_domain_id'].initial
         email = cd.get('email')
         if email:
             users = User.objects.filter(username=email)
-            if user_id:
-                users = users.exclude(id=user_id)
+            if user_domain_id:
+                users = users.exclude(user_domain__id=user_domain_id)
             if users:
                 self._errors['email'] = self.error_class([u'این ایمیل تکراری است.'])
-
         return cd
 
-    def init_by_member(self, user, is_head):
-        self.fields['first_name'].initial = user.first_name
-        self.fields['last_name'].initial = user.last_name
-        self.fields['email'].initial = user.email
+    def init_by_user_domain(self, user_domain, is_head):
+        self.fields['first_name'].initial = user_domain.user.first_name
+        self.fields['last_name'].initial = user_domain.user.last_name
+        self.fields['email'].initial = user_domain.user.email
+        self.fields['domain'].initial = user_domain.domain.id
+
+        choices = [(u'', '---------'), ]
+        for domain in user_domain.clusters.all()[0].domains.all():
+            choices.append((unicode(domain.id), domain.name))
+
+        self.fields['domain'].widget = forms.Select(choices=choices)
         if not is_head:
             self.fields['first_name'].widget.attrs.update({'readonly': 'readonly'})
             self.fields['last_name'].widget.attrs.update({'readonly': 'readonly'})
             self.fields['email'].widget.attrs.update({'readonly': 'readonly'})
-        self.fields.insert(0, 'user_id', forms.CharField(widget=forms.HiddenInput(), initial=user.id))
+            self.fields['domain'].widget.attrs.update({'readonly': 'readonly'})
+        self.fields.insert(0, 'user_domain_id', forms.CharField(widget=forms.HiddenInput(), initial=user_domain.id))
         self.extra_js_validation.clear()
         process_js_validations(self)
 

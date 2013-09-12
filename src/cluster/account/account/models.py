@@ -83,12 +83,27 @@ class Arbiter(Account):
     def __unicode__(self):
         return u"%s %s"%(self.user.first_name, self.user.last_name)
 
+
+class UserDomain(models.Model):
+    user = models.OneToOneField(User, verbose_name=u"عضو", related_name='user_domain')
+    domain = models.ForeignKey(Domain, verbose_name=u"حوزه فعالیت", related_name='user_domain', null=True, blank=True)
+
+    class Meta:
+        app_label = 'account'
+        verbose_name = u"دامنه عضو"
+        verbose_name_plural = u"دامنه های عضو"
+
+    def __unicode__(self):
+        return u"%s - %s" % (self.user, self.domain)
+
+
 class Cluster(models.Model):
     name        = models.CharField(u"نام خوشه", max_length=50)
     domains     = models.ManyToManyField(Domain,related_name='clusters',verbose_name=u"حوزه فعالیت",) # TODO : ابهام
     institute   = models.CharField(u"دانشگاه / موسسه", max_length=30)
     head        = models.OneToOneField(Member,verbose_name=u"سر خوشه",related_name='head_cluster')
-    users       = models.ManyToManyField(User, verbose_name=u"اعضا", related_name='clusters')
+
+    user_domains= models.ManyToManyField(UserDomain, verbose_name=u"اعضا", related_name='clusters')
 
     class Meta:
         app_label ='account'

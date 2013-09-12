@@ -1,6 +1,6 @@
 <fieldset class="formset_fieldset">
     <legend>{{ legend }}<span class="required_field">*</span></legend>
-    <div id="cluster_domain_formset">
+    <div id="{{ formset.prefix }}_formset">
         <input type="hidden" name="formset_prefix" value="{{ formset.prefix }}">
 
         <div class="formset_container">
