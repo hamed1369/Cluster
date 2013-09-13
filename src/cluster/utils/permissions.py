@@ -62,6 +62,16 @@ class PermissionController:
 
         return perms
 
+    @classmethod
+    def get_user_redirect_url(cls, user):
+        if cls.is_admin(user):
+            return MENU_MAPPERS['admin'][0].url
+        elif cls.is_arbiter(user):
+            return MENU_MAPPERS['arbiter'][1].url
+        elif cls.is_member(user):
+            return MENU_MAPPERS['member'][1].url
+        return '/'
+
 
 class MenuMapper:
     def __init__(self, url, show_name):
@@ -71,6 +81,7 @@ class MenuMapper:
     def __eq__(self, other):
         if other.url == self.url:
             return True
+
 
 MENU_MAPPERS = {
     'admin': [
