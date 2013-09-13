@@ -122,15 +122,16 @@ ul.art-hmenu>li>a, ul.art-vmenu>li>a {
 
 .formError .formErrorContent {
     /*background: rgba(255, 34, 17, 0.8);*/
-    background-color: white;
-    color: #FF3B65;
+    background: rgba(255, 34, 17, 0.8);
+    background-color: rgb(255, 255, 255);
+    color: rgb(255, 59, 101);
     direction: rtl;
     text-align: right;
-    box-shadow: none;
-    border-color: #FF3B65;
-    border-width: thin;
-    margin-left: -50px;
-    margin-top: -34px !important;
+    /*box-shadow: none;*/
+    /*border-color: rgb(255, 59, 101);*/
+    /*border-width: thin;*/
+    /*margin-left: -50px;*/
+    margin-top: -3px !important;
 }
 
 .formError .formErrorArrow div {

@@ -59,6 +59,8 @@
                             deleteCssClass: 'formset_delete',
                             added: check_date_picker
                         });
+
+                        $formset_tr.find('input[type=text], select').attr('data-prompt-position', 'topLeft:-100');
                         {% if formset.prefix != 'cluster_domain' %}
                             $formset_tr.each(function () {
                                 var all_fields_name = [];

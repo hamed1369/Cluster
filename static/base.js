@@ -26,7 +26,7 @@ $(document).ready(function () {
             }
         });
         $(".js-validation-from").validationEngine({
-            promptPosition: "topLeft:-60,3",
+            promptPosition: "centerLeft",
             scroll: true,
             validationEventTrigger: 'submit'
         });
