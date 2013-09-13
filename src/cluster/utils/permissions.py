@@ -85,22 +85,22 @@ class MenuMapper:
 
 MENU_MAPPERS = {
     'admin': [
-        MenuMapper('/manager/domains/', u"مدیریت حوزه ها"),
+        MenuMapper('/domains/', u"مدیریت حوزه ها"),
         MenuMapper('/accounts/edit/', u"ویرایش اطلاعات فردی"),
-        MenuMapper('/manager/members/', u"مدیریت افراد"),
-        MenuMapper('/manager/clusters/', u"مدیریت خوشه ها"),
-        MenuMapper('/manager/messages/', u"جعبه پیام"),
+        MenuMapper('/members/', u"مدیریت افراد"),
+        MenuMapper('/clusters/', u"مدیریت خوشه ها"),
+        MenuMapper('/messages/', u"جعبه پیام"),
     ],
     'arbiter': [
         MenuMapper('/', u"صفحه اصلی"),
         MenuMapper('/arbiter_edit/', u"ویرایش اطلاعات فردی"),
-        MenuMapper('/manager/projects/', u"بررسی طرح ها"),
-        MenuMapper('/manager/messages/', u"جعبه پیام"),
+        MenuMapper('/projects/', u"بررسی طرح ها"),
+        MenuMapper('/messages/', u"جعبه پیام"),
     ],
     'member': [
         MenuMapper('/', u"صفحه اصلی"),
         MenuMapper('/accounts/edit/', u"ویرایش اطلاعات فردی"),
-        MenuMapper('/manager/confirmed_inventions/', u"مشاهده اختراعات تاییدشده"),
-        MenuMapper('/manager/messages/', u"جعبه پیام"),
+        MenuMapper('/confirmed_inventions/', u"مشاهده اختراعات تاییدشده"),
+        MenuMapper('/messages/', u"جعبه پیام"),
     ]
 }

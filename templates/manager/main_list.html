@@ -32,7 +32,7 @@
 
     var $manager = $("#manager_list");
     $manager.jqGrid({
-        url: "/manager/{{ manager.manager_name }}/actions/?t=json",
+        url: "/{{ manager.manager_name }}/actions/?t=json",
         datatype: "json",
         mtype: "GET",
         direction: "rtl",
@@ -85,7 +85,7 @@
             {position: "right", edit: false, add: false, del: false, search: false, refresh: true });
 
     $('.filter-submit').click(function () {
-        var new_url = '/manager/{{ manager.manager_name }}/actions/?t=json';
+        var new_url = '/{{ manager.manager_name }}/actions/?t=json';
         var serialize_form = $('.filter-form').serialize();
         new_url = new_url + '&' + serialize_form;
         $manager.jqGrid().setGridParam({url: new_url}).trigger("reloadGrid");
@@ -100,7 +100,7 @@
         var name = $(this).attr('action_name');
         var is_view = $(this).attr('is_view');
 
-        var url = "/manager/{{ manager.manager_name }}/actions/?t=action&n=" + name + "&i=" + selected_items;
+        var url = "/{{ manager.manager_name }}/actions/?t=action&n=" + name + "&i=" + selected_items;
 
         if (is_view == 'False')
             $.ajax({url: url, method: 'POST',

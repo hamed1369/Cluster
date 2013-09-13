@@ -19,7 +19,6 @@ urlpatterns = patterns('',
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^accounts/', include('cluster.account.urls')),
                        url(r'^project/', include('cluster.project.urls')),
-                       url(r'^manager/', include('cluster.utils.manager.urls')),
                        url(r'^ajax/', include('cluster.utils.ajax.urls')),
 
 )
