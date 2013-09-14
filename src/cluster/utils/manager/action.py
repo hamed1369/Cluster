@@ -78,12 +78,16 @@ class DeleteAction(ManagerAction):
     action_name = 'delete'
     action_verbose_name = u"حذف"
 
-    def __init__(self, do_function=None, action_name='delete', action_verbose_name=u"حذف", min_count='1'):
+    def __init__(self, do_function=None, action_name='delete', action_verbose_name=u"حذف", min_count='1',
+                 confirm_message=None):
         if do_function:
             self.do = do_function
         self.action_name = action_name
         self.action_verbose_name = action_verbose_name
         self.min_count = min_count
+        self.confirm_message = confirm_message
+        if not confirm_message:
+            self.confirm_message = u"آیا از حذف موارد انتخاب شده اطمینان دارید؟"
 
     def do(self, http_request, selected_instances):
         for user in selected_instances:
