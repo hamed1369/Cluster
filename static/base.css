@@ -55,9 +55,11 @@ select {
     font-size: 12px;
     width: 97%;
 }
-#inner-header{
+
+#inner-header {
     width: 97%;
 }
+
 .art-post {
     background-color: #fff;
 }
@@ -322,8 +324,6 @@ table, ul.art-hmenu {
     font-size: 15px;
 }
 
-
-
 ul.art-vmenu>li>a {
     font-size: 16px;
     font-weight: bold;
@@ -444,6 +444,7 @@ fieldset legend {
     color: #2E6E9E;
     font-family: B Mitra;
 }
-.register_table tr{
+
+.register_table tr {
     padding: 10px;
 }

@@ -1,5 +1,6 @@
 .ui-jqgrid .ui-jqgrid-htable th div {
-    padding: 12px 0;
+    padding: 4px 0;
+    font-weight: initial;
 }
 
 .filter-formset table, .filter-formset table tr td {
@@ -17,6 +18,8 @@
 
 .ui-jqgrid .ui-userdata {
     height: 32px;
+    background: rgb(255, 255, 255);
+    border: 0;
 }
 
 #next_manager_pager {
@@ -48,4 +51,8 @@
 
 input[type="text"], input[type="password"], input[type="email"], input[type="url"], textarea {
     width: 60% !important;
+}
+
+.ui-pg-selbox {
+    width: inherit;
 }

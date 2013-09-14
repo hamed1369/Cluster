@@ -7,6 +7,7 @@ from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from cluster.account.account.models import Member
 from cluster.account.forms import SignInForm
+from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
 
@@ -27,11 +28,7 @@ def login_view(request):
                 if next_page:
                     return HttpResponseRedirect(next_page)
                 else:
-                    try:
-                        member = user.member
-                        return HttpResponseRedirect(reverse('edit_accounts'))
-                    except Member.DoesNotExist:
-                        return HttpResponseRedirect(reverse('register'))
+                    return HttpResponseRedirect(PermissionController.get_user_redirect_url(user))
     else:
         login_form = SignInForm()
 

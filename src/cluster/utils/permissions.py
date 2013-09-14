@@ -43,7 +43,7 @@ class PermissionController:
         elif cls.is_arbiter(user):
             return cls.get_admins()
         elif cls.is_member(user):
-            return user.member.cluster.users.filter()
+            return user.member.cluster.user_domains.filter().values_list('user', flat=True)
         else:
             return User.objects.none()
 
@@ -54,13 +54,32 @@ class PermissionController:
         if user.is_anonymous():
             return []
         if cls.is_admin(user):
-            perms = perms + MENU_MAPPERS['admin']
+            for menu in MENU_MAPPERS['admin']:
+                if menu not in perms:
+                    perms.append(menu)
         if cls.is_arbiter(user):
-            perms = perms + MENU_MAPPERS['arbiter']
+            for menu in MENU_MAPPERS['arbiter']:
+                if menu not in perms:
+                    perms.append(menu)
         if cls.is_member(user):
-            perms = perms + MENU_MAPPERS['member']
+            for menu in MENU_MAPPERS['member']:
+                if menu not in perms:
+                    perms.append(menu)
 
+        if MenuMapper('/', u"صفحه اصلی") in perms:
+            del perms[perms.index(MenuMapper('/', u"صفحه اصلی"))]
+            perms.insert(0, MenuMapper('/', u"صفحه اصلی"))
         return perms
+
+    @classmethod
+    def get_user_redirect_url(cls, user):
+        if cls.is_admin(user):
+            return MENU_MAPPERS['admin'][0].url
+        elif cls.is_arbiter(user):
+            return MENU_MAPPERS['arbiter'][1].url
+        elif cls.is_member(user):
+            return MENU_MAPPERS['member'][1].url
+        return '/'
 
 
 class MenuMapper:
@@ -72,24 +91,31 @@ class MenuMapper:
         if other.url == self.url:
             return True
 
+
 MENU_MAPPERS = {
     'admin': [
-        MenuMapper('/manager/domains/', u"مدیریت حوزه ها"),
+        MenuMapper('/domains/', u"مدیریت حوزه ها"),
         MenuMapper('/accounts/edit/', u"ویرایش اطلاعات فردی"),
-        MenuMapper('/manager/members/', u"مدیریت افراد"),
-        MenuMapper('/manager/clusters/', u"مدیریت خوشه ها"),
-        MenuMapper('/manager/messages/', u"جعبه پیام"),
+        MenuMapper('/members/', u"مدیریت افراد"),
+        MenuMapper('/clusters/', u"مدیریت خوشه ها"),
+        MenuMapper('/messages/', u"جعبه پیام"),
     ],
     'arbiter': [
         MenuMapper('/', u"صفحه اصلی"),
         MenuMapper('/arbiter_edit/', u"ویرایش اطلاعات فردی"),
-        MenuMapper('/manager/projects/', u"بررسی طرح ها"),
-        MenuMapper('/manager/messages/', u"جعبه پیام"),
+        MenuMapper('/projects/', u"بررسی طرح ها"),
+        MenuMapper('/messages/', u"جعبه پیام"),
     ],
     'member': [
         MenuMapper('/', u"صفحه اصلی"),
         MenuMapper('/accounts/edit/', u"ویرایش اطلاعات فردی"),
-        MenuMapper('/manager/confirmed_inventions/', u"مشاهده اختراعات تاییدشده"),
-        MenuMapper('/manager/messages/', u"جعبه پیام"),
+        MenuMapper('/confirmed_inventions/', u"مشاهده اختراعات تاییدشده"),
+        MenuMapper('/messages/', u"جعبه پیام"),
     ]
 }
+
+
+def unique_list(seq):
+    seen = set()
+    seen_add = seen.add
+    return [x for x in seq if x not in seen and not seen_add(x)]

@@ -32,7 +32,7 @@
 
     var $manager = $("#manager_list");
     $manager.jqGrid({
-        url: "/manager/{{ manager.manager_name }}/actions/?t=json",
+        url: "/{{ manager.manager_name }}/actions/?t=json",
         datatype: "json",
         mtype: "GET",
         direction: "rtl",
@@ -85,7 +85,7 @@
             {position: "right", edit: false, add: false, del: false, search: false, refresh: true });
 
     $('.filter-submit').click(function () {
-        var new_url = '/manager/{{ manager.manager_name }}/actions/?t=json';
+        var new_url = '/{{ manager.manager_name }}/actions/?t=json';
         var serialize_form = $('.filter-form').serialize();
         new_url = new_url + '&' + serialize_form;
         $manager.jqGrid().setGridParam({url: new_url}).trigger("reloadGrid");
@@ -93,21 +93,31 @@
     });
 
     {% for action in manager.actions %}
-        $('#t_manager_list').append('<button rel="group" data-fancybox-type="iframe" id="action-{{ action.action_name }}" class="manager-action" is_view="{{ action.is_view }}" action_name="{{action.action_name }}">{{ action.action_verbose_name }}</button>');
+        $('#t_manager_list').append('<button rel="group" data-fancybox-type="iframe" id="action-{{ action.action_name }}" class="manager-action" is_view="{{ action.is_view }}" action_name="{{action.action_name }}" action_width="{{action.width }}" action_height="{{action.height }}" min_count="{{ action.min_count|default:"" }}" confirm_message="{{ action.confirm_message|default:"" }}">{{ action.action_verbose_name }}</button>');
     {% endfor %}
     $('.manager-action').click(function () {
         var selected_items = $manager.jqGrid('getGridParam', 'selarrrow');
         var name = $(this).attr('action_name');
         var is_view = $(this).attr('is_view');
+        var width = $(this).attr('action_width');
+        var height = $(this).attr('action_height');
+        var min_count = $(this).attr('min_count');
+        var confirm_message = $(this).attr('confirm_message') || 'از انجام این عملیات اطمینان دارید؟';
 
-        var url = "/manager/{{ manager.manager_name }}/actions/?t=action&n=" + name + "&i=" + selected_items;
+        if (min_count && selected_items < parseInt(min_count)) {
+            alert('لطفا حداقل' + min_count + ' مورد را انتخاب کنید.');
+            return false;
+        }
 
-        if (is_view == 'False')
-            $.ajax({url: url, method: 'POST',
-                success: function (result) {
-                    $manager.trigger("reloadGrid");
-                }});
-        else {
+        var url = "/{{ manager.manager_name }}/actions/?t=action&n=" + name + "&i=" + selected_items;
+
+        if (is_view == 'False') {
+            if (confirm(confirm_message))
+                $.ajax({url: url, method: 'POST',
+                    success: function (result) {
+                        $manager.trigger("reloadGrid");
+                    }});
+        } else {
             $('#action-' + name).attr('href', url);
             $('#action-' + name).fancybox({
                 helpers: {
@@ -121,7 +131,9 @@
                 padding: 0,
                 afterClose: function () {
                     $manager.trigger("reloadGrid");
-                }
+                },
+                minHeight: height,
+                width: width
             });
             return true;
         }

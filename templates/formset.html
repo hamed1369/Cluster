@@ -1,6 +1,6 @@
 <fieldset class="formset_fieldset">
     <legend>{{ legend }}<span class="required_field">*</span></legend>
-    <div id="cluster_domain_formset">
+    <div id="{{ formset.prefix }}_formset">
         <input type="hidden" name="formset_prefix" value="{{ formset.prefix }}">
 
         <div class="formset_container">
@@ -59,6 +59,8 @@
                             deleteCssClass: 'formset_delete',
                             added: check_date_picker
                         });
+
+                        $formset_tr.find('input[type=text], select').attr('data-prompt-position', 'topLeft:-100');
                         {% if formset.prefix != 'cluster_domain' %}
                             $formset_tr.each(function () {
                                 var all_fields_name = [];

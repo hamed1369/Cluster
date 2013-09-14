@@ -66,7 +66,7 @@ def arbiter_edit(request):
         if arbiter_form.is_valid():
             arbiter_form.save()
             messages.success(request, u"ویرایش اطلاعات با موفقیت انجام شد.")
-            return render_to_response('show_message.html', {}, context_instance=RequestContext(request))
+            arbiter_form = ArbiterForm(instance=arbiter, prefix='edit')
     else:
         arbiter_form = ArbiterForm(instance=arbiter, prefix='edit')
     context = {

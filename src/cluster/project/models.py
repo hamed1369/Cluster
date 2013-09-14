@@ -32,7 +32,7 @@ class Project(models.Model):
     patent_date         = models.DateField(u"تاریخ ثبت اختراع", null=True, blank=True)
     patent_certificate  = models.FileField(u"مدرک ثبت اختراع", upload_to="project_patents/", null=True, blank=True)
     patent_request      = models.BooleanField(u"تقاضای ثبت اختراع", default=False)
-    domain              = models.ForeignKey('Domain',verbose_name=u"حوزه علمی و کاربردی طرح", related_name='projects')
+    domain              = models.ForeignKey('Domain',verbose_name=u"حوزه علمی و کاربردی طرح", related_name='projects', on_delete=models.SET_NULL, null=True)
     summary             = models.CharField(u"خلاصه طرح", max_length=2000)
     keywords            = models.CharField(u"کلید واژه", max_length=100)
     innovations         = models.CharField(u"نوآوری های طرح" , max_length=300)

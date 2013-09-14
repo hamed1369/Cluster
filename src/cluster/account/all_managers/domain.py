@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from cluster.project.models import Domain
 from cluster.utils.forms import ClusterBaseModelForm
-from cluster.utils.manager.action import AddAction, EditAction
+from cluster.utils.manager.action import AddAction, EditAction, DeleteAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
 from cluster.utils.permissions import PermissionController
 
@@ -18,7 +18,7 @@ class DomainManager(ObjectsManager):
     manager_name = u"domains"
     manager_verbose_name = u"مدیریت حوزه ها"
     filter_form = DomainForm
-    actions = [AddAction(DomainForm), EditAction(DomainForm)]
+    actions = [AddAction(DomainForm), EditAction(DomainForm), DeleteAction()]
 
     def get_all_data(self):
         return Domain.objects.filter()
