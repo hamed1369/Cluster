@@ -129,6 +129,8 @@ class ObjectsManager(object):
                     value = function(data)
                 else:
                     value = getattr(data, column.column_name)
+                if value is None:
+                    value = u"---"
                 if not isinstance(value, (SafeUnicode, SafeString)):
                     value = unicode(value)
                 row.create_cell(column.column_name, value, column.column_width)

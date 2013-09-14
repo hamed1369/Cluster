@@ -321,6 +321,7 @@ class ArbiterForm(ClusterBaseModelForm):
                 self.fields['first_name'].initial = self.instance.user.first_name
                 self.fields['last_name'].initial = self.instance.user.last_name
                 self.fields['username'].initial = self.instance.user.username
+                self.fields['username'].widget.attrs.update('readonly', 'readonly')
                 self.fields['email'].initial = self.instance.user.email
 
         self.fields['interested_domain'].queryset = Domain.objects.filter(confirmed=True)
@@ -340,7 +341,6 @@ class ArbiterForm(ClusterBaseModelForm):
             user = instance.user
             user.first_name = first_name
             user.last_name = last_name
-            user.username = username
             user.email = email
             if change_pass is True or change_pass == 'True':
                 user.set_password(password)
