@@ -15,7 +15,7 @@ manager_children = []
 class ManagerRegister(type):
     def __new__(mcs, name, bases, classdict):
         from cluster.urls import urlpatterns
-        from django.conf.urls import patterns, include, url
+        from django.conf.urls import patterns, url
 
         new_cls = type.__new__(mcs, name, bases, classdict)
         if not new_cls in manager_children:

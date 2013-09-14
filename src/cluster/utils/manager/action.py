@@ -12,6 +12,9 @@ class ManagerAction(object):
     action_verbose_name = u""  # the name that show to user
     is_view = False  # if True should override action_view
 
+    height = '200'
+    width = '800'
+
     def do(self, http_request, selected_instances):
         pass
 
@@ -87,11 +90,14 @@ class ShowAction(ManagerAction):
     action_verbose_name = u"مشاهده جزئیات"
     is_view = True
 
-    def __init__(self, modelForm, action_name='show', action_verbose_name=u"مشاهده جزئیات", form_title=u"مشاهده"):
+    def __init__(self, modelForm, action_name='show', action_verbose_name=u"مشاهده جزئیات", form_title=u"مشاهده",
+                 width='800', height='200'):
         self.action_name = action_name
         self.action_verbose_name = action_verbose_name
         self.modelForm = modelForm
         self.form_title = form_title
+        self.height = height
+        self.width = width
 
     def action_view(self, http_request, selected_instances):
         form = self.modelForm(instance=selected_instances[0])

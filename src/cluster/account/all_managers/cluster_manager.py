@@ -18,7 +18,7 @@ class ClusterForm(ClusterBaseModelForm):
     def __init__(self, *args, **kwargs):
         super(ClusterForm, self).__init__(*args, **kwargs)
         self.fields['users'] = forms.ModelMultipleChoiceField(queryset=User.objects.filter(), label=u"اعضا",
-                                                                required=False)
+                                                              required=False)
 
 
 class ClusterActionForm(ClusterBaseModelForm):
@@ -29,7 +29,7 @@ class ClusterActionForm(ClusterBaseModelForm):
     def __init__(self, *args, **kwargs):
         super(ClusterActionForm, self).__init__(*args, **kwargs)
         self.fields['users'] = forms.ModelMultipleChoiceField(queryset=User.objects.filter(), label=u"اعضا",
-                                                                required=False)
+                                                              required=False)
         self.fields['users'].initial = self.instance.user_domains.all().values_list('user', flat=True)
 
 
@@ -37,7 +37,7 @@ class ClusterManager(ObjectsManager):
     manager_name = u"clusters"
     manager_verbose_name = u"مدیریت خوشه ها"
     filter_form = ClusterForm
-    actions = [ShowAction(ClusterActionForm)]
+    actions = [ShowAction(ClusterActionForm, height='300')]
 
     filter_handlers = (
         ('name', 'str'),
