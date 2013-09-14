@@ -2,7 +2,8 @@
 {% load account_template_tags %}
 {% load date_template_tags %}
 <!DOCTYPE html>
-<html dir="ltr" lang="en-US"><head><!-- Created by Artisteer v4.1.0.60046 -->
+<html dir="ltr" lang="en-US">
+<head><!-- Created by Artisteer v4.1.0.60046 -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
@@ -11,8 +12,9 @@
     <!--[if lte IE 7]><link rel="stylesheet" href="style.ie7.css" media="screen" /><![endif]-->
     <script type="text/javascript" src="{% static 'lib/jquery-1.10.2.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'lib/jquery.cycle.all.js' %}"></script>
-    <link href="{% static 'lib/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet" media="screen">
-    <link href="{% static 'intro/css/intro.css'%}" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{% static 'lib/jquery.scrollTo.min.js' %}"></script>
+    <link href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+    <link href="{% static 'intro/css/intro.css' %}" rel="stylesheet" type="text/css"/>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="../../assets/js/html5shiv.js"></script>
@@ -21,243 +23,380 @@
     <script src="{% static 'lib/bootstrap/js/bootstrap.min.js' %}"></script>
 
 
-    <style>.art-content .art-postcontent-0 .layout-item-0 { padding-right: 10px;padding-left: 10px;  }
-    .ie7 .art-post .art-layout-cell {border:none !important; padding:0 !important; }
-    .ie6 .art-post .art-layout-cell {border:none !important; padding:0 !important; }
+    <style>.art-content .art-postcontent-0 .layout-item-0 {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .ie7 .art-post .art-layout-cell {
+        border: none !important;
+        padding: 0 !important;
+    }
+
+    .ie6 .art-post .art-layout-cell {
+        border: none !important;
+        padding: 0 !important;
+    }
 
     </style>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
             $('#slider').cycle({
-                fx:    'scrollRight',
-                sync:  1,
+                fx: 'scrollRight',
+                sync: 1,
                 delay: 10000,
-                before: function(currSlideElement, nextSlideElement, options, forwardFlag){
+                before: function (currSlideElement, nextSlideElement, options, forwardFlag) {
                     var curr_class = $(currSlideElement).attr('target-button');
                     var next_class = $(nextSlideElement).attr('target-button');
-                    if (curr_class != next_class){
-                        $("."+next_class).addClass(next_class+"-focused");
-                        $("."+curr_class).removeClass(curr_class+"-focused");
+                    if (curr_class != next_class) {
+                        $("." + next_class).addClass(next_class + "-focused");
+                        $("." + curr_class).removeClass(curr_class + "-focused");
                     }
 
                 }
             });
             $('#inner-introduction').cycle({
-                sync:  false,
+                sync: false,
                 fx: 'scrollDown',
-                timeout:  0,
-                next:   '#aboutus-button',
+                timeout: 0,
+                next: '#aboutus-button',
                 prev: "#back-button"
             });
-            $(".thumb-1").click(function(){
+            $(".thumb-1").click(function () {
                 $('#slider').cycle(0);
                 return false;
             });
-            $(".thumb-2").click(function(){
+            $(".thumb-2").click(function () {
                 $('#slider').cycle(1);
                 return false;
             });
-            $(".thumb-3").click(function(){
+            $(".thumb-3").click(function () {
                 $('#slider').cycle(2);
                 return false;
             });
-            $(".thumb-4").click(function(){
+            $(".thumb-4").click(function () {
                 $('#slider').cycle(3);
                 return false;
             });
-            $("#login-button").click(function(){
+            $("#login-button").click(function () {
                 $('#upper-header').slideToggle();
+                return false;
+            });
+            $("#submit-scroll-button").click(function(){
+                $.scrollTo( $('#submit-detail'), 800);
+                return false;
+            });
+            $("#judge-scroll-button").click(function(){
+                $.scrollTo( $('#judge-detail'), 800);
                 return false;
             });
         });
     </script>
 </head>
 <body>
-    {% if not user.is_authenticated %}
-        <div id="upper-header" style="display: none;">
-            <div id="inner-upper-header">
-                <form class="form-inline" role="form" method="post" action="{% url account.views.auth.login_view %}">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label class="sr-only" for="id_username">نام کاربری</label>
-                        <input type="username" class="form-control" id="id_username" name="username" placeholder="نام کاربری">
-                    </div>
-                    <div class="form-group">
-                        <label class="sr-only" for="id_password">گذرواژه</label>
-                        <input type="password" class="form-control" id="id_password" name="password" placeholder="گذرواژه">
-                    </div>
-                    <button type="submit" class="btn btn-default">ورود</button>
-                </form>
-            </div>
-        </div>
-    {% endif %}
-    <div id="header">
-        <div id="inner-header">
-            <div id="logo-container">
-                <div id="logo"></div>
-                <div id="logo-name"></div>
-            </div>
-
-            <div id="top-button-div">
-
-                {% if not user.is_authenticated %}
-                    <a class="btn btn-default" id="aboutus-button" href="#">درباره ما</a>
-                    <a class="btn btn-default" id="login-button" href="{% url cluster.account.views.auth.login_view %}">ورود</a>
-                    <a class="btn btn-danger" href="{% url cluster.registration.views.register %}">ثبت نام</a>
-                {% else %}
-                    <div id="user-info">
-                        <div id="welcome">{% welcome_st user %}</div>
-                        <div id="today-date">{{ today|persian_date }}</div>
-                        <a id="exit-button" href="{% url logout %}">خروج</a>
-                    </div>
-                {% endif %}
-            </div>
-
+{% if not user.is_authenticated %}
+    <div id="upper-header" style="display: none;">
+        <div id="inner-upper-header">
+            <form class="form-inline" role="form" method="post" action="{% url account.views.auth.login_view %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label class="sr-only" for="id_username">نام کاربری</label>
+                    <input type="username" class="form-control" id="id_username" name="username"
+                           placeholder="نام کاربری">
+                </div>
+                <div class="form-group">
+                    <label class="sr-only" for="id_password">گذرواژه</label>
+                    <input type="password" class="form-control" id="id_password" name="password" placeholder="گذرواژه">
+                </div>
+                <button type="submit" class="btn btn-default">ورود</button>
+            </form>
         </div>
     </div>
-    <div id="introduction">
-        <div id="inner-introduction">
-            <div class="inner-intro-div">
-                موسسه پژوهشی نگاه نو، نهادی غیردولتی و غیرسیاسی بوده که به منظور حمایت و توانمند سازی نخبگان، استعدادهای درخشان و گروه های جوان و کوچک (دارای توان بالقوه توسعه و آتی اقتصادی در زمینه های مختلف علمی و صنعتی)، در سال 1392 شکل گرفته است. این موسسه با در اختیار گذاشتن منابع مالی و تجارب مدیریتی خود به جوانان نخبه، امکانات لازم برای انجام پژوهش، ایجاد زیرساخت، تولید ایده و تبدیل آن به محصول را محیا می کند. از جمله اهداف بنیادی این موسسه سرمایه گذاری در طرح ها و ایده هایی می باشد که تکنولوژی جدید و یا روش کار نوینی منجر شود.
-            </div>
-            <div class="inner-intro-div">
-                <p>متن درباره ما</p>
-                <p>تلفن: 44773388</p>
-                <p>فکس: 33434343</p>
+{% endif %}
+<div id="header">
+    <div id="inner-header">
+        <div id="logo-container">
+            <div id="logo"></div>
+            <div id="logo-name"></div>
+        </div>
 
-                <a class="btn btn-primary" id="back-button" href="#">بازگشت</a>
-            </div>
+        <div id="top-button-div">
+
+            {% if not user.is_authenticated %}
+                <a class="btn btn-default" id="aboutus-button" href="#">درباره ما</a>
+                <a class="btn btn-default" id="login-button"
+                   href="{% url cluster.account.views.auth.login_view %}">ورود</a>
+                <a class="btn btn-danger" href="{% url cluster.registration.views.register %}">ثبت نام</a>
+            {% else %}
+                <div id="user-info">
+                    <div id="welcome">{% welcome_st user %}</div>
+                    <div id="today-date">{{ today|persian_date }}</div>
+                    <a id="exit-button" href="{% url logout %}">خروج</a>
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+<div id="introduction">
+    <div id="inner-introduction">
+        <div class="inner-intro-div">
+            موسسه پژوهشی نگاه نو، نهادی غیردولتی و غیرسیاسی بوده که به منظور حمایت و توانمند سازی نخبگان، استعدادهای
+            درخشان و گروه های جوان و کوچک (دارای توان بالقوه توسعه و آتی اقتصادی در زمینه های مختلف علمی و صنعتی)، در
+            سال 1392 شکل گرفته است. این موسسه با در اختیار گذاشتن منابع مالی و تجارب مدیریتی خود به جوانان نخبه، امکانات
+            لازم برای انجام پژوهش، ایجاد زیرساخت، تولید ایده و تبدیل آن به محصول را محیا می کند. از جمله اهداف بنیادی
+            این موسسه سرمایه گذاری در طرح ها و ایده هایی می باشد که تکنولوژی جدید و یا روش کار نوینی منجر شود.
+        </div>
+        <div class="inner-intro-div">
+            <p>متن درباره ما</p>
+
+            <p>تلفن: 44773388</p>
+
+            <p>فکس: 33434343</p>
+
+            <a class="btn btn-primary" id="back-button" href="#">بازگشت</a>
         </div>
     </div>
-    <div id="sliderFrame">
-        <div id="slider">
-            <div target-button="thumb-1" style="width: 680px;height: 306px;">
-                <div id="slide-1" class="slide">
-                    <div class="container">
-                        <h1>اولین قدم ثبت نام در سامانه است</h1>
-                        <p class="slide-paragraph" style="margin-top: -0px;width: 320px;">
-                            جهت استفاده از امکانات و تسهیلات موسسه، قبل از هر اقدامی بمنظور معرفی فرد نخبه یا صاحب طرح بایستی فرایند ثبت نام در  سامانه صورت پذیرد.
-                        </p>
-                        <p class="slide-paragraph" style="width: 90%;margin-top: -10px;">این مرحل از آنجایی اهمیت می یابد که حتی اگر نخبه، دارای طرح یا ایده نباشد، با توجه به سوابق تحصیلی یا کاری امکان معرفی او جهت همکاری در پروژه های مرتبط فراهم خواهد شد.</p>
-                        <p><a class="btn btn-primary btn-lg" style="margin-right: 30px;" href="{% url register %}">هم اکنون ثبت نام کنید</a></p>
-                    </div>
-                </div>
-            </div>
-            <div target-button="thumb-2" style="width: 680px;height: 306px;">
-                <div id="slide-2" class="slide">
-                    <div class="container">
-                        <h1>طرح خود را برای ما ارسال کنید</h1>
-                        <p class="slide-paragraph">
-                            بعد از ثبت نام در قالب فردی یا خوشه ای، بایستی طرح پیشنهادی به موسسه معرفی گردد. برای آگاهی از نحوه معرفی طرح بر روی دکمه زیر کلیک نمایید.
-                        </p>
-                        <p><a class="btn btn-primary btn-lg" style="margin-right: 30px;" href="{% url register %}"> جزئیات مرحله ارسال طرح</a></p>
-                    </div>
-                </div>
-            </div>            <div target-button="thumb-3" style="width: 680px;height: 306px;">
-                <div id="slide-3" class="slide">
-                    <div class="container">
-                        <h1>طرح شما بررسی و ارزیابی می شود</h1>
-                        <p class="slide-paragraph">
-                            بعد از ارسال طرح، فرایند داوری صورت می پذیرد. این قسمت با ارسال طرح پیشنهادی به داور متخصص در ان حوزه تکمیل خواهد شد. برای آشنایی بیشتر با این مرحله روی دکمه زیر کلیک کنید.
-                        </p>
-                        <p><a class="btn btn-primary btn-lg" style="margin-right: 30px;" href="{% url register %}"> معیارها و مراحل داوری</a></p>
-                    </div>
-                </div>
-            </div>
-            <div target-button="thumb-4" style="width: 680px;height: 306px;">
-                <div id="slide-4" class="slide">
-                    <div class="container">
-                        <h1>حمایت می شوید!</h1>
-                        <p class="slide-paragraph"> توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح </p>
-                        <p><a class="btn btn-primary btn-lg" style="margin-right: 30px;" href="{% url register %}">هم اکنون ثبت نام کنید</a></p>
-                    </div>
+</div>
+<div id="sliderFrame">
+    <div id="slider">
+        <div target-button="thumb-1" style="width: 680px;height: 306px;">
+            <div id="slide-1" class="slide">
+                <div class="container">
+                    <h1>اولین قدم ثبت نام در سامانه است</h1>
+
+                    <p class="slide-paragraph" style="margin-top: -0px;width: 320px;">
+                        جهت استفاده از امکانات و تسهیلات موسسه، قبل از هر اقدامی بمنظور معرفی فرد نخبه یا صاحب طرح
+                        بایستی فرایند ثبت نام در سامانه صورت پذیرد.
+                    </p>
+
+                    <p class="slide-paragraph" style="width: 90%;margin-top: -10px;">این مرحل از آنجایی اهمیت می یابد که
+                        حتی اگر نخبه، دارای طرح یا ایده نباشد، با توجه به سوابق تحصیلی یا کاری امکان معرفی او جهت همکاری
+                        در پروژه های مرتبط فراهم خواهد شد.</p>
+
+                    <p><a class="btn btn-primary btn-lg" style="margin-right: 30px;" href="{% url register %}">هم اکنون
+                        ثبت نام کنید</a></p>
                 </div>
             </div>
         </div>
-        <!--thumbnails-->
-        <div id="thumbs">
-            <div class="thumb thumb-1 thumb-1-focused">
-                <div class="thumb-content"><p>ثبت نام در سامانه</p></div>
-                <div style="clear:both;"></div>
-            </div>
-            <div class="thumb thumb-2 selected-thumb">
-                <div class="thumb-content"><p>ثبت و ارسال طرح</p></div>
-                <div style="clear:both;"></div>
-            </div>
-            <div class="thumb thumb-3">
-                <div class="thumb-content"><p>داوری</p></div>
-                <div style="clear:both;"></div>
-            </div>
-            <div class="thumb thumb-4">
-                <div class="thumb-content"><p>حمایت مادی و معنوی</p></div>
-                <div style="clear:both;"></div>
-            </div>
-        </div>
-        <!--clear above float:left elements. It is required if above #slider is styled as float:left. -->
-        <div style="clear:both;height:0;"></div>
-    </div>
-    <div id="reg-detail-container" class="detail-content">
-        <div id="reg-detail">
-            <h2 style="color:#D6D6D6;margin-bottom: 20px;">ثبت نام در سامانه</h2>
-            <p>
-                برای استفاده از امکانات سامانه، و لازم است دانشجویان و نخبگان یک بار در سامانه ثبت نام کنند. برای این کار به قسمت ثبت نام مراجعه گردد. ثبت نام در سامانه بر دو اساس صورت می پذیرد:
-            </p>
-            <p>
-                <span style="color:#FFFC45;font-size: 20px;">ثبت نام فردی:</span>
+        <div target-button="thumb-2" style="width: 680px;height: 306px;">
+            <div id="slide-2" class="slide">
+                <div class="container">
+                    <h1>طرح خود را برای ما ارسال کنید</h1>
 
-                ثبت نامی فردی بدین معنی است که نخبه دارای طرحی می باشد که فردی بوده (تک نفری) و بصورت انفرادی تمایل به اجرا آن می باشد. از این رو با انتخاب این قسمت تمامی طرح های ارسالی از سوی نخبه به عنوان کار انفرادی در نظر گرفته می شود.
-            </p>
-            <p>
-                <span style="color:#FFAE00;font-size: 20px;">ثبت نام خوشه ای:</span>
-                 این حالت زمانی انتخاب می شود که تعدادی از نخبگان و دانشجویان قصد انجام کار تیمی در قالب طرح ارسالی می باشند. در این حالت یک نفر(فردی که فرایند ثبت نام خوشه ای را انتخاب کرده است) به عنوان سرگروه خوشه انتخاب می گردد و در ادامه فرایند ثبت نام بایستی نام و نام خانوادی اعضا خوشه به همراه پست الکترونیکی آن درج گردد. سامانه بطور خودکار بعد از تایید نهایی فرایند ثبت نام، اقدام به ارسال دعوت نامه ای به اعضای خوشه خواهد نمود که در آن لینک مربوط به فرم اطلاعات فردی خوشه ارسال می گردد. لازم به ذکر است بعد از اعمال مشخصات خوشه ادامه فرایند ثبت نام بصورت فردی و مختص سرگروه خوشه خواهد بود، بطوری که اطلاعات خواسته شده تنها مربوط به یک فرد(سرگروه) می باشد.
-            </p>
-            <p>
-                نام حوزه: این قسمت به منظور تقسیم بندی خوشه ها در حوزه های مشخص تهیه شده است، از این رو سرگروه خوشه بایستی یک یا چند حوزه فعالیتی خوشه را در ابتدای فرایند ثبت نام درج نماید. حوزه علمی و کاربردی طرح(برق و کامپیوتر، مکانیک، کشاورزی و منابع طبیعی، زیست فناورزی، محیط زیست و علوم پایه پزشکی، صنایع شیمیایی، هنو و معماری، علوم پایه، مواد و متالورژی و انرژی های نو، فناوری اطلاعات، فناوری نانو، عمران، صنایع و مدیریت فناوری، هوافضا، مکاترونیک، علوم پزشکی و دارویی) و غیره
-            </p>
-        </div>
-    </div>
-        <div id="submit-detail-container" class="detail-content">
-        <div id="submit-detail">
-            <h2 style="margin-bottom: 20px;color:red;">ثبت و ارسال طرح</h2>
-            <p>
-                در این مرحله بعد از ثبت نام فردی و خوشه، کاربر اقدام ثبت طرح خود می نماید. این بخش نیز همچون بخش قبل دارای فرم استانداری می باشد که بایستی تکمیل و ارسال گردد. فرم مذکور مشتمل بر 9 قسمت درج اطلاعات و الساق پروپوزال می باشد. کاربر بعد از پر کردن اطلاعات خواسته شده در 9 قسمت (به منظور معرفی کلی طرح خود)، اقدام به پیوست فرم پروپوزال استاندارد خواهد نمود. فرایند نحوه عملکرد موسسه نسبت به طرح ارسال بصورت زیر عنوام می شود.
-            </p>
-            <p>
-                تمامی طرح های ارسال بایستی بر اساس فرم پروپوزال موسسه تکمیل و نتظیم گردد.<a href="#"> فرم پروپوزال</a>
-            </p>
-            <p style="text-align: center">
-                <img src="/static/intro/images/submit_levels.jpg" width="400" height="200">
-            </p>
-            <p>
-                به طور كلي در بررسي موارد و شرايط ذيل در نظر گرفته مي شود:
-            </p>
-            <p>
-                <ol>
-                    <li>
-                        طرح پیشنهادی بايد داراي مشخصه جديدي باشد كه تا بحال کمتر به آن توجه شده است.
-                    </li>
-                    <li>
-                        طرح پیشنهادی بايد علاوه بر نو بودن، ارتقاي قابل توجهي را در حيطه خود موجب شود به طوري كه راه فني پيشنهادي طرح براي حل مشكل، بايد نسبت به ساير راه حل هاي احتمالي موجود، مزيت قابل توجهي داشته باشد(تکراری نبود و در صورت تکراری بودن مزیتی نسبت به سایر الگوهای مشابه داشته باشد).
-                    </li>
-                    <li>
-                        طرح پیشنهادی نبايد فقط تئوريك و نظري باشد بلكه بايد قابليت استفاده عملي و توليد در صنعت را داشته باشد.
-                    </li>
-                </ol>
-            </p>
-            <p>
-                موارد عنوان شده تنها معیار های اصلی در رد یا پذیرش طرح می باشد که در صورت پذیرش اولیه در ادامه فرایند دقیق تر مورد بررسی قرار خواهد گرفت.
-            </p>
-        </div>
-    </div>
-    <div id="judge-detail-container" class="detail-content">
-        <div id="judge-detail">
+                    <p class="slide-paragraph">
+                        بعد از ثبت نام در قالب فردی یا خوشه ای، بایستی طرح پیشنهادی به موسسه معرفی گردد. برای آگاهی از
+                        نحوه معرفی طرح بر روی دکمه زیر کلیک نمایید.
+                    </p>
 
+                    <p><a id="submit-scroll-button" class="btn btn-primary btn-lg" style="margin-right: 30px;" href="{% url register %}"> جزئیات
+                        مرحله ارسال طرح</a></p>
+                </div>
+            </div>
         </div>
-    </div>
-    <div id="support-detail-container" class="detail-content">
-        <div id="support-detail">
+        <div target-button="thumb-3" style="width: 680px;height: 306px;">
+            <div id="slide-3" class="slide">
+                <div class="container">
+                    <h1>طرح شما بررسی و ارزیابی می شود</h1>
 
+                    <p class="slide-paragraph">
+                        بعد از ارسال طرح، فرایند داوری صورت می پذیرد. این قسمت با ارسال طرح پیشنهادی به داور متخصص در ان
+                        حوزه تکمیل خواهد شد. برای آشنایی بیشتر با این مرحله روی دکمه زیر کلیک کنید.
+                    </p>
+
+                    <p><a class="btn btn-primary btn-lg" style="margin-right: 30px;" href="{% url register %}" id="judge-scroll-button"> معیارها
+                        و مراحل داوری</a></p>
+                </div>
+            </div>
+        </div>
+        <div target-button="thumb-4" style="width: 680px;height: 306px;">
+            <div id="slide-4" class="slide">
+                <div class="container">
+                    <h1>حمایت می شوید!</h1>
+
+                    <p class="slide-paragraph"> توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح
+                        توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح توضیح </p>
+
+                    <p><a class="btn btn-primary btn-lg" style="margin-right: 30px;" href="{% url register %}">هم اکنون
+                        ثبت نام کنید</a></p>
+                </div>
+            </div>
         </div>
     </div>
-    </body>
+    <!--thumbnails-->
+    <div id="thumbs">
+        <div class="thumb thumb-1 thumb-1-focused">
+            <div class="thumb-content"><p>ثبت نام در سامانه</p></div>
+            <div style="clear:both;"></div>
+        </div>
+        <div class="thumb thumb-2 selected-thumb">
+            <div class="thumb-content"><p>ثبت و ارسال طرح</p></div>
+            <div style="clear:both;"></div>
+        </div>
+        <div class="thumb thumb-3">
+            <div class="thumb-content"><p>داوری</p></div>
+            <div style="clear:both;"></div>
+        </div>
+        <div class="thumb thumb-4">
+            <div class="thumb-content"><p>حمایت مادی و معنوی</p></div>
+            <div style="clear:both;"></div>
+        </div>
+    </div>
+    <!--clear above float:left elements. It is required if above #slider is styled as float:left. -->
+    <div style="clear:both;height:0;"></div>
+</div>
+<div id="reg-detail-container" class="detail-content">
+    <div id="reg-detail">
+        <h2 style="color:white;margin-bottom: 20px;">ثبت نام در سامانه</h2>
+
+        <p>
+            برای استفاده از امکانات سامانه، و لازم است دانشجویان و نخبگان یک بار در سامانه ثبت نام کنند. برای این کار به
+            قسمت ثبت نام مراجعه گردد. ثبت نام در سامانه بر دو اساس صورت می پذیرد:
+        </p>
+
+        <p>
+            <span style="color:#FFFC45;font-size: 20px;">ثبت نام فردی:</span>
+
+            ثبت نامی فردی بدین معنی است که نخبه دارای طرحی می باشد که فردی بوده (تک نفری) و بصورت انفرادی تمایل به اجرا
+            آن می باشد. از این رو با انتخاب این قسمت تمامی طرح های ارسالی از سوی نخبه به عنوان کار انفرادی در نظر گرفته
+            می شود.
+        </p>
+
+        <p>
+            <span style="color:#FFAE00;font-size: 20px;">ثبت نام خوشه ای:</span>
+            این حالت زمانی انتخاب می شود که تعدادی از نخبگان و دانشجویان قصد انجام کار تیمی در قالب طرح ارسالی می باشند.
+            در این حالت یک نفر(فردی که فرایند ثبت نام خوشه ای را انتخاب کرده است) به عنوان سرگروه خوشه انتخاب می گردد و
+            در ادامه فرایند ثبت نام بایستی نام و نام خانوادی اعضا خوشه به همراه پست الکترونیکی آن درج گردد. سامانه بطور
+            خودکار بعد از تایید نهایی فرایند ثبت نام، اقدام به ارسال دعوت نامه ای به اعضای خوشه خواهد نمود که در آن لینک
+            مربوط به فرم اطلاعات فردی خوشه ارسال می گردد. لازم به ذکر است بعد از اعمال مشخصات خوشه ادامه فرایند ثبت نام
+            بصورت فردی و مختص سرگروه خوشه خواهد بود، بطوری که اطلاعات خواسته شده تنها مربوط به یک فرد(سرگروه) می باشد.
+        </p>
+
+        <p>
+            نام حوزه: این قسمت به منظور تقسیم بندی خوشه ها در حوزه های مشخص تهیه شده است، از این رو سرگروه خوشه بایستی
+            یک یا چند حوزه فعالیتی خوشه را در ابتدای فرایند ثبت نام درج نماید. حوزه علمی و کاربردی طرح(برق و کامپیوتر،
+            مکانیک، کشاورزی و منابع طبیعی، زیست فناورزی، محیط زیست و علوم پایه پزشکی، صنایع شیمیایی، هنو و معماری، علوم
+            پایه، مواد و متالورژی و انرژی های نو، فناوری اطلاعات، فناوری نانو، عمران، صنایع و مدیریت فناوری، هوافضا،
+            مکاترونیک، علوم پزشکی و دارویی) و غیره
+        </p>
+    </div>
+</div>
+<div id="submit-detail-container" class="detail-content">
+    <div id="submit-detail">
+        <h2 style="margin-bottom: 20px;color:red;">ثبت و ارسال طرح</h2>
+
+        <p>
+            در این مرحله بعد از ثبت نام فردی و خوشه، کاربر اقدام ثبت طرح خود می نماید. این بخش نیز همچون بخش قبل دارای
+            فرم استانداری می باشد که بایستی تکمیل و ارسال گردد. فرم مذکور مشتمل بر 9 قسمت درج اطلاعات و الساق پروپوزال
+            می باشد. کاربر بعد از پر کردن اطلاعات خواسته شده در 9 قسمت (به منظور معرفی کلی طرح خود)، اقدام به پیوست فرم
+            پروپوزال استاندارد خواهد نمود. فرایند نحوه عملکرد موسسه نسبت به طرح ارسال بصورت زیر عنوام می شود.
+        </p>
+
+        <p>
+            تمامی طرح های ارسال بایستی بر اساس فرم پروپوزال موسسه تکمیل و نتظیم گردد.<a href="#"> فرم پروپوزال</a>
+        </p>
+
+        <p style="text-align: center">
+            <img src="/static/intro/images/submit_levels.jpg" width="400" height="200">
+        </p>
+
+        <p>
+            به طور كلي در بررسي موارد و شرايط ذيل در نظر گرفته مي شود:
+        </p>
+
+        <div>
+        <ol>
+            <li>
+                طرح پیشنهادی بايد داراي مشخصه جديدي باشد كه تا بحال کمتر به آن توجه شده است.
+            </li>
+            <li>
+                طرح پیشنهادی بايد علاوه بر نو بودن، ارتقاي قابل توجهي را در حيطه خود موجب شود به طوري كه راه فني
+                پيشنهادي طرح براي حل مشكل، بايد نسبت به ساير راه حل هاي احتمالي موجود، مزيت قابل توجهي داشته باشد(تکراری
+                نبود و در صورت تکراری بودن مزیتی نسبت به سایر الگوهای مشابه داشته باشد).
+            </li>
+            <li>
+                طرح پیشنهادی نبايد فقط تئوريك و نظري باشد بلكه بايد قابليت استفاده عملي و توليد در صنعت را داشته باشد.
+            </li>
+        </ol>
+        </div>
+        <p>
+            موارد عنوان شده تنها معیار های اصلی در رد یا پذیرش طرح می باشد که در صورت پذیرش اولیه در ادامه فرایند دقیق
+            تر مورد بررسی قرار خواهد گرفت.
+        </p>
+    </div>
+</div>
+<div id="judge-detail-container" class="detail-content">
+    <div id="judge-detail">
+        <h2 style="margin-bottom: 20px;color:red;">داوری</h2>
+
+        <p>
+            این مرحله که قدم فرایند حمایتی طرح های ارسال شده می باشد، بعد از ارسال طرح نخبه به موسسه و داوری اولیه(توضیح
+            داده شده در مرحله قبل) به منظور بررسی تخصصی و آماده سازی طرح به مرحله اجرا مورد بازبینی و قضاوت داوران متخصص
+            با حوزه طرح صورت خواهد پذیرفت. فرایند تصمیم گیری و قضاوت طرح ها از دو بخش تشکیل شده است: بخش نخست عمدتا از
+            معیارها و اولیویت های موسسه تشکیل شده است(جدول زیر).
+        </p>
+
+        <div style="text-align: center;">
+        <table style="position: relative;margin: 0 auto;">
+        <tr style="background-color:#1570a6;color: white;">
+            <td> معیار</td>
+            <td> زیر معیار</td>
+        </tr>
+        <tr style="background-color:#FF82C1;color: white;">
+            <td rowspan="3">فناوري</td>
+            <td> نحوه تأثيرگذاري بر فناوري کشور</td>
+        </tr>
+        <tr style="background-color:#FF82C1;color: white;">
+            <td>آخرين وضعيت طرح</td>
+        </tr>
+        <tr style="background-color:#FF82C1;color: white;">
+            <td>وضعيت ثبت اختراع</td>
+        </tr>
+        <tr style="background-color:#9FEB91;color: black;">
+            <td rowspan="4">وضعیت بازار</td>
+            <td>وضعيت رقابتي</td>
+        </tr>
+        <tr style="background-color:#9FEB91;color: black;">
+            <td>ميزان تقاضا در بازار</td>
+        </tr>
+        <tr style="background-color:#9FEB91;color: black;">
+            <td>قابلیت صادرات</td>
+        </tr>
+        <tr style="background-color:#9FEB91;color: black;">
+            <td>قیمت فروش</td>
+        </tr>
+        <tr style="background-color:#FFB412;color: white;">
+            <td rowspan="2">تخصص و تجربه</td>
+            <td>تخصص</td>
+        </tr>
+        <tr style="background-color:#FFB412;color: white;">
+            <td>تجربه</td>
+        </tr>
+        <tr style="background-color:#1570a6;color: white;">
+            <td rowspan="3">ضرورت ملی</td>
+            <td>تأثیر بر  زندگی مردم</td>
+        </tr>
+        <tr style="background-color:#1570a6;color: white;">
+            <td>تأثیر بر اقتصاد کشور</td>
+        </tr>
+        <tr style="background-color:#1570a6;color: white;">
+            <td>تأثیر بر خنثی‌سازی تحریم</td>
+        </tr>
+        <tr style="background-color:#FF8A8A;color: white;">
+            <td>محوریت در تجاري‌سازی</td>
+            <td>محوریت در تجاري‌سازی(فردی، خوشه ای)</td>
+        </tr>
+        </table>
+        </div>
+        <p style="margin-top: 20px;">
+            در بخش دوم، تمرکز بر معیارهای اولیه طرح توجیهی و کلیات موضوع خواهد بود، بطوری که در این قسمت امکان تبادل نظر و پاسخ میان مجری و داوران وجود خواهد داشت. به بیانی دیگر بعد عبور از بخش نخست و تایید وجود سطح مطلوبی از معیارهای جدول فوق، به منظور اجرایی شدن طرح پیشنهادی و بررسی موضوعات فنی و تهیه برنامه کسب و کار، برگزاری جلسه میان مجری و موسسه لازم به نظر خواهد رسید.
+        </p>
+    </div>
+</div>
+<div id="support-detail-container" class="detail-content">
+    <div id="support-detail">
+
+    </div>
+</div>
+</body>
 </html>
