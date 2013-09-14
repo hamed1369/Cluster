@@ -82,6 +82,10 @@
                 $('#upper-header').slideToggle();
                 return false;
             });
+            $("#register-scroll-button").click(function(){
+                $.scrollTo( $('#reg-detail'), 800);
+                return false;
+            });
             $("#submit-scroll-button").click(function(){
                 $.scrollTo( $('#submit-detail'), 800);
                 return false;
@@ -174,8 +178,9 @@
                         حتی اگر نخبه، دارای طرح یا ایده نباشد، با توجه به سوابق تحصیلی یا کاری امکان معرفی او جهت همکاری
                         در پروژه های مرتبط فراهم خواهد شد.</p>
 
-                    <p><a class="btn btn-primary btn-lg" style="margin-right: 30px;" href="{% url register %}">هم اکنون
-                        ثبت نام کنید</a></p>
+                    <p><a class="btn btn-primary btn-lg" style="margin-right: 30px;" href="#"  id="register-scroll-button">
+                    جزئیات ثبت نام
+                    </a></p>
                 </div>
             </div>
         </div>
@@ -279,6 +284,9 @@
             پایه، مواد و متالورژی و انرژی های نو، فناوری اطلاعات، فناوری نانو، عمران، صنایع و مدیریت فناوری، هوافضا،
             مکاترونیک، علوم پزشکی و دارویی) و غیره
         </p>
+        <p><a class="btn btn-default btn-lg" style="margin-right: 30px;" href="{% url register %}">
+           هم اکنون ثبت نام کنید.
+        </a></p>
     </div>
 </div>
 <div id="submit-detail-container" class="detail-content">
