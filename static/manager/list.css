@@ -49,3 +49,7 @@
 input[type="text"], input[type="password"], input[type="email"], input[type="url"], textarea {
     width: 60% !important;
 }
+
+.ui-pg-selbox {
+    width: inherit;
+}

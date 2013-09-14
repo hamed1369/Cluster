@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    $('select').select2({
+    $('.filter-form select').select2({
         minimumResultsForSearch: 99
     });
 
