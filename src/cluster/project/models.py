@@ -37,7 +37,7 @@ class Project(models.Model):
     keywords            = models.CharField(u"کلید واژه", max_length=100)
     innovations         = models.CharField(u"نوآوری های طرح" , max_length=300)
     state               = models.IntegerField(u"مرحله", choices=STATE)
-    project_status      = models.IntegerField(u"مرحله داوری", choices=STATE)
+    project_status      = models.IntegerField(u"مرحله داوری", choices=STATUS, default=0)
 
 
     class Meta:

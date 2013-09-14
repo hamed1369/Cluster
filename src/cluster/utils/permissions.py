@@ -103,7 +103,7 @@ MENU_MAPPERS = {
     'arbiter': [
         MenuMapper('/', u"صفحه اصلی"),
         MenuMapper('/arbiter_edit/', u"ویرایش اطلاعات فردی"),
-        MenuMapper('/projects/', u"بررسی طرح ها"),
+        MenuMapper('/projects_for_arbiters/', u"بررسی طرح ها"),
         MenuMapper('/messages/', u"جعبه پیام"),
     ],
     'member': [
@@ -111,6 +111,7 @@ MENU_MAPPERS = {
         MenuMapper('/accounts/edit/', u"ویرایش اطلاعات فردی"),
         # MenuMapper('/confirmed_inventions/', u"مشاهده اختراعات تاییدشده"),
         MenuMapper('/project/register/', u"ثبت طرح"),
+        MenuMapper('/projects/', u"طرح های ثبت و تایید شده"),
         MenuMapper('/messages/', u"جعبه پیام"),
     ]
 }

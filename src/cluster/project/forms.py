@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 from django import forms
-from cluster.project.models import Project
+from cluster.project.models import Project, Domain
 from cluster.utils.fields import BOOLEAN_CHOICES
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.js_validation import process_js_validations
@@ -30,6 +30,7 @@ class ProjectForm(ClusterBaseModelForm):
         )
         self.fields['confirmation_type'].required = False
         self.fields['domain'].required = True
+        self.fields['domain'].queryset = Domain.objects.filter(confirmed=True)
         self.fields['has_patent'] = forms.ChoiceField(required=True, choices=BOOLEAN_CHOICES,
                                                       widget=forms.RadioSelect(), )
         self.fields['has_patent'].label = u"آیا طرح پیشنهادی دارای ثبت اختراع می باشد؟"
@@ -56,5 +57,7 @@ class ProjectManagerForm(ProjectForm):
         super(ProjectManagerForm, self).__init__(*args, **kwargs)
         if 'agreement' in self.fields:
             del self.fields['agreement']
-        self.fields.keyOrder = ['title', 'has_confirmation', 'confirmation_type', 'certificate_image', 'has_patent', 'patent_number', 'patent_date', 'patent_certificate', 'patent_request', 'domain', 'summary', 'keywords', 'innovations', 'state', 'project_status']
+        self.fields.keyOrder = ['title', 'has_confirmation', 'confirmation_type', 'certificate_image', 'has_patent',
+                                'patent_number', 'patent_date', 'patent_certificate', 'patent_request', 'domain',
+                                'summary', 'keywords', 'innovations', 'state', 'project_status']
         process_js_validations(self)

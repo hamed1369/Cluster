@@ -2,7 +2,7 @@
 from cluster.project.forms import ProjectManagerForm
 from cluster.project.models import Project
 from cluster.utils.forms import ClusterBaseModelForm
-from cluster.utils.manager.action import AddAction, EditAction
+from cluster.utils.manager.action import EditAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
 
 __author__ = 'M.Y'
@@ -20,7 +20,7 @@ class PublicProjectsForMembersManager(ObjectsManager):
     filter_form = PublicProjectsForMembersFilterForm
 
     def get_all_data(self):
-        return Project.objects.filter()
+        return Project.objects.filter(project_status=0)
 
     def get_columns(self):
         columns = [
@@ -40,6 +40,12 @@ class PublicProjectsForMembersManager(ObjectsManager):
                     <td width="20%">{{ form.domain }}</td>
                     <td width="10%">{{ form.keywords.label }}</td>
                     <td width="20%">{{ form.keywords }}</td>
+                </tr>
+                <tr>
+                    <td colspan="10" style="text-align: left;">
+                        <input type="reset" value="بازنشانی" class="filter-reset">
+                        <input type="submit" value="جستجو" class="filter-submit">
+                    </td>
                 </tr>
             </table>
         """
