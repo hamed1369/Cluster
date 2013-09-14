@@ -55,9 +55,11 @@ select {
     font-size: 12px;
     width: 97%;
 }
-#inner-header{
+
+#inner-header {
     width: 97%;
 }
+
 .art-post {
     background-color: #fff;
 }
@@ -127,14 +129,13 @@ ul.art-hmenu>li>a, ul.art-vmenu>li>a {
 
 .formError .formErrorContent {
     /*background: rgba(255, 34, 17, 0.8);*/
-    background: rgba(255, 34, 17, 0.8);
-    background-color: rgb(255, 255, 255);
-    color: rgb(255, 59, 101);
+    background-color: white;
+    color: #FF3B65;
     direction: rtl;
     text-align: right;
-    /*box-shadow: none;*/
-    /*border-color: rgb(255, 59, 101);*/
-    /*border-width: thin;*/
+    box-shadow: none;
+    border-color: #FF3B65;
+    border-width: thin;
     /*margin-left: -50px;*/
     /*margin-top: -34px !important;*/
 }
@@ -323,8 +324,6 @@ table, ul.art-hmenu {
     font-size: 15px;
 }
 
-
-
 ul.art-vmenu>li>a {
     font-size: 16px;
     font-weight: bold;
@@ -445,6 +444,7 @@ fieldset legend {
     color: #2E6E9E;
     font-family: B Mitra;
 }
-.register_table tr{
+
+.register_table tr {
     padding: 10px;
 }
