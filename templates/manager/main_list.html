@@ -31,6 +31,7 @@
     });
 
     var $manager = $("#manager_list");
+    var width = $("#manager_list").parents('article').first().width() - 20;
     $manager.jqGrid({
         url: "/{{ manager.manager_name }}/actions/?t=json",
         datatype: "json",
@@ -61,9 +62,9 @@
         viewrecords: true,
         gridview: true,
         autoencode: true,
-        autowidth: true,
         shrinkToFit: true,
         height: 310,
+        width: width,
         {% if manager.actions %}
             multiselect: true,
         {% endif %}
