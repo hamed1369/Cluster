@@ -12,7 +12,6 @@ __author__ = 'M.Y'
 
 
 def login_view(request):
-
     if request.method == 'POST':
         login_form = SignInForm(request.POST)
         if login_form.is_valid():

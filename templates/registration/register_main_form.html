@@ -1,10 +1,9 @@
 <fieldset class="inner_fieldset">
-<legend>اطلاعات عمومی</legend>
+<legend>اطلاعات عمومی<span class="required_field">*</span></legend>
 
 <table class="register_table">
     <tr>
         <td class="label_td">{{ register_form.first_name.label }}
-            {% if register_form.first_name.field.required %}<span class="required_field">*</span>{% endif %}
         </td>
         <td class="input_td">{{ register_form.first_name }}</td>
         {% if cluster_form.first_name.errors %}
@@ -14,7 +13,6 @@
     </tr>
     <tr>
         <td class="label_td">{{ register_form.last_name.label }}
-            {% if register_form.last_name.field.required %}<span class="required_field">*</span>{% endif %}
         </td>
         <td class="input_td">{{ register_form.last_name }}</td>
         {% if register_form.last_name.errors %}
@@ -24,7 +22,6 @@
     <tr>
 
         <td class="label_td">{{ register_form.username.label }}
-            {% if register_form.username.field.required %}<span class="required_field">*</span>{% endif %}
         </td>
         <td class="input_td">{{ register_form.username }}</td>
         {% if register_form.username.errors %}
@@ -36,7 +33,6 @@
         <tr>
 
             <td class="label_td">{{ register_form.change_password.label }}
-                {% if register_form.change_password.field.required %}<span class="required_field">*</span>{% endif %}
             </td>
             <td class="input_td">{{ register_form.change_password }}</td>
             {% if register_form.change_password.errors %}
@@ -48,7 +44,6 @@
     <tr>
 
         <td class="label_td">{{ register_form.password.label }}
-            {% if register_form.password.field.required %}<span class="required_field">*</span>{% endif %}
         </td>
         <td class="input_td">{{ register_form.password }}</td>
         {% if register_form.password.errors %}
@@ -58,7 +53,6 @@
     <tr>
 
         <td class="label_td">{{ register_form.re_password.label }}
-            {% if register_form.re_password.field.required %}<span class="required_field">*</span>{% endif %}
         </td>
         <td class="input_td">{{ register_form.re_password }}</td>
         {% if register_form.re_password.errors %}
@@ -69,7 +63,6 @@
     <tr>
 
         <td class="label_td">{{ register_form.email.label }}
-            {% if register_form.email.field.required %}<span class="required_field">*</span>{% endif %}
         </td>
         <td class="input_td">{{ register_form.email }}</td>
         {% if register_form.email.errors %}
@@ -79,7 +72,6 @@
     <tr>
 
         <td class="label_td">{{ register_form.gender.label }}
-            {% if register_form.gender.field.required %}<span class="required_field">*</span>{% endif %}
         </td>
         <td class="input_td">{{ register_form.gender }}</td>
         {% if register_form.gender.errors %}
@@ -89,7 +81,6 @@
     <tr>
 
         <td class="label_td">{{ register_form.father_name.label }}
-            {% if register_form.father_name.field.required %}<span class="required_field">*</span>{% endif %}
         </td>
         <td class="input_td">{{ register_form.father_name }}</td>
         {% if register_form.father_name.errors %}
@@ -99,7 +90,6 @@
     <tr>
 
         <td class="label_td">{{ register_form.national_code.label }}
-            {% if register_form.national_code.field.required %}<span class="required_field">*</span>{% endif %}
         </td>
         <td class="input_td">{{ register_form.national_code }}</td>
         {% if register_form.national_code.errors %}
@@ -109,7 +99,6 @@
     <tr>
 
         <td class="label_td">{{ register_form.identification_number.label }}
-            {% if register_form.identification_number.field.required %}<span class="required_field">*</span>{% endif %}
         </td>
         <td class="input_td">{{ register_form.identification_number }}</td>
         {% if register_form.identification_number.errors %}
@@ -119,7 +108,6 @@
     <tr>
 
         <td class="label_td">{{ register_form.birth_date.label }}
-            {% if register_form.birth_date.field.required %}<span class="required_field">*</span>{% endif %}
         </td>
         <td class="input_td">{{ register_form.birth_date }}</td>
         {% if register_form.birth_date.errors %}
@@ -131,7 +119,6 @@
 
 
         <td class="label_td">{{ register_form.residence_city.label }}
-            {% if register_form.residence_city.field.required %}<span class="required_field">*</span>{% endif %}
         </td>
         <td class="input_td">{{ register_form.residence_city }}</td>
         {% if register_form.residence_city.errors %}
@@ -141,7 +128,6 @@
     <tr>
 
         <td class="label_td">{{ register_form.telephone.label }}
-            {% if register_form.telephone.field.required %}<span class="required_field">*</span>{% endif %}
         </td>
         <td class="input_td">{{ register_form.telephone }}</td>
         {% if register_form.telephone.errors %}
@@ -151,7 +137,6 @@
     <tr>
 
         <td class="label_td">{{ register_form.mobile.label }}
-            {% if register_form.mobile.field.required %}<span class="required_field">*</span>{% endif %}
         </td>
         <td class="input_td">{{ register_form.mobile }}</td>
         {% if register_form.mobile.errors %}
@@ -161,7 +146,6 @@
     <tr>
 
         <td class="label_td">{{ register_form.essential_telephone.label }}
-            {% if register_form.essential_telephone.field.required %}<span class="required_field">*</span>{% endif %}
         </td>
         <td class="input_td">{{ register_form.essential_telephone }}</td>
         {% if register_form.essential_telephone.errors %}
@@ -171,7 +155,6 @@
     <tr>
 
         <td class="label_td">{{ register_form.address.label }}
-            {% if register_form.address.field.required %}<span class="required_field">*</span>{% endif %}
         </td>
         <td class="input_td">{{ register_form.address }}</td>
         {% if register_form.address.errors %}
@@ -182,18 +165,16 @@
 </table>
 </fieldset>
 <fieldset class="inner_fieldset">
-    <legend>وضعیت شغلی</legend>
+    <legend>وضعیت شغلی<span class="required_field">*</span></legend>
     <table>
         <tr>
             <td class="label_td">{{ register_form.employment_status.label }}
-                {% if register_form.employment_status.field.required %}<span class="required_field">*</span>{% endif %}
             </td>
             <td class="input_td">{{ register_form.employment_status }}</td>
         </tr>
         <tr
                 {% if register_form.instance and register_form.instance.employment_status == 1 %}{% else %}style="display: none" {% endif %}>
             <td class="label_td">{{ register_form.organization.label }}
-                {% if register_form.organization.field.required %}<span class="required_field">*</span>{% endif %}
             </td>
             <td class="input_td">{{ register_form.organization }}</td>
         </tr>
@@ -201,25 +182,22 @@
 </fieldset>
 <br/>
 <fieldset class="inner_fieldset">
-    <legend>وضعیت نظام وظیفه</legend>
+    <legend>وضعیت نظام وظیفه<span class="required_field">*</span></legend>
     <table>
         <tr>
             <td class="label_td">{{ register_form.military_status.label }}
-                {% if register_form.military_status.field.required %}<span class="required_field">*</span>{% endif %}
             </td>
             <td class="input_td">{{ register_form.military_status }}</td>
         </tr>
         <tr
                 {% if register_form.instance and register_form.instance.military_status == 2 %}{% else %}style="display: none" {% endif %}>
             <td class="label_td">{{ register_form.military_place.label }}
-                {% if register_form.military_place.field.required %}<span class="required_field">*</span>{% endif %}
             </td>
             <td class="input_td">{{ register_form.military_place }}</td>
         </tr>
         <tr
                 {% if register_form.instance and register_form.instance.employment_status == 3 %}{% else %}style="display: none" {% endif %}>
             <td class="label_td">{{ register_form.exemption_type.label }}
-                {% if register_form.exemption_type.field.required %}<span class="required_field">*</span>{% endif %}
             </td>
             <td class="input_td">{{ register_form.exemption_type }}</td>
         </tr>
@@ -239,7 +217,6 @@
 <table class="register_table">
     <tr>
         <td class="label_td">{{ register_form.foundation_of_elites.label }}
-            {% if register_form.foundation_of_elites.field.required %}<span class="required_field">*</span>{% endif %}
         </td>
         <td class="input_td">{{ register_form.foundation_of_elites }}</td>
         {% if register_form.foundation_of_elites.errors %}
@@ -250,7 +227,6 @@
         style="display: none" {% endif %}>
 
         <td class="label_td">{{ register_form.elite_certification.label }}
-            {% if register_form.elite_certification.field.required %}<span class="required_field">*</span>{% endif %}
         </td>
         <td class="input_td">{{ register_form.elite_certification }}</td>
         {% if register_form.elite_certification.errors %}
@@ -274,8 +250,6 @@
     <table>
         <tr>
             <td class="label_td">{{ register_form.education_certification.label }}
-                {% if register_form.education_certification.field.required %}<span class="required_field">*
-                    </span>{% endif %}
             </td>
             <td class="input_td">{{ register_form.education_certification }}</td>
             {% if register_form.education_certification.errors %}
@@ -284,7 +258,6 @@
         </tr>
         <tr>
             <td class="label_td">{{ register_form.front_id_card.label }}
-                {% if register_form.front_id_card.field.required %}<span class="required_field">*</span>{% endif %}
             </td>
             <td class="input_td">{{ register_form.front_id_card }}</td>
             {% if register_form.front_id_card.errors %}
@@ -294,7 +267,6 @@
         </tr>
         <tr>
             <td class="label_td">{{ register_form.back_id_card.label }}
-                {% if register_form.back_id_card.field.required %}<span class="required_field">*</span>{% endif %}
             </td>
             <td class="input_td">{{ register_form.back_id_card }}</td>
             {% if register_form.back_id_card.errors %}
@@ -304,7 +276,6 @@
         </tr>
         <tr>
             <td class="label_td">{{ register_form.image.label }}
-                {% if register_form.image.field.required %}<span class="required_field">*</span>{% endif %}
             </td>
             <td class="input_td">{{ register_form.image }}</td>
             {% if register_form.image.errors %}
@@ -320,7 +291,6 @@
     <table>
         <tr>
             <td class="label_td">{{ register_form.captcha.label }}
-                {% if register_form.captcha.field.required %}<span class="required_field">*</span>{% endif %}
             </td>
             <td class="input_td" style="width: 300px;">{{ register_form.captcha }}</td>
             {% if register_form.captcha.errors %}

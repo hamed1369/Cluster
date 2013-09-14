@@ -51,8 +51,13 @@ select {
 
 .art-sheet {
     margin-top: 10px;
+    font-family: Tahoma;
+    font-size: 12px;
+    width: 97%;
 }
-
+#inner-header{
+    width: 97%;
+}
 .art-post {
     background-color: #fff;
 }
@@ -129,8 +134,8 @@ ul.art-hmenu>li>a, ul.art-vmenu>li>a {
     box-shadow: none;
     border-color: #FF3B65;
     border-width: thin;
-    margin-left: -50px;
-    margin-top: -34px !important;
+    /*margin-left: -50px;*/
+    /*margin-top: -34px !important;*/
 }
 
 .formError .formErrorArrow div {
@@ -317,10 +322,7 @@ table, ul.art-hmenu {
     font-size: 15px;
 }
 
-.art-sheet {
-    font-family: Tahoma;
-    font-size: 12px;
-}
+
 
 ul.art-vmenu>li>a {
     font-size: 16px;
@@ -401,9 +403,11 @@ ul.art-vmenu>li>a {
     position: relative;
     z-index: 1;
     padding: 1px;
-    padding-right: 25px;
     margin: 0;
-
+    min-height: 100%;
+    height: 100%;
+    text-align: center;
+    margin-top: 35px;
 }
 
 .success_header ul {
@@ -439,4 +443,7 @@ fieldset legend {
     font-size: 23px;
     color: #2E6E9E;
     font-family: B Mitra;
+}
+.register_table tr{
+    padding: 10px;
 }

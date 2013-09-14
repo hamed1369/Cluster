@@ -4,42 +4,45 @@
 <head>
     <title>ورود</title>
     <link rel="stylesheet" type="text/css" href="/static/lib/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/static/base.css"/>
-    <link rel="stylesheet" type="text/css" href="/static/accounts/login_page.css"/>
+{#    <link rel="stylesheet" type="text/css" href="/static/base.css"/>#}
     <script type="text/javascript" src="/static/lib/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="/static/lib/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/static/base.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/accounts/login_page.css"/>
+
 </head>
 <body>
 
 {% if messages %}
-    <h2>
-        <ul>
-            {% for message in messages %}
-                <li class="{% if message.tags == 'error' %}error_header{% else %}success_header{% endif %}">
-                    {{ message }}
-                </li>
-            {% endfor %}
-        </ul>
-    </h2>
+    <div class="alert alert-danger" style="direction: rtl;">
+        <h2>
+            <ul>
+                {% for message in messages %}
+                    <li class="{% if message.tags == 'error' %}error_header{% else %}success_header{% endif %}">
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </h2>
+    </div>
 {% endif %}
 
 <div class="container">
     <section id="content">
-        <form action="" method="post" id="login_form">
+        <form action="" method="post" id="login_form" style="direction: rtl;">
             {% csrf_token %}
             <h1>ورود به سامانه</h1>
 
             <div>
-                {{ login_form.username }}
+                <input type="username" class="form-control" id="id_username" name="username" placeholder="نام کاربری">
             </div>
-            <div>
-                {{ login_form.password }}
+            <div style="margin-top: 10px;">
+                <input type="password" class="form-control" id="id_password" name="password" placeholder="گذرواژه">
             </div>
-            <div style="width: 80%; position: relative; left: 10%; right: 10%;">
-                <input type="button" onclick="location.href ='{% url cluster.registration.views.register %}';"
+            <div class="button-container">
+                <input class="btn btn-primary" type="submit" value="ورود"/>
+                <input class="btn btn-danger" type="button" onclick="location.href ='{% url cluster.registration.views.register %}';"
                        value="ثبت نام"/>
-                <input type="submit" value="ورود"/>
             </div>
         </form>
     </section>
