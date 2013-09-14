@@ -93,7 +93,7 @@
     });
 
     {% for action in manager.actions %}
-        $('#t_manager_list').append('<button rel="group" data-fancybox-type="iframe" id="action-{{ action.action_name }}" class="manager-action" is_view="{{ action.is_view }}" action_name="{{action.action_name }}" action_width="{{action.width }}" action_height="{{action.height }}">{{ action.action_verbose_name }}</button>');
+        $('#t_manager_list').append('<button rel="group" data-fancybox-type="iframe" id="action-{{ action.action_name }}" class="manager-action" is_view="{{ action.is_view }}" action_name="{{action.action_name }}" action_width="{{action.width }}" action_height="{{action.height }}" min_count="{{ action.min_count|default:"" }}">{{ action.action_verbose_name }}</button>');
     {% endfor %}
     $('.manager-action').click(function () {
         var selected_items = $manager.jqGrid('getGridParam', 'selarrrow');
@@ -101,6 +101,12 @@
         var is_view = $(this).attr('is_view');
         var width = $(this).attr('action_width');
         var height = $(this).attr('action_height');
+        var min_count = $(this).attr('min_count');
+
+        if (min_count && selected_items < parseInt(min_count)) {
+            alert('لطفا حداقل' + min_count + ' مورد را انتخاب کنید.');
+            return false;
+        }
 
         var url = "/{{ manager.manager_name }}/actions/?t=action&n=" + name + "&i=" + selected_items;
 
