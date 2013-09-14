@@ -19,7 +19,6 @@
 
         <table class="register_table">
             <tr>
-                <td class="label_td">{{ cluster_form.name.label }} <span class="required_field">*</span>
                 </td>
                 <td class="input_td">{{ cluster_form.name }}</td>
                 {% if cluster_form.name.errors %}
@@ -27,7 +26,6 @@
                 {% endif %}
             </tr>
             <tr>
-                <td class="label_td">{{ cluster_form.institute.label }} <span class="required_field">*</span>
                 </td>
                 <td class="input_td">{{ cluster_form.institute }}</td>
                 {% if cluster_form.institute.errors %}

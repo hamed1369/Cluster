@@ -86,4 +86,9 @@ form fieldset legend {
     font-size: 16px;
     font-weight: bold;
 }
-
+.art-sheet {
+    width: 1000px;
+}
+#inner-header{
+    width: 1000px;
+}

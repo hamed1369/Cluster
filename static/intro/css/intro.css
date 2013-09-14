@@ -6,6 +6,15 @@ body{
     background-image: url(../images/page.png);
     background-repeat: repeat;
 }
+#header {
+    margin: 0 auto;
+    position: relative;
+    background-image: url('../images/header.jpg');
+    background-position: center top;
+    background-repeat: no-repeat;
+    width: 100%;
+}
+
 #sliderFrame 
 {
     width:965px;
@@ -84,7 +93,7 @@ body{
     position: relative;
     text-align: left;
     vertical-align: middle;
-    width: 200px;
+    width: 240px;
     float: left;
     color: #003147;
     margin: 14px 5px 5px 15px;
@@ -122,10 +131,7 @@ body{
     height: 65px;
     direction: rtl;
 }
-#header{
-    width: 100%;
-    background-color: #5B5B5B;
-}
+/**/
 #inner-header{
     width: 920px;
     position: relative;
@@ -159,46 +165,112 @@ body{
 }
 #introduction{
     width: 100%;
-    background-color: #A3DFFF;
+    background-color: #696969;
     background-image: url(../images/pageglare.png);
-    background-position: center top;
+    background-position: center;
     background-repeat: no-repeat;
+    color: white;
 }
 #inner-introduction{
     width: 920px;
     position: relative;
     margin: 0 auto;
-    direction: rtl;
-    font-size: 20px;
-    padding: 20px;
-    text-align: justify;
     height: 170px;
+    direction: rtl;
+}
+.inner-intro-div{
+    margin-top: 20px;
+    text-align: right;
+    font-size: 20px;
+    float: right;
+    text-align: justify;
+    width: 100%;
+}
+#reg-detail-container{
+    width: 100%;
+    margin-top: 30px;
+    background-color: #1570a6;
+
+}
+#reg-detail{
+    width: 920px;
+    position: relative;
+    margin: 0 auto;
+    direction: rtl;
+}
+#reg-detail p{
+    color:white;
+}
+#submit-detail-container{
+    width: 100%;
+    background-color: white;
+}
+#submit-detail{
+    width: 920px;
+    position: relative;
+    margin: 0 auto;
+    direction: rtl;
+}
+
+#judge-detail-container{
+    width: 100%;
+    background-color: white;
+}
+#judge-detail{
+    width: 920px;
+    position: relative;
+    margin: 0 auto;
+    direction: rtl;
+}
+#support-detail-container{
+    width: 100%;
+    background-color: #eee;
+}
+#support-detail{
+    width: 920px;
+    position: relative;
+    margin: 0 auto;
+    direction: rtl;
 }
 #user-info{
+    position: relative;
     direction: rtl;
     text-align: right;
-    color:white;
-    width: 210px;
+    color:#4F4F4F;
+    width: 240px;
     padding: 5px;
-    border-color: white;
+    border-color: #FFF838;
     border-width: thin;
     border-style: solid;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
-    margin-top: -4px;
+    margin-top: -8px;
     font-family: B Mitra;
-    font-size: 15px;
-}
-#welcome{
-
+    font-size: 16px;
+    font-weight: bold;
 }
 #exit-button{
+    border-style: solid;
+    padding: 5px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    border-width: thin;
+    text-decoration: none;
     position: absolute;
-    left: 5px;
-    top: 5px;
+    left: 10px;
+    top: 12px;
+    width: 50px;
     font-family: B Mitra;
     font-size: 15px;
+    text-align: center;
+    border-color: #FFF838;
+    color: #388EFF;
+    background-color: #FFF838;
+}
+#exit-button:hover{
+    background-color: #FFE44D;
 }
 .slide{
     direction: rtl;
@@ -240,7 +312,7 @@ body{
 }
 /*slide 2*/
 #slide-2{
-    background-image: url(../images/project.jpg);
+    background-image: url(../images/project2.jpg);
 }
 #slide-2 .slide-paragraph{
     font-size: 20px;
@@ -255,7 +327,29 @@ body{
     color:#003147;
 }
 /*slide 4*/
+.detail-content{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.detail-content h2{
+    font-family: B Mitra;
+    font-size: 35px;
+    font-weight: bold;
 
+}
+
+.detail-content p{
+    font-family: B Mitra;
+    font-size: 17px;
+    font-weight: bold;
+    text-align: justify;
+}
+.detail-content ol li{
+    font-family: B Mitra;
+    font-size: 17px;
+    font-weight: bold;
+    text-align: justify;
+}
 #slide-4{
     background-image: url(../images/support.jpg);
 }

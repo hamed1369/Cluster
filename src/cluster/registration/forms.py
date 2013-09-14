@@ -16,9 +16,8 @@ __author__ = 'M.Y'
 
 
 class ClusterForm(ClusterBaseForm):
-    is_cluster = forms.ChoiceField(required=False, choices=BOOLEAN_CHOICES, widget=forms.RadioSelect(),
-                                   label=
-                                   u"آیا درخواست ثبت خوشه وجود دارد؟(در صورت تایید و ارسال فرم ثبت نام برای اعضاء خوشه)",
+    is_cluster = forms.ChoiceField(choices=BOOLEAN_CHOICES, widget=forms.RadioSelect(),
+                                   label=u"ثبت نام به صورت خوشه ای",required=True,initial=False
     )
 
     name = forms.CharField(required=False, label=u"نام خوشه")

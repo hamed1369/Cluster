@@ -14,13 +14,13 @@ $(document).ready(function () {
             },
             usernameAjaxEngineCall: {
                 "url": "/ajax/validationEngine/",
-                "alertTextOk": "این نام کاربری در دسترس است",
+//                "alertTextOk": "این نام کاربری در دسترس است",
                 "alertText": "* این نام‌کاربری تکراری است",
                 "alertTextLoad": "* درحال اعتبار سنجی، لطفا صبر کنید"
             },
             emailAjaxEngineCall: {
                 "url": "/ajax/validationEngine/",
-                "alertTextOk": "این ایمیل در دسترس است",
+//                "alertTextOk": "این ایمیل در دسترس است",
                 "alertText": "* این ایمیل تکراری است",
                 "alertTextLoad": "* درحال اعتبار سنجی، لطفا صبر کنید"
             }
@@ -28,7 +28,7 @@ $(document).ready(function () {
         $(".js-validation-from").validationEngine({
             promptPosition: "centerLeft",
             scroll: true,
-            validationEventTrigger: 'submit'
+            validationEventTrigger: 'blur'
         });
     }
 //    $(".js-validation-from").submit(function () {
