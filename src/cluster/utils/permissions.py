@@ -54,12 +54,21 @@ class PermissionController:
         if user.is_anonymous():
             return []
         if cls.is_admin(user):
-            perms = perms + MENU_MAPPERS['admin']
+            for menu in MENU_MAPPERS['admin']:
+                if menu not in perms:
+                    perms.append(menu)
         if cls.is_arbiter(user):
-            perms = perms + MENU_MAPPERS['arbiter']
+            for menu in MENU_MAPPERS['arbiter']:
+                if menu not in perms:
+                    perms.append(menu)
         if cls.is_member(user):
-            perms = perms + MENU_MAPPERS['member']
+            for menu in MENU_MAPPERS['member']:
+                if menu not in perms:
+                    perms.append(menu)
 
+        if MenuMapper('/', u"صفحه اصلی") in perms:
+            del perms[perms.index(MenuMapper('/', u"صفحه اصلی"))]
+            perms.insert(0, MenuMapper('/', u"صفحه اصلی"))
         return perms
 
     @classmethod
@@ -104,3 +113,9 @@ MENU_MAPPERS = {
         MenuMapper('/messages/', u"جعبه پیام"),
     ]
 }
+
+
+def unique_list(seq):
+    seen = set()
+    seen_add = seen.add
+    return [x for x in seq if x not in seen and not seen_add(x)]
