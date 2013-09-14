@@ -86,7 +86,7 @@ class Arbiter(Account):
 
 class UserDomain(models.Model):
     user = models.OneToOneField(User, verbose_name=u"عضو", related_name='user_domain')
-    domain = models.ForeignKey(Domain, verbose_name=u"حوزه فعالیت", related_name='user_domain', null=True, blank=True)
+    domain = models.ForeignKey(Domain, verbose_name=u"حوزه فعالیت", related_name='user_domain', null=True, blank=True, on_delete=models.SET_NULL)
 
     class Meta:
         app_label = 'account'

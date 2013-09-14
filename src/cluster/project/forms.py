@@ -29,6 +29,7 @@ class ProjectForm(ClusterBaseModelForm):
             (7, u"سایر دانشگاه ها و مراکز دولتی"),
         )
         self.fields['confirmation_type'].required = False
+        self.fields['domain'].required = True
         self.fields['has_patent'] = forms.ChoiceField(required=True, choices=BOOLEAN_CHOICES,
                                                       widget=forms.RadioSelect(), )
         self.fields['has_patent'].label = u"آیا طرح پیشنهادی دارای ثبت اختراع می باشد؟"
