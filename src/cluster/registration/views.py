@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from cluster.account.account.models import Cluster, Arbiter
@@ -23,7 +23,7 @@ def handle_register_view(request, cluster_id=None):
     if register_handler.is_valid_forms():
         register_handler.save_forms()
         messages.success(request, u"ثبت نام شما با موفقیت انجام شد.")
-        return render_to_response('show_message.html', {}, context_instance=RequestContext(request))
+        return HttpResponseRedirect('login')
 
     context = register_handler.get_context()
     return render_to_response('registration/register.html',
@@ -46,7 +46,7 @@ def arbiter_register(request):
         if arbiter_form.is_valid():
             arbiter_form.save()
             messages.success(request, u"ثبت نام شما با موفقیت انجام شد.")
-            return render_to_response('show_message.html', {}, context_instance=RequestContext(request))
+            return HttpResponseRedirect('login')
     else:
         arbiter_form = ArbiterForm(prefix='register')
     context = {

@@ -68,3 +68,4 @@ class ProjectsForArbitersManager(ObjectsManager):
             ManagerColumn('project_status', u"مرحله داوری", '10'),
         ]
         return columns
+

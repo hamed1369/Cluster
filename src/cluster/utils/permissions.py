@@ -109,7 +109,8 @@ MENU_MAPPERS = {
     'member': [
         MenuMapper('/', u"صفحه اصلی"),
         MenuMapper('/accounts/edit/', u"ویرایش اطلاعات فردی"),
-        MenuMapper('/confirmed_inventions/', u"مشاهده اختراعات تاییدشده"),
+        # MenuMapper('/confirmed_inventions/', u"مشاهده اختراعات تاییدشده"),
+        MenuMapper('/project/register/', u"جعبه پیام"),
         MenuMapper('/messages/', u"جعبه پیام"),
     ]
 }

@@ -1,11 +1,17 @@
 # -*- coding:utf-8 -*-
 from django.contrib import messages
+from django.http import Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from cluster.project.handlers import ProjectHandler
+from cluster.utils.permissions import PermissionController
 
 
 def register(request):
+
+    if not PermissionController.is_member(request.user):
+        raise Http404()
+
     project_handler = ProjectHandler(request)
 
     project_handler.initial_forms()
