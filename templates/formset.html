@@ -49,7 +49,8 @@
             {% if not formset.readonly %}
                 <script type="text/javascript">
                     $(function () {
-                        var $formset_tr = $('#' + '{{ formset.prefix }}' + '_table tbody tr');
+                        var formset_name = '#' + '{{ formset.prefix }}' + '_table tbody tr';
+                        var $formset_tr = $(formset_name);
                         $formset_tr.formset({
                             prefix: '{{ formset.prefix }}',
                             formCssClass: 'dynamic-formset',
@@ -57,10 +58,20 @@
                             deleteText: '',
                             addCssClass: 'formset_add',
                             deleteCssClass: 'formset_delete',
-                            added: check_date_picker
+                            added: function check_date_picker() {
+                                var $date_fields = $('.' + $(this)[0].formCssClass).last().find('.hasDatepicker');
+                                $date_fields.removeClass('hasDatepicker');
+                                $date_fields.datepicker({
+                                    changeMonth: true,
+                                    changeYear: true,
+                                    yearRange: '1300,1400',
+                                    dateFormat: 'yy/mm/dd'
+                                });
+                                $(formset_name).find('input[type=text], select').attr('data-prompt-position', 'topLeft:-100');
+                            }
                         });
 
-                        $formset_tr.find('input[type=text], select').attr('data-prompt-position', 'topLeft:-100');
+                        $(formset_name).find('input[type=text], select').attr('data-prompt-position', 'topLeft:-100');
                         {% if formset.prefix != 'cluster_domain' %}
                             $formset_tr.each(function () {
                                 var all_fields_name = [];
