@@ -6,8 +6,8 @@
             {% if register_form.title.field.required %}<span class="required_field">*</span>{% endif %}
         </td>
         <td class="input_td">{{ register_form.title }}</td>
-        {% if cluster_form.title.errors %}
-            <td class="error_td" width="30%">{{ cluster_form.title.errors }}</td>
+        {% if register_form.title.errors %}
+            <td class="error_td" width="30%">{{ register_form.title.errors }}</td>
         {% endif %}
 
     </tr>

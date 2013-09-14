@@ -1,5 +1,9 @@
 # -*- coding:utf-8 -*-
 from django import forms
+from django.contrib.auth.models import User
+from cluster.utils.fields import BOOLEAN_CHOICES
+from cluster.utils.forms import ClusterBaseModelForm
+from cluster.utils.js_validation import process_js_validations
 
 __author__ = 'M.Y'
 
@@ -12,3 +16,40 @@ class SignInForm(forms.Form):
                                widget=forms.PasswordInput(
                                    {'placeholder': u'گذرواژه'}))
 
+
+class AdminForm(ClusterBaseModelForm):
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email')
+
+    def __init__(self, *args, **kwargs):
+        super(AdminForm, self).__init__(*args, **kwargs)
+        self.fields['change_password'] = forms.ChoiceField(required=False, choices=BOOLEAN_CHOICES,
+                                                           widget=forms.RadioSelect(),
+                                                           label=u"ویرایش گذرواژه", initial=False)
+
+        self.fields['password'] = forms.CharField(required=False, label=u"گذرواژه جدید", widget=forms.PasswordInput())
+        self.fields['re_password'] = forms.CharField(required=False, label=u"تکرار گذرواژه جدید",
+                                                     widget=forms.PasswordInput)
+        self.extra_js_validation = {
+            'username': 'ajax[usernameAjaxEngineCall]',
+            're_password': 'equals[id_admin-password]',
+        }
+        process_js_validations(self)
+
+    def clean(self):
+        cd = super(AdminForm, self).clean()
+        password = cd.get('password')
+        re_password = cd.get('re_password')
+        if password and re_password and password != re_password:
+            self._errors['password'] = self.error_class([u'گذرواژه با تکرار آن مطابقت ندارد.'])
+        return cd
+
+    def save(self, commit=True):
+        instance = super(AdminForm, self).save(commit)
+        change_pass = self.cleaned_data.get('change_password')
+        if change_pass is True or change_pass == 'True':
+            password = self.cleaned_data.get('password')
+            instance.set_password(password)
+            instance.save()
+        return instance

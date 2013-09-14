@@ -148,7 +148,7 @@ $(document).ready(function () {
     });
 
     $('input[name*="change_password"]').change(function () {
-        var change_pass = $('input[name*="change_password"]:checked', '#register_form').val();
+        var change_pass = $('input[name*="change_password"]:checked').val();
         var $first_tr = $(this).parents('tr').first().next('tr');
         var $second_tr = $first_tr.next('tr');
 

@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block CSS %}
+    <link rel="stylesheet" type="text/css" href='/static/lib/form-validation/validationEngine.jquery.css'/>
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="/static/registration/register.css"/>
+{% endblock %}
+
+{% block JS %}
+    {{ block.super }}
+    <script type="text/javascript" src="/static/lib/jquery.formset.min.js"></script>
+    <script type="text/javascript" src="/static/registration/register.js"></script>
+    <script type="text/javascript" src='/static/lib/form-validation/languages/jquery.validationEngine-fa.js'></script>
+    <script type="text/javascript" src='/static/lib/form-validation/jquery.validationEngine.js'></script>
+
+{% endblock %}
+
+{% block title %}ویرایش اطلاعات فردی{% endblock %}
+{% block header_title %}فرم ویرایش اطلاعات{% endblock %}
+{% block content %}
+    {% include 'messages.html' %}
+    <div class="panel panel-info form-div" id="register_div">
+        <form action="" method="post" enctype="multipart/form-data" class="js-validation-from">
+            {% csrf_token %}
+            <fieldset class="inner_fieldset">
+                <table class="register_table">
+                    <tr>
+                        <td class="label_td">{{ form.first_name.label }}
+                        </td>
+                        <td class="input_td">{{ form.first_name }}</td>
+                        {% if cluster_form.first_name.errors %}
+                            <td class="error_td" width="30%">{{ cluster_form.first_name.errors }}</td>
+                        {% endif %}
+
+                    </tr>
+                    <tr>
+                        <td class="label_td">{{ form.last_name.label }}
+                        </td>
+                        <td class="input_td">{{ form.last_name }}</td>
+                        {% if form.last_name.errors %}
+                            <td class="error_td" width="30%">{{ form.last_name.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+
+                        <td class="label_td">{{ form.username.label }}
+                        </td>
+                        <td class="input_td">{{ form.username }}</td>
+                        {% if form.username.errors %}
+                            <td class="error_td" width="30%">{{ form.username.errors }}</td>
+                        {% endif %}
+                    </tr>
+
+                    {% if form.change_password %}
+                        <tr>
+
+                            <td class="label_td">{{ form.change_password.label }}
+                            </td>
+                            <td class="input_td">{{ form.change_password }}</td>
+                            {% if form.change_password.errors %}
+                                <td class="error_td" width="30%">{{ form.change_password.errors }}</td>
+                            {% endif %}
+                        </tr>
+                    {% endif %}
+
+                    <tr>
+
+                        <td class="label_td">{{ form.password.label }}
+                        </td>
+                        <td class="input_td">{{ form.password }}</td>
+                        {% if form.password.errors %}
+                            <td class="error_td" width="30%">{{ form.password.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+
+                        <td class="label_td">{{ form.re_password.label }}
+                        </td>
+                        <td class="input_td">{{ form.re_password }}</td>
+                        {% if form.re_password.errors %}
+                            <td class="error_td" width="30%">{{ form.re_password.errors }}</td>
+                        {% endif %}
+                    </tr>
+
+                    <tr>
+
+                        <td class="label_td">{{ form.email.label }}
+                        </td>
+                        <td class="input_td">{{ form.email }}</td>
+                        {% if form.email.errors %}
+                            <td class="error_td" width="30%">{{ form.email.errors }}</td>
+                        {% endif %}
+                    </tr>
+
+                </table>
+
+            </fieldset>
+
+            <div class="button_holder">
+                <input type="submit" value="ثبت" name="register-submit">
+            </div>
+        </form>
+    </div>
+{% endblock %}

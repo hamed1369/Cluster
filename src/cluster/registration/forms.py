@@ -17,7 +17,7 @@ __author__ = 'M.Y'
 
 class ClusterForm(ClusterBaseForm):
     is_cluster = forms.ChoiceField(choices=BOOLEAN_CHOICES, widget=forms.RadioSelect(),
-                                   label=u"ثبت نام به صورت خوشه ای",required=True,initial=False
+                                   label=u"ثبت نام به صورت خوشه ای", required=True, initial=False
     )
 
     name = forms.CharField(required=False, label=u"نام خوشه")
@@ -38,11 +38,6 @@ class ClusterForm(ClusterBaseForm):
 
 
 class RegisterForm(ClusterBaseModelForm):
-    BOOLEAN_CHOICES = (
-        (True, u"بله"),
-        (False, u"خیر"),
-    )
-
     class Meta:
         model = Member
         exclude = ('cluster', 'user')
@@ -77,6 +72,7 @@ class RegisterForm(ClusterBaseModelForm):
                 self.fields['username'].initial = self.instance.user.username
                 self.fields['email'].initial = self.instance.user.email
             self.extra_js_validation = {
+                're_password': 'equals[id_register-password]',
                 'username': 'ajax[usernameAjaxEngineCall]',
                 'essential_telephone': 'custom[phone]',
                 'mobile': 'custom[mobile]',
