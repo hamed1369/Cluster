@@ -110,7 +110,7 @@ MENU_MAPPERS = {
         MenuMapper('/', u"صفحه اصلی"),
         MenuMapper('/accounts/edit/', u"ویرایش اطلاعات فردی"),
         # MenuMapper('/confirmed_inventions/', u"مشاهده اختراعات تاییدشده"),
-        MenuMapper('/project/register/', u"جعبه پیام"),
+        MenuMapper('/project/register/', u"ثبت طرح"),
         MenuMapper('/messages/', u"جعبه پیام"),
     ]
 }
