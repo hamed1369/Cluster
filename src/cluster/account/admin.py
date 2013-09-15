@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 from django.contrib import admin
-from cluster.account.account.models import Member, Arbiter, Cluster, UserDomain
+from cluster.account.account.models import Member, Arbiter, Cluster, UserDomain, Domain
 from cluster.account.personal_info.models import EducationalResume, Publication, Invention, \
     ExecutiveResearchProject, LanguageSkill, SoftwareSkill
 
@@ -16,3 +16,4 @@ admin.site.register(Invention)
 admin.site.register(ExecutiveResearchProject)
 admin.site.register(LanguageSkill)
 admin.site.register(SoftwareSkill)
+admin.site.register(Domain)

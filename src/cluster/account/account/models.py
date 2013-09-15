@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-from cluster.project.models import Domain
 
 __author__ = 'Hourshad'
 from django.db import models
@@ -73,7 +72,7 @@ class Arbiter(Account):
     degree          = models.CharField(u"مرتبه علمی", max_length=20) # TODO : ابهام
     office_phone    = models.CharField(u"تلفن مخل کار" , max_length=15)
     fax             = models.CharField(u"فکس", max_length=15)
-    interested_domain = models.ManyToManyField(Domain,related_name="arbiters",verbose_name=u"حوزه های مورد علاقه")
+    interested_domain = models.ManyToManyField('Domain',related_name="arbiters",verbose_name=u"حوزه های مورد علاقه")
     is_confirmed    = models.BooleanField(u"تایید شده",default=False)
 
     class Meta:
@@ -86,7 +85,7 @@ class Arbiter(Account):
 
 class UserDomain(models.Model):
     user = models.OneToOneField(User, verbose_name=u"عضو", related_name='user_domain')
-    domain = models.ForeignKey(Domain, verbose_name=u"حوزه فعالیت", related_name='user_domain', null=True, blank=True, on_delete=models.SET_NULL)
+    domain = models.ForeignKey('Domain', verbose_name=u"حوزه فعالیت", related_name='user_domain', null=True, blank=True, on_delete=models.SET_NULL)
 
     class Meta:
         app_label = 'account'
@@ -99,7 +98,7 @@ class UserDomain(models.Model):
 
 class Cluster(models.Model):
     name        = models.CharField(u"نام خوشه", max_length=50)
-    domains     = models.ManyToManyField(Domain,related_name='clusters',verbose_name=u"حوزه فعالیت",) # TODO : ابهام
+    domains     = models.ManyToManyField('Domain',related_name='clusters',verbose_name=u"حوزه فعالیت",) # TODO : ابهام
     institute   = models.CharField(u"دانشگاه / موسسه", max_length=30)
     head        = models.OneToOneField(Member,verbose_name=u"سر خوشه",related_name='head_cluster')
 
@@ -112,6 +111,22 @@ class Cluster(models.Model):
 
     def __unicode__(self):
         return self.name
+
+
+
+class Domain(models.Model):
+    name = models.CharField(u"نام حوزه", max_length=40)
+    confirmed = models.BooleanField(u"تایید شده", default=False)
+
+    class Meta:
+        verbose_name = u"حوزه"
+        verbose_name_plural = u"حوزه ها"
+
+    def __unicode__(self):
+        if not self.confirmed:
+            return unicode(self.name)+u"(تایید نشده)"
+        else:
+            return unicode(self.name)
 
 
 def user_new_unicode(self):

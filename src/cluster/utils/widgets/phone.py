@@ -21,7 +21,7 @@ class PhoneNumberMultiWidget(forms.MultiWidget):
 
     def decompress(self, value):
         if value:
-            return [value[:3], value[3:6], value[6:]]
+            return [value[6:], value[3:6], value[:3]]
         return tuple([None, None, None])
 
     def value_from_datadict(self, data, files, name):

@@ -1,14 +1,6 @@
 # -*- coding:utf-8 -*-
-from django.contrib.auth.models import User
 from django.db import transaction
-from cluster.account.account.models import Cluster
-from cluster.account.personal_info.models import EducationalResume, SoftwareSkill, LanguageSkill, \
-    ExecutiveResearchProject, Invention, Publication
 from cluster.project.forms import ProjectForm
-from cluster.project.models import Domain
-from cluster.registration.forms import ClusterForm, RegisterForm, ClusterMemberForm, ClusterDomainForm, ResumeForm, \
-    PublicationForm, InventionForm, ExecutiveResearchProjectForm, LanguageSkillForm, SoftwareSkillForm
-from cluster.utils.messages import MessageServices
 
 __author__ = 'M.Y'
 
@@ -20,9 +12,9 @@ class ProjectHandler(object):
 
     def initial_forms(self, check_post=True):
         if self.http_request.method == 'POST' and self.http_request.POST.get('register-submit') and check_post:
-            self.register_form = ProjectForm(self.http_request.POST, prefix='project')
+            self.register_form = ProjectForm(self.http_request.POST, prefix='project', user=self.http_request.user)
         else:
-            self.register_form = ProjectForm(prefix='project')
+            self.register_form = ProjectForm(prefix='project', user=self.http_request.user)
 
     def is_valid_forms(self):
         validate = False

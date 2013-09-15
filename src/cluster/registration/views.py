@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
@@ -23,7 +24,7 @@ def handle_register_view(request, cluster_id=None):
     if register_handler.is_valid_forms():
         register_handler.save_forms()
         messages.success(request, u"ثبت نام شما با موفقیت انجام شد.")
-        return HttpResponseRedirect('login')
+        return HttpResponseRedirect(reverse('login'))
 
     context = register_handler.get_context()
     return render_to_response('registration/register.html',

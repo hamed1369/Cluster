@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from cluster.project.models import Domain
+from cluster.account.account.models import Domain
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.manager.action import AddAction, EditAction, DeleteAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn

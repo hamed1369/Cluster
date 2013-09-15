@@ -1,10 +1,9 @@
 # -*- coding:utf-8 -*-
 from django.contrib.auth.models import User
 from django.db import transaction
-from cluster.account.account.models import Cluster, Member, UserDomain
+from cluster.account.account.models import Cluster, Member, UserDomain, Domain
 from cluster.account.personal_info.models import EducationalResume, SoftwareSkill, LanguageSkill, \
     ExecutiveResearchProject, Invention, Publication
-from cluster.project.models import Domain
 from cluster.registration.forms import ClusterForm, RegisterForm, ClusterMemberForm, ClusterDomainForm, ResumeForm, \
     PublicationForm, InventionForm, ExecutiveResearchProjectForm, LanguageSkillForm, SoftwareSkillForm
 from cluster.utils.messages import MessageServices

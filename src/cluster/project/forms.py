@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 from django import forms
-from cluster.project.models import Project, Domain
+from cluster.account.account.models import Cluster, Domain
+from cluster.project.models import Project
 from cluster.utils.fields import BOOLEAN_CHOICES
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.js_validation import process_js_validations
@@ -16,8 +17,10 @@ class ProjectForm(ClusterBaseModelForm):
 
     class Meta:
         model = Project
+        exclude = ('single_member', 'cluster', 'project_status')
 
     def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
         super(ProjectForm, self).__init__(*args, **kwargs)
         self.fields['confirmation_type'].choices = (
             ('', '---------'),
@@ -51,8 +54,20 @@ class ProjectForm(ClusterBaseModelForm):
         cd = super(ProjectForm, self).clean()
         return cd
 
+    def save(self, commit=True):
+        instance = super(ProjectForm, self).save(commit)
+        try:
+            instance.cluster = self.user.member.cluster
+        except Cluster.DoesNotExist:
+            instance.member = self.user.member
+        return instance
+
 
 class ProjectManagerForm(ProjectForm):
+    class Meta:
+        model = Project
+        exclude = ('single_member', 'cluster')
+
     def __init__(self, *args, **kwargs):
         super(ProjectManagerForm, self).__init__(*args, **kwargs)
         if 'agreement' in self.fields:

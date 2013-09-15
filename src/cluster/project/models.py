@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from cluster.account.account.models import Member, Cluster, Domain
+
 
 class Project(models.Model):
     CONFIRM_TYPE=(
@@ -32,28 +34,16 @@ class Project(models.Model):
     patent_date         = models.DateField(u"تاریخ ثبت اختراع", null=True, blank=True)
     patent_certificate  = models.FileField(u"مدرک ثبت اختراع", upload_to="project_patents/", null=True, blank=True)
     patent_request      = models.BooleanField(u"تقاضای ثبت اختراع", default=False)
-    domain              = models.ForeignKey('Domain',verbose_name=u"حوزه علمی و کاربردی طرح", related_name='projects', on_delete=models.SET_NULL, null=True)
+    domain              = models.ForeignKey(Domain, verbose_name=u"حوزه علمی و کاربردی طرح", related_name='projects', on_delete=models.SET_NULL, null=True)
     summary             = models.CharField(u"خلاصه طرح", max_length=2000)
     keywords            = models.CharField(u"کلید واژه", max_length=100)
     innovations         = models.CharField(u"نوآوری های طرح" , max_length=300)
     state               = models.IntegerField(u"مرحله", choices=STATE)
     project_status      = models.IntegerField(u"مرحله داوری", choices=STATUS, default=0)
 
+    single_member       = models.ForeignKey(Member,verbose_name=u"عضو", null=True, blank=True)
+    cluster             = models.ForeignKey(Cluster, verbose_name=u"خوشه", null=True, blank=True)
 
     class Meta:
         verbose_name = u"طرح"
         verbose_name_plural = u"طرح ها"
-
-class Domain(models.Model):
-    name = models.CharField(u"نام حوزه", max_length=40)
-    confirmed = models.BooleanField(u"تایید شده", default=False)
-
-    class Meta:
-        verbose_name = u"حوزه"
-        verbose_name_plural = u"حوزه ها"
-
-    def __unicode__(self):
-        if not self.confirmed:
-            return unicode(self.name)+u"(تایید نشده)"
-        else:
-            return unicode(self.name)

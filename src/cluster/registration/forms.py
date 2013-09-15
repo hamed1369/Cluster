@@ -2,12 +2,11 @@
 from captcha.fields import CaptchaField
 from django import forms
 from django.contrib.auth.models import User
-from cluster.account.account.models import Member, Arbiter
+from cluster.account.account.models import Member, Arbiter, Domain
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
 from cluster.account.personal_info.models import EducationalResume, Publication, Invention, \
     ExecutiveResearchProject, LanguageSkill, SoftwareSkill
-from cluster.project.models import Domain
 from cluster.utils.fields import BOOLEAN_CHOICES
 from cluster.utils.forms import ClusterBaseForm, ClusterBaseModelForm
 from cluster.utils.js_validation import process_js_validations

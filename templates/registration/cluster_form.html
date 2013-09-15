@@ -15,10 +15,11 @@
      style="display: none;"{% endif %}{% endif %}>
 
     <fieldset class="inner_fieldset">
-        <legend>اطلاعات خوشه</legend>
+        <legend>اطلاعات خوشه<span class="required_field">*</span></legend>
 
         <table class="register_table">
             <tr>
+                <td class="label_td">{{ cluster_form.name.label }}
                 </td>
                 <td class="input_td">{{ cluster_form.name }}</td>
                 {% if cluster_form.name.errors %}
@@ -26,6 +27,7 @@
                 {% endif %}
             </tr>
             <tr>
+                <td class="label_td">{{ cluster_form.institute.label }}
                 </td>
                 <td class="input_td">{{ cluster_form.institute }}</td>
                 {% if cluster_form.institute.errors %}

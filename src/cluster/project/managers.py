@@ -16,11 +16,11 @@ class PublicProjectsForMembersFilterForm(ClusterBaseModelForm):
 
 class PublicProjectsForMembersManager(ObjectsManager):
     manager_name = u"projects"
-    manager_verbose_name = u"طرح های ثبت و تایید شده"
+    manager_verbose_name = u"طرح های من"
     filter_form = PublicProjectsForMembersFilterForm
 
     def get_all_data(self):
-        return Project.objects.filter(project_status=0)
+        return Project.objects.filter(member=self.http_request.user.member)
 
     def get_columns(self):
         columns = [
@@ -54,7 +54,7 @@ class PublicProjectsForMembersManager(ObjectsManager):
 class ProjectsForArbitersFilterForm(ClusterBaseModelForm):
     class Meta:
         model = Project
-        fields = ('title', 'keywords', 'domain', 'project_status')
+        fields = ('title', 'keywords', 'domain', 'project_status', 'cluster', 'single_member')
 
 
 class ProjectsForArbitersManager(ObjectsManager):
