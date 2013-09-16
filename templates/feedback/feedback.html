@@ -1,0 +1,35 @@
+{% extends 'project/register.html' %}
+
+{% block header_title %}ارسال نظرات و پیشنهادات{% endblock %}
+
+{% block form_body %}
+
+    <fieldset class="inner_fieldset">
+        <table class="register_table">
+            <tr>
+                <td class="label_td">{{ form.title.label }}
+                    {% if form.title.field.required %}<span class="required_field">*</span>{% endif %}
+                </td>
+                <td class="input_td">{{ form.title }}</td>
+                {% if form.title.errors %}
+                    <td class="error_td" width="30%">{{ form.title.errors }}</td>
+                {% endif %}
+
+            </tr>
+            <tr>
+                <td class="label_td">{{ form.body.label }}
+                    {% if form.body.field.required %}<span class="required_field">*</span>{% endif %}
+                </td>
+                <td class="input_td">{{ form.body }}</td>
+                {% if form.title.errors %}
+                    <td class="error_td" width="30%">{{ form.body.errors }}</td>
+                {% endif %}
+
+            </tr>
+        </table>
+
+    </fieldset>
+    <div class="button_holder">
+        <input type="submit" value="ارسال" name="register-submit">
+    </div>
+{% endblock %}
