@@ -66,3 +66,29 @@ input[type="text"], input[type="password"], input[type="email"], input[type="url
     padding: 0 12px;
     font-size: 15px;
 }
+
+input[type="text"], input[type="password"], input[type="email"], input[type="url"], textarea {
+    margin: 0;
+    position: relative;
+    border: 1px solid rgb(170, 170, 170);
+    cursor: text;
+    overflow: hidden;
+    background-color: rgb(255, 255, 255);
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(1%, rgb(238, 238, 238)), color-stop(15%, rgb(255, 255, 255)));
+    background-image: -webkit-linear-gradient(top, rgb(238, 238, 238) 1%, rgb(255, 255, 255) 15%);
+    background-image: -moz-linear-gradient(top, #eee 1%, #fff 15%);
+    background-image: -o-linear-gradient(top, #eee 1%, #fff 15%);
+    background-image: -ms-linear-gradient(top, #eee 1%, #fff 15%);
+    background-image: linear-gradient(top, #eee 1%, #fff 15%);
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus, input[type="url"]:focus, textarea:focus {
+    border: 1px solid #5897fb;
+    outline: none;
+
+    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, .3);
+    box-shadow: 0 0 5px rgba(0, 0, 0, .3);
+}

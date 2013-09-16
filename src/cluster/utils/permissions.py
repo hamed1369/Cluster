@@ -47,7 +47,6 @@ class PermissionController:
         else:
             return User.objects.none()
 
-
     @classmethod
     def get_user_menus(cls, user):
         perms = []
@@ -97,14 +96,18 @@ MENU_MAPPERS = {
         MenuMapper('/domains/', u"مدیریت حوزه ها"),
         MenuMapper('/accounts/edit/', u"ویرایش اطلاعات فردی"),
         MenuMapper('/members/', u"مدیریت افراد"),
+        MenuMapper('/no_cluster_members/', u"مدیریت  افراد بدون خوشه"),
         MenuMapper('/clusters/', u"مدیریت خوشه ها"),
+        MenuMapper('/projects_management/', u"مدیریت طرح ها"),
+        MenuMapper('/feedback_manager/', u"مشاهده نظرات و پیشنهادات"),
         MenuMapper('/messages/', u"جعبه پیام"),
     ],
     'arbiter': [
         MenuMapper('/', u"صفحه اصلی"),
         MenuMapper('/arbiter_edit/', u"ویرایش اطلاعات فردی"),
-        MenuMapper('/projects_for_arbiters/', u"بررسی طرح ها"),
+        MenuMapper('/projects_management/', u"بررسی طرح ها"),
         MenuMapper('/messages/', u"جعبه پیام"),
+        MenuMapper('/feedback/', u"ارسال نظرات و پیشنهادات"),
     ],
     'member': [
         MenuMapper('/', u"صفحه اصلی"),
@@ -113,6 +116,7 @@ MENU_MAPPERS = {
         MenuMapper('/project/register/', u"ثبت طرح"),
         MenuMapper('/projects/', u"طرح های من"),
         MenuMapper('/messages/', u"جعبه پیام"),
+        MenuMapper('/feedback/', u"ارسال نظرات و پیشنهادات"),
     ]
 }
 

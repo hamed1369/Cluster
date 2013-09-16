@@ -71,3 +71,23 @@ class MemberManager(ObjectsManager):
         if PermissionController.is_admin(self.http_request.user):
             return True
         return False
+
+
+class NoClusterMemberActionForm(ClusterBaseModelForm):
+    class Meta:
+        model = Member
+        fields = ('national_code', 'military_status', 'foundation_of_elites')
+
+    def __init__(self, *args, **kwargs):
+        super(NoClusterMemberActionForm, self).__init__(*args, **kwargs)
+        self.fields['first_name'] = forms.CharField(label=u"نام", required=False)
+        self.fields['last_name'] = forms.CharField(label=u"نام خانوادگی", required=False)
+
+class NoClusterMemberManager(MemberManager):
+    manager_name = u"no_cluster_members"
+    manager_verbose_name = u"مدیریت  افراد بدون خوشه"
+    filter_form = NoClusterMemberActionForm
+
+    def get_all_data(self):
+        return Member.objects.filter(cluster__isnull=True)
+

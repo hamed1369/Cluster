@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+from datetime import date
 from django.http import HttpResponse, Http404
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.utils.safestring import SafeUnicode, SafeString
+from cluster.utils.calverter import gregorian_to_jalali
 from cluster.utils.manager.filter import Filter
 from cluster.utils.manager.table import Table, Header, Row
 from django.template import Template, Context
@@ -131,6 +133,8 @@ class ObjectsManager(object):
                     value = getattr(data, column.column_name)
                 if value is None:
                     value = u"---"
+                if isinstance(value, date):
+                    value = gregorian_to_jalali(value)
                 if not isinstance(value, (SafeUnicode, SafeString)):
                     value = unicode(value)
                 row.create_cell(column.column_name, value, column.column_width)
