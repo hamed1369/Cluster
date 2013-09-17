@@ -158,13 +158,21 @@ LOGGING = {
         },
     }
 }
-DEFAULT_FROM_EMAIL = 'persianelitesinfo@gmail.com'
-SERVER_EMAIL = 'persianelitesinfo@gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'persianelitesinfo@gmail.com'
-EMAIL_HOST_PASSWORD = '!persianelitesinfo'
+# DEFAULT_FROM_EMAIL = 'persianelitesinfo@gmail.com'
+# SERVER_EMAIL = 'persianelitesinfo@gmail.com'
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'persianelitesinfo@gmail.com'
+# EMAIL_HOST_PASSWORD = '!persianelitesinfo'
+#
+DEFAULT_FROM_EMAIL = 'persianelitesinfo@persianelites.com'
+# SERVER_EMAIL = 'persianelitesinfo@gmail.com'
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'persianelitesinfo@gmail.com'
+# EMAIL_HOST_PASSWORD = '!persianelitesinfo'
 
 
 #captcha
@@ -172,39 +180,3 @@ CAPTCHA_NOISE_FUNCTIONS = ('captcha.helpers.noise_arcs',)
 CAPTCHA_LENGTH = 4
 CAPTCHA_FONT_SIZE = 30
 
-
-
-# Django Suit configuration example
-# SUIT_CONFIG = {
-#     'ADMIN_NAME': u'مدیریت  سامانه موسسه نگاه نو',
-#     'MENU': (
-#
-#         # Keep original label and models
-#         'sites',
-#
-#         # Rename app and set icon
-#         {'app': 'auth', 'label': u'مدیریت کاربران', 'icon':'icon-lock'},
-#
-#         # Reorder app models
-#
-#         # Custom app, with models
-#         {'label': 'Settings', 'icon':'icon-cog', 'models': ('auth.user', 'auth.group')},
-#
-#         # Cross-linked models with custom name; Hide default icon
-#         {'label': 'Custom', 'icon':None, 'models': (
-#             'auth.group',
-#             {'model': 'auth.user', 'label': 'Staff'}
-#         )},
-#
-#         # Custom app, no models (child links)
-#         {'label': 'Users', 'url': 'auth.user', 'icon':'icon-user'},
-#
-#         # Separator
-#         '-',
-#
-#         # Custom app and model with permissions
-#         {'label': 'Secure', 'permissions': 'auth.add_user', 'models': [
-#             {'label': 'custom-child', 'permissions': ('auth.add_user', 'auth.add_group')}
-#         ]},
-#     )
-# }
