@@ -4,7 +4,7 @@
 <html dir="ltr" lang="en-US">
 <head><!-- Created by Artisteer v4.1.0.60046 -->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>{% block title %}صفحه اصلی{% endblock %}</title>
+    <title>{% block title %}{% get_current_menu_name menus %}{% endblock %}</title>
     <meta name="viewport" content="initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no, width = device-width">
 
     <!--[if lt IE 9]><script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
@@ -61,11 +61,13 @@
                     {% csrf_token %}
                     <div class="form-group">
                         <label class="sr-only" for="id_username">نام کاربری</label>
-                        <input type="username" class="form-control" id="id_username" name="username" placeholder="نام کاربری">
+                        <input type="username" class="form-control" id="id_username" name="username"
+                               placeholder="نام کاربری">
                     </div>
                     <div class="form-group">
                         <label class="sr-only" for="id_password">گذرواژه</label>
-                        <input type="password" class="form-control" id="id_password" name="password" placeholder="گذرواژه">
+                        <input type="password" class="form-control" id="id_password" name="password"
+                               placeholder="گذرواژه">
                     </div>
                     <button type="submit" class="btn btn-default">ورود</button>
                 </form>
@@ -96,20 +98,20 @@
 
         </div>
     </div>
-{#    <header class="art-header">#}
-{#        {% if not user.is_anonymous %}#}
-{##}
-{#            <div class="wellcome_div">#}
-{#                <div>#}
-{#                    <span class="hello">{% welcome_st user %}</span>#}
-{#                    <a class="exit_btn" href="{% url logout %}">خروج</a>#}
-{#                    <span class="today_date">{{ today|persian_date }}</span>#}
-{#                </div>#}
-{##}
-{#            </div>#}
-{#        {% endif %}#}
-{##}
-{#    </header>#}
+    {#    <header class="art-header">#}
+    {#        {% if not user.is_anonymous %}#}
+    {##}
+    {#            <div class="wellcome_div">#}
+    {#                <div>#}
+    {#                    <span class="hello">{% welcome_st user %}</span>#}
+    {#                    <a class="exit_btn" href="{% url logout %}">خروج</a>#}
+    {#                    <span class="today_date">{{ today|persian_date }}</span>#}
+    {#                </div>#}
+    {##}
+    {#            </div>#}
+    {#        {% endif %}#}
+    {##}
+    {#    </header>#}
     {#    <nav class="art-nav">#}
     {#        <ul class="art-hmenu">#}
     {#            <li><a href="مشاهده-طرح-های-ثبت-شده.html">مشاهده طرح های ثبت شده</a></li>#}
@@ -178,7 +180,7 @@
                         </div>
                     {% else %}
                         <style>
-                            .art-content-layout .art-content{
+                            .art-content-layout .art-content {
                                 padding-right: 0;
                             }
                         </style>

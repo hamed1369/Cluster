@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
+from django import forms
+from cluster.account.account.models import Cluster, Member, Domain
 from cluster.project.forms import ProjectManagerForm
 from cluster.project.models import Project
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.manager.action import EditAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
+from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
 
@@ -18,6 +21,10 @@ class PublicProjectsForMembersManager(ObjectsManager):
     manager_name = u"projects"
     manager_verbose_name = u"طرح های من"
     filter_form = PublicProjectsForMembersFilterForm
+
+    def can_view(self):
+        if PermissionController.is_member(self.http_request.user):
+            return True
 
     def get_all_data(self):
         return Project.objects.filter(member=self.http_request.user.member)
@@ -56,12 +63,36 @@ class ProjectsForArbitersFilterForm(ClusterBaseModelForm):
         model = Project
         fields = ('title', 'keywords', 'domain', 'project_status', 'cluster', 'single_member')
 
+    def __init__(self, *args, **kwargs):
+        super(ProjectsForArbitersFilterForm, self).__init__(*args, **kwargs)
+        self.fields['cluster'] = forms.ModelMultipleChoiceField(queryset=Cluster.objects.filter(), label=u"خوشه مربوطه",
+                                                                required=False)
+        self.fields['domain'] = forms.ModelMultipleChoiceField(queryset=Domain.objects.filter(), label=u"دامنه ها",
+                                                               required=False)
+        self.fields['single_member'] = forms.ModelMultipleChoiceField(queryset=Member.objects.filter(), label=u"اعضا",
+                                                                      required=False)
 
-class ProjectsForArbitersManager(ObjectsManager):
-    manager_name = u"projects_for_arbiters"
+
+class ProjectsManagement(ObjectsManager):
+    manager_name = u"projects_management"
     manager_verbose_name = u"مدیریت طرح ها"
     filter_form = ProjectsForArbitersFilterForm
-    actions = [EditAction(ProjectManagerForm)]
+    actions = [EditAction(ProjectManagerForm, action_verbose_name=u"بررسی", form_title=u"بررسی طرح")]
+
+    filter_handlers = (
+        ('title', 'str'),
+        ('keywords', 'str'),
+        ('domain', 'm2m'),
+        ('project_status', ''),
+        ('cluster', 'm2m'),
+        ('single_member', 'm2m'),
+    )
+
+    def can_view(self):
+        if PermissionController.is_admin(self.http_request.user) or PermissionController.is_arbiter(
+                self.http_request.user):
+            return True
+        return False
 
     def get_all_data(self):
         return Project.objects.filter()
@@ -74,4 +105,3 @@ class ProjectsForArbitersManager(ObjectsManager):
             ManagerColumn('project_status', u"مرحله داوری", '10'),
         ]
         return columns
-

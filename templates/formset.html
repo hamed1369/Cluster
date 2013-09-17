@@ -5,6 +5,7 @@
         {% if formset.prefix != 'cluster_domain' %}
             <div style="padding: 4px;">
                 این قسمت به منظور تقسیم بندی خوشه ها در حوزه های مشخص تهیه شده است، از این رو سرگروه خوشه باید یک یا چند حوزه فعالیتی خوشه را در ابتدای فرآیند ثبت نام درج نماید.            </div>
+                چند حوزه فعالیتی خوشه را در ابتدای فرایند ثبت نام درج نماید.
         {% endif %}
 
         <div class="formset_container">
@@ -83,10 +84,12 @@
                                     all_fields_name.push($(this).attr('id'));
                                 });
                                 $(this).find('input[type=text], select').each(function () {
-                                    var cls_attr = $(this).attr('class');
-                                    var new_cls_attr = cls_attr.substring(0, cls_attr.lastIndexOf(']')) + 'condRequired[' + all_fields_name + ']' + cls_attr.substring(cls_attr.lastIndexOf(']'));
-                                    $(this).removeClass(cls_attr);
-                                    $(this).addClass(new_cls_attr);
+                                    if ($(this).attr('name').indexOf('end_year') == -1) {
+                                        var cls_attr = $(this).attr('class');
+                                        var new_cls_attr = cls_attr.substring(0, cls_attr.lastIndexOf(']')) + 'condRequired[' + all_fields_name + ']' + cls_attr.substring(cls_attr.lastIndexOf(']'));
+                                        $(this).removeClass(cls_attr);
+                                        $(this).addClass(new_cls_attr);
+                                    }
                                 });
                             });
                         {% endif %}

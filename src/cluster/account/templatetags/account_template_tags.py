@@ -37,3 +37,12 @@ def render_url_li(context, url, persian_name):
     </li>
     """ % (settings.SITE_URL, url, html_class, persian_name)
     return res
+
+@register.simple_tag(takes_context=True)
+def get_current_menu_name(context, menus):
+    for menu in menus:
+        if context.get('request').path == menu.url:
+            return menu.show_name
+    return u"صفحه اصلی"
+
+

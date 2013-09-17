@@ -11,6 +11,7 @@ urlpatterns = patterns('',
                        # url(r'^$', 'cluster.views.home', name='home'),
                        url(r'^', include('cluster.registration.urls')),
                        url(r'^$', 'cluster.account.views.index.index', name='index'),
+                       url(r'^feedback/$', 'cluster.feedback.views.send_feedback', name='feedback'),
 
                        # Uncomment the admin/doc line below to enable admin documentation:
                        #url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
