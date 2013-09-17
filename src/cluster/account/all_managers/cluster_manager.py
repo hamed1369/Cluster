@@ -64,7 +64,7 @@ class ClusterManager(ObjectsManager):
         return u', '.join([unicode(d) for d in data.domains.filter()])
 
     def get_users(self, data):
-        return u', '.join([unicode(u) for u in data.user_domains.filter().values_list('user', flat=True)])
+        return u', '.join([unicode(u.user) for u in data.user_domains.filter().select_related('user')])
 
     def can_view(self):
         if PermissionController.is_admin(self.http_request.user):

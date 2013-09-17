@@ -2,10 +2,10 @@
     <legend>{{ legend }}<span class="required_field">*</span></legend>
     <div id="{{ formset.prefix }}_formset">
         <input type="hidden" name="formset_prefix" value="{{ formset.prefix }}">
-        {% if formset.prefix != 'cluster_domain' %}
+        {% if formset.prefix == 'cluster_domain' %}
             <div style="padding: 4px;">
                 این قسمت به منظور تقسیم بندی خوشه ها در حوزه های مشخص تهیه شده است، از این رو سرگروه خوشه باید یک یا چند حوزه فعالیتی خوشه را در ابتدای فرآیند ثبت نام درج نماید.            </div>
-                چند حوزه فعالیتی خوشه را در ابتدای فرایند ثبت نام درج نماید.
+                در صورتی که حوزه مورد نظر شما در بین حوزه ها موجود نیست با انتخاب گزینه سایر اقدام به وارد کردن نام حوزه مورد نظر خود کنید.
         {% endif %}
 
         <div class="formset_container">

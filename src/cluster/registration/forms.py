@@ -54,8 +54,6 @@ class RegisterForm(ClusterBaseModelForm):
                                                                 widget=forms.RadioSelect(), )
         self.fields['foundation_of_elites'].label = u"آیا عضو بنیاد ملی نخبگان می باشید؟"
 
-        self.fields.insert(len(self.fields), 'captcha', CaptchaField(label=u"کد امنیتی", error_messages={
-            'invalid': u"کد امنیتی وارد شده صحیح نمی باشد."}))
 
         if self.instance and self.instance.id:
             self.fields.insert(3, 'change_password',
@@ -77,6 +75,8 @@ class RegisterForm(ClusterBaseModelForm):
                 'mobile': 'custom[mobile]',
             }
         else:
+            self.fields.insert(len(self.fields), 'captcha', CaptchaField(label=u"کد امنیتی", error_messages={
+                'invalid': u"کد امنیتی وارد شده صحیح نمی باشد."}))
             self.extra_js_validation = {
                 're_password': 'equals[id_register-password]',
                 'username': 'ajax[usernameAjaxEngineCall]',

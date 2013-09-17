@@ -1,10 +1,13 @@
 .ui-jqgrid .ui-jqgrid-htable th div {
     padding: 4px 0;
     font-weight: normal;
+    font-size: 15px;
+    font-weight: 15px;
 }
 
 .filter-formset table, .filter-formset table tr td {
     text-align: right;
+    font-size: 12px;
 }
 
 .filter-formset table {
@@ -17,7 +20,7 @@
 }
 
 .ui-jqgrid .ui-userdata {
-    height: 29px;
+    height: 32px;
     background: rgb(255, 255, 255);
     border: 0;
 }
@@ -91,4 +94,13 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
 
     -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, .3);
     box-shadow: 0 0 5px rgba(0, 0, 0, .3);
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+    font-size: 15px;
+}
+.ui-button-text-only .ui-button-text{
+    padding: 0.1em 1em;
+}
+input.ui-button{
+    padding: 0.1em 1em;
 }

@@ -286,6 +286,7 @@
 
     </table>
 </fieldset>
+{% if register_form.captcha %}
 <fieldset class="inner_fieldset">
     <legend>تایید ثبت نام</legend>
     <table>
@@ -299,6 +300,7 @@
         </tr>
     </table>
 </fieldset>
+{% endif %}
 {#<table id="register_table">#}
 {#{% for field in register_form %}#}
 {#    <tr>#}

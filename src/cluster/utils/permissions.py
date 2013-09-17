@@ -95,11 +95,11 @@ MENU_MAPPERS = {
     'admin': [
         MenuMapper('/domains/', u"مدیریت حوزه ها"),
         MenuMapper('/accounts/edit/', u"ویرایش اطلاعات فردی"),
-        MenuMapper('/members/', u"مدیریت افراد"),
-        MenuMapper('/no_cluster_members/', u"مدیریت  افراد بدون خوشه"),
-        MenuMapper('/clusters/', u"مدیریت خوشه ها"),
-        MenuMapper('/projects_management/', u"مدیریت طرح ها"),
-        MenuMapper('/feedback_manager/', u"مشاهده نظرات و پیشنهادات"),
+        MenuMapper('/members/', u"اعضا"),
+        MenuMapper('/no_cluster_members/', u"  افراد بدون خوشه"),
+        MenuMapper('/clusters/', u"خوشه ها"),
+        MenuMapper('/projects_management/', u" طرح ها"),
+        MenuMapper('/feedback_manager/', u" نظرات و پیشنهادات"),
         MenuMapper('/messages/', u"جعبه پیام"),
     ],
     'arbiter': [

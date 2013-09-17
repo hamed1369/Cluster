@@ -12,6 +12,7 @@ class ShamsiWidget(forms.DateInput):
         html = super(ShamsiWidget, self).render(name, value, attrs)
         js = """
         <script type='text/javascript'>
+            $('#id_%s').addClass('datepicker');
             $('#id_%s').datepicker({
                 changeMonth: true,
                 changeYear: true,
@@ -19,7 +20,7 @@ class ShamsiWidget(forms.DateInput):
                 dateFormat: 'yy/mm/dd'
             });
         </script>
-        """ % name
+        """ % (name,name)
         return mark_safe(u"%s %s" % (html, js))
 
     def value_from_datadict(self, data, files, name):

@@ -4,6 +4,14 @@ __author__ = 'Hourshad'
 from django.db import models
 from django.contrib.auth.models import User
 
+def __unicode__(self):
+    if self.first_name and self.last_name:
+        return u"%s %s"%(self.first_name,self.last_name)
+    return self.username
+
+
+setattr(User,'__unicode__',__unicode__)
+
 class Account(models.Model):
     GENDER = (
         (1,u"مرد"),
@@ -56,6 +64,7 @@ class Member(Account):
         verbose_name = u"عضو خوشه"
         verbose_name_plural =u"اعضای خوشه"
 
+
     def __unicode__(self):
         return u"%s %s"%(self.user.first_name, self.user.last_name) if (
             self.user.first_name and self.user.last_name) else u"%s" % self.user.username
@@ -103,6 +112,7 @@ class Cluster(models.Model):
     head        = models.OneToOneField(Member,verbose_name=u"سر خوشه",related_name='head_cluster')
 
     user_domains= models.ManyToManyField(UserDomain, verbose_name=u"اعضا", related_name='clusters')
+
 
     class Meta:
         app_label ='account'
