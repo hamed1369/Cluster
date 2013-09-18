@@ -100,8 +100,6 @@ $(document).ready(function () {
             $('#only_for_cluster').slideUp();
             $('#only_for_cluster input[type="text"]').removeClass('validate[required,] text-input');
         }
-
-
     });
 
     $('select[name*="employment_status"]').change(function () {
@@ -146,6 +144,17 @@ $(document).ready(function () {
 
 
     });
+
+    $('select[name*="gender"]').change(function () {
+        var gender = $(this).val();
+        if (gender == 1) {
+            $('.military_fieldset').fadeIn();
+        } else {
+            $('.military_fieldset').fadeOut();
+            $('.military_fieldset').find('input, select').val('');
+        }
+    });
+    $('select[name*="gender"]').change();
 
     $('input[name*="change_password"]').change(function () {
         var change_pass = $('input[name*="change_password"]:checked').val();

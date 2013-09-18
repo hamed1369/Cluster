@@ -49,7 +49,7 @@ class Member(Account):
     user                = models.OneToOneField(User,related_name = "member")
     employment_status   = models.IntegerField(u"وضعیت شغلی", choices=EMPLOYMENT_STATUS)
     organization        = models.CharField(u"محل کار", max_length=30, null=True, blank=True)
-    military_status     = models.IntegerField(u"وضعیت نظام وظیفه",choices=MILITARY_STATUS )
+    military_status     = models.IntegerField(u"وضعیت نظام وظیفه",choices=MILITARY_STATUS, null=True, blank=True)
     military_place      = models.CharField(u"محل خدمت", max_length=30, null=True, blank=True)
     exemption_type      = models.IntegerField(u"نوع معافیت",choices=EXEMPTION, null=True, blank=True)
     foundation_of_elites = models.BooleanField(u"عضویت در بنیاد ملی نخبگان", default=False)

@@ -9,13 +9,13 @@ class PhoneNumberMultiWidget(forms.MultiWidget):
         widgets = (
             forms.TextInput(
                 attrs={'size': '8', 'maxlength': '8', 'class': 'phone',
-                       'style': 'width: 80px; padding: 4px 2px;margin-left: 3px;'}),
+                       'style': 'width: 80px !important; padding: 4px 2px;margin-left: 3px;'}),
             forms.TextInput(
                 attrs={'size': '3', 'maxlength': '3', 'class': 'phone',
-                       'style': 'width: 30px; padding: 4px 2px;margin-left: 3px;'}),
+                       'style': 'width: 30px !important; padding: 4px 2px;margin-left: 3px;'}),
             forms.TextInput(
                 attrs={'size': '3', 'maxlength': '3', 'class': 'phone',
-                       'style': 'width: 30px;padding: 4px 2px;margin-left: 3px;'}),
+                       'style': 'width: 30px !important;padding: 4px 2px;margin-left: 3px;'}),
         )
         super(PhoneNumberMultiWidget, self).__init__(widgets, attrs)
 

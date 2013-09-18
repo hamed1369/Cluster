@@ -1,5 +1,5 @@
 {% load account_template_tags %}
-{% if not cluster %}
+{% if not cluster and not member%}
     <div id="cluster_form">
         <div>
             {{ cluster_form.is_cluster.label }}

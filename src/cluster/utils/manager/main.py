@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import date
+from django.db import models
 from django.http import HttpResponse, Http404
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
@@ -133,8 +134,16 @@ class ObjectsManager(object):
                     value = getattr(data, column.column_name)
                 if value is None:
                     value = u"---"
-                if isinstance(value, date):
+                if isinstance(value, bool):
+                    if value is True:
+                        value = u"بله"
+                    else:
+                        value = u"خیر"
+                elif isinstance(value, date):
                     value = gregorian_to_jalali(value)
+                elif isinstance(data, models.Model) and not column.is_variable:
+                    if data.__class__._meta.get_field_by_name(column.column_name)[0].choices:
+                        value = getattr(data, 'get_' + column.column_name + '_display')()
                 if not isinstance(value, (SafeUnicode, SafeString)):
                     value = unicode(value)
                 row.create_cell(column.column_name, value, column.column_width)

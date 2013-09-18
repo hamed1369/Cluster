@@ -45,6 +45,7 @@ class ShowMessage(ManagerAction):
     action_name = 'show_message'
     action_verbose_name = u"مشاهده پیام"
     is_view = True
+    min_count = 1
 
     def action_view(self, http_request, selected_instances):
         form = MessageShowForm(instance=selected_instances[0])

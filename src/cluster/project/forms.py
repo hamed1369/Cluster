@@ -23,7 +23,7 @@ class ProjectForm(ClusterBaseModelForm):
         self.user = kwargs.pop('user')
         super(ProjectForm, self).__init__(*args, **kwargs)
         self.fields['confirmation_type'].choices = (
-            ('', '---------'),
+            (1, '---------'),
             (2, u"تاییدیه سازمان پژوهش های علمی و صنعتی ایران"),
             (3, u"برگزیده جشنواره خوارزمی"),
             (4, u"برگزیده جشنواره رازی"),
@@ -52,14 +52,17 @@ class ProjectForm(ClusterBaseModelForm):
 
     def clean(self):
         cd = super(ProjectForm, self).clean()
+        if not cd.get('confirmation_type'):
+            cd['confirmation_type'] = 1
         return cd
 
     def save(self, commit=True):
         instance = super(ProjectForm, self).save(commit)
-        try:
+        if self.user.member.cluster:
             instance.cluster = self.user.member.cluster
-        except Cluster.DoesNotExist:
-            instance.member = self.user.member
+        else:
+            instance.single_member = self.user.member
+        instance.save()
         return instance
 
 

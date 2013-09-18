@@ -41,7 +41,7 @@
         </tr>
     {% endif %}
 
-    <tr>
+    <tr{% if register_form.change_password %} style="display: none"{% endif %}>
 
         <td class="label_td">{{ register_form.password.label }}
         </td>
@@ -50,7 +50,7 @@
             <td class="error_td" width="30%">{{ register_form.password.errors }}</td>
         {% endif %}
     </tr>
-    <tr>
+    <tr{% if register_form.change_password %} style="display: none"{% endif %}>
 
         <td class="label_td">{{ register_form.re_password.label }}
         </td>
@@ -181,7 +181,7 @@
     </table>
 </fieldset>
 <br/>
-<fieldset class="inner_fieldset">
+<fieldset class="inner_fieldset military_fieldset">
     <legend>وضعیت نظام وظیفه<span class="required_field">*</span></legend>
     <table>
         <tr>

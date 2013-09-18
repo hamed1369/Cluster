@@ -5,7 +5,7 @@ from cluster.account.account.models import Cluster, Member, Domain
 from cluster.project.forms import ProjectManagerForm
 from cluster.project.models import Project
 from cluster.utils.forms import ClusterBaseModelForm
-from cluster.utils.manager.action import EditAction
+from cluster.utils.manager.action import EditAction, DeleteAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
 from cluster.utils.permissions import PermissionController
 
@@ -23,12 +23,14 @@ class PublicProjectsForMembersManager(ObjectsManager):
     manager_verbose_name = u"طرح های من"
     filter_form = PublicProjectsForMembersFilterForm
 
+    actions = [DeleteAction(action_verbose_name=u"انصراف از طرح")]
+
     def can_view(self):
         if PermissionController.is_member(self.http_request.user):
             return True
 
     def get_all_data(self):
-        return Project.objects.filter(Q(single_member=self.http_request.user.member)|Q(cluster__user_domains__user=self.http_request.user))
+        return Project.objects.filter(Q(single_member=self.http_request.user.member) | Q(cluster__user_domains__user=self.http_request.user))
 
     def get_columns(self):
         columns = [

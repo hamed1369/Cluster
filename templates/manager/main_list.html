@@ -80,6 +80,12 @@
             records: "records",
             repeatitems: true,
             cell: ""
+        },
+        loadError: function (jqXHR, textStatus, errorThrown) {
+            alert('HTTP status code: ' + jqXHR.status + '\n' +
+                    'textStatus: ' + textStatus + '\n' +
+                    'errorThrown: ' + errorThrown);
+            alert('HTTP message body (jqXHR.responseText): ' + '\n' + jqXHR.responseText);
         }
     });
     $manager.jqGrid('navGrid', '#manager_pager',

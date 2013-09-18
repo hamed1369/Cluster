@@ -43,9 +43,9 @@ class PermissionController:
         elif cls.is_arbiter(user):
             return cls.get_admins()
         elif cls.is_member(user):
-            return user.member.cluster.user_domains.filter().values_list('user', flat=True)
-        else:
-            return User.objects.none()
+            if user.member.cluster:
+                return user.member.cluster.user_domains.filter().values_list('user', flat=True)
+        return User.objects.none()
 
     @classmethod
     def get_user_menus(cls, user):

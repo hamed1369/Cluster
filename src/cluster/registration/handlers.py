@@ -351,6 +351,7 @@ class ClusterHandler(object):
             'language_skill_formset': self.language_skill_formset,
             'software_skill_formset': self.software_skill_formset,
             'cluster': self.cluster,
+            'member': self.member
         }
         return c
 

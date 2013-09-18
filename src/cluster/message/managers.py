@@ -49,7 +49,9 @@ class MessageManager(ObjectsManager):
     def get_state(self, obj):
         state = obj
         if state == Message.READ:
-            result = u'<img src="/static/manager/images/read.png" />'
+            return u"بله"
+            # result = u'<img src="/static/manager/images/read.png" />'
         else:
-            result = u'<img src="/static/manager/images/unread.png" />'
+            return u"خیر"
+            # result = u'<img src="/static/manager/images/unread.png" />'
         return mark_safe(result)
