@@ -1,5 +1,7 @@
 # -*- coding:utf-8 -*-
+from django.contrib.auth.models import AnonymousUser
 from django.core.urlresolvers import reverse
+from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
 from django import template
@@ -24,6 +26,23 @@ def welcome_st(user):
 def is_false(value):
     return value is False or value == 'False'
 
+@register.filter
+def check_role(user, role_name):
+    if isinstance(user,AnonymousUser):
+        return False
+    if role_name == 'member':
+        return PermissionController.is_member(user)
+    elif role_name == 'admin':
+        return PermissionController.is_admin(user)
+    elif role_name == 'arbiter':
+        return PermissionController.is_arbiter(user)
+    return False
+
+
+@register.filter
+def get_top_menus(user):
+    return PermissionController.is_member(user)
+
 
 @register.simple_tag(takes_context=True)
 def render_url_li(context, url, persian_name):
@@ -44,5 +63,6 @@ def get_current_menu_name(context, menus):
         if context.get('request').path == menu.url:
             return menu.show_name
     return u"صفحه اصلی"
+
 
 

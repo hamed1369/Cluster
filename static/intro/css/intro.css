@@ -5,6 +5,8 @@ body{
     font-family: B Mitra;
     background-image: url(../images/page.png);
     background-repeat: repeat;
+    padding: 0;
+    margin: 0;
 }
 #header {
     margin: 0 auto;
@@ -17,7 +19,7 @@ body{
 
 #sliderFrame 
 {
-    width:965px;
+    width:920px;
     margin:0 auto; /*center-aligned*/
     margin-top:20px;
     padding:20px;
@@ -127,7 +129,7 @@ body{
 #logo-container{
     position: relative;
     float: right;
-    width: 300px;
+    width: 600px;
     height: 65px;
     direction: rtl;
 }
@@ -281,6 +283,9 @@ body{
 .slide h1{
     font-family: B Mitra;
     font-size: 35px;
+    font-weight: normal;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 /*slide 1*/
@@ -306,8 +311,6 @@ body{
     text-align: justify;
 }
 #slide-3 h1{
-    font-family: B Mitra;
-    font-size: 35px;
     color:white;
 }
 /*slide 2*/
@@ -322,8 +325,6 @@ body{
     text-align: justify;
 }
 #slide-2 h1{
-    font-family: B Mitra;
-    font-size: 35px;
     color:#003147;
 }
 /*slide 4*/
@@ -373,7 +374,36 @@ body{
     text-align: justify;
 }
 #slide-4 h1{
-    font-family: B Mitra;
-    font-size: 35px;
     color:white;
+}
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.container:before, .container:after {
+    display: table;
+    content: " ";
+}
+.container {
+    max-width: 1170px;
+}
+#logo-container ul{
+    list-style-type: none;
+    margin-right: 170px;
+    margin-top: 20px;
+}
+#logo-container ul li{
+    display: inline;
+    margin-right: 40px;
+}
+#logo-container ul li a{
+    font-size: 17px;
+    font-weight: bold;
+    color: #4F4F4F;
+    text-decoration: none;
+}
+#logo-container ul li a:hover{
+    color: black;
 }

@@ -102,7 +102,7 @@ class MemberMessageForm(ClusterBaseModelForm):
 
     class Meta:
         model = Message
-        exclude = ('sender', 'state', 'receivers')
+        exclude = ('sender', 'state')
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')

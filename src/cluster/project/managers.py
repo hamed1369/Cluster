@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.db.models.query_utils import Q
 from cluster.account.account.models import Cluster, Member, Domain
 from cluster.project.forms import ProjectManagerForm
 from cluster.project.models import Project
@@ -27,7 +28,7 @@ class PublicProjectsForMembersManager(ObjectsManager):
             return True
 
     def get_all_data(self):
-        return Project.objects.filter(member=self.http_request.user.member)
+        return Project.objects.filter(Q(single_member=self.http_request.user.member)|Q(cluster__user_domains__user=self.http_request.user))
 
     def get_columns(self):
         columns = [
