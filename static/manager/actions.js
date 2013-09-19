@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    $('select').select2({
+    $('select[multiple]').select2({
         minimumResultsForSearch: 99
     });
 

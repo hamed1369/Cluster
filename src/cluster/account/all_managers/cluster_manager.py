@@ -2,6 +2,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from cluster.account.account.models import Cluster
+from cluster.account.actions import ClusterConfirmAction
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.manager.action import ShowAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
@@ -37,7 +38,7 @@ class ClusterManager(ObjectsManager):
     manager_name = u"clusters"
     manager_verbose_name = u"مدیریت خوشه ها"
     filter_form = ClusterForm
-    actions = [ShowAction(ClusterActionForm, height='300')]
+    actions = [ShowAction(ClusterActionForm, height='300'), ClusterConfirmAction()]
 
     filter_handlers = (
         ('name', 'str'),
@@ -57,6 +58,7 @@ class ClusterManager(ObjectsManager):
             ManagerColumn('institute', u"دانشگاه / موسسه", '10'),
             ManagerColumn('head', u"سر خوشه", '10'),
             ManagerColumn('users', u"اعضا", '10', True),
+            ManagerColumn('confirm', u"تاییدشده", '10', True),
         ]
         return columns
 
@@ -65,6 +67,9 @@ class ClusterManager(ObjectsManager):
 
     def get_users(self, data):
         return u', '.join([unicode(u.user) for u in data.user_domains.filter().select_related('user')])
+
+    def get_confirm(self, data):
+        return data.head.is_confirmed
 
     def can_view(self):
         if PermissionController.is_admin(self.http_request.user):

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django import forms
 from django.contrib import messages
 from django.http import Http404
 from django.shortcuts import render_to_response
@@ -114,4 +115,41 @@ class ShowAction(ManagerAction):
         for field in form.fields:
             form.fields[field].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})
         return render_to_response('manager/actions/show.html', {'form': form, 'title': self.form_title},
+                                  context_instance=RequestContext(http_request))
+
+
+class ConfirmAction(ManagerAction):
+    is_view = True
+
+    def __init__(self, field_name, action_name='confirm', action_verbose_name=u"بررسی", form_title=u"بررسی",
+                 min_count='1', field_label=u"تایید شده"):
+        self.action_name = action_name
+        self.action_verbose_name = action_verbose_name
+        self.field_name = field_name
+        self.form_title = form_title
+        self.min_count = min_count
+        self.field_label = field_label
+
+    def action_view(self, http_request, selected_instances):
+        if not selected_instances:
+            raise Http404()
+
+        field_label = self.field_label
+        field_val = getattr(selected_instances[0], self.field_name)
+
+        class ConfirmForm(forms.Form):
+            confirm = forms.BooleanField(label=field_label, initial=field_val, required=False)
+
+        if http_request.method == 'POST':
+            form = ConfirmForm(http_request.POST)
+            if form.is_valid():
+                confirm = form.cleaned_data.get('confirm')
+                setattr(selected_instances[0], self.field_name, confirm)
+                selected_instances[0].save()
+                form = None
+                messages.success(http_request, u"%s با موفقیت انجام شد." % self.form_title)
+        else:
+            form = ConfirmForm()
+
+        return render_to_response('manager/actions/add_edit.html', {'form': form, 'title': self.form_title},
                                   context_instance=RequestContext(http_request))

@@ -98,6 +98,7 @@ MENU_MAPPERS = {
         MenuMapper('/members/', u"اعضا"),
         MenuMapper('/no_cluster_members/', u"  افراد بدون خوشه"),
         MenuMapper('/clusters/', u"خوشه ها"),
+        MenuMapper('/arbiters_management/', u"داوران"),
         MenuMapper('/projects_management/', u" طرح ها"),
         MenuMapper('/feedback_manager/', u" نظرات و پیشنهادات"),
         MenuMapper('/messages/', u"جعبه پیام"),

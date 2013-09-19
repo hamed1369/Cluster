@@ -1,4 +1,5 @@
 {% extends 'no_base.html' %}
+{% load account_template_tags %}
 {% block CSS %}
     {{ block.super }}
     <link rel="stylesheet" type="text/css" href="/static/manager/show.css"/>
@@ -16,7 +17,26 @@
                         {% if field.field.widget.input_type == 'text' %}
                             <td class="input_td"><p>{{ field.value }}</p></td>
                         {% else %}
-                            <td class="input_td">{{ field }}</td>
+                            <td class="input_td">
+                                {% if field.field.widget.multiple_check|is_true %}
+                                    <table>
+                                        {% for choice in field.field.queryset %}
+                                            {% if forloop.counter0|divisibleby:"3" %}
+                                                <tr>{% endif %}
+                                        <td style="text-align: right">
+                                            {{ choice.name }}
+                                            <input id="id_
+                                                    {% if form.prefix %}{{ form.prefix }}-{% endif %}{{ field.name }}_{{ choice.id }}"
+                                                   value="{{ choice.id }}" type="checkbox"
+                                                   name="{% if form.prefix %}{{ form.prefix }}-{% endif %}{{ field.name }}"
+                                                   {% if choice in form.instance|get_field:field.name %}checked="checked"{% endif %} readonly="readonly" disabled="disabled"/>
+                                        </td>
+                                        {% if forloop.last or forloop.counter|divisibleby:"3" %}</tr>{% endif %}
+                                        {% endfor %}
+                                    </table>
+                                {% else %}
+                                    {{ field }}
+                                {% endif %}                            </td>
                         {% endif %}
                     </tr>
                 {% endfor %}

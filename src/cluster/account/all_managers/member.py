@@ -2,7 +2,7 @@
 from django import forms
 from cluster.account.account.models import Member, Cluster
 from cluster.utils.forms import ClusterBaseModelForm
-from cluster.utils.manager.action import ShowAction
+from cluster.utils.manager.action import ShowAction, DeleteAction, ConfirmAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
 from cluster.utils.permissions import PermissionController
 
@@ -24,6 +24,7 @@ class MemberForm(ClusterBaseModelForm):
 class MemberActionForm(ClusterBaseModelForm):
     class Meta:
         model = Member
+        exclude = ('is_confirmed',)
 
     def __init__(self, *args, **kwargs):
         super(MemberActionForm, self).__init__(*args, **kwargs)
@@ -83,10 +84,13 @@ class NoClusterMemberActionForm(ClusterBaseModelForm):
         self.fields['first_name'] = forms.CharField(label=u"نام", required=False)
         self.fields['last_name'] = forms.CharField(label=u"نام خانوادگی", required=False)
 
+
 class NoClusterMemberManager(MemberManager):
     manager_name = u"no_cluster_members"
     manager_verbose_name = u"مدیریت  افراد بدون خوشه"
     filter_form = NoClusterMemberActionForm
+
+    actions = [ShowAction(MemberActionForm), DeleteAction(), ConfirmAction('is_confirmed')]
 
     def get_all_data(self):
         return Member.objects.filter(cluster__isnull=True)
@@ -100,7 +104,8 @@ class NoClusterMemberManager(MemberManager):
             ManagerColumn('residence_city', u"شهر محل اقامت", '10'),
             ManagerColumn('mobile', u"تلفن همراه", '10'),
             ManagerColumn('military_status', u"وضعیت نظام وظیفه", '10'),
-            ManagerColumn('foundation_of_elites', u"عضویت در بنیاد ملی نخبگان", '10'),
+            ManagerColumn('foundation_of_elites', u"عضویت در بنیاد ملی نخبگان", '20'),
+            ManagerColumn('is_confirmed', u"تایید شده", '10'),
             ]
         return columns
 

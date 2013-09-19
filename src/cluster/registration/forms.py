@@ -39,7 +39,7 @@ class ClusterForm(ClusterBaseForm):
 class RegisterForm(ClusterBaseModelForm):
     class Meta:
         model = Member
-        exclude = ('cluster', 'user')
+        exclude = ('cluster', 'user', 'is_confirmed')
 
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__(*args, **kwargs)
@@ -53,7 +53,6 @@ class RegisterForm(ClusterBaseModelForm):
         self.fields['foundation_of_elites'] = forms.ChoiceField(required=True, choices=BOOLEAN_CHOICES,
                                                                 widget=forms.RadioSelect(), )
         self.fields['foundation_of_elites'].label = u"آیا عضو بنیاد ملی نخبگان می باشید؟"
-
 
         if self.instance and self.instance.id:
             self.fields.insert(3, 'change_password',
@@ -315,11 +314,12 @@ class ArbiterForm(ClusterBaseModelForm):
                 self.fields['first_name'].initial = self.instance.user.first_name
                 self.fields['last_name'].initial = self.instance.user.last_name
                 self.fields['username'].initial = self.instance.user.username
-                self.fields['username'].widget.attrs.update('readonly', 'readonly')
+                self.fields['username'].widget.attrs.update({'readonly': 'readonly'})
                 self.fields['email'].initial = self.instance.user.email
 
         self.fields['interested_domain'].queryset = Domain.objects.filter(confirmed=True)
         self.fields['interested_domain'].widget = forms.CheckboxSelectMultiple()
+        self.fields['interested_domain'].widget.multiple_check = True
         self.fields['interested_domain'].label = u"حوزه های مورد علاقه برای داوری"
         process_js_validations(self)
 

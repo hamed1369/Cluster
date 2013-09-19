@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 from django import forms
-from cluster.account.account.models import Cluster, Domain
+from cluster.account.account.models import Domain
 from cluster.project.models import Project
 from cluster.utils.fields import BOOLEAN_CHOICES
 from cluster.utils.forms import ClusterBaseModelForm
@@ -72,6 +72,7 @@ class ProjectManagerForm(ProjectForm):
         exclude = ('single_member', 'cluster')
 
     def __init__(self, *args, **kwargs):
+        kwargs['user'] = None
         super(ProjectManagerForm, self).__init__(*args, **kwargs)
         if 'agreement' in self.fields:
             del self.fields['agreement']
@@ -79,3 +80,8 @@ class ProjectManagerForm(ProjectForm):
                                 'patent_number', 'patent_date', 'patent_certificate', 'patent_request', 'domain',
                                 'summary', 'keywords', 'innovations', 'state', 'project_status']
         process_js_validations(self)
+
+    def save(self, commit=True):
+        instance = super(ProjectForm, self).save(commit)
+        return instance
+

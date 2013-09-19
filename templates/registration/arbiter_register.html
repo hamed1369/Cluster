@@ -232,7 +232,6 @@
                             </td>
                         <td class="input_td">
                         {% if arbiter_form.interested_domain.field.queryset %}
-
                         <table>
                                     {% for choice in arbiter_form.interested_domain.field.queryset %}
                                         {% if forloop.counter0|divisibleby:"3" %}<tr>{% endif %}
