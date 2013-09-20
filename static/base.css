@@ -38,7 +38,11 @@ input[type="text"], input[type="password"], input[type="email"], input[type="url
     font-family: Tahoma;
     font-size: 12px;
 }
-
+.fancybox-type-iframe .fancybox-inner{
+    border: solid;
+    border-width: 12px;
+    border-color: #098bde;
+}
 select {
     font-family: Tahoma;
     font-size: 12px;
