@@ -37,6 +37,8 @@ class PublicProjectsForMembersManager(ObjectsManager):
             ManagerColumn('title', u"عنوان", '10'),
             ManagerColumn('keywords', u"کلید واژه ها", '10'),
             ManagerColumn('domain', u"حوزه طرح", '10'),
+            ManagerColumn('state', u"مرحله", '10'),
+            ManagerColumn('project_status', u"مرحله داوری", '10'),
         ]
         return columns
 
@@ -105,6 +107,7 @@ class ProjectsManagement(ObjectsManager):
             ManagerColumn('title', u"عنوان", '10'),
             ManagerColumn('keywords', u"کلید واژه ها", '10'),
             ManagerColumn('domain', u"حوزه طرح", '10'),
+            ManagerColumn('state', u"مرحله", '10'),
             ManagerColumn('project_status', u"مرحله داوری", '10'),
         ]
         return columns

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django import forms
 from cluster.account.account.models import Domain
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.manager.action import AddAction, EditAction, DeleteAction
@@ -12,6 +13,13 @@ class DomainForm(ClusterBaseModelForm):
     class Meta:
         model = Domain
         fields = ('name', 'confirmed')
+
+    def __init__(self, *args, **kwargs):
+        super(DomainForm, self).__init__(*args, **kwargs)
+        self.fields['confirmed'] = forms.NullBooleanField(required=False, label=u"تایید شده")
+        self.fields['confirmed'].widget.choices = ((u'1', u"--- همه ---"),
+                                                   (u'2', u"بله"),
+                                                   (u'3', u"خیر"))
 
 
 class DomainManager(ObjectsManager):

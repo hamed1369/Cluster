@@ -47,7 +47,7 @@ def arbiter_register(request):
         if arbiter_form.is_valid():
             arbiter_form.save()
             messages.success(request, u"ثبت نام شما با موفقیت انجام شد.")
-            return HttpResponseRedirect('login')
+            return HttpResponseRedirect(reverse('login'))
     else:
         arbiter_form = ArbiterForm(prefix='register')
     context = {

@@ -44,7 +44,7 @@ class PermissionController:
             return cls.get_admins()
         elif cls.is_member(user):
             if user.member.cluster:
-                return user.member.cluster.user_domains.filter().values_list('user', flat=True)
+                return User.objects.filter(id__in=user.member.cluster.user_domains.filter().values_list('user', flat=True))
         return User.objects.none()
 
     @classmethod

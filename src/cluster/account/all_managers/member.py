@@ -20,6 +20,10 @@ class MemberForm(ClusterBaseModelForm):
         self.fields['first_name'] = forms.CharField(label=u"نام", required=False)
         self.fields['last_name'] = forms.CharField(label=u"نام خانوادگی", required=False)
         self.fields['cluster'] = forms.ModelMultipleChoiceField(queryset=Cluster.objects.filter(), label=u"خوشه")
+        self.fields['foundation_of_elites'] = forms.NullBooleanField(required=False, label=u"عضویت در بنیاد ملی نخبگان")
+        self.fields['foundation_of_elites'].widget.choices = ((u'1', u"--- همه ---"),
+                                                   (u'2', u"بله"),
+                                                   (u'3', u"خیر"))
 
 
 class MemberActionForm(ClusterBaseModelForm):
@@ -45,7 +49,7 @@ class MemberManager(ObjectsManager):
         ('cluster', 'm2m'),
         ('national_code', 'this'),
         ('military_status', 'this'),
-        ('foundation_of_elites', 'bool'),
+        ('foundation_of_elites', 'null_bool'),
     )
     actions = [ShowAction(MemberActionForm), EditMemberAction()]
 
@@ -63,6 +67,7 @@ class MemberManager(ObjectsManager):
             ManagerColumn('mobile', u"تلفن همراه", '10'),
             ManagerColumn('military_status', u"وضعیت نظام وظیفه", '10'),
             ManagerColumn('foundation_of_elites', u"عضویت در بنیاد ملی نخبگان", '10'),
+            ManagerColumn('created_on', u"تاریخ ثبت نام", '10'),
         ]
         return columns
 
@@ -84,6 +89,10 @@ class NoClusterMemberActionForm(ClusterBaseModelForm):
         super(NoClusterMemberActionForm, self).__init__(*args, **kwargs)
         self.fields['first_name'] = forms.CharField(label=u"نام", required=False)
         self.fields['last_name'] = forms.CharField(label=u"نام خانوادگی", required=False)
+        self.fields['foundation_of_elites'] = forms.NullBooleanField(required=False, label=u"عضویت در بنیاد ملی نخبگان")
+        self.fields['foundation_of_elites'].widget.choices = ((u'1', u"--- همه ---"),
+                                                              (u'2', u"بله"),
+                                                              (u'3', u"خیر"))
 
 
 class NoClusterMemberManager(MemberManager):
@@ -106,6 +115,7 @@ class NoClusterMemberManager(MemberManager):
             ManagerColumn('mobile', u"تلفن همراه", '10'),
             ManagerColumn('military_status', u"وضعیت نظام وظیفه", '10'),
             ManagerColumn('foundation_of_elites', u"عضویت در بنیاد ملی نخبگان", '20'),
+            ManagerColumn('created_on', u"تاریخ ثبت نام", '10'),
             ManagerColumn('is_confirmed', u"تایید شده", '10'),
         ]
         return columns
@@ -115,5 +125,5 @@ class NoClusterMemberManager(MemberManager):
         ('last_name', 'str'),
         ('national_code', 'this'),
         ('military_status', 'this'),
-        ('foundation_of_elites', 'bool'),
+        ('foundation_of_elites', 'null_bool'),
     )

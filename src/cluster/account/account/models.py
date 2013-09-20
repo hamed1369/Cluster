@@ -27,6 +27,8 @@ class Account(models.Model):
     mobile          = models.CharField(u"تلفن همراه", max_length=11)
     essential_telephone = models.CharField(u"تلفن ضروری", max_length=15)
     address         = models.CharField(u"آدرس", max_length=400)
+    created_on      = models.DateField(u"تاریخ ایجاد", auto_now_add=True)
+
     class Meta:
         abstract = True
 
@@ -114,6 +116,7 @@ class Cluster(models.Model):
 
     user_domains= models.ManyToManyField(UserDomain, verbose_name=u"اعضا", related_name='clusters')
 
+    created_on  = models.DateField(u"تاریخ ایجاد", auto_now_add=True)
 
     class Meta:
         app_label ='account'
