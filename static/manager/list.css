@@ -23,6 +23,8 @@
     height: 32px;
     background: rgb(255, 255, 255);
     border: 0;
+    margin-top: 2px;
+    
 }
 
 #next_manager_pager {
