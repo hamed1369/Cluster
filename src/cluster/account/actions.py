@@ -7,7 +7,7 @@ from django.template.context import RequestContext
 from cluster.account.account.models import Member
 from cluster.registration.handlers import ClusterHandler
 from cluster.utils.forms import ClusterBaseForm
-from cluster.utils.manager.action import ManagerAction, ConfirmAction
+from cluster.utils.manager.action import ManagerAction
 
 __author__ = 'M.Y'
 
@@ -90,5 +90,35 @@ class EditMemberAction(ManagerAction):
     def action_view(self, http_request, selected_instances):
         instance = selected_instances[0]
         member = instance
-        handler = ClusterHandler(request, cluster_id=member.cluster_id)
+        handler = ClusterHandler(http_request, cluster_id=member.cluster_id, has_cluster=False)
         handler.initial_forms(member=member)
+        if handler.is_valid_forms():
+            handler.save_forms()
+            messages.success(http_request, u"ویرایش اطلاعات با موفقیت انجام شد.")
+            return render_to_response('accounts/edit_member_action.html', {},
+                                      context_instance=RequestContext(http_request))
+
+        c = handler.get_context()
+        return render_to_response('accounts/edit_member_action.html', c,
+                                  context_instance=RequestContext(http_request))
+
+
+class EditClusterAction(ManagerAction):
+    is_view = True
+    min_count = 1
+    action_name = 'edit_cluster'
+    action_verbose_name = u"ویرایش"
+
+    def action_view(self, http_request, selected_instances):
+        cluster = selected_instances[0]
+        handler = ClusterHandler(http_request, cluster_id=cluster.id, has_register=False, member=cluster.head)
+        handler.initial_forms()
+        if handler.is_valid_forms():
+            handler.save_only_cluster(cluster.head)
+            messages.success(http_request, u"ویرایش اطلاعات با موفقیت انجام شد.")
+            return render_to_response('accounts/edit_member_action.html', {},
+                                      context_instance=RequestContext(http_request))
+
+        c = handler.get_context()
+        return render_to_response('accounts/edit_member_action.html', c,
+                                  context_instance=RequestContext(http_request))

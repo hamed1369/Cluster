@@ -1,0 +1,34 @@
+{% extends 'no_base.html' %}
+{% load staticfiles %}
+
+{% block CSS %}
+    {{ block.super }}
+{% endblock %}
+
+{% block JS %}
+    {{ block.super }}
+{% endblock %}
+
+{% block title %}ویرایش افراد{% endblock %}
+{% block header_title %}ویرایش افراد{% endblock %}
+{% block content %}
+    {% include 'messages.html' %}
+    {% if register_form or cluster %}
+        <div class="panel panel-info form-div" id="register_div">
+            <form action="" method="post" enctype="multipart/form-data" id="register_form" class="js-validation-from">
+                {% csrf_token %}
+                {% if cluster %}
+                    {{ cluster_form.errors }}
+                    {% include 'registration/cluster_form.html' %}
+                {% endif %}
+                {% if register_form %}
+                    {% include 'registration/register_main_form.html' %}
+                {% endif %}
+
+                <div class="button_holder">
+                    <input type="submit" value="ثبت" name="register-submit">
+                </div>
+            </form>
+        </div>
+    {% endif %}
+{% endblock %}

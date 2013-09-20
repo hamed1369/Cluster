@@ -6,8 +6,8 @@
         <td class="label_td">{{ register_form.first_name.label }}
         </td>
         <td class="input_td">{{ register_form.first_name }}</td>
-        {% if cluster_form.first_name.errors %}
-            <td class="error_td" width="30%">{{ cluster_form.first_name.errors }}</td>
+        {% if register_form.first_name.errors %}
+            <td class="error_td" width="30%">{{ register_form.first_name.errors }}</td>
         {% endif %}
 
     </tr>

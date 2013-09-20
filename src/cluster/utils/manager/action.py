@@ -129,6 +129,7 @@ class ConfirmAction(ManagerAction):
         self.form_title = form_title
         self.min_count = min_count
         self.field_label = field_label
+        self.height = '200'
 
     def action_view(self, http_request, selected_instances):
         if not selected_instances:

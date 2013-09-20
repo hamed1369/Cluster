@@ -24,7 +24,7 @@ class MessageManager(ObjectsManager):
     filter_form = FeedbackFilterForm
     actions = [
         DeleteAction(),
-        ShowAction(FeedbackShowForm),
+        ShowAction(FeedbackShowForm, height='350'),
     ]
 
     def get_all_data(self):

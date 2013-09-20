@@ -42,6 +42,7 @@ class RegisterForm(ClusterBaseModelForm):
         exclude = ('cluster', 'user', 'is_confirmed')
 
     def __init__(self, *args, **kwargs):
+        has_cluster = kwargs.pop('has_cluster')
         super(RegisterForm, self).__init__(*args, **kwargs)
         self.fields.insert(0, 'first_name', forms.CharField(required=True, label=u"نام"))
         self.fields.insert(1, 'last_name', forms.CharField(required=True, label=u"نام خانوادگی"))
@@ -69,20 +70,22 @@ class RegisterForm(ClusterBaseModelForm):
                 self.fields['email'].initial = self.instance.user.email
             self.extra_js_validation = {
                 're_password': 'equals[id_register-password]',
-                'username': 'ajax[usernameAjaxEngineCall]',
                 'essential_telephone': 'custom[phone]',
                 'mobile': 'custom[mobile]',
             }
+            if has_cluster:
+                self.extra_js_validation['username'] = 'ajax[usernameAjaxEngineCall]'
         else:
             self.fields.insert(len(self.fields), 'captcha', CaptchaField(label=u"کد امنیتی", error_messages={
                 'invalid': u"کد امنیتی وارد شده صحیح نمی باشد."}))
             self.extra_js_validation = {
                 're_password': 'equals[id_register-password]',
-                'username': 'ajax[usernameAjaxEngineCall]',
-                'email': 'ajax[emailAjaxEngineCall]',
                 'essential_telephone': 'custom[phone]',
                 'mobile': 'custom[mobile]',
             }
+            if has_cluster:
+                self.extra_js_validation['username'] = 'ajax[usernameAjaxEngineCall]'
+                self.extra_js_validation['email'] = 'ajax[emailAjaxEngineCall]'
 
         process_js_validations(self)
 
@@ -138,6 +141,9 @@ class MemberForm(ClusterBaseForm):
     extra_js_validation = {
         'email': 'ajax[emailAjaxEngineCall]',
     }
+    js_validation_configs = {
+        'required': False,
+    }
 
     def clean(self):
         cd = super(MemberForm, self).clean()
@@ -158,7 +164,8 @@ class MemberForm(ClusterBaseForm):
         self.fields['first_name'].initial = user_domain.user.first_name
         self.fields['last_name'].initial = user_domain.user.last_name
         self.fields['email'].initial = user_domain.user.email
-        self.fields['domain'].initial = user_domain.domain.id
+        if user_domain.domain:
+            self.fields['domain'].initial = user_domain.domain.id
 
         choices = [(u'', '---------'), ]
         for domain in user_domain.clusters.all()[0].domains.all():
@@ -169,7 +176,7 @@ class MemberForm(ClusterBaseForm):
             self.fields['first_name'].widget.attrs.update({'readonly': 'readonly'})
             self.fields['last_name'].widget.attrs.update({'readonly': 'readonly'})
             self.fields['email'].widget.attrs.update({'readonly': 'readonly'})
-            self.fields['domain'].widget.attrs.update({'readonly': 'readonly'})
+            self.fields['domain'].widget.attrs.update({'readonly': 'readonly', 'disabled':'disabled'})
         self.fields.insert(0, 'user_domain_id', forms.CharField(widget=forms.HiddenInput(), initial=user_domain.id))
         self.extra_js_validation.clear()
         process_js_validations(self)
@@ -185,6 +192,9 @@ class DomainForm(ClusterBaseForm):
     new_domain_name_widget.is_hidden = True
     new_domain_name = forms.CharField(label=u"نام حوزه", max_length=40,
                                       widget=new_domain_name_widget, required=False)
+    js_validation_configs = {
+        'required': False,
+        }
 
     def init_by_domain(self, domain, is_head):
         if is_head:

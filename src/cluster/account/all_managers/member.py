@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from cluster.account.account.models import Member, Cluster
+from cluster.account.actions import EditMemberAction
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.manager.action import ShowAction, DeleteAction, ConfirmAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
@@ -46,7 +47,7 @@ class MemberManager(ObjectsManager):
         ('military_status', 'this'),
         ('foundation_of_elites', 'bool'),
     )
-    actions = [ShowAction(MemberActionForm)]
+    actions = [ShowAction(MemberActionForm), EditMemberAction()]
 
     def get_all_data(self):
         return Member.objects.filter()
@@ -106,7 +107,7 @@ class NoClusterMemberManager(MemberManager):
             ManagerColumn('military_status', u"وضعیت نظام وظیفه", '10'),
             ManagerColumn('foundation_of_elites', u"عضویت در بنیاد ملی نخبگان", '20'),
             ManagerColumn('is_confirmed', u"تایید شده", '10'),
-            ]
+        ]
         return columns
 
     filter_handlers = (

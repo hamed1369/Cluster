@@ -17,7 +17,8 @@
         .art-sheet {
             width: 97%;
         }
-        #inner-header{
+
+        #inner-header {
             width: 97%;
         }
 
@@ -72,7 +73,7 @@
                         </tr>
                     {% endif %}
 
-                    <tr>
+                    <tr{% if form.change_password %} style="display: none"{% endif %}>
 
                         <td class="label_td">{{ form.password.label }}
                         </td>
@@ -81,7 +82,7 @@
                             <td class="error_td" width="30%">{{ form.password.errors }}</td>
                         {% endif %}
                     </tr>
-                    <tr>
+                    <tr{% if form.change_password %} style="display: none"{% endif %}>
 
                         <td class="label_td">{{ form.re_password.label }}
                         </td>

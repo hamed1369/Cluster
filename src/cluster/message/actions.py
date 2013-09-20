@@ -19,6 +19,7 @@ class SendMessage(ManagerAction):
     action_name = 'send_message'
     action_verbose_name = u"ارسال پیام جدید"
     is_view = True
+    height = '350'
 
     def action_view(self, http_request, selected_instances):
         if PermissionController.is_admin(http_request.user):
@@ -46,6 +47,7 @@ class ShowMessage(ManagerAction):
     action_verbose_name = u"مشاهده پیام"
     is_view = True
     min_count = 1
+    height = '310'
 
     def action_view(self, http_request, selected_instances):
         form = MessageShowForm(instance=selected_instances[0])

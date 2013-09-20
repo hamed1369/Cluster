@@ -2,7 +2,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from cluster.account.account.models import Cluster
-from cluster.account.actions import ClusterConfirmAction
+from cluster.account.actions import ClusterConfirmAction, EditClusterAction
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.manager.action import ShowAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
@@ -38,7 +38,7 @@ class ClusterManager(ObjectsManager):
     manager_name = u"clusters"
     manager_verbose_name = u"مدیریت خوشه ها"
     filter_form = ClusterForm
-    actions = [ShowAction(ClusterActionForm, height='300'), ClusterConfirmAction()]
+    actions = [ShowAction(ClusterActionForm, height='300'), EditClusterAction(), ClusterConfirmAction()]
 
     filter_handlers = (
         ('name', 'str'),

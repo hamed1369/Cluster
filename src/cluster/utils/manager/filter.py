@@ -40,7 +40,10 @@ class Filter(object):
                         handler = (field, '')
                     self.__check_handler(handler, kwargs, form_data)
 
-        all_data = all_data.filter(**kwargs).order_by(self.order_field)
+        if self.order_field in all_data.model._meta.get_all_field_names():
+            all_data = all_data.filter(**kwargs).order_by(self.order_field)
+        else:
+            all_data = all_data.filter(**kwargs)
 
         p = Paginator(all_data, self.data_per_page)
         self.total_pages = p.num_pages

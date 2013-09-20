@@ -18,7 +18,7 @@ class DomainManager(ObjectsManager):
     manager_name = u"domains"
     manager_verbose_name = u"مدیریت حوزه ها"
     filter_form = DomainForm
-    actions = [AddAction(DomainForm), EditAction(DomainForm), DeleteAction()]
+    actions = [AddAction(DomainForm), EditAction(DomainForm, action_verbose_name=u"بررسی و ویرایش"), DeleteAction()]
 
     def get_all_data(self):
         return Domain.objects.filter()
