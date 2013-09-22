@@ -47,3 +47,15 @@ class Project(models.Model):
     class Meta:
         verbose_name = u"طرح"
         verbose_name_plural = u"طرح ها"
+
+
+class ProjectMilestone(models.Model):
+    created_on = models.DateField(verbose_name=u"تاریخ ایجاد", auto_now_add=True)
+    comment = models.CharField(verbose_name=u"توضیح", max_length=200)
+    project = models.ForeignKey(Project, verbose_name=u"طرح")
+
+    class Meta:
+        verbose_name = u"مرحله موعد"
+        verbose_name_plural = u"مراحل موعد"
+
+
