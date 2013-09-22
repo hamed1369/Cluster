@@ -80,7 +80,6 @@ class ClusterManager(ObjectsManager):
                 res += u"""<li>%s (عدم ثبت نام)</li>"""%(item[0])
 
         res += u"""</ol>"""
-        print res
         return res
 
 

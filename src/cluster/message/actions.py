@@ -19,7 +19,7 @@ class SendMessage(ManagerAction):
     action_name = 'send_message'
     action_verbose_name = u"ارسال پیام جدید"
     is_view = True
-    height = '350'
+    height = '550'
 
     def action_view(self, http_request, selected_instances):
         if PermissionController.is_admin(http_request.user):

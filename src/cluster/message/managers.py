@@ -36,7 +36,7 @@ class MessageManager(ObjectsManager):
             ManagerColumn('sender', u"فرستنده", 5),
             ManagerColumn('title', u"عنوان", 7),
             ManagerColumn('body', u"متن", 20, True),
-            ManagerColumn('state', u"خوانده شده", 3, True),
+            # ManagerColumn('state', u"خوانده شده", 3, True),
         ]
         return columns
 
