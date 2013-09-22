@@ -26,8 +26,8 @@ class MessageServices(object):
 
     @staticmethod
     def get_registration_message(cluster, user, username, password):
-
-        url = settings.SITE_URL + u"/register/%s/" % cluster.id
+        site_url = 'http://www.persianelites.ir'
+        url = site_url + u"/register/%s/" % cluster.id
         message = Template("""
             <div style="direction:rtl;">
             <h1>ثبت نام در خوشه {{cluster_name}} </h1>
