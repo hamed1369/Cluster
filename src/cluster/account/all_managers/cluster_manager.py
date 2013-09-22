@@ -20,6 +20,10 @@ class ClusterForm(ClusterBaseModelForm):
         super(ClusterForm, self).__init__(*args, **kwargs)
         self.fields['users'] = forms.ModelMultipleChoiceField(queryset=User.objects.filter(), label=u"اعضا",
                                                               required=False)
+        self.fields['confirmed'] = forms.NullBooleanField(required=False, label=u"تایید شده")
+        self.fields['confirmed'].widget.choices = ((u'1', u"--- همه ---"),
+                                                   (u'2', u"بله"),
+                                                   (u'3', u"خیر"))
 
 
 class ClusterActionForm(ClusterBaseModelForm):
@@ -46,6 +50,7 @@ class ClusterManager(ObjectsManager):
         ('institute', 'str'),
         ('head', 'm2o'),
         ('users', '', 'user_domains__user__in'),
+        ('confirmed', 'null_bool', 'head__is_confirmed'),
     )
 
     def get_all_data(self):
@@ -58,6 +63,7 @@ class ClusterManager(ObjectsManager):
             ManagerColumn('institute', u"دانشگاه / موسسه", '10'),
             ManagerColumn('head', u"سر خوشه", '10'),
             ManagerColumn('users', u"اعضا", '10', True),
+            ManagerColumn('created_on', u"تاریخ ثبت", '10'),
             ManagerColumn('confirm', u"تاییدشده", '10', True),
         ]
         return columns

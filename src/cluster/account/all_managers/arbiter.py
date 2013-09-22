@@ -19,6 +19,10 @@ class ArbiterFilterForm(ClusterBaseModelForm):
         super(ArbiterFilterForm, self).__init__(*args, **kwargs)
         self.fields['first_name'] = forms.CharField(label=u"نام", required=False)
         self.fields['last_name'] = forms.CharField(label=u"نام خانوادگی", required=False)
+        self.fields['is_confirmed'] = forms.NullBooleanField(required=False, label=u"تایید شده")
+        self.fields['is_confirmed'].widget.choices = ((u'1', u"--- همه ---"),
+                                                   (u'2', u"بله"),
+                                                   (u'3', u"خیر"))
 
 
 class ArbiterManager(ObjectsManager):
@@ -41,6 +45,7 @@ class ArbiterManager(ObjectsManager):
             ManagerColumn('workplace', u"نام محل کار", '10'),
             ManagerColumn('field', u"رشته", '10'),
             ManagerColumn('domains', u"حوزه های مورد علاقه", '30', True),
+            ManagerColumn('created_on', u"تاریخ ثبت نام", '10'),
             ManagerColumn('is_confirmed', u"تایید شده", '10'),
         ]
         return columns

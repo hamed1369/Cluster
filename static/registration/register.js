@@ -172,6 +172,10 @@ $(document).ready(function () {
     $('input[name*="change_password"]').change();
 
 
+    if ($('input[name*="username"]').val()) {
+        $('input[name*="username"]').validationEngine('validate');
+    }
+
 //    $('.register_table tr, .inner_formset tr').click(function () {
 //        $('.register_table tr, .inner_formset tr').css({
 //            border: '0',

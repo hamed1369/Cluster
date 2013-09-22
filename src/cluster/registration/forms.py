@@ -128,6 +128,8 @@ class RegisterForm(ClusterBaseModelForm):
             user = User.objects.create(first_name=first_name, last_name=last_name, username=username, email=email, )
             user.set_password(password)
             member.user = user
+        user.member = member
+        member.save()
         user.save()
         return member
 
@@ -176,7 +178,7 @@ class MemberForm(ClusterBaseForm):
             self.fields['first_name'].widget.attrs.update({'readonly': 'readonly'})
             self.fields['last_name'].widget.attrs.update({'readonly': 'readonly'})
             self.fields['email'].widget.attrs.update({'readonly': 'readonly'})
-            self.fields['domain'].widget.attrs.update({'readonly': 'readonly', 'disabled':'disabled'})
+            self.fields['domain'].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})
         self.fields.insert(0, 'user_domain_id', forms.CharField(widget=forms.HiddenInput(), initial=user_domain.id))
         self.extra_js_validation.clear()
         process_js_validations(self)
@@ -194,7 +196,7 @@ class DomainForm(ClusterBaseForm):
                                       widget=new_domain_name_widget, required=False)
     js_validation_configs = {
         'required': False,
-        }
+    }
 
     def init_by_domain(self, domain, is_head):
         if is_head:
@@ -312,6 +314,8 @@ class ArbiterForm(ClusterBaseModelForm):
         self.fields.insert(4, 're_password',
                            forms.CharField(required=True, label=u"تکرار گذرواژه", widget=forms.PasswordInput))
         self.fields.insert(5, 'email', forms.EmailField(label=u"پست الکترونیک"))
+        prefix = self.prefix or ''
+        self.extra_js_validation['re_password'] = 'equals[id_' + prefix + '-password]'
         if self.instance and self.instance.id:
             self.fields.insert(3, 'change_password',
                                forms.ChoiceField(required=False, choices=BOOLEAN_CHOICES, widget=forms.RadioSelect(),

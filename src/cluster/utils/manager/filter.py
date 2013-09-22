@@ -34,6 +34,8 @@ class Filter(object):
                         handler = (field, 'm2o')
                     elif isinstance(form.fields[field], forms.ModelMultipleChoiceField):
                         handler = (field, 'm2m')
+                    elif isinstance(form.fields[field], forms.NullBooleanField):
+                        handler = (field, 'null_bool')
                     elif isinstance(form.fields[field], forms.BooleanField):
                         handler = (field, 'bool')
                     else:
@@ -79,6 +81,11 @@ class Filter(object):
             elif field_type == 'bool':
                 if field_value == 'on':
                     kwargs[django_lookup] = True
+            elif field_type == 'null_bool':
+                if field_value in (2, u"2"):
+                    kwargs[django_lookup] = True
+                elif field_value in (3, u"3"):
+                    kwargs[django_lookup] = False
             elif field_type == 'm2o':
                 kwargs[django_lookup + '__id'] = field_value
             elif field_type == 'm2m':
