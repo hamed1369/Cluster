@@ -21,7 +21,7 @@ class EducationalResume(models.Model):
     orientation         = models.CharField(u"گرایش", max_length=25)
     average             = models.FloatField(u"معدل")
     start_year          = models.IntegerField(u"سال شروع")
-    end_year            = models.IntegerField(u"سال پایان")
+    end_year            = models.IntegerField(u"سال پایان",null=True,blank=True)
     country             = models.CharField(u"کشور", max_length=20)
     city                = models.CharField(u"شهر", max_length=20)
     cluster_member = models.ForeignKey(Member,related_name="educational_resumes")
