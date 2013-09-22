@@ -133,7 +133,7 @@ class ObjectsManager(object):
                     value = function(data)
                 else:
                     value = getattr(data, column.column_name)
-                if value is None:
+                if value is None or value is "None":
                     value = u"---"
                 if isinstance(value, bool):
                     if value is True:
