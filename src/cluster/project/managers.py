@@ -105,9 +105,19 @@ class ProjectsManagement(ObjectsManager):
     def get_columns(self):
         columns = [
             ManagerColumn('title', u"عنوان", '10'),
+            ManagerColumn('cluster', u"خوشه", '10',True,True),
             ManagerColumn('keywords', u"کلید واژه ها", '10'),
             ManagerColumn('domain', u"حوزه طرح", '10'),
             ManagerColumn('state', u"مرحله", '10'),
             ManagerColumn('project_status', u"مرحله داوری", '10'),
         ]
         return columns
+
+    def get_cluster(self,data):
+        if data.cluster:
+            link = u"/clusters/actions/?t=action&n=edit_cluster&i=%s"%data.cluster.id
+            return u"""<a onClick="MyWindow=window.open('%s','خوشه/فرد',width=800,height=600); return false;"href='#' class="jqgrid-a">%s</a>"""%(link,unicode(data.cluster))
+        if data.single_member and not data.cluster:
+            link = u"/members/actions/?t=action&n=edit_member&i=%s"%data.single_member.id
+            return u"""<a onClick="MyWindow=window.open('%s','خوشه/فرد',width=800,height=600); return false;"href='#' class="jqgrid-a">%s</a>"""%(link,unicode(data.single_member))
+

@@ -452,3 +452,17 @@ fieldset legend {
 .register_table tr {
     padding: 10px;
 }
+.jqgrid-a{
+    text-decoration: none;
+    color: #0077b3;
+    font-weight: bold;
+}
+.jqgrid-a:hover{
+    color: #7aba7b;
+}
+.ui-widget-content a{
+    color: #0077b3;
+}
+.art-postcontent ol, .art-post ol, .art-textblock ol, .art-postcontent ul, .art-post ul, .art-textblock ul{
+    margin: 0px;
+}

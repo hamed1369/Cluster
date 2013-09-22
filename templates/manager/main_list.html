@@ -48,7 +48,7 @@
         ],
         colModel: [
             {% for column in manager.columns %}
-                { name: "{{ column.column_name }}", width: '{{ column.column_width }}', align: "right" }
+                { name: "{{ column.column_name }}", width: '{{ column.column_width }}', align: "right"{% if column.allow_html %},formatter:HTMLFormatter{% endif %} }
                 {% if not forloop.last %}
                     ,
                 {% endif %}
@@ -90,7 +90,9 @@
     });
     $manager.jqGrid('navGrid', '#manager_pager',
             {position: "right", edit: false, add: false, del: false, search: false, refresh: true });
-
+    function HTMLFormatter( cellvalue, options, rowObject ){
+        return cellvalue;
+    }
     $('.filter-submit').click(function () {
         var new_url = '/{{ manager.manager_name }}/actions/?t=json';
         var serialize_form = $('.filter-form').serialize();

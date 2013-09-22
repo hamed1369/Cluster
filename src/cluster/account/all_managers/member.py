@@ -59,7 +59,7 @@ class MemberManager(ObjectsManager):
     def get_columns(self):
         columns = [
             ManagerColumn('full_name', u"نام و نام خانوادگی", '30', True),
-            ManagerColumn('cluster', u"خوشه", '20'),
+            ManagerColumn('cluster', u"خوشه", '20',True,True),
             ManagerColumn('gender', u"جنسیت", '10'),
             ManagerColumn('national_code', u"کد ملی", '10'),
             ManagerColumn('birth_date', u"تاریخ تولد", '10'),
@@ -78,6 +78,12 @@ class MemberManager(ObjectsManager):
         if PermissionController.is_admin(self.http_request.user):
             return True
         return False
+
+    def get_cluster(self,data):
+        if data.cluster:
+            link = u"/clusters/actions/?t=action&n=edit_cluster&i=%s"%data.cluster.id
+            return u"""<a onClick="MyWindow=window.open('%s','خوشه/فرد',width=800,height=600); return false;"href='#' class="jqgrid-a">%s</a>"""%(link,unicode(data.cluster))
+        return u"""بدون خوشه"""
 
 
 class NoClusterMemberActionForm(ClusterBaseModelForm):

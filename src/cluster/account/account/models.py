@@ -126,6 +126,18 @@ class Cluster(models.Model):
     def __unicode__(self):
         return self.name
 
+    def get_members_and_links(self):
+        res = []
+        for item in self.user_domains.order_by('-id'):
+            user = item.user
+            user_unicode = unicode(user)
+            try:
+                member = user.member
+                link = "/members/actions/?t=action&n=edit_member&i=%s"%member.id
+            except:
+                link = None
+            res.append((user_unicode,link))
+        return res
 
 class Domain(models.Model):
     name = models.CharField(u"نام حوزه", max_length=40)

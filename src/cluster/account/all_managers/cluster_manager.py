@@ -62,7 +62,7 @@ class ClusterManager(ObjectsManager):
             ManagerColumn('domains', u"حوزه فعالیت", '10', True),
             ManagerColumn('institute', u"دانشگاه / موسسه", '10'),
             ManagerColumn('head', u"سر خوشه", '10'),
-            ManagerColumn('users', u"اعضا", '10', True),
+            ManagerColumn('users', u"اعضا", '11', True,True),
             ManagerColumn('created_on', u"تاریخ ثبت", '10'),
             ManagerColumn('confirm', u"تاییدشده", '10', True),
         ]
@@ -72,7 +72,17 @@ class ClusterManager(ObjectsManager):
         return u', '.join([unicode(d) for d in data.domains.filter()])
 
     def get_users(self, data):
-        return u', '.join([unicode(u.user) for u in data.user_domains.filter().select_related('user')])
+        res = u"""<ol>"""
+        for item in data.get_members_and_links():
+            if item[1]:
+                res += u"""<li><a onClick="MyWindow=window.open('%s','جزئیات عضو',width=800,height=600); return false;"href='#' class="jqgrid-a">%s</a></li>"""%(item[1],item[0])
+            else:
+                res += u"""<li>%s (عدم ثبت نام)</li>"""%(item[0])
+
+        res += u"""</ol>"""
+        print res
+        return res
+
 
     def get_confirm(self, data):
         return data.head.is_confirmed

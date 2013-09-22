@@ -15,6 +15,7 @@
     {% block CSS %}
         <link rel="stylesheet" type="text/css" href="/static/intro/css/intro.css"/>
         <link rel="stylesheet" type="text/css" href="/static/base.css"/>
+        <link rel="stylesheet" type="text/css" href="/static/mybootstrap.css"/>
         <link rel="stylesheet" type="text/css" href="/static/lib/jquery-ui/jquery-ui-1.10.3.custom.min.css"/>
         <link rel="stylesheet" type="text/css" href="/static/lib/select2/select2.css"/>
         <link rel="stylesheet" type="text/css" href="/static/lib/select2/select2-override.css"/>
@@ -84,7 +85,7 @@
             <div id="top-button-div">
 
                 {% if not user.is_authenticated %}
-                    <a class="btn btn-default" id="aboutus-button" href="#">درباره ما</a>
+                    <a class="btn btn-default" id="aboutus-button" href="/">صفحه اصلی</a>
                     <a class="btn btn-default" id="login-button" href="{% url cluster.account.views.auth.login_view %}">ورود</a>
                     <a class="btn btn-danger" href="{% url cluster.registration.views.register %}">ثبت نام</a>
                 {% else %}

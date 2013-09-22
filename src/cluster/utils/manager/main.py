@@ -33,11 +33,12 @@ class ManagerRegister(type):
 
 
 class ManagerColumn(object):
-    def __init__(self, column_name, column_verbose_name, column_width, is_variable=False):
+    def __init__(self, column_name, column_verbose_name, column_width, is_variable=False,allow_html=False):
         self.column_name = column_name
         self.column_verbose_name = column_verbose_name
         self.column_width = column_width
         self.is_variable = is_variable
+        self.allow_html = allow_html
 
 
 class ObjectsManager(object):
