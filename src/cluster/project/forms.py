@@ -22,6 +22,8 @@ class ProjectForm(ClusterBaseModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
         super(ProjectForm, self).__init__(*args, **kwargs)
+        if self.instance and self.instance.id and self.instance.confirmation_type != 1:
+            self.fields['has_confirmation'].initial = True
         self.fields['confirmation_type'].choices = (
             (1, '---------'),
             (2, u"تاییدیه سازمان پژوهش های علمی و صنعتی ایران"),

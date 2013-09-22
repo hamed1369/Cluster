@@ -2,10 +2,11 @@
 from django import forms
 from django.db.models.query_utils import Q
 from cluster.account.account.models import Cluster, Member, Domain
-from cluster.project.forms import ProjectManagerForm
+from cluster.project.actions import ProjectCheckAction, ProjectDetailAction, ProjectDetailMemberAction
 from cluster.project.models import Project
+from cluster.utils.date import handel_date_fields
 from cluster.utils.forms import ClusterBaseModelForm
-from cluster.utils.manager.action import EditAction, DeleteAction
+from cluster.utils.manager.action import DeleteAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
 from cluster.utils.permissions import PermissionController
 
@@ -23,14 +24,15 @@ class PublicProjectsForMembersManager(ObjectsManager):
     manager_verbose_name = u"طرح های من"
     filter_form = PublicProjectsForMembersFilterForm
 
-    actions = [DeleteAction(action_verbose_name=u"انصراف از طرح")]
+    actions = [DeleteAction(action_verbose_name=u"انصراف از طرح"), ProjectDetailMemberAction()]
 
     def can_view(self):
         if PermissionController.is_member(self.http_request.user):
             return True
 
     def get_all_data(self):
-        return Project.objects.filter(Q(single_member=self.http_request.user.member) | Q(cluster__user_domains__user=self.http_request.user))
+        return Project.objects.filter(
+            Q(single_member=self.http_request.user.member) | Q(cluster__user_domains__user=self.http_request.user))
 
     def get_columns(self):
         columns = [
@@ -76,13 +78,23 @@ class ProjectsForArbitersFilterForm(ClusterBaseModelForm):
                                                                required=False)
         self.fields['single_member'] = forms.ModelMultipleChoiceField(queryset=Member.objects.filter(), label=u"اعضا",
                                                                       required=False)
+        self.fields['project_status'].choices = (
+            ('', u"---همه---"),
+            (-1, u"رد شده"),
+            (0, u"در مرحله درخواست"),
+            (1, u"تایید مرحله اول"),
+            (2, u"تایید مرحله دوم"),
+        )
+        self.fields['milestone_from'] = forms.DateField(label=u"موعدها از تاریخ", required=False)
+        self.fields['milestone_until'] = forms.DateField(label=u"موعدها تا تاریخ", required=False)
+        handel_date_fields(self)
 
 
 class ProjectsManagement(ObjectsManager):
     manager_name = u"projects_management"
     manager_verbose_name = u"مدیریت طرح ها"
     filter_form = ProjectsForArbitersFilterForm
-    actions = [EditAction(ProjectManagerForm, action_verbose_name=u"بررسی", form_title=u"بررسی طرح")]
+    actions = [ProjectCheckAction(), ProjectDetailAction()]
 
     filter_handlers = (
         ('title', 'str'),
@@ -91,6 +103,8 @@ class ProjectsManagement(ObjectsManager):
         ('project_status', ''),
         ('cluster', 'm2m'),
         ('single_member', 'm2m'),
+        ('milestone_from', 'pdate', 'milestones__milestone_date__gte'),
+        ('milestone_until', 'pdate', 'milestones__milestone_date__lte'),
     )
 
     def can_view(self):
@@ -105,7 +119,7 @@ class ProjectsManagement(ObjectsManager):
     def get_columns(self):
         columns = [
             ManagerColumn('title', u"عنوان", '10'),
-            ManagerColumn('cluster', u"خوشه", '10',True,True),
+            ManagerColumn('cluster', u"خوشه", '10', True, True),
             ManagerColumn('keywords', u"کلید واژه ها", '10'),
             ManagerColumn('domain', u"حوزه طرح", '10'),
             ManagerColumn('state', u"مرحله", '10'),
@@ -113,11 +127,12 @@ class ProjectsManagement(ObjectsManager):
         ]
         return columns
 
-    def get_cluster(self,data):
+    def get_cluster(self, data):
         if data.cluster:
-            link = u"/clusters/actions/?t=action&n=edit_cluster&i=%s"%data.cluster.id
-            return u"""<a onClick="MyWindow=window.open('%s','خوشه/فرد',width=800,height=600); return false;"href='#' class="jqgrid-a">%s</a>"""%(link,unicode(data.cluster))
+            link = u"/clusters/actions/?t=action&n=edit_cluster&i=%s" % data.cluster.id
+            return u"""<a onClick="MyWindow=window.open('%s','خوشه/فرد',width=800,height=600); return false;"href='#' class="jqgrid-a">%s</a>""" % (
+                link, unicode(data.cluster))
         if data.single_member and not data.cluster:
-            link = u"/members/actions/?t=action&n=edit_member&i=%s"%data.single_member.id
-            return u"""<a onClick="MyWindow=window.open('%s','خوشه/فرد',width=800,height=600); return false;"href='#' class="jqgrid-a">%s</a>"""%(link,unicode(data.single_member))
-
+            link = u"/members/actions/?t=action&n=edit_member&i=%s" % data.single_member.id
+            return u"""<a onClick="MyWindow=window.open('%s','خوشه/فرد',width=800,height=600); return false;"href='#' class="jqgrid-a">%s</a>""" % (
+                link, unicode(data.single_member))

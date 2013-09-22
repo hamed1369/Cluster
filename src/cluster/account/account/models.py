@@ -105,7 +105,7 @@ class UserDomain(models.Model):
         verbose_name_plural = u"دامنه های عضو"
 
     def __unicode__(self):
-        return u"%s - %s" % (self.user, self.domain)
+        return u"%s - %s" % (self.user, self.domain or '---')
 
 
 class Cluster(models.Model):

@@ -145,7 +145,7 @@ class ObjectsManager(object):
                         value = getattr(data, 'get_' + column.column_name + '_display')()
                 if not isinstance(value, (SafeUnicode, SafeString)):
                     value = unicode(value)
-                if value is None:
+                if value is None or value == 'None':
                     value = u"---"
                 row.create_cell(column.column_name, value, column.column_width)
             table.add_row(row)

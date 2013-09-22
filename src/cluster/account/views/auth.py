@@ -7,6 +7,7 @@ from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from cluster.account.account.models import Member
 from cluster.account.forms import SignInForm
+from cluster.project.models import ProjectMilestone
 from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
@@ -25,6 +26,8 @@ def login_view(request):
             else:
                 login(request, user)
                 next_page = request.GET.get('next')
+                if PermissionController.is_admin(user):
+                    ProjectMilestone.check_milestones(user)
                 if next_page:
                     return HttpResponseRedirect(next_page)
                 else:

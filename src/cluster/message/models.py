@@ -32,5 +32,7 @@ class Message(models.Model):
 
     @staticmethod
     def send_message(user, title, body, receivers):
-        message = Message.objects.create(title=title, body=body, sender=user, receivers=receivers)
+        message = Message.objects.create(title=title, body=body, sender=user)
+        message.receivers = receivers
+        message.save()
         return message
