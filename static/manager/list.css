@@ -2,7 +2,6 @@
     padding: 4px 0;
     font-weight: normal;
     font-size: 15px;
-    font-weight: 15px;
 }
 
 .filter-formset table, .filter-formset table tr td {
@@ -24,7 +23,7 @@
     background: rgb(255, 255, 255);
     border: 0;
     margin-top: 2px;
-    
+
 }
 
 #next_manager_pager {
@@ -97,12 +96,19 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
     -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, .3);
     box-shadow: 0 0 5px rgba(0, 0, 0, .3);
 }
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
     font-size: 15px;
 }
-.ui-button-text-only .ui-button-text{
+
+.ui-button-text-only .ui-button-text {
     padding: 0.1em 1em;
 }
-input.ui-button{
+
+input.ui-button {
     padding: 0.1em 1em;
+}
+
+.ui-jqgrid .ui-jqgrid-hbox-rtl {
+    float: none;
 }
