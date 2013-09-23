@@ -41,7 +41,7 @@ input[type="text"], input[type="password"], input[type="email"], input[type="url
 .fancybox-type-iframe .fancybox-inner{
     border: solid;
     border-width: 12px;
-    border-color: #098bde;
+    border-color: #2198BF;
 }
 select {
     font-family: Tahoma;
