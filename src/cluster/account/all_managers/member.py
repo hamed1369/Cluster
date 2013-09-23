@@ -44,8 +44,8 @@ class MemberManager(ObjectsManager):
     manager_verbose_name = u"مدیریت  افراد"
     filter_form = MemberForm
     filter_handlers = (
-        ('first_name', 'str'),
-        ('last_name', 'str'),
+        ('first_name','','user__first_name'),
+        ('last_name','', 'user__last_name'),
         ('cluster', 'm2m'),
         ('national_code', 'this'),
         ('military_status', 'this'),
@@ -60,12 +60,12 @@ class MemberManager(ObjectsManager):
         columns = [
             ManagerColumn('full_name', u"نام و نام خانوادگی", '30', True),
             ManagerColumn('cluster', u"خوشه", '20',True,True),
-            ManagerColumn('gender', u"جنسیت", '10'),
+            ManagerColumn('gender', u"جنسیت", '5'),
             ManagerColumn('national_code', u"کد ملی", '10'),
             ManagerColumn('birth_date', u"تاریخ تولد", '10'),
             ManagerColumn('residence_city', u"شهر محل اقامت", '10'),
             ManagerColumn('mobile', u"تلفن همراه", '10'),
-            ManagerColumn('military_status', u"وضعیت نظام وظیفه", '10'),
+            ManagerColumn('military_status', u"وضعیت نظام وظیفه", '15'),
             ManagerColumn('foundation_of_elites', u"عضویت در بنیاد ملی نخبگان", '10'),
             ManagerColumn('created_on', u"تاریخ ثبت نام", '10'),
         ]
@@ -127,8 +127,8 @@ class NoClusterMemberManager(MemberManager):
         return columns
 
     filter_handlers = (
-        ('first_name', 'str'),
-        ('last_name', 'str'),
+        ('first_name','','user__first_name'),
+        ('last_name','', 'user__last_name'),
         ('national_code', 'this'),
         ('military_status', 'this'),
         ('foundation_of_elites', 'null_bool'),
