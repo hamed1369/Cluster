@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-from django.db import models
+from django.db import models, transaction
 from cluster.account.account.models import Member, Cluster, Domain
+from cluster.utils.calverter import gregorian_to_jalali
+from cluster.utils.messages import MessageServices
 
 
 class Project(models.Model):
@@ -59,29 +61,42 @@ class ProjectMilestone(models.Model):
     comment = models.CharField(verbose_name=u"توضیح", max_length=200)
     project = models.ForeignKey(Project, verbose_name=u"طرح", related_name='milestones')
     milestone_date = models.DateField(verbose_name=u"زمان موعد")
+    is_announced = models.BooleanField(u"ابلاغ شده", default=False)
 
     class Meta:
         verbose_name = u"مرحله موعد"
         verbose_name_plural = u"مراحل موعد"
 
     @classmethod
+    @transaction.commit_on_success
     def check_milestones(cls, user):
         import datetime
         from cluster.message.models import Message
 
         two_days_later = datetime.date.today() + datetime.timedelta(days=2)
-        milestones = ProjectMilestone.objects.filter(milestone_date__lte=two_days_later)
+        milestones = ProjectMilestone.objects.filter(milestone_date__lte=two_days_later, is_announced=False)
         body = u"""
         موعد های طرح های زیر گذشته اند یا نزدیک هستند:
         """
         i = 1
+        if not milestones:
+            return
         for milestone in milestones:
             receiver = milestone.project.single_member.user if milestone.project.single_member else milestone.project.cluster.head.user
             section = u"""
                  موعد %s مربوط به طرح%s برای زمان %s
-            """ % (milestone.comment, milestone.project.title, milestone.milestone_date)
+            """ % (milestone.comment, milestone.project.title, gregorian_to_jalali(milestone.milestone_date))
             Message.send_message(user, title=u"موعدهای گذشته یا نزدیک", body=body, receivers=[receiver])
-            body += unicode(i) + section
+            message = MessageServices.get_milestone_announce(title=u"موعد طرح زیر گذشته یا نزدیک است:",
+                                                             body=section)
+            MessageServices.send_message(subject=u"موعد طرح", message=message, user=receiver)
+            body += '\n' + unicode(i) + u'- ' + section.strip()
             i += 1
+            milestone.is_announced = True
+            milestone.save()
 
         Message.send_message(user, title=u"موعدهای گذشته یا نزدیک", body=body, receivers=[user])
+
+        message = MessageServices.get_milestone_announce(title=u"موعد های طرح های زیر گذشته اند یا نزدیک هستند:",
+                                                         body=body)
+        MessageServices.send_message(subject=u"موعدهای طرح", message=message, user=user)

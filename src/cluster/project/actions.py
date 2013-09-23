@@ -19,6 +19,7 @@ class MilestoneForm(ClusterBaseModelForm):
 
     class Meta:
         model = ProjectMilestone
+        exclude = ('is_announced',)
 
 
 ProjectMilestoneForm = inlineformset_factory(Project, ProjectMilestone, form=MilestoneForm, extra=1)
@@ -73,7 +74,7 @@ class ProjectDetailAction(ManagerAction):
         inline_form.readonly = True
 
         project = None
-        if  self.for_admin:
+        if self.for_admin:
             project = instance
 
         return render_to_response('project/show_project.html',
