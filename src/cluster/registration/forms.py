@@ -43,6 +43,10 @@ class RegisterForm(ClusterBaseModelForm):
 
     def __init__(self, *args, **kwargs):
         has_cluster = kwargs.pop('has_cluster')
+        self.user = None
+        if 'user' in kwargs:
+            self.user = kwargs.pop('user')
+
         super(RegisterForm, self).__init__(*args, **kwargs)
         self.fields.insert(0, 'first_name', forms.CharField(required=True, label=u"نام"))
         self.fields.insert(1, 'last_name', forms.CharField(required=True, label=u"نام خانوادگی"))
@@ -54,6 +58,11 @@ class RegisterForm(ClusterBaseModelForm):
         self.fields['foundation_of_elites'] = forms.ChoiceField(required=True, choices=BOOLEAN_CHOICES,
                                                                 widget=forms.RadioSelect(), )
         self.fields['foundation_of_elites'].label = u"آیا عضو بنیاد ملی نخبگان می باشید؟"
+
+        if self.user and not self.user.is_anonymous():
+            self.fields['first_name'].initial = self.user.first_name
+            self.fields['last_name'].initial = self.user.last_name
+            self.fields['email'].initial = self.user.email
 
         if self.instance and self.instance.id:
             self.fields.insert(3, 'change_password',
@@ -121,7 +130,7 @@ class RegisterForm(ClusterBaseModelForm):
             user.last_name = last_name
             user.username = username
             user.email = email
-            if change_pass is True or change_pass == 'True':
+            if change_pass is True or change_pass == 'True' or not 'change_password' in self.fields:
                 user.set_password(password)
             member.user = user
         except User.DoesNotExist:
