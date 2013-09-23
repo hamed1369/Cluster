@@ -835,3 +835,6 @@ table#change-history tbody th {
     color: #666;
 }
 
+.art-postcontent ol, .art-post ol, .art-textblock ol, .art-postcontent ul, .art-post ul, .art-textblock ul{
+    margin: 0px;
+}
