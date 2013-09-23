@@ -51,7 +51,7 @@ class ClusterHandler(object):
         if self.http_request.method == 'POST' and self.http_request.POST.get('register-submit') and check_post:
             self.register_form = RegisterForm(prefix='register', data=self.http_request.POST,
                                               files=self.http_request.FILES, instance=member,
-                                              has_cluster=self.has_cluster)
+                                              has_cluster=self.has_cluster, user=self.http_request.user)
             self.resume_formset = ResumeForm(prefix='resume', data=self.http_request.POST,
                                              queryset=EducationalResume.objects.filter(cluster_member=member))
             self.publication_formset = PublicationForm(prefix='publication', data=self.http_request.POST,
@@ -69,7 +69,7 @@ class ClusterHandler(object):
                                                             queryset=SoftwareSkill.objects.filter(
                                                                 cluster_member=member))
         else:
-            self.register_form = RegisterForm(prefix='register', instance=member, has_cluster=self.has_cluster)
+            self.register_form = RegisterForm(prefix='register', instance=member, has_cluster=self.has_cluster, user=self.http_request.user)
             self.resume_formset = ResumeForm(prefix='resume',
                                              queryset=EducationalResume.objects.filter(cluster_member=member))
             self.publication_formset = PublicationForm(prefix='publication',

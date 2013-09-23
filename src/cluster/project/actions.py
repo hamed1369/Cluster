@@ -4,7 +4,7 @@ from django.forms.models import inlineformset_factory
 from django.http import Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from cluster.project.forms import ProjectManagerForm
+from cluster.project.forms import ProjectManagerForm, ProjectForm
 from cluster.project.models import Project, ProjectMilestone
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.manager.action import ManagerAction
@@ -85,3 +85,41 @@ class ProjectDetailAction(ManagerAction):
 
 class ProjectDetailMemberAction(ProjectDetailAction):
     for_admin = False
+
+
+class EditProjectAction(ManagerAction):
+    is_view = True
+    action_name = u'edit_project'
+    action_verbose_name = u"ویرایش طرح"
+    min_count = '1'
+
+    def action_view(self, http_request, selected_instances):
+        if not selected_instances:
+            raise Http404()
+
+        instance = selected_instances[0]
+        if instance.project_status > 0:
+            ProjectMilestoneForm = inlineformset_factory(Project, ProjectMilestone, form=MilestoneForm, extra=0)
+            form = ProjectManagerForm(instance=instance)
+            for field in form.fields:
+                form.fields[field].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})
+            inline_form = ProjectMilestoneForm(instance=instance, prefix='project_milestone')
+            inline_form.readonly = True
+            messages.error(http_request, u"طرح شما تایید شده است و امکان ویرایش آن وجود ندارد.")
+            return render_to_response('project/show_project.html',
+                                      {'form': form, 'inline_form': inline_form, 'title': u"جزئیات طرح"},
+                                      context_instance=RequestContext(http_request))
+
+        if http_request.method == 'POST':
+            form = ProjectForm(http_request.POST, instance=instance, user=http_request.user)
+            if form.is_valid():
+                form.save()
+                form = None
+                messages.success(http_request, u"ویرایش طرح با موفقیت انجام شد.")
+        else:
+            form = ProjectForm(instance=instance, user=http_request.user)
+
+        return render_to_response('project/edit_project.html',
+                                  {'register_form': form, 'title': u"بررسی طرح"},
+                                  context_instance=RequestContext(http_request))
+

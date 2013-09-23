@@ -1,6 +1,7 @@
 {% extends 'manager/actions/show.html' %}
 {% load account_template_tags %}
 {% block before_main %}
+    {% include 'messages.html' %}
     {% if project %}
         <fieldset>
             {% if project.single_member %}

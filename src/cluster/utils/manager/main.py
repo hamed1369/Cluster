@@ -59,7 +59,8 @@ class ObjectsManager(object):
     def __init__(self, http_request):
         self.http_request = http_request
         self.columns = self.get_columns()
-        self.filter_obj = Filter(self.http_request, self.filter_form, self.filter_handlers, self.data_per_page)
+        rows = http_request.GET.get('rows') or self.data_per_page
+        self.filter_obj = Filter(self.http_request, self.filter_form, self.filter_handlers, rows)
         all_data = self.get_all_data()
         self.filter_form, self.page_data = self.filter_obj.process_filter(all_data)
 

@@ -2,7 +2,7 @@
 from django import forms
 from django.db.models.query_utils import Q
 from cluster.account.account.models import Cluster, Member, Domain
-from cluster.project.actions import ProjectCheckAction, ProjectDetailAction, ProjectDetailMemberAction
+from cluster.project.actions import ProjectCheckAction, ProjectDetailAction, ProjectDetailMemberAction, EditProjectAction
 from cluster.project.models import Project
 from cluster.utils.date import handel_date_fields
 from cluster.utils.forms import ClusterBaseModelForm
@@ -24,7 +24,7 @@ class PublicProjectsForMembersManager(ObjectsManager):
     manager_verbose_name = u"طرح های من"
     filter_form = PublicProjectsForMembersFilterForm
 
-    actions = [DeleteAction(action_verbose_name=u"انصراف از طرح"), ProjectDetailMemberAction()]
+    actions = [EditProjectAction(), DeleteAction(action_verbose_name=u"انصراف از طرح"), ProjectDetailMemberAction()]
 
     def can_view(self):
         if PermissionController.is_member(self.http_request.user):
