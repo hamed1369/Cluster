@@ -1,0 +1,46 @@
+{% extends 'manager/actions/show.html' %}
+{% load account_template_tags %}
+{% block before_main %}
+    {% if project %}
+        <fieldset>
+            {% if project.single_member %}
+                <legend>اطلاعات ارائه دهنده طرح</legend>
+                <table>
+                    <tr>
+                        <td class="label_td">نام و نام خانوادگی:</td>
+                        <td class="input_td">{{ project.single_member.user }}</td>
+                    </tr>
+                </table>
+            {% else %}
+                <legend>اطلاعات خوشه</legend>
+                <table>
+                    <tr>
+                        <td class="label_td">نام خوشه:</td>
+                        <td class="input_td">{{ project.cluster.name }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label_td">دانشگاه / موسسه:</td>
+                        <td class="input_td">{{ project.cluster.institute }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label_td">سرخوشه:</td>
+                        <td class="input_td">{{ project.cluster.head }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label_td">حوزه های فعالیت:</td>
+                        <td class="input_td">{{ project.cluster.domains|show_m2m }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label_td">اعضای خوشه:</td>
+                        <td class="input_td">{{ project.cluster.user_domains|show_m2m }}</td>
+                    </tr>
+
+                </table>
+            {% endif %}
+        </fieldset>
+    {% endif %}
+{% endblock %}
+{% block after_main %}
+    {% include 'formset.html' with legend="موعدهای طرح" formset=inline_form cluster=cluster %}
+
+{% endblock %}

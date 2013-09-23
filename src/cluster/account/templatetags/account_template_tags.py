@@ -1,5 +1,7 @@
 # -*- coding:utf-8 -*-
+import datetime
 from django.contrib.auth.models import AnonymousUser
+from cluster.utils.calverter import gregorian_to_jalali
 from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
@@ -74,5 +76,21 @@ def is_true(value):
 @register.filter
 def get_field(instance, name):
     return getattr(instance, name).all()
+
+
+@register.filter
+def pdate_if_date(value):
+    if isinstance(value, datetime.date):
+        return gregorian_to_jalali(value)
+    if value is None or value == 'None' or value == '':
+        return '---'
+    return value
+
+
+@register.filter
+def show_m2m(value):
+    return u', '.join([unicode(d) for d in value.all()])
+
+
 
 

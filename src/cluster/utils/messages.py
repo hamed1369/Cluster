@@ -94,3 +94,18 @@ class MessageServices(object):
             'body': body.replace('\r\n', '<br/>').replace('\n\r', '<br/>').replace('\r', '<br/>').replace('\n', '<br/>')
         }))
         return mark_safe(message)
+
+    @staticmethod
+    def get_milestone_announce(title, body):
+        message = Template("""
+                <div style="direction:rtl;">
+                <h1>{{title}} </h1>
+                <p> {{body|safe}}</p>
+
+                موسسه پژوهشی نگاه نو
+                </div>
+            """).render(Context({
+            'title': title,
+            'body': body.replace('\r\n', '<br/>').replace('\n\r', '<br/>').replace('\r', '<br/>').replace('\n', '<br/>')
+        }))
+        return mark_safe(message)
