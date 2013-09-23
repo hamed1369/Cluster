@@ -84,7 +84,7 @@ class ProjectMilestone(models.Model):
         for milestone in milestones:
             receiver = milestone.project.single_member.user if milestone.project.single_member else milestone.project.cluster.head.user
             section = u"""
-                 موعد %s مربوط به طرح%s برای زمان %s
+                 موعد  %s  مربوط به طرح %s  برای زمان  %s
             """ % (milestone.comment, milestone.project.title, gregorian_to_jalali(milestone.milestone_date))
             Message.send_message(user, title=u"موعدهای گذشته یا نزدیک", body=body, receivers=[receiver])
             message = MessageServices.get_milestone_announce(title=u"موعد طرح زیر گذشته یا نزدیک است:",
