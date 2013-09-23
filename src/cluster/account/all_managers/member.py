@@ -44,8 +44,8 @@ class MemberManager(ObjectsManager):
     manager_verbose_name = u"مدیریت  افراد"
     filter_form = MemberForm
     filter_handlers = (
-        ('first_name','','user__first_name'),
-        ('last_name','', 'user__last_name'),
+        ('first_name','str','user__first_name'),
+        ('last_name','str', 'user__last_name'),
         ('cluster', 'm2m'),
         ('national_code', 'this'),
         ('military_status', 'this'),
@@ -127,8 +127,8 @@ class NoClusterMemberManager(MemberManager):
         return columns
 
     filter_handlers = (
-        ('first_name','','user__first_name'),
-        ('last_name','', 'user__last_name'),
+        ('first_name','str','user__first_name'),
+        ('last_name','str', 'user__last_name'),
         ('national_code', 'this'),
         ('military_status', 'this'),
         ('foundation_of_elites', 'null_bool'),
