@@ -112,3 +112,11 @@ input.ui-button {
 .ui-jqgrid .ui-jqgrid-hbox-rtl {
     float: none;
 }
+
+.manager-excel {
+    float: left;
+    width: 32px;
+    height: 32px;
+    margin-left: 3px;
+    background: url('/static/manager/images/excel.png');
+}
