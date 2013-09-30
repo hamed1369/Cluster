@@ -4,7 +4,6 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.base import Template
 from django.template.context import Context
 from django.utils.safestring import mark_safe
-from cluster import settings
 
 __author__ = 'M.Y'
 
@@ -96,7 +95,7 @@ class MessageServices(object):
         return mark_safe(message)
 
     @staticmethod
-    def get_milestone_announce(title, body):
+    def get_title_body_message(title, body):
         message = Template("""
                 <div style="direction:rtl;">
                 <h1>{{title}} </h1>
@@ -109,3 +108,5 @@ class MessageServices(object):
             'body': body.replace('\r\n', '<br/>').replace('\n\r', '<br/>').replace('\r', '<br/>').replace('\n', '<br/>')
         }))
         return mark_safe(message)
+
+

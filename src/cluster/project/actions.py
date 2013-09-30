@@ -8,6 +8,7 @@ from cluster.project.forms import ProjectManagerForm, ProjectForm
 from cluster.project.models import Project, ProjectMilestone
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.manager.action import ManagerAction
+from cluster.utils.messages import MessageServices
 
 __author__ = 'M.Y'
 
@@ -36,13 +37,26 @@ class ProjectCheckAction(ManagerAction):
             raise Http404()
 
         instance = selected_instances[0]
+        old_state = instance.project_status
+
         if http_request.method == 'POST':
             form = ProjectManagerForm(http_request.POST, instance=instance)
             inline_form = ProjectMilestoneForm(http_request.POST, instance=instance, prefix='project_milestone')
             if form.is_valid() and inline_form.is_valid():
-                form.save()
+                instance = form.save()
                 inline_form.save()
                 form = None
+                new_state = instance.project_status
+                if old_state != new_state:
+                    message = MessageServices.get_title_body_message(u"تغییر وضعیت طرح",
+                                                                     u"وضعیت طرح %s از %s به %s تغییر پیدا کرد." % (
+                                                                         instance.title, old_state, new_state))
+                    if instance.single_member:
+                        user = instance.single_member.user
+                    else:
+                        user = instance.cluster.head.user
+                    MessageServices.send_message(u"تغییر وضعیت طرح", message, user)
+
                 messages.success(http_request, u"بررسی طرح با موفقیت انجام شد.")
         else:
             form = ProjectManagerForm(instance=instance)

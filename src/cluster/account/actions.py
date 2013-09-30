@@ -8,6 +8,7 @@ from cluster.account.account.models import Member
 from cluster.registration.handlers import ClusterHandler
 from cluster.utils.forms import ClusterBaseForm
 from cluster.utils.manager.action import ManagerAction
+from cluster.utils.messages import MessageServices
 
 __author__ = 'M.Y'
 
@@ -72,6 +73,17 @@ class ClusterConfirmAction(ManagerAction):
                         pass
                 selected_instances[0].head.is_confirmed = confirm
                 selected_instances[0].head.save()
+
+                if confirm:
+                    message = MessageServices.get_title_body_message(u"تغییر وضعیت خوشه",
+                                                                     u"وضعیت خوشه %s به تاییدنشده تغییر یافت." %
+                                                                     selected_instances[0].name)
+                else:
+                    message = MessageServices.get_title_body_message(u"تایید خوشه",
+                                                                     u"وضعیت خوشه %s به تاییدشده تغییر یافت." %
+                                                                     selected_instances[0].name)
+                MessageServices.send_message(u"تغییر وضعیت خوشه", message, selected_instances[0].head.user)
+
                 form = None
                 messages.success(http_request, u"%s با موفقیت انجام شد." % self.form_title)
         else:
@@ -122,3 +134,13 @@ class EditClusterAction(ManagerAction):
         c = handler.get_context()
         return render_to_response('accounts/edit_member_action.html', c,
                                   context_instance=RequestContext(http_request))
+
+
+def on_no_cluster_member_confirm_change(instance, confirm):
+    if confirm:
+        message = MessageServices.get_title_body_message(u"تغییر وضعیت عضویت",
+                                                         u"وضعیت عضویت شما به تاییدنشده تغییر یافت.")
+    else:
+        message = MessageServices.get_title_body_message(u"تایید عضویت",
+                                                         u"وضعیت عضویت شما به تاییدشده تغییر یافت.")
+    MessageServices.send_message(u"تغییر وضعیت خوشه", message, instance.user)

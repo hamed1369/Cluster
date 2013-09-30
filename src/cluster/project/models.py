@@ -87,7 +87,7 @@ class ProjectMilestone(models.Model):
                  موعد  %s  مربوط به طرح %s  برای زمان  %s
             """ % (milestone.comment, milestone.project.title, gregorian_to_jalali(milestone.milestone_date))
             Message.send_message(user, title=u"موعدهای گذشته یا نزدیک", body=body, receivers=[receiver])
-            message = MessageServices.get_milestone_announce(title=u"موعد طرح زیر گذشته یا نزدیک است:",
+            message = MessageServices.get_title_body_message(title=u"موعد طرح زیر گذشته یا نزدیک است:",
                                                              body=section)
             MessageServices.send_message(subject=u"موعد طرح", message=message, user=receiver)
             body += '\n' + unicode(i) + u'- ' + section.strip()
@@ -97,6 +97,6 @@ class ProjectMilestone(models.Model):
 
         Message.send_message(user, title=u"موعدهای گذشته یا نزدیک", body=body, receivers=[user])
 
-        message = MessageServices.get_milestone_announce(title=u"موعد های طرح های زیر گذشته اند یا نزدیک هستند:",
+        message = MessageServices.get_title_body_message(title=u"موعد های طرح های زیر گذشته اند یا نزدیک هستند:",
                                                          body=body)
         MessageServices.send_message(subject=u"موعدهای طرح", message=message, user=user)
