@@ -79,11 +79,11 @@ class Arbiter(Account):
     داور
     """
     user            = models.OneToOneField(User,related_name = "arbiter")
-    workplace       = models.CharField(u"نام محل کار", max_length=30)
-    field           = models.CharField(u"رشته", max_length=20)
-    professional    = models.CharField(u"گرایش تخصصی", max_length=20)
-    degree          = models.CharField(u"مرتبه علمی", max_length=20) # TODO : ابهام
-    office_phone    = models.CharField(u"تلفن مخل کار" , max_length=15)
+    workplace       = models.CharField(u"محل کار", max_length=30)
+    # field           = models.CharField(u"رشته", max_length=20)
+    # professional    = models.CharField(u"گرایش تخصصی", max_length=20)
+    # degree          = models.CharField(u"مرتبه علمی", max_length=20) # TODO : ابهام
+    # office_phone    = models.CharField(u"تلفن مخل کار" , max_length=15)
     fax             = models.CharField(u"فکس", max_length=15)
     interested_domain = models.ManyToManyField('Domain',related_name="arbiters",verbose_name=u"حوزه های مورد علاقه")
     is_confirmed    = models.BooleanField(u"تایید شده",default=False)
