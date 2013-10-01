@@ -28,17 +28,23 @@ class ManagerAction(object):
 class AddAction(ManagerAction):
     is_view = True
 
-    def __init__(self, modelForm, action_name='add', action_verbose_name=u"افزودن", form_title=u"افزودن"):
+    def __init__(self, modelForm, action_name='add', action_verbose_name=u"افزودن", form_title=u"افزودن",
+                 save_def=None):
         self.action_name = action_name
         self.action_verbose_name = action_verbose_name
         self.modelForm = modelForm
         self.form_title = form_title
+        self.save_def = save_def
 
     def action_view(self, http_request, selected_instances):
         if http_request.method == 'POST':
             form = self.modelForm(http_request.POST)
             if form.is_valid():
-                form.save()
+                if self.save_def:
+                    instance = form.save(commit=False)
+                    self.save_def(http_request, instance)
+                else:
+                    form.save()
                 form = None
                 messages.success(http_request, u"%s با موفقیت انجام شد." % self.form_title)
         else:

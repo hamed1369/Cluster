@@ -101,6 +101,7 @@ MENU_MAPPERS = {
         MenuMapper('/arbiters_management/', u"داوران"),
         MenuMapper('/projects_management/', u" طرح ها"),
         MenuMapper('/feedback_manager/', u" نظرات و پیشنهادات"),
+        MenuMapper('/news_manager/', u" اخبار"),
         MenuMapper('/messages/', u"جعبه پیام"),
     ],
     'arbiter': [
