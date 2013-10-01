@@ -162,6 +162,14 @@
         {% endif %}
     </tr>
     <tr>
+
+        <td class="label_td">{{ register_form.arbiter_interest.label }}
+        </td>
+        <td class="input_td">{{ register_form.arbiter_interest }}</td>
+        {% if register_form.arbiter_interest.errors %}
+            <td class="error_td" width="30%">{{ register_form.arbiter_interest.errors }}</td>
+        {% endif %}
+    </tr>
 </table>
 </fieldset>
 <fieldset class="inner_fieldset">

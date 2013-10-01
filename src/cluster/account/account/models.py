@@ -60,6 +60,8 @@ class Member(Account):
     front_id_card       = models.FileField(u"تصویر روی کارت ملی", upload_to="national_id_cards/", null=True,blank=True)
     back_id_card        = models.FileField(u"تصویر پشت کارت ملی", upload_to="national_id_cards/", null=True, blank=True)
     education_certification = models.FileField(u"تصویر آخرین مدرک تحصیلی", upload_to="education_certificates", null=True, blank=True)
+    arbiter_interest = models.BooleanField(u"آیا تمایل به داوری نیز دارید؟", default=False)
+
     is_confirmed    = models.BooleanField(u"تایید شده", default=False)
 
     class Meta:
