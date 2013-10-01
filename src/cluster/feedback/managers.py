@@ -36,6 +36,8 @@ class MessageManager(ObjectsManager):
             ManagerColumn('body', u"متن", 20, True),
             ManagerColumn('creator', u"ایجادکننده", 3),
             ManagerColumn('created_on', u"تاریخ ایجاد", 3),
+            ManagerColumn('feeder', u"پیشنهاددهنده", 3, True, True),
+            ManagerColumn('cluster_feeder', u"خوشه پیشنهاددهنده", 5, True, True),
         ]
         return columns
 
@@ -44,3 +46,24 @@ class MessageManager(ObjectsManager):
         if len(body) > 45:
             body = body[:45] + ' ...'
         return body
+
+    def get_feeder(self, data):
+        from cluster.account.account.models import Member
+
+        try:
+            link = u"/members/actions/?t=action&n=edit_member&i=%s" % data.creator.member.id
+            return u"""<a onClick="MyWindow=window.open('%s','خوشه/فرد',width=800,height=600); return false;"href='#' class="jqgrid-a">%s</a>""" % (
+                link, unicode(data.creator.member))
+        except Member.DoesNotExist:
+            return None
+
+    def get_cluster_feeder(self, data):
+        from cluster.account.account.models import Member, Cluster
+
+        try:
+            if data.creator.member.cluster:
+                link = u"/clusters/actions/?t=action&n=edit_cluster&i=%s" % data.creator.member.cluster.id
+                return u"""<a onClick="MyWindow=window.open('%s','خوشه/فرد',width=800,height=600); return false;"href='#' class="jqgrid-a">%s</a>""" % (
+                    link, unicode(data.creator.member.cluster))
+        except (Member.DoesNotExist, Cluster.DoesNotExist):
+            return None
