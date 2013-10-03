@@ -5,7 +5,7 @@ from django.http import Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from cluster.project.forms import ProjectManagerForm, ProjectForm
-from cluster.project.models import Project, ProjectMilestone
+from cluster.project.models import Project, ProjectMilestone, ProjectComment
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.manager.action import ManagerAction
 from cluster.utils.messages import MessageServices
@@ -87,13 +87,18 @@ class ProjectDetailAction(ManagerAction):
         inline_form = ProjectMilestoneForm(instance=instance, prefix='project_milestone')
         inline_form.readonly = True
 
+        if http_request.method == 'POST':
+            comment_txt = http_request.POST.get('project-comment-text')
+            if comment_txt:
+                ProjectComment.objects.create(user=http_request.user, comment=comment_txt, project=instance)
+
         project = None
         if self.for_admin:
             project = instance
 
         return render_to_response('project/show_project.html',
                                   {'form': form, 'inline_form': inline_form, 'title': u"جزئیات طرح",
-                                   'project': project},
+                                   'project': project, 'comments': instance.comments.all()},
                                   context_instance=RequestContext(http_request))
 
 

@@ -43,5 +43,41 @@
 {% endblock %}
 {% block after_main %}
     {% include 'formset.html' with legend="موعدهای طرح" formset=inline_form cluster=cluster %}
+    <fieldset class="inner_fieldset">
+        <legend>کامنت ها</legend>
+        <ul class="comment-list">
+            {% for comment in comments %}
 
+                <li class="comment {% cycle 'odd' 'even' %}">
+                    <div class="comment-user">
+                        {{ comment.user }}
+                    </div>
+                    <div class="comment-date">
+                        {{ comment.created_on|pdate_if_date }}
+                    </div>
+                    <div class="comment-text">
+                        <p>{{ comment.comment }}</p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table class="register_table">
+                <tr>
+                    <td class="input_td">
+                        <textarea id="project-comment-text" name="project-comment-text" cols="40" rows="10"
+                                  placeholder="متن کامنت مورد نظر خود را وارد نمایید"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="button_holder">
+                            <input type="submit" value="ثبت" name="register-submit">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </fieldset>
 {% endblock %}

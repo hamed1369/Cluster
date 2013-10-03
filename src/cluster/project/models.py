@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.contrib.auth.models import User
 from django.db import models, transaction
 from cluster.account.account.models import Member, Cluster, Domain
 from cluster.utils.calverter import gregorian_to_jalali
@@ -100,3 +101,21 @@ class ProjectMilestone(models.Model):
         message = MessageServices.get_title_body_message(title=u"موعد های طرح های زیر گذشته اند یا نزدیک هستند:",
                                                          body=body)
         MessageServices.send_message(subject=u"موعدهای طرح", message=message, user=user)
+
+
+class ProjectComment(models.Model):
+    created_on = models.DateField(verbose_name=u"تاریخ ایجاد", auto_now_add=True)
+    comment = models.TextField(verbose_name=u"کامنت", max_length=1000)
+    project = models.ForeignKey(Project, verbose_name=u"طرح", related_name='comments')
+    user = models.ForeignKey(User, verbose_name=u"کاربر مربوطه")
+
+    class Meta:
+        verbose_name = u"کامنت طرح"
+        verbose_name_plural = u"کامنت های طرح"
+
+    def __unicode__(self):
+        return self.comment
+
+
+
+
