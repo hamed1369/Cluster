@@ -13,10 +13,13 @@ from cluster.utils.js_validation import process_js_validations
 
 __author__ = 'M.Y'
 
-
+REGISTER_CHOICES = (
+    (True, u"خوشه ای"),
+    (False, u"فردی"),
+)
 class ClusterForm(ClusterBaseForm):
-    is_cluster = forms.ChoiceField(choices=BOOLEAN_CHOICES, widget=forms.RadioSelect(),
-                                   label=u"ثبت نام به صورت خوشه ای", required=True, initial=False
+    is_cluster = forms.ChoiceField(choices=REGISTER_CHOICES, widget=forms.RadioSelect(),
+                                   label=u"ثبت نام", required=True, initial=False
     )
 
     name = forms.CharField(required=False, label=u"نام خوشه")
