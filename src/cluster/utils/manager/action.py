@@ -146,7 +146,7 @@ class ConfirmAction(ManagerAction):
         field_val = getattr(selected_instances[0], self.field_name)
 
         class ConfirmForm(forms.Form):
-            confirm = forms.BooleanField(label=field_label, initial=field_val, required=False)
+            confirm = forms.NullBooleanField(label=field_label, initial=field_val, required=False)
 
         if http_request.method == 'POST':
             form = ConfirmForm(http_request.POST)

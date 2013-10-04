@@ -62,12 +62,12 @@ class Member(Account):
     education_certification = models.FileField(u"تصویر آخرین مدرک تحصیلی", upload_to="education_certificates", null=True, blank=True)
     arbiter_interest = models.BooleanField(u"آیا تمایل به داوری نیز دارید؟", default=False)
 
-    is_confirmed    = models.BooleanField(u"تایید شده", default=False)
+    is_confirmed    = models.NullBooleanField(u"وضعیت",)
 
     class Meta:
-        app_label ='account'
+        app_label = 'account'
         verbose_name = u"عضو خوشه"
-        verbose_name_plural =u"اعضای خوشه"
+        verbose_name_plural = u"اعضای خوشه"
 
     def __unicode__(self):
         return u"%s %s"%(self.user.first_name, self.user.last_name) if (
@@ -86,7 +86,7 @@ class Arbiter(Account):
     # office_phone    = models.CharField(u"تلفن مخل کار" , max_length=15)
     fax             = models.CharField(u"فکس", max_length=15)
     interested_domain = models.ManyToManyField('Domain',related_name="arbiters",verbose_name=u"حوزه های مورد علاقه")
-    is_confirmed    = models.BooleanField(u"تایید شده",default=False)
+    is_confirmed    = models.NullBooleanField(u"تایید شده")
 
     class Meta:
         app_label ='account'
@@ -140,6 +140,12 @@ class Cluster(models.Model):
                 link = None
             res.append((user_unicode,link))
         return res
+
+    def delete(self, using=None):
+        User.objects.filter(member__cluster=self).delete()
+        self.members.all().delete()
+        self.head.delete()
+        super(Cluster, self).delete(using)
 
 class Domain(models.Model):
     name = models.CharField(u"نام حوزه", max_length=40)

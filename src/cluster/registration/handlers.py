@@ -382,6 +382,8 @@ class ClusterHandler(object):
             software_skill.cluster_member = member
             software_skill.save()
 
+        return member
+
     def get_context(self):
         cluster = self.cluster if self.has_cluster else None
         c = {
