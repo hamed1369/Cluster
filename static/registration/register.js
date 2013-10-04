@@ -132,18 +132,18 @@ $(document).ready(function () {
     });
 
 
-    $('input[name*="foundation_of_elites"]').change(function () {
-        var foundation_of_elites = $('input[name*="foundation_of_elites"]:checked', '#register_form').val();
-
-        if (foundation_of_elites == 'True') {
-            $('input[name*="elite_certification"]').parents('tr').first().fadeIn();
-        } else {
-            $('input[name*="elite_certification"]').parents('tr').first().fadeOut();
-            $('input[name*="elite_certification"]').val('');
-        }
-
-
-    });
+//    $('input[name*="foundation_of_elites"]').change(function () {
+//        var foundation_of_elites = $('input[name*="foundation_of_elites"]:checked', '#register_form').val();
+//
+//        if (foundation_of_elites == 'True') {
+//            $('input[name*="elite_certification"]').parents('tr').first().fadeIn();
+//        } else {
+//            $('input[name*="elite_certification"]').parents('tr').first().fadeOut();
+//            $('input[name*="elite_certification"]').val('');
+//        }
+//
+//
+//    });
 
     $('select[name*="gender"]').change(function () {
         var gender = $(this).val();

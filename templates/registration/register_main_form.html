@@ -78,15 +78,14 @@
             <td class="error_td" width="30%">{{ register_form.gender.errors }}</td>
         {% endif %}
     </tr>
-    <tr>
-
-        <td class="label_td">{{ register_form.father_name.label }}
-        </td>
-        <td class="input_td">{{ register_form.father_name }}</td>
-        {% if register_form.father_name.errors %}
-            <td class="error_td" width="30%">{{ register_form.father_name.errors }}</td>
-        {% endif %}
-    </tr>
+{#    <tr>#}
+{#        <td class="label_td">{{ register_form.father_name.label }}#}
+{#        </td>#}
+{#        <td class="input_td">{{ register_form.father_name }}</td>#}
+{#        {% if register_form.father_name.errors %}#}
+{#            <td class="error_td" width="30%">{{ register_form.father_name.errors }}</td>#}
+{#        {% endif %}#}
+{#    </tr>#}
     <tr>
 
         <td class="label_td">{{ register_form.national_code.label }}
@@ -96,15 +95,14 @@
             <td class="error_td" width="30%">{{ register_form.national_code.errors }}</td>
         {% endif %}
     </tr>
-    <tr>
-
-        <td class="label_td">{{ register_form.identification_number.label }}
-        </td>
-        <td class="input_td">{{ register_form.identification_number }}</td>
-        {% if register_form.identification_number.errors %}
-            <td class="error_td" width="30%">{{ register_form.identification_number.errors }}</td>
-        {% endif %}
-    </tr>
+{#    <tr>#}
+{#        <td class="label_td">{{ register_form.identification_number.label }}#}
+{#        </td>#}
+{#        <td class="input_td">{{ register_form.identification_number }}</td>#}
+{#        {% if register_form.identification_number.errors %}#}
+{#            <td class="error_td" width="30%">{{ register_form.identification_number.errors }}</td>#}
+{#        {% endif %}#}
+{#    </tr>#}
     <tr>
 
         <td class="label_td">{{ register_form.birth_date.label }}
@@ -213,9 +211,9 @@
 </fieldset>
 
 <br/>
-{% include 'formset.html' with legend="مهارت های زبان" formset=language_skill_formset cluster=cluster%}
-<br/>
-{% include 'formset.html' with legend="مهارت های نرم افزاری" formset=software_skill_formset cluster=cluster%}
+{#{% include 'formset.html' with legend="مهارت های زبان" formset=language_skill_formset cluster=cluster%}#}
+{#<br/>#}
+{#{% include 'formset.html' with legend="مهارت های نرم افزاری" formset=software_skill_formset cluster=cluster%}#}
 <br/>
 {% include 'formset.html' with legend="رزومه تحصیلی" formset=resume_formset cluster=cluster%}
 <br/>
@@ -231,17 +229,16 @@
             <td class="error_td" width="30%">{{ register_form.foundation_of_elites.errors }}</td>
         {% endif %}
     </tr>
-    <tr{% if register_form.instance and register_form.instance.foundation_of_elites %}{% else %}
-        style="display: none" {% endif %}>
-
-        <td class="label_td">{{ register_form.elite_certification.label }}
-        </td>
-        <td class="input_td">{{ register_form.elite_certification }}</td>
-        {% if register_form.elite_certification.errors %}
-            <td class="error_td" width="30%">{{ register_form.elite_certification.errors }}</td>
-        {% endif %}
-    </tr>
-    <tr>
+{#    <tr{% if register_form.instance and register_form.instance.foundation_of_elites %}{% else %}#}
+{#        style="display: none" {% endif %}>#}
+{##}
+{#        <td class="label_td">{{ register_form.elite_certification.label }}#}
+{#        </td>#}
+{#        <td class="input_td">{{ register_form.elite_certification }}</td>#}
+{#        {% if register_form.elite_certification.errors %}#}
+{#            <td class="error_td" width="30%">{{ register_form.elite_certification.errors }}</td>#}
+{#        {% endif %}#}
+{#    </tr>#}
 </table>
 </fieldset>
 <br/>
@@ -273,15 +270,14 @@
             {% endif %}
 
         </tr>
-        <tr>
-            <td class="label_td">{{ register_form.back_id_card.label }}
-            </td>
-            <td class="input_td">{{ register_form.back_id_card }}</td>
-            {% if register_form.back_id_card.errors %}
-                <td class="error_td" width="30%">{{ register_form.back_id_card.errors }}</td>
-            {% endif %}
-
-        </tr>
+{#        <tr>#}
+{#            <td class="label_td">{{ register_form.back_id_card.label }}#}
+{#            </td>#}
+{#            <td class="input_td">{{ register_form.back_id_card }}</td>#}
+{#            {% if register_form.back_id_card.errors %}#}
+{#                <td class="error_td" width="30%">{{ register_form.back_id_card.errors }}</td>#}
+{#            {% endif %}#}
+{#        </tr>#}
         <tr>
             <td class="label_td">{{ register_form.image.label }}
             </td>

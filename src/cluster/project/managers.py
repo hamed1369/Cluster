@@ -164,3 +164,4 @@ class ArbiterProjectsManagement(ProjectsManagement):
 
     def get_all_data(self):
         return Project.objects.filter(arbiter=self.http_request.user.arbiter)
+

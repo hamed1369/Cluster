@@ -51,6 +51,13 @@ class RegisterForm(ClusterBaseModelForm):
             self.user = kwargs.pop('user')
 
         super(RegisterForm, self).__init__(*args, **kwargs)
+        self.fields['national_code'].required = True
+        self.fields['birth_date'].required = True
+        self.fields['residence_city'].required = True
+        self.fields['telephone'].required = True
+        self.fields['mobile'].required = True
+        self.fields['essential_telephone'].required = True
+        self.fields['address'].required = True
         self.fields.insert(0, 'first_name', forms.CharField(required=True, label=u"نام"))
         self.fields.insert(1, 'last_name', forms.CharField(required=True, label=u"نام خانوادگی"))
         self.fields.insert(2, 'username', forms.CharField(required=True, label=u"نام کاربری"))
@@ -59,7 +66,7 @@ class RegisterForm(ClusterBaseModelForm):
                            forms.CharField(required=True, label=u"تکرار گذرواژه", widget=forms.PasswordInput))
         self.fields.insert(5, 'email', forms.EmailField(label=u"پست الکترونیک"))
         self.fields['foundation_of_elites'] = forms.ChoiceField(required=True, choices=BOOLEAN_CHOICES,
-                                                                widget=forms.RadioSelect(), )
+                                                                widget=forms.RadioSelect(), initial=False)
         self.fields['foundation_of_elites'].label = u"آیا عضو بنیاد ملی نخبگان می باشید؟"
 
         if self.user and not self.user.is_anonymous():
@@ -305,7 +312,7 @@ SoftwareSkillForm = modelformset_factory(SoftwareSkill, form=SoftwareSkillModelF
 class ArbiterForm(ClusterBaseModelForm):
     class Meta:
         model = Arbiter
-        exclude = ('user', 'is_confirmed')
+        exclude = ('user', 'is_confirmed', 'national_code', 'birth_date', 'residence_city', 'essential_telephone', 'address')
 
     extra_js_validation = {
         're_password': 'equals[id_register-password]',
