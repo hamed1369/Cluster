@@ -4,6 +4,7 @@ from django.db import models
 from django.http import HttpResponse, Http404
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
+from django.utils.html import strip_tags
 from django.utils.safestring import SafeUnicode, SafeString
 from cluster.utils.calverter import gregorian_to_jalali
 from cluster.utils.manager.filter import Filter
@@ -118,9 +119,10 @@ class ObjectsManager(object):
                     return HttpResponse('OK')
         raise Http404()
 
-    def _create_data_table(self, page_data):
+    def _create_data_table(self, page_data, columns=None):
         id_columns = ManagerColumn('id', 'id', '0')
-        columns = [id_columns] + self.get_columns()
+        if not columns:
+            columns = [id_columns] + self.get_columns()
         table = Table()
         header = Header()
         for column in columns:
@@ -183,7 +185,8 @@ class ObjectsManager(object):
         except ImportError:
             import StringIO
 
-        table = self._create_data_table(self.page_data)
+        columns = self.get_excel_columns()
+        table = self._create_data_table(self.page_data, columns)
 
         output = StringIO.StringIO()
         workbook = xlsxwriter.Workbook(output)
@@ -197,7 +200,7 @@ class ObjectsManager(object):
             if i != 0:
                 column_head = letters[i - 1]
                 worksheet.set_column(column_head + ':' + column_head, int(cell.width) * 2)
-                worksheet.write_string(0, i - 1, cell.value, bold)
+                worksheet.write_string(0, i - 1, strip_tags(cell.value), bold)
             i += 1
 
         row_i = 1
@@ -206,7 +209,7 @@ class ObjectsManager(object):
             cell_i = 1
             for cell in row:
                 if cell_i != 1:
-                    worksheet.write_string(row_i, cell_i - 2, cell.value, align_format)
+                    worksheet.write_string(row_i, cell_i - 2, strip_tags(cell.value), align_format)
                 cell_i += 1
             row_i += 1
 
@@ -217,3 +220,6 @@ class ObjectsManager(object):
         response['Content-Disposition'] = "attachment; filename=%s.xlsx" % self.manager_name
 
         return response
+
+    def get_excel_columns(self):
+        return []

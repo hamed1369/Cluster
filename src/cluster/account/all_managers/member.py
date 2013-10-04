@@ -72,6 +72,29 @@ class MemberManager(ObjectsManager):
         ]
         return columns
 
+    def get_excel_columns(self):
+        columns = [
+            ManagerColumn('full_name', u"نام و نام خانوادگی", '30', True),
+            ManagerColumn('cluster', u"خوشه", '20', True, True),
+            ManagerColumn('gender', u"جنسیت", '5'),
+            ManagerColumn('national_code', u"کد ملی", '10'),
+            ManagerColumn('birth_date', u"تاریخ تولد", '10'),
+            ManagerColumn('residence_city', u"شهر محل اقامت", '10'),
+            ManagerColumn('telephone', u"تلفن ثابت", '10'),
+            ManagerColumn('mobile', u"تلفن همراه", '10'),
+            ManagerColumn('essential_telephone', u"تلفن ضروری", '10'),
+            ManagerColumn('address', u"آدرس", '10'),
+            ManagerColumn('employment_status', u"وضعیت شغلی", '10'),
+            ManagerColumn('organization', u"محل کار", '10'),
+            ManagerColumn('military_status', u"وضعیت نظام وظیفه", '15'),
+            ManagerColumn('military_place', u"محل خدمت", '10'),
+            ManagerColumn('exemption_type', u"نوع معافیت", '10'),
+            ManagerColumn('foundation_of_elites', u"عضویت در بنیاد ملی نخبگان", '10'),
+            ManagerColumn('arbiter_interest', u"آیا تمایل به داوری نیز دارید?", '10'),
+            ManagerColumn('created_on', u"تاریخ ثبت نام", '10'),
+            ]
+        return columns
+
     def get_full_name(self, data):
         return unicode(data.user)
 
