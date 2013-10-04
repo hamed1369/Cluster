@@ -1,5 +1,9 @@
 {% extends 'manager/actions/add_edit.html' %}
 {% load account_template_tags %}
+{% block JS %}
+    {{ block.super }}
+    <script type="text/javascript" src='/static/project/check.js'></script>
+{% endblock %}
 {% block before_main %}
     <fieldset>
         {% if project.single_member %}
@@ -40,6 +44,7 @@
 {% endblock %}
 
 {% block after_main %}
-    {% include 'formset.html' with legend="موعدهای طرح" formset=inline_form cluster=cluster%}
-
+    {% if inline_form %}
+        {% include 'formset.html' with legend="موعدهای طرح" formset=inline_form cluster=cluster %}
+    {% endif %}
 {% endblock %}

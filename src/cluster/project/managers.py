@@ -2,7 +2,7 @@
 from django import forms
 from django.db.models.query_utils import Q
 from cluster.account.account.models import Cluster, Member, Domain
-from cluster.project.actions import ProjectCheckAction, ProjectDetailAction, ProjectDetailMemberAction, EditProjectAction
+from cluster.project.actions import ProjectCheckAction, ProjectDetailAction, ProjectDetailMemberAction, EditProjectAction, AdminProjectCheckAction
 from cluster.project.models import Project
 from cluster.utils.date import handel_date_fields
 from cluster.utils.forms import ClusterBaseModelForm
@@ -13,16 +13,16 @@ from cluster.utils.permissions import PermissionController
 __author__ = 'M.Y'
 
 
-class PublicProjectsForMembersFilterForm(ClusterBaseModelForm):
+class MemberProjectFilterForm(ClusterBaseModelForm):
     class Meta:
         model = Project
         fields = ('title', 'keywords', 'domain')
 
 
-class PublicProjectsForMembersManager(ObjectsManager):
+class MemberProjectManager(ObjectsManager):
     manager_name = u"projects"
     manager_verbose_name = u"طرح های من"
-    filter_form = PublicProjectsForMembersFilterForm
+    filter_form = MemberProjectFilterForm
 
     actions = [EditProjectAction(), DeleteAction(action_verbose_name=u"انصراف از طرح"), ProjectDetailMemberAction()]
 
@@ -65,13 +65,13 @@ class PublicProjectsForMembersManager(ObjectsManager):
         """
 
 
-class ProjectsForArbitersFilterForm(ClusterBaseModelForm):
+class ProjectsManagementFilterForm(ClusterBaseModelForm):
     class Meta:
         model = Project
         fields = ('title', 'keywords', 'domain', 'project_status', 'cluster', 'single_member')
 
     def __init__(self, *args, **kwargs):
-        super(ProjectsForArbitersFilterForm, self).__init__(*args, **kwargs)
+        super(ProjectsManagementFilterForm, self).__init__(*args, **kwargs)
         self.fields['cluster'] = forms.ModelMultipleChoiceField(queryset=Cluster.objects.filter(), label=u"خوشه مربوطه",
                                                                 required=False)
         self.fields['domain'] = forms.ModelMultipleChoiceField(queryset=Domain.objects.filter(), label=u"دامنه ها",
@@ -93,8 +93,8 @@ class ProjectsForArbitersFilterForm(ClusterBaseModelForm):
 class ProjectsManagement(ObjectsManager):
     manager_name = u"projects_management"
     manager_verbose_name = u"مدیریت طرح ها"
-    filter_form = ProjectsForArbitersFilterForm
-    actions = [ProjectCheckAction(), ProjectDetailAction()]
+    filter_form = ProjectsManagementFilterForm
+    actions = [AdminProjectCheckAction(), ProjectDetailAction()]
 
     filter_handlers = (
         ('title', 'str'),
@@ -136,3 +136,31 @@ class ProjectsManagement(ObjectsManager):
             link = u"/members/actions/?t=action&n=edit_member&i=%s" % data.single_member.id
             return u"""<a onClick="MyWindow=window.open('%s','خوشه/فرد',width=800,height=600); return false;"href='#' class="jqgrid-a">%s</a>""" % (
                 link, unicode(data.single_member))
+
+
+class ArbiterProjectsFilterForm(ClusterBaseModelForm):
+    class Meta:
+        model = Project
+        fields = ('title', 'keywords', 'domain', 'cluster', 'single_member')
+
+    def __init__(self, *args, **kwargs):
+        super(ArbiterProjectsFilterForm, self).__init__(*args, **kwargs)
+        self.fields['cluster'] = forms.ModelMultipleChoiceField(queryset=Cluster.objects.filter(), label=u"خوشه مربوطه",
+                                                                required=False)
+        self.fields['domain'] = forms.ModelMultipleChoiceField(queryset=Domain.objects.filter(), label=u"دامنه ها",
+                                                               required=False)
+        self.fields['single_member'] = forms.ModelMultipleChoiceField(queryset=Member.objects.filter(), label=u"اعضا",
+                                                                      required=False)
+        self.fields['milestone_from'] = forms.DateField(label=u"موعدها از تاریخ", required=False)
+        self.fields['milestone_until'] = forms.DateField(label=u"موعدها تا تاریخ", required=False)
+        handel_date_fields(self)
+
+
+class ArbiterProjectsManagement(ProjectsManagement):
+    manager_name = u"projects_arbitration"
+    manager_verbose_name = u"مدیریت طرح ها"
+    filter_form = ArbiterProjectsFilterForm
+    actions = [ProjectCheckAction(), ProjectDetailAction()]
+
+    def get_all_data(self):
+        return Project.objects.filter(arbiter=self.http_request.user.arbiter)

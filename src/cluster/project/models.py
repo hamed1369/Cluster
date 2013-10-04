@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from django.db import models, transaction
-from cluster.account.account.models import Member, Cluster, Domain
+from cluster.account.account.models import Member, Cluster, Domain, Arbiter
 from cluster.utils.calverter import gregorian_to_jalali
 from cluster.utils.messages import MessageServices
 
@@ -26,7 +26,8 @@ class Project(models.Model):
         (-1, u"رد شده"),
         (0, u"در مرحله درخواست"),
         (1, u"تایید مرحله اول"),
-        (2, u"تایید مرحله دوم"),
+        (2, u"تاییدشده توسط داور"),
+        (3, u"تایید مرحله دوم"),
 
     )
     title = models.CharField(u"عنوان طرح", max_length=300)
@@ -48,6 +49,9 @@ class Project(models.Model):
 
     single_member = models.ForeignKey(Member, verbose_name=u"عضو", null=True, blank=True)
     cluster = models.ForeignKey(Cluster, verbose_name=u"خوشه", null=True, blank=True)
+
+    arbiter = models.ForeignKey(Arbiter, verbose_name=u"داوری مربوطه", null=True, blank=True)
+    score = models.FloatField(verbose_name=u"امتیاز", null=True, blank=True)
 
     class Meta:
         verbose_name = u"طرح"

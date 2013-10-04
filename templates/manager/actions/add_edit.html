@@ -12,7 +12,7 @@
                     <legend>{{ title }}</legend>
                     <table>
                         {% for field in form %}
-                            <tr>
+                            <tr {% if field.field.is_hidden|is_true %}style="display: none;"{% endif %}>
                                 <td class="label_td">{{ field.label }}
                                     {% if field.field.required %}<span class="required_field">*</span>{% endif %}
                                 </td>

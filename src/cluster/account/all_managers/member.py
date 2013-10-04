@@ -119,7 +119,6 @@ def member_confirm_change(instance, confirm):
         instance.delete()
 
 
-
 class NoClusterMemberManager(MemberManager):
     manager_name = u"no_cluster_members"
     manager_verbose_name = u"مدیریت  افراد بدون خوشه"

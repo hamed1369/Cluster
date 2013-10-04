@@ -42,7 +42,9 @@
     {% endif %}
 {% endblock %}
 {% block after_main %}
-    {% include 'formset.html' with legend="موعدهای طرح" formset=inline_form cluster=cluster %}
+    {% if inline_form %}
+        {% include 'formset.html' with legend="موعدهای طرح" formset=inline_form cluster=cluster %}
+    {% endif %}
     <fieldset class="inner_fieldset">
         <legend>کامنت ها</legend>
         <ul class="comment-list">

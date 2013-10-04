@@ -107,7 +107,7 @@ MENU_MAPPERS = {
     'arbiter': [
         MenuMapper('/', u"صفحه اصلی"),
         MenuMapper('/arbiter_edit/', u"ویرایش اطلاعات فردی"),
-        MenuMapper('/projects_management/', u"بررسی طرح ها"),
+        MenuMapper('/projects_arbitration/', u"بررسی طرح ها"),
         MenuMapper('/messages/', u"جعبه پیام"),
         MenuMapper('/feedback/', u"ارسال نظرات و پیشنهادات"),
     ],
