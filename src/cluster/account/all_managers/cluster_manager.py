@@ -14,7 +14,7 @@ __author__ = 'M.Y'
 class ClusterForm(ClusterBaseModelForm):
     class Meta:
         model = Cluster
-        fields = ('name', 'domains', 'institute')
+        fields = ('name', 'domains', 'institute', 'degree')
 
     def __init__(self, *args, **kwargs):
         super(ClusterForm, self).__init__(*args, **kwargs)
@@ -29,7 +29,7 @@ class ClusterForm(ClusterBaseModelForm):
 class ClusterActionForm(ClusterBaseModelForm):
     class Meta:
         model = Cluster
-        fields = ('name', 'domains', 'institute', 'head')
+        fields = ('name', 'domains', 'institute', 'head', 'degree')
 
     def __init__(self, *args, **kwargs):
         super(ClusterActionForm, self).__init__(*args, **kwargs)
@@ -65,6 +65,7 @@ class ClusterManager(ObjectsManager):
             ManagerColumn('users', u"اعضا", '11', True, True),
             ManagerColumn('created_on', u"تاریخ ثبت", '10'),
             ManagerColumn('confirm', u"تاییدشده", '10', True),
+            ManagerColumn('degree', u"درجه", '10'),
         ]
         return columns
 

@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.http import Http404
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
-from cluster.account.account.models import Member
+from cluster.account.account.models import Member, Cluster
 from cluster.registration.handlers import ClusterHandler
 from cluster.utils.forms import ClusterBaseForm
 from cluster.utils.manager.action import ManagerAction
@@ -60,11 +60,13 @@ class ClusterConfirmAction(ManagerAction):
 
         class ConfirmForm(forms.Form):
             confirm = forms.NullBooleanField(label=field_label, initial=field_val, required=False)
+            degree = forms.ChoiceField(label=u"درجه", choices=Cluster.CLUSTER_DEGREE, required=True)
 
         if http_request.method == 'POST':
             form = ConfirmForm(http_request.POST)
             if form.is_valid():
                 confirm = form.cleaned_data.get('confirm')
+                degree = form.cleaned_data.get('degree')
                 for user_domain in selected_instances[0].user_domains.all():
                     try:
                         user_domain.user.member.is_confirmed = confirm
@@ -73,6 +75,8 @@ class ClusterConfirmAction(ManagerAction):
                         pass
                 selected_instances[0].head.is_confirmed = confirm
                 selected_instances[0].head.save()
+                selected_instances[0].degree = degree
+                selected_instances[0].save()
 
                 if confirm is True:
                     message = MessageServices.get_title_body_message(u"تایید خوشه",

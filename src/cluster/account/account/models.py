@@ -118,6 +118,14 @@ class Cluster(models.Model):
 
     user_domains= models.ManyToManyField(UserDomain, verbose_name=u"اعضا", related_name='clusters')
 
+    CLUSTER_DEGREE = (
+        (1, 'A'),
+        (2, 'B'),
+        (3, 'C'),
+        (4, 'D'),
+    )
+    degree = models.IntegerField(u"درجه", choices=CLUSTER_DEGREE, default=1)
+
     created_on  = models.DateField(u"تاریخ ایجاد", auto_now_add=True)
 
     class Meta:

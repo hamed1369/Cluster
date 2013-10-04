@@ -62,12 +62,12 @@ class ClusterHandler(object):
                                                                            data=self.http_request.POST,
                                                                            queryset=ExecutiveResearchProject.objects.filter(
                                                                                cluster_member=member))
-            self.language_skill_formset = LanguageSkillForm(prefix='language_skill', data=self.http_request.POST,
-                                                            queryset=LanguageSkill.objects.filter(
-                                                                cluster_member=member))
-            self.software_skill_formset = SoftwareSkillForm(prefix='software_skill', data=self.http_request.POST,
-                                                            queryset=SoftwareSkill.objects.filter(
-                                                                cluster_member=member))
+            # self.language_skill_formset = LanguageSkillForm(prefix='language_skill', data=self.http_request.POST,
+            #                                                 queryset=LanguageSkill.objects.filter(
+            #                                                     cluster_member=member))
+            # self.software_skill_formset = SoftwareSkillForm(prefix='software_skill', data=self.http_request.POST,
+            #                                                 queryset=SoftwareSkill.objects.filter(
+            #                                                     cluster_member=member))
         else:
             self.register_form = RegisterForm(prefix='register', instance=member, has_cluster=self.has_cluster, user=self.http_request.user)
             self.resume_formset = ResumeForm(prefix='resume',
@@ -289,8 +289,7 @@ class ClusterHandler(object):
                 if self.cluster:
                     if self.register_form.is_valid() and self.resume_formset.is_valid() \
                         and self.publication_formset.is_valid() and self.invention_formset.is_valid() \
-                        and self.executive_research_formset.is_valid() and self.language_skill_formset.is_valid() and \
-                            self.software_skill_formset.is_valid():
+                        and self.executive_research_formset.is_valid():
                         validate = True
                     else:
                         validate = False
@@ -304,8 +303,7 @@ class ClusterHandler(object):
                     if self.cluster_form.is_valid() and self.register_form.is_valid() \
                         and self.cluster_member_formset.is_valid() \
                         and self.resume_formset.is_valid() and self.publication_formset.is_valid() \
-                        and self.invention_formset.is_valid() and self.executive_research_formset.is_valid() and \
-                            self.language_skill_formset.is_valid() and self.software_skill_formset.is_valid():
+                        and self.invention_formset.is_valid() and self.executive_research_formset.is_valid():
                         validate = True
                     else:
                         validate = False
@@ -326,8 +324,7 @@ class ClusterHandler(object):
             else:
                 if self.has_register:
                     if self.register_form.is_valid() and self.resume_formset.is_valid() and self.publication_formset.is_valid() \
-                        and self.invention_formset.is_valid() and self.executive_research_formset.is_valid() and \
-                            self.language_skill_formset.is_valid() and self.software_skill_formset.is_valid():
+                        and self.invention_formset.is_valid() and self.executive_research_formset.is_valid():
                         validate = True
                 elif self.has_cluster:
                     if self.cluster_form.is_valid() and self.cluster_domain_formset.is_valid() and \
@@ -372,15 +369,15 @@ class ClusterHandler(object):
             executive_research.cluster_member = member
             executive_research.save()
 
-        language_skills = self.language_skill_formset.save(commit=False)
-        for language_skill in language_skills:
-            language_skill.cluster_member = member
-            language_skill.save()
-
-        software_skills = self.software_skill_formset.save(commit=False)
-        for software_skill in software_skills:
-            software_skill.cluster_member = member
-            software_skill.save()
+        # language_skills = self.language_skill_formset.save(commit=False)
+        # for language_skill in language_skills:
+        #     language_skill.cluster_member = member
+        #     language_skill.save()
+        #
+        # software_skills = self.software_skill_formset.save(commit=False)
+        # for software_skill in software_skills:
+        #     software_skill.cluster_member = member
+        #     software_skill.save()
 
         return member
 
