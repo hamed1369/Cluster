@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import HttpResponse
 from django.utils import simplejson
+from cluster.account.account.models import Cluster, Member
 from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
@@ -11,7 +12,7 @@ __author__ = 'M.Y'
 
 def validationEngine(request):
     field_id = request.GET.get('fieldId')
-    field_val = request.GET.get('fieldValue')
+    field_val = request.GET.get('fieldValue') or ''
     result = [field_id, True]
 
     if field_id.find('username') > -1:
@@ -30,6 +31,19 @@ def validationEngine(request):
             else:
                 users = User.objects.filter(Q(email=field_val), ~Q(id=request.user.id))
             if users:
+                result = [field_id, False]
+        except User.DoesNotExist:
+            pass
+    elif field_id.find('name') > -1:
+        try:
+            cluster = Cluster.objects.filter(name=field_val.strip())
+            try:
+                if not request.user.is_anonymous():
+                    if request.user.member and request.user.member.cluster:
+                        cluster = Cluster.objects.filter(Q(name=field_val.strip()), ~Q(id=request.user.member.cluster.id))
+            except Member.DoesNotExist:
+                pass
+            if cluster:
                 result = [field_id, False]
         except User.DoesNotExist:
             pass

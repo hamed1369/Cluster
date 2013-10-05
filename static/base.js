@@ -23,6 +23,12 @@ $(document).ready(function () {
 //                "alertTextOk": "این ایمیل در دسترس است",
                 "alertText": "* این ایمیل تکراری است",
                 "alertTextLoad": "* درحال اعتبار سنجی، لطفا صبر کنید"
+            },
+            clusterNameAjaxEngineCall: {
+                "url": "/ajax/validationEngine/",
+//                "alertTextOk": "این ایمیل در دسترس است",
+                "alertText": "* این نام تکراری است",
+                "alertTextLoad": "* درحال اعتبار سنجی، لطفا صبر کنید"
             }
         });
         $(".js-validation-from").validationEngine({

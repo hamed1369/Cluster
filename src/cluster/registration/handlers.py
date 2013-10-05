@@ -89,13 +89,13 @@ class ClusterHandler(object):
     def __init_cluster_form(self, check_post):
         self.cluster_member_formset = None
         if self.http_method == 'POST' and self.http_request.POST.get('register-submit') and check_post:
-            self.cluster_form = ClusterForm(prefix='cluster', data=self.http_request.POST)
+            self.cluster_form = ClusterForm(prefix='cluster', data=self.http_request.POST, http_request=self.http_request)
             if not self.cluster:
                 self.cluster_member_formset = ClusterMemberForm(prefix='cluster_member', data=self.http_request.POST)
                 ClusterDomainForm.extra = 1
                 self.cluster_domain_formset = ClusterDomainForm(prefix='cluster_domain', data=self.http_request.POST, )
         else:
-            self.cluster_form = ClusterForm(prefix='cluster')
+            self.cluster_form = ClusterForm(prefix='cluster', http_request=self.http_request)
             if not self.cluster:
                 self.cluster_member_formset = ClusterMemberForm(prefix='cluster_member')
                 ClusterDomainForm.extra = 1

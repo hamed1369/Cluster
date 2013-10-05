@@ -24,6 +24,13 @@ class ClusterForm(ClusterBaseModelForm):
         self.fields['confirmed'].widget.choices = ((u'1', u"--- همه ---"),
                                                    (u'2', u"بله"),
                                                    (u'3', u"خیر"))
+        self.fields['degree'].widget.choices = (
+            ('', u"--- همه ---"),
+            (1, 'A'),
+            (2, 'B'),
+            (3, 'C'),
+            (4, 'D'),
+        )
 
 
 class ClusterActionForm(ClusterBaseModelForm):
@@ -49,6 +56,7 @@ class ClusterManager(ObjectsManager):
         ('domains', 'm2m'),
         ('institute', 'str'),
         ('head', 'm2o'),
+        ('degree', 'this'),
         ('users', '', 'user_domains__user__in'),
         ('confirmed', 'null_bool', 'head__is_confirmed'),
     )

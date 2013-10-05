@@ -9,6 +9,8 @@ from django import forms
 
 class ClusterBaseForm(forms.Form):
     def __init__(self, *args, **kwargs):
+        if 'http_request' in kwargs:
+            self.http_request = kwargs.pop('http_request')
         super(ClusterBaseForm, self).__init__(*args, **kwargs)
         handel_date_fields(self)
         process_js_validations(self)
@@ -17,6 +19,8 @@ class ClusterBaseForm(forms.Form):
 
 class ClusterBaseModelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
+        if 'http_request' in kwargs:
+            self.http_request = kwargs.pop('http_request')
         super(ClusterBaseModelForm, self).__init__(*args, **kwargs)
         handel_date_fields(self)
         process_js_validations(self)

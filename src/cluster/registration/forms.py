@@ -2,7 +2,8 @@
 from captcha.fields import CaptchaField
 from django import forms
 from django.contrib.auth.models import User
-from cluster.account.account.models import Member, Arbiter, Domain
+from django.db.models import Q
+from cluster.account.account.models import Member, Arbiter, Domain, Cluster
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
 from cluster.account.personal_info.models import EducationalResume, Publication, Invention, \
@@ -17,13 +18,18 @@ REGISTER_CHOICES = (
     (True, u"خوشه ای"),
     (False, u"فردی"),
 )
+
+
 class ClusterForm(ClusterBaseForm):
     is_cluster = forms.ChoiceField(choices=REGISTER_CHOICES, widget=forms.RadioSelect(),
-                                   label=u"ثبت نام", required=True, initial=False
-    )
+                                   label=u"ثبت نام", required=True, initial=False)
 
     name = forms.CharField(required=False, label=u"نام خوشه")
     institute = forms.CharField(required=False, label=u"دانشگاه / موسسه", max_length=30)
+
+    extra_js_validation = {
+        'name': 'ajax[clusterNameAjaxEngineCall]'
+    }
 
     def clean(self):
         cd = super(ClusterForm, self).clean()
@@ -34,6 +40,16 @@ class ClusterForm(ClusterBaseForm):
         if is_cluster == 'True':
             if not name:
                 self._errors['name'] = self.error_class([u"این فیلد برای ایجاد خوشه ضروری است."])
+            else:
+                cluster = Cluster.objects.filter(name=name.strip())
+                try:
+                    if not self.http_request.user.is_anonymous():
+                        if self.http_request.user.member and self.http_request.user.member.cluster:
+                            cluster = Cluster.objects.filter(Q(name=name.strip()), ~Q(id=self.http_request.user.member.cluster.id))
+                except Member.DoesNotExist:
+                    pass
+                if cluster:
+                    self._errors['name'] = self.error_class([u"این نام قبلا در سامانه ثبت شده است."])
             if not institute:
                 self._errors['institute'] = self.error_class([u"این فیلد برای ایجاد خوشه ضروری است."])
         return cd
@@ -312,7 +328,8 @@ SoftwareSkillForm = modelformset_factory(SoftwareSkill, form=SoftwareSkillModelF
 class ArbiterForm(ClusterBaseModelForm):
     class Meta:
         model = Arbiter
-        exclude = ('user', 'is_confirmed', 'national_code', 'birth_date', 'residence_city', 'essential_telephone', 'address')
+        exclude = (
+            'user', 'is_confirmed', 'national_code', 'birth_date', 'residence_city', 'essential_telephone', 'address')
 
     extra_js_validation = {
         're_password': 'equals[id_register-password]',
@@ -382,4 +399,3 @@ class ArbiterForm(ClusterBaseModelForm):
         instance.interested_domain = self.cleaned_data.get('interested_domain')
 
         return instance
-
