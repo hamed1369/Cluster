@@ -27,7 +27,7 @@ def login_view(request):
                 login(request, user)
                 next_page = request.GET.get('next')
                 if PermissionController.is_admin(user):
-                    ProjectMilestone.check_milestones(user)
+                    ProjectMilestone.check_milestones()
                 if next_page:
                     return HttpResponseRedirect(next_page)
                 else:
