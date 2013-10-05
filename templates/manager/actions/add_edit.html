@@ -18,7 +18,7 @@
                                 </td>
                                 <td class="input_td">
                                     {% if field.field.widget.multiple_check|is_true %}
-                                        <table>
+                                        <table width="100%">
                                             {% for choice in field.field.queryset %}
                                                 {% if forloop.counter0|divisibleby:"3" %}
                                                     <tr>{% endif %}
@@ -29,10 +29,8 @@
 
                                                         {% if form.prefix %}{{ form.prefix }}-{% endif %}{{ field.name }}_{{ choice.id }}"
                                                        value="{{ choice.id }}" type="checkbox"
-                                                       name="
-
-                                                               {% if form.prefix %}{{ form.prefix }}-{% endif %}{{ field.name }}"
-                                                       {% if choice in form.instance|get_field:field.name %}checked="checked"{% endif %}/>
+                                                       name="{% if form.prefix %}{{ form.prefix }}-{% endif %}{{ field.name }}"
+                                                       {% if choice in form.instance|get_field:field.name %}checked="checked"{% endif %} style="float: right;"/>
                                             </td>
                                             {% if forloop.last or forloop.counter|divisibleby:"3" %}</tr>{% endif %}
                                             {% endfor %}

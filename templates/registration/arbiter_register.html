@@ -232,15 +232,15 @@
                             </td>
                         <td class="input_td">
                         {% if arbiter_form.interested_domain.field.queryset %}
-                        <table>
+                        <table width="100%">
                                     {% for choice in arbiter_form.interested_domain.field.queryset %}
                                         {% if forloop.counter0|divisibleby:"3" %}<tr>{% endif %}
-                                            <td style="text-align: right">
+                                            <td style="text-align: right;">
                                                 {{ choice.name }}
                                                 <input  id="id_{% if arbiter_form.prefix %}{{ arbiter_form.prefix }}-{% endif %}interested_domain_{{ choice.id }}"
                                                         value="{{ choice.id }}" type="checkbox"
                                                         name="{% if arbiter_form.prefix %}{{ arbiter_form.prefix }}-{% endif %}interested_domain"
-                                                        {% if choice in arbiter_form.instance.interested_domain.all %}checked="checked"{% endif %}/>
+                                                        {% if choice in arbiter_form.instance.interested_domain.all %}checked="checked"{% endif %} style="float: right;"/>
                                             </td>
                                         {% if forloop.last or forloop.counter|divisibleby:"3" %}</tr>{% endif %}
                                     {% endfor %}
