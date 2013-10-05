@@ -27,15 +27,15 @@
                             <td class="error_td" style="width: 30%">{{ arbiter_form.last_name.errors }}</td>
                         {% endif %}
                     </tr>
-                    <tr>
-                        <td class="label_td">{{ arbiter_form.father_name.label }}
-                            {% if arbiter_form.father_name.field.required %}<span class="required_field">*</span>{% endif %}
-                        </td>
-                        <td class="input_td">{{ arbiter_form.father_name }}</td>
-                        {% if arbiter_form.father_name.errors %}
-                            <td class="error_td" style="width: 30%">{{ arbiter_form.father_name.errors }}</td>
-                        {% endif %}
-                    </tr>
+{#                    <tr>#}
+{#                        <td class="label_td">{{ arbiter_form.father_name.label }}#}
+{#                            {% if arbiter_form.father_name.field.required %}<span class="required_field">*</span>{% endif %}#}
+{#                        </td>#}
+{#                        <td class="input_td">{{ arbiter_form.father_name }}</td>#}
+{#                        {% if arbiter_form.father_name.errors %}#}
+{#                            <td class="error_td" style="width: 30%">{{ arbiter_form.father_name.errors }}</td>#}
+{#                        {% endif %}#}
+{#                    </tr>#}
                     <tr>
                         <td class="label_td">{{ arbiter_form.gender.label }}
                             {% if arbiter_form.gender.field.required %}<span class="required_field">*</span>{% endif %}
@@ -102,16 +102,16 @@
                             <td class="error_td" style="width: 30%">{{ arbiter_form.national_code.errors }}</td>
                         {% endif %}
                     </tr>
-                    <tr>
-
-                        <td class="label_td">{{ arbiter_form.identification_number.label }}
-                            {% if arbiter_form.identification_number.field.required %}<span class="required_field">*</span>{% endif %}
-                        </td>
-                        <td class="input_td">{{ arbiter_form.identification_number }}</td>
-                        {% if arbiter_form.identification_number.errors %}
-                            <td class="error_td" style="width: 30%">{{ arbiter_form.identification_number.errors }}</td>
-                        {% endif %}
-                    </tr>
+{#                    <tr>#}
+{##}
+{#                        <td class="label_td">{{ arbiter_form.identification_number.label }}#}
+{#                            {% if arbiter_form.identification_number.field.required %}<span class="required_field">*</span>{% endif %}#}
+{#                        </td>#}
+{#                        <td class="input_td">{{ arbiter_form.identification_number }}</td>#}
+{#                        {% if arbiter_form.identification_number.errors %}#}
+{#                            <td class="error_td" style="width: 30%">{{ arbiter_form.identification_number.errors }}</td>#}
+{#                        {% endif %}#}
+{#                    </tr>#}
                     <tr>
                         <td class="label_td">{{ arbiter_form.birth_date.label }}
                             {% if arbiter_form.birth_date.field.required %}<span class="required_field">*</span>{% endif %}
@@ -232,15 +232,15 @@
                             </td>
                         <td class="input_td">
                         {% if arbiter_form.interested_domain.field.queryset %}
-                        <table>
+                        <table width="100%">
                                     {% for choice in arbiter_form.interested_domain.field.queryset %}
                                         {% if forloop.counter0|divisibleby:"3" %}<tr>{% endif %}
-                                            <td style="text-align: right">
+                                            <td style="text-align: right;">
                                                 {{ choice.name }}
                                                 <input  id="id_{% if arbiter_form.prefix %}{{ arbiter_form.prefix }}-{% endif %}interested_domain_{{ choice.id }}"
                                                         value="{{ choice.id }}" type="checkbox"
                                                         name="{% if arbiter_form.prefix %}{{ arbiter_form.prefix }}-{% endif %}interested_domain"
-                                                        {% if choice in arbiter_form.instance.interested_domain.all %}checked="checked"{% endif %}/>
+                                                        {% if choice in arbiter_form.instance.interested_domain.all %}checked="checked"{% endif %} style="float: right;"/>
                                             </td>
                                         {% if forloop.last or forloop.counter|divisibleby:"3" %}</tr>{% endif %}
                                     {% endfor %}

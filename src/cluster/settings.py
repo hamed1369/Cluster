@@ -118,7 +118,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
-#    'suit',
+    #    'suit',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -129,6 +129,7 @@ INSTALLED_APPS = (
     'cluster.project',
     'cluster.message',
     'cluster.feedback',
+    'cluster.news',
 )
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

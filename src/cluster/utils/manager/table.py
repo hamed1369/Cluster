@@ -28,6 +28,9 @@ class Row(object):
             cells_dict[cell.name] = cell.value
         return cells_dict
 
+    def __iter__(self):
+        return iter(self.cells)
+
 
 class Header(object):
     def __init__(self):
@@ -38,6 +41,9 @@ class Header(object):
 
     def create_cell(self, name, value, width):
         self.cells.append(Cell(name, value, width))
+
+    def __iter__(self):
+        return iter(self.cells)
 
 
 class Table(object):
@@ -66,7 +72,5 @@ class Table(object):
 
         return json
 
-
-
-
-
+    def __iter__(self):
+        return iter(self.rows)

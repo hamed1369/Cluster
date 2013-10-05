@@ -43,7 +43,7 @@ class ArbiterManager(ObjectsManager):
             ManagerColumn('national_code', u"کد ملی", '10'),
             ManagerColumn('birth_date', u"تاریخ تولد", '10'),
             ManagerColumn('workplace', u"نام محل کار", '10'),
-            ManagerColumn('field', u"رشته", '10'),
+            # ManagerColumn('field', u"رشته", '10'),
             ManagerColumn('domains', u"حوزه های مورد علاقه", '30', True),
             ManagerColumn('created_on', u"تاریخ ثبت نام", '10'),
             ManagerColumn('is_confirmed', u"تایید شده", '10'),

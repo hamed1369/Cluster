@@ -4,6 +4,7 @@ from django.db import models
 from django.http import HttpResponse, Http404
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
+from django.utils.html import strip_tags
 from django.utils.safestring import SafeUnicode, SafeString
 from cluster.utils.calverter import gregorian_to_jalali
 from cluster.utils.manager.filter import Filter
@@ -33,7 +34,7 @@ class ManagerRegister(type):
 
 
 class ManagerColumn(object):
-    def __init__(self, column_name, column_verbose_name, column_width, is_variable=False,allow_html=False):
+    def __init__(self, column_name, column_verbose_name, column_width, is_variable=False, allow_html=False):
         self.column_name = column_name
         self.column_verbose_name = column_verbose_name
         self.column_width = column_width
@@ -96,7 +97,8 @@ class ObjectsManager(object):
             return self.process_json()
         elif action_type == 'action':
             return self.process_manages_actions()
-
+        elif action_type == 'excel':
+            return self.process_excel()
         raise Http404()
 
     def process_json(self):
@@ -117,9 +119,10 @@ class ObjectsManager(object):
                     return HttpResponse('OK')
         raise Http404()
 
-    def _create_data_table(self, page_data):
+    def _create_data_table(self, page_data, columns=None):
         id_columns = ManagerColumn('id', 'id', '0')
-        columns = [id_columns] + self.get_columns()
+        if not columns:
+            columns = [id_columns] + self.get_columns()
         table = Table()
         header = Header()
         for column in columns:
@@ -171,4 +174,52 @@ class ObjectsManager(object):
                 if data.id in instances_id:
                     instances.append(data)
             return instances
+        return []
+
+    def process_excel(self):
+        import xlsxwriter
+        import string
+
+        try:
+            import cStringIO as StringIO
+        except ImportError:
+            import StringIO
+
+        columns = self.get_excel_columns()
+        table = self._create_data_table(self.filter_obj.all_data, columns)
+
+        output = StringIO.StringIO()
+        workbook = xlsxwriter.Workbook(output)
+        worksheet = workbook.add_worksheet()
+        worksheet.right_to_left()
+
+        bold = workbook.add_format({'bold': True})
+        i = 0
+        letters = string.uppercase
+        for cell in table.header:
+            if i != 0:
+                column_head = letters[i - 1]
+                worksheet.set_column(column_head + ':' + column_head, int(cell.width) * 2)
+                worksheet.write_string(0, i - 1, strip_tags(cell.value), bold)
+            i += 1
+
+        row_i = 1
+        align_format = workbook.add_format({'align': 'right'})
+        for row in table:
+            cell_i = 1
+            for cell in row:
+                if cell_i != 1:
+                    worksheet.write_string(row_i, cell_i - 2, strip_tags(cell.value), align_format)
+                cell_i += 1
+            row_i += 1
+
+        workbook.close()
+        output.seek(0)
+        response = HttpResponse(output.read(),
+                                mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        response['Content-Disposition'] = "attachment; filename=%s.xlsx" % self.manager_name
+
+        return response
+
+    def get_excel_columns(self):
         return []

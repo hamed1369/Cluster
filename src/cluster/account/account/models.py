@@ -18,15 +18,15 @@ class Account(models.Model):
         (2,u"زن")
         )
     gender          = models.IntegerField(u"جنسیت", choices=GENDER)
-    father_name     = models.CharField(u"نام پدر", max_length=30)
-    national_code   = models.BigIntegerField(u"کد ملی")
-    identification_number = models.BigIntegerField(u"شماره شناسنامه")
-    birth_date      = models.DateField(u"تاریخ تولد")
-    residence_city  = models.CharField(u"شهر محل اقامت", max_length=20)
-    telephone       = models.CharField(u"تلفن ثابت", max_length=15)
-    mobile          = models.CharField(u"تلفن همراه", max_length=11)
-    essential_telephone = models.CharField(u"تلفن ضروری", max_length=15)
-    address         = models.CharField(u"آدرس", max_length=400)
+    # father_name     = models.CharField(u"نام پدر", max_length=30)
+    national_code   = models.BigIntegerField(u"کد ملی", null=True, blank=True)
+    # identification_number = models.BigIntegerField(u"شماره شناسنامه")
+    birth_date      = models.DateField(u"تاریخ تولد", null=True, blank=True)
+    residence_city  = models.CharField(u"شهر محل اقامت", max_length=20, null=True, blank=True)
+    telephone       = models.CharField(u"تلفن ثابت", max_length=15, null=True, blank=True)
+    mobile          = models.CharField(u"تلفن همراه", max_length=11, null=True, blank=True)
+    essential_telephone = models.CharField(u"تلفن ضروری", max_length=15, null=True, blank=True)
+    address         = models.CharField(u"آدرس", max_length=400, null=True, blank=True)
     created_on      = models.DateField(u"تاریخ ایجاد", auto_now_add=True)
 
     class Meta:
@@ -56,16 +56,18 @@ class Member(Account):
     exemption_type      = models.IntegerField(u"نوع معافیت",choices=EXEMPTION, null=True, blank=True)
     foundation_of_elites = models.BooleanField(u"عضویت در بنیاد ملی نخبگان", default=False)
     image               = models.FileField(u"عکس", upload_to="member_images/", null=True, blank=True)
-    elite_certification = models.FileField(u"مدرک نخبگی", upload_to="elite_certificates/", null=True, blank=True)
+    # elite_certification = models.FileField(u"مدرک نخبگی", upload_to="elite_certificates/", null=True, blank=True)
     front_id_card       = models.FileField(u"تصویر روی کارت ملی", upload_to="national_id_cards/", null=True,blank=True)
-    back_id_card        = models.FileField(u"تصویر پشت کارت ملی", upload_to="national_id_cards/", null=True, blank=True)
+    # back_id_card        = models.FileField(u"تصویر پشت کارت ملی", upload_to="national_id_cards/", null=True, blank=True)
     education_certification = models.FileField(u"تصویر آخرین مدرک تحصیلی", upload_to="education_certificates", null=True, blank=True)
-    is_confirmed    = models.BooleanField(u"تایید شده", default=False)
+    arbiter_interest = models.BooleanField(u"آیا تمایل به داوری نیز دارید؟", default=False)
+
+    is_confirmed    = models.NullBooleanField(u"وضعیت",)
 
     class Meta:
-        app_label ='account'
+        app_label = 'account'
         verbose_name = u"عضو خوشه"
-        verbose_name_plural =u"اعضای خوشه"
+        verbose_name_plural = u"اعضای خوشه"
 
     def __unicode__(self):
         return u"%s %s"%(self.user.first_name, self.user.last_name) if (
@@ -77,14 +79,14 @@ class Arbiter(Account):
     داور
     """
     user            = models.OneToOneField(User,related_name = "arbiter")
-    workplace       = models.CharField(u"نام محل کار", max_length=30)
-    field           = models.CharField(u"رشته", max_length=20)
-    professional    = models.CharField(u"گرایش تخصصی", max_length=20)
-    degree          = models.CharField(u"مرتبه علمی", max_length=20) # TODO : ابهام
-    office_phone    = models.CharField(u"تلفن مخل کار" , max_length=15)
+    workplace       = models.CharField(u"محل کار", max_length=30)
+    # field           = models.CharField(u"رشته", max_length=20)
+    # professional    = models.CharField(u"گرایش تخصصی", max_length=20)
+    # degree          = models.CharField(u"مرتبه علمی", max_length=20) # TODO : ابهام
+    # office_phone    = models.CharField(u"تلفن مخل کار" , max_length=15)
     fax             = models.CharField(u"فکس", max_length=15)
     interested_domain = models.ManyToManyField('Domain',related_name="arbiters",verbose_name=u"حوزه های مورد علاقه")
-    is_confirmed    = models.BooleanField(u"تایید شده",default=False)
+    is_confirmed    = models.NullBooleanField(u"تایید شده")
 
     class Meta:
         app_label ='account'
@@ -116,6 +118,14 @@ class Cluster(models.Model):
 
     user_domains= models.ManyToManyField(UserDomain, verbose_name=u"اعضا", related_name='clusters')
 
+    CLUSTER_DEGREE = (
+        (1, 'A'),
+        (2, 'B'),
+        (3, 'C'),
+        (4, 'D'),
+    )
+    degree = models.IntegerField(u"درجه", choices=CLUSTER_DEGREE, default=1)
+
     created_on  = models.DateField(u"تاریخ ایجاد", auto_now_add=True)
 
     class Meta:
@@ -138,6 +148,12 @@ class Cluster(models.Model):
                 link = None
             res.append((user_unicode,link))
         return res
+
+    def delete(self, using=None):
+        User.objects.filter(member__cluster=self).delete()
+        self.members.all().delete()
+        self.head.delete()
+        super(Cluster, self).delete(using)
 
 class Domain(models.Model):
     name = models.CharField(u"نام حوزه", max_length=40)

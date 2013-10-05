@@ -42,6 +42,7 @@ class DomainManager(ObjectsManager):
         columns = [
             ManagerColumn('name', u"نام حوزه", '10'),
             ManagerColumn('confirmed', u"تایید شده", '10'),
+            ManagerColumn('requester', u"درخواست دهنده", '10', True, True),
         ]
         return columns
 
@@ -49,3 +50,12 @@ class DomainManager(ObjectsManager):
         if PermissionController.is_admin(self.http_request.user):
             return True
         return False
+
+    def get_requester(self, data):
+        if not data.confirmed:
+            clusters = data.clusters.all()
+            if clusters:
+                link = u"/clusters/actions/?t=action&n=edit_cluster&i=%s" % clusters[0].id
+                return u"""<a onClick="MyWindow=window.open('%s','خوشه/فرد',width=800,height=600); return false;"href='#' class="jqgrid-a">%s</a>""" % (
+                    link, unicode(clusters[0]))
+        return None

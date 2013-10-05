@@ -4,10 +4,11 @@ from django.forms.models import inlineformset_factory
 from django.http import Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from cluster.project.forms import ProjectManagerForm, ProjectForm
-from cluster.project.models import Project, ProjectMilestone
+from cluster.project.forms import ProjectManagerForm, ProjectForm, AdminProjectManagerForm
+from cluster.project.models import Project, ProjectMilestone, ProjectComment
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.manager.action import ManagerAction
+from cluster.utils.messages import MessageServices
 
 __author__ = 'M.Y'
 
@@ -30,28 +31,54 @@ class ProjectCheckAction(ManagerAction):
     action_name = u'check_project'
     action_verbose_name = u"بررسی طرح"
     min_count = '1'
+    ActionForm = ProjectManagerForm
 
     def action_view(self, http_request, selected_instances):
         if not selected_instances:
             raise Http404()
 
         instance = selected_instances[0]
+        old_state = instance.project_status
+
+        inline_form = None
         if http_request.method == 'POST':
-            form = ProjectManagerForm(http_request.POST, instance=instance)
-            inline_form = ProjectMilestoneForm(http_request.POST, instance=instance, prefix='project_milestone')
-            if form.is_valid() and inline_form.is_valid():
-                form.save()
-                inline_form.save()
+            form = self.ActionForm(http_request.POST, instance=instance)
+            if instance.project_status > 1:
+                inline_form = ProjectMilestoneForm(http_request.POST, instance=instance, prefix='project_milestone')
+            inline_form_valid = True
+            if inline_form and not inline_form.is_valid():
+                inline_form_valid = False
+
+            if form.is_valid() and inline_form_valid:
+                if instance.project_status > 1:
+                    inline_form.save()
+                instance = form.save()
                 form = None
+                new_state = instance.project_status
+                if old_state != new_state:
+                    message = MessageServices.get_title_body_message(u"تغییر وضعیت طرح",
+                                                                     u"وضعیت طرح %s از %s به %s تغییر پیدا کرد." % (
+                                                                         instance.title, old_state, new_state))
+                    if instance.single_member:
+                        user = instance.single_member.user
+                    else:
+                        user = instance.cluster.head.user
+                    MessageServices.send_message(u"تغییر وضعیت طرح", message, user)
+
                 messages.success(http_request, u"بررسی طرح با موفقیت انجام شد.")
         else:
-            form = ProjectManagerForm(instance=instance)
-            inline_form = ProjectMilestoneForm(instance=instance, prefix='project_milestone')
+            form = self.ActionForm(instance=instance)
+            if instance.project_status > 1:
+                inline_form = ProjectMilestoneForm(instance=instance, prefix='project_milestone')
 
         return render_to_response('project/check_project.html',
                                   {'form': form, 'inline_form': inline_form, 'title': u"بررسی طرح",
                                    'project': instance},
                                   context_instance=RequestContext(http_request))
+
+
+class AdminProjectCheckAction(ProjectCheckAction):
+    ActionForm = AdminProjectManagerForm
 
 
 class ProjectDetailAction(ManagerAction):
@@ -73,13 +100,18 @@ class ProjectDetailAction(ManagerAction):
         inline_form = ProjectMilestoneForm(instance=instance, prefix='project_milestone')
         inline_form.readonly = True
 
+        if http_request.method == 'POST':
+            comment_txt = http_request.POST.get('project-comment-text')
+            if comment_txt:
+                ProjectComment.objects.create(user=http_request.user, comment=comment_txt, project=instance)
+
         project = None
         if self.for_admin:
             project = instance
 
         return render_to_response('project/show_project.html',
                                   {'form': form, 'inline_form': inline_form, 'title': u"جزئیات طرح",
-                                   'project': project},
+                                   'project': project, 'comments': instance.comments.all()},
                                   context_instance=RequestContext(http_request))
 
 
@@ -103,8 +135,11 @@ class EditProjectAction(ManagerAction):
             form = ProjectManagerForm(instance=instance)
             for field in form.fields:
                 form.fields[field].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})
-            inline_form = ProjectMilestoneForm(instance=instance, prefix='project_milestone')
-            inline_form.readonly = True
+
+            inline_form = None
+            if instance.project_status > 1:
+                inline_form = ProjectMilestoneForm(instance=instance, prefix='project_milestone')
+                inline_form.readonly = True
             messages.error(http_request, u"طرح شما تایید شده است و امکان ویرایش آن وجود ندارد.")
             return render_to_response('project/show_project.html',
                                       {'form': form, 'inline_form': inline_form, 'title': u"جزئیات طرح"},

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
+from django.contrib.auth.models import User
 from django.db import models, transaction
-from cluster.account.account.models import Member, Cluster, Domain
+from cluster.account.account.models import Member, Cluster, Domain, Arbiter
 from cluster.utils.calverter import gregorian_to_jalali
 from cluster.utils.messages import MessageServices
 from cluster.utils.permissions import PermissionController
@@ -26,7 +27,8 @@ class Project(models.Model):
         (-1, u"رد شده"),
         (0, u"در مرحله درخواست"),
         (1, u"تایید مرحله اول"),
-        (2, u"تایید مرحله دوم"),
+        (2, u"تاییدشده توسط داور"),
+        (3, u"تایید مرحله دوم"),
 
     )
     title = models.CharField(u"عنوان طرح", max_length=300)
@@ -48,6 +50,9 @@ class Project(models.Model):
 
     single_member = models.ForeignKey(Member, verbose_name=u"عضو", null=True, blank=True)
     cluster = models.ForeignKey(Cluster, verbose_name=u"خوشه", null=True, blank=True)
+
+    arbiter = models.ForeignKey(Arbiter, verbose_name=u"داوری مربوطه", null=True, blank=True)
+    score = models.FloatField(verbose_name=u"امتیاز", null=True, blank=True)
 
     class Meta:
         verbose_name = u"طرح"
@@ -89,7 +94,7 @@ class ProjectMilestone(models.Model):
                  موعد  %s  مربوط به طرح %s  برای زمان  %s
             """ % (milestone.comment, milestone.project.title, gregorian_to_jalali(milestone.milestone_date))
             Message.send_message(admin_users[0], title=u"موعدهای گذشته یا نزدیک", body=body, receivers=[receiver])
-            message = MessageServices.get_milestone_announce(title=u"موعد طرح زیر گذشته یا نزدیک است:",
+            message = MessageServices.get_title_body_message(title=u"موعد طرح زیر گذشته یا نزدیک است:",
                                                              body=section)
             MessageServices.send_message(subject=u"موعد طرح", message=message, user=receiver)
             body += '\n' + unicode(i) + u'- ' + section.strip()
@@ -98,7 +103,25 @@ class ProjectMilestone(models.Model):
             milestone.save()
             Message.send_message(admin_users[0], title=u"موعدهای گذشته یا نزدیک", body=body, receivers=admin_users)
 
-            message = MessageServices.get_milestone_announce(title=u"موعد های طرح های زیر گذشته اند یا نزدیک هستند:",
+        message = MessageServices.get_title_body_message(title=u"موعد های طرح های زیر گذشته اند یا نزدیک هستند:",
                                                          body=body)
             for user in admin_users:
                 MessageServices.send_message(subject=u"موعدهای طرح", message=message, user=user)
+
+
+class ProjectComment(models.Model):
+    created_on = models.DateField(verbose_name=u"تاریخ ایجاد", auto_now_add=True)
+    comment = models.TextField(verbose_name=u"کامنت", max_length=1000)
+    project = models.ForeignKey(Project, verbose_name=u"طرح", related_name='comments')
+    user = models.ForeignKey(User, verbose_name=u"کاربر مربوطه")
+
+    class Meta:
+        verbose_name = u"کامنت طرح"
+        verbose_name_plural = u"کامنت های طرح"
+
+    def __unicode__(self):
+        return self.comment
+
+
+
+

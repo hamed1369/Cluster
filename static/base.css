@@ -419,7 +419,7 @@ ul.art-vmenu>li>a {
 
 }
 
-input[name$=email], input[name$=username], input[name*=phone], input[name*=mobile], input[name*=fax], input[name*=national_code], input[name*=identification_number], input[name$=password] {
+input[name$=email], input[name$=username], input[name*=phone], input[name*=mobile], input[name*=fax], input[name*=national_code], input[name$=password] {
     direction: ltr;
 }
 

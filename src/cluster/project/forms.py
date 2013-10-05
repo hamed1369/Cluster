@@ -17,7 +17,7 @@ class ProjectForm(ClusterBaseModelForm):
 
     class Meta:
         model = Project
-        exclude = ('single_member', 'cluster', 'project_status')
+        exclude = ('single_member', 'cluster', 'project_status', 'arbiter', 'score')
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
@@ -74,7 +74,7 @@ class ProjectForm(ClusterBaseModelForm):
 class ProjectManagerForm(ProjectForm):
     class Meta:
         model = Project
-        exclude = ('single_member', 'cluster')
+        exclude = ('single_member', 'cluster', 'arbiter', 'score')
 
     def __init__(self, *args, **kwargs):
         kwargs['user'] = None
@@ -90,3 +90,47 @@ class ProjectManagerForm(ProjectForm):
         instance = super(ProjectForm, self).save(commit)
         return instance
 
+
+class ProjectManagerForm(ProjectForm):
+    class Meta:
+        model = Project
+        exclude = ('single_member', 'cluster', 'arbiter', 'score')
+
+    def __init__(self, *args, **kwargs):
+        kwargs['user'] = None
+        super(ProjectManagerForm, self).__init__(*args, **kwargs)
+        if 'agreement' in self.fields:
+            del self.fields['agreement']
+        self.fields.keyOrder = ['title', 'has_confirmation', 'confirmation_type', 'certificate_image', 'has_patent',
+                                'patent_number', 'patent_date', 'patent_certificate', 'patent_request', 'domain',
+                                'summary', 'keywords', 'innovations', 'state', 'project_status']
+        self.fields['project_status'].choices = (
+            (1, u"تایید مرحله اول"),
+            (2, u"تاییدشده توسط داور"),
+        )
+        process_js_validations(self)
+
+    def save(self, commit=True):
+        instance = super(ProjectForm, self).save(commit)
+        return instance
+
+
+class AdminProjectManagerForm(ProjectManagerForm):
+    class Meta:
+        model = Project
+        exclude = ('single_member', 'cluster')
+
+    def __init__(self, *args, **kwargs):
+        kwargs['user'] = None
+        super(AdminProjectManagerForm, self).__init__(*args, **kwargs)
+        if 'agreement' in self.fields:
+            del self.fields['agreement']
+        self.fields.keyOrder = ['title', 'has_confirmation', 'confirmation_type', 'certificate_image', 'has_patent',
+                                'patent_number', 'patent_date', 'patent_certificate', 'patent_request', 'domain',
+                                'summary', 'keywords', 'innovations', 'state', 'project_status', 'arbiter', 'score']
+        if self.instance and self.instance.id:
+            if self.instance.project_status != 1:
+                self.fields['arbiter'].is_hidden = True
+                self.fields['score'].is_hidden = True
+
+        process_js_validations(self)

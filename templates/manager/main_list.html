@@ -48,7 +48,8 @@
         ],
         colModel: [
             {% for column in manager.columns %}
-                { name: "{{ column.column_name }}", width: '{{ column.column_width }}', align: "right"{% if column.allow_html %},formatter:HTMLFormatter{% endif %} }
+                { name: "{{ column.column_name }}", width: '{{ column.column_width }}', align: "right"
+                    {% if column.allow_html %},formatter: HTMLFormatter{% endif %} }
                 {% if not forloop.last %}
                     ,
                 {% endif %}
@@ -90,7 +91,7 @@
     });
     $manager.jqGrid('navGrid', '#manager_pager',
             {position: "right", edit: false, add: false, del: false, search: false, refresh: true });
-    function HTMLFormatter( cellvalue, options, rowObject ){
+    function HTMLFormatter(cellvalue, options, rowObject) {
         return cellvalue;
     }
     $('.filter-submit').click(function () {
@@ -146,6 +147,15 @@
             });
             return true;
         }
+        return false;
+    });
+    $('#t_manager_list').append('<a href="javascript:void(0)" class="manager-excel" title="دریافت نسخه اکسل"></a>');
+
+    $('.manager-excel').click(function () {
+        var new_url = '/{{ manager.manager_name }}/actions/?t=excel';
+        var serialize_form = $('.filter-form').serialize();
+        new_url = new_url + '&' + serialize_form;
+        window.open(new_url, '_blank');
         return false;
     });
 

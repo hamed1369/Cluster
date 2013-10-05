@@ -47,6 +47,8 @@ class Filter(object):
         else:
             all_data = all_data.filter(**kwargs).distinct()
 
+        self.all_data = all_data
+
         p = Paginator(all_data, self.data_per_page)
         self.total_pages = p.num_pages
         self.total_data = p.count

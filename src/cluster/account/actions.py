@@ -4,10 +4,11 @@ from django.contrib import messages
 from django.http import Http404
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
-from cluster.account.account.models import Member
+from cluster.account.account.models import Member, Cluster
 from cluster.registration.handlers import ClusterHandler
 from cluster.utils.forms import ClusterBaseForm
 from cluster.utils.manager.action import ManagerAction
+from cluster.utils.messages import MessageServices
 
 __author__ = 'M.Y'
 
@@ -58,12 +59,14 @@ class ClusterConfirmAction(ManagerAction):
         field_val = selected_instances[0].head.is_confirmed
 
         class ConfirmForm(forms.Form):
-            confirm = forms.BooleanField(label=field_label, initial=field_val, required=False)
+            confirm = forms.NullBooleanField(label=field_label, initial=field_val, required=False)
+            degree = forms.ChoiceField(label=u"درجه", choices=Cluster.CLUSTER_DEGREE, required=True)
 
         if http_request.method == 'POST':
             form = ConfirmForm(http_request.POST)
             if form.is_valid():
                 confirm = form.cleaned_data.get('confirm')
+                degree = form.cleaned_data.get('degree')
                 for user_domain in selected_instances[0].user_domains.all():
                     try:
                         user_domain.user.member.is_confirmed = confirm
@@ -72,6 +75,26 @@ class ClusterConfirmAction(ManagerAction):
                         pass
                 selected_instances[0].head.is_confirmed = confirm
                 selected_instances[0].head.save()
+                selected_instances[0].degree = degree
+                selected_instances[0].save()
+
+                if confirm is True:
+                    message = MessageServices.get_title_body_message(u"تایید خوشه",
+                                                                     u"وضعیت خوشه شما با نام  %s به تاییدشده تغییر یافت.\n هم اکنون شما میتوانید در سامانه فعالیت داشته باشید." %
+                                                                     selected_instances[0].name)
+                elif confirm is False:
+                    message = MessageServices.get_title_body_message(u"تغییر وضعیت خوشه",
+                                                                     u"عضویت خوشه شما با نام %s  در سامانه از طرف مدیریت رد  شد. شما دیگر نمیتوانید در سامانه فعالیت داشته باشید." %
+                                                                     selected_instances[0].name)
+                else:
+                    message = MessageServices.get_title_body_message(u"تغییر وضعیت خوشه",
+                                                                     u"وضعیت خوشه شما با نام  %s به نامشخص تغییر یافت." %
+                                                                     selected_instances[0].name)
+
+                MessageServices.send_message(u"تغییر وضعیت خوشه", message, selected_instances[0].head.user)
+                if confirm is False:
+                    selected_instances[0].delete()
+
                 form = None
                 messages.success(http_request, u"%s با موفقیت انجام شد." % self.form_title)
         else:
@@ -122,3 +145,13 @@ class EditClusterAction(ManagerAction):
         c = handler.get_context()
         return render_to_response('accounts/edit_member_action.html', c,
                                   context_instance=RequestContext(http_request))
+
+
+def on_no_cluster_member_confirm_change(instance, confirm):
+    if confirm:
+        message = MessageServices.get_title_body_message(u"تغییر وضعیت عضویت",
+                                                         u"وضعیت عضویت شما به تاییدنشده تغییر یافت.")
+    else:
+        message = MessageServices.get_title_body_message(u"تایید عضویت",
+                                                         u"وضعیت عضویت شما به تاییدشده تغییر یافت.")
+    MessageServices.send_message(u"تغییر وضعیت خوشه", message, instance.user)
