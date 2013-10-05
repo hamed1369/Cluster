@@ -165,6 +165,35 @@ body{
     font-size: 12px;
     font-family: Tahoma;
 }
+#top-buttons{
+    width: 100%;
+    background-color: #2d2d2d;
+    color: white;
+}
+#top-buttons-inner{
+    width: 920px;
+    position: relative;
+    margin: 0 auto;
+    height: 30px;
+    direction: rtl;
+}
+#top-menu-ul{
+    margin: 0;
+    margin-right: -30px;
+    list-style: none;
+    font-size: 17px;
+    font-weight: bold;
+}
+#top-menu-ul li{
+    margin-left: 30px;
+    display: inline;
+}
+#top-menu-ul li a{
+    color: white;
+}
+#top-menu-ul li a:hover{
+    color: #0480be;
+}
 #introduction{
     width: 100%;
     background-color: #696969;
@@ -316,7 +345,7 @@ body{
 }
 /*slide 2*/
 #slide-2{
-    background-image: url(../images/project2.jpg);
+    background-image: url(../images/project3.jpg);
 }
 #slide-2 .slide-paragraph{
     font-size: 20px;

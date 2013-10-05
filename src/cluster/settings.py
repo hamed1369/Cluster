@@ -158,13 +158,13 @@ LOGGING = {
         },
     }
 }
-DEFAULT_FROM_EMAIL = 'persianelitesinfo@gmail.com'
-SERVER_EMAIL = 'persianelitesinfo@gmail.com'
+DEFAULT_FROM_EMAIL = 'persianelitesinfo@persianelites.ir'
+SERVER_EMAIL = 'persianelitesinfo@persianelites.ir'
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'persianelites.ir'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'persianelitesinfo@gmail.com'
-EMAIL_HOST_PASSWORD = '!persianelitesinfo'
+#EMAIL_HOST_USER = 'persianelitesinfo@persianelites.ir'
+#EMAIL_HOST_PASSWORD = '!persianelitesinfo'
 
 #DEFAULT_FROM_EMAIL = 'persianelitesinfo@persianelites.com'
 # SERVER_EMAIL = 'persianelitesinfo@gmail.com'

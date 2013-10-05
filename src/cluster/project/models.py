@@ -3,6 +3,7 @@ from django.db import models, transaction
 from cluster.account.account.models import Member, Cluster, Domain
 from cluster.utils.calverter import gregorian_to_jalali
 from cluster.utils.messages import MessageServices
+from cluster.utils.permissions import PermissionController
 
 
 class Project(models.Model):
@@ -69,7 +70,7 @@ class ProjectMilestone(models.Model):
 
     @classmethod
     @transaction.commit_on_success
-    def check_milestones(cls, user):
+    def check_milestones(cls):
         import datetime
         from cluster.message.models import Message
 
@@ -82,11 +83,12 @@ class ProjectMilestone(models.Model):
         if not milestones:
             return
         for milestone in milestones:
+            admin_users = PermissionController.get_admins()
             receiver = milestone.project.single_member.user if milestone.project.single_member else milestone.project.cluster.head.user
             section = u"""
                  موعد  %s  مربوط به طرح %s  برای زمان  %s
             """ % (milestone.comment, milestone.project.title, gregorian_to_jalali(milestone.milestone_date))
-            Message.send_message(user, title=u"موعدهای گذشته یا نزدیک", body=body, receivers=[receiver])
+            Message.send_message(admin_users[0], title=u"موعدهای گذشته یا نزدیک", body=body, receivers=[receiver])
             message = MessageServices.get_milestone_announce(title=u"موعد طرح زیر گذشته یا نزدیک است:",
                                                              body=section)
             MessageServices.send_message(subject=u"موعد طرح", message=message, user=receiver)
@@ -94,9 +96,9 @@ class ProjectMilestone(models.Model):
             i += 1
             milestone.is_announced = True
             milestone.save()
+            Message.send_message(admin_users[0], title=u"موعدهای گذشته یا نزدیک", body=body, receivers=admin_users)
 
-        Message.send_message(user, title=u"موعدهای گذشته یا نزدیک", body=body, receivers=[user])
-
-        message = MessageServices.get_milestone_announce(title=u"موعد های طرح های زیر گذشته اند یا نزدیک هستند:",
+            message = MessageServices.get_milestone_announce(title=u"موعد های طرح های زیر گذشته اند یا نزدیک هستند:",
                                                          body=body)
-        MessageServices.send_message(subject=u"موعدهای طرح", message=message, user=user)
+            for user in admin_users:
+                MessageServices.send_message(subject=u"موعدهای طرح", message=message, user=user)
