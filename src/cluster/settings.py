@@ -161,9 +161,11 @@ LOGGING = {
 }
 DEFAULT_FROM_EMAIL = 'persianelitesinfo@persianelites.ir'
 SERVER_EMAIL = 'persianelitesinfo@persianelites.ir'
-EMAIL_USE_TLS = True
+EMAIL_USE_TLS = False
+EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_USER = ''
 EMAIL_HOST = 'localhost'
-EMAIL_PORT = 587
+EMAIL_PORT = 25
 #EMAIL_HOST_USER = 'persianelitesinfo@persianelites.ir'
 #EMAIL_HOST_PASSWORD = '!persianelitesinfo'
 
