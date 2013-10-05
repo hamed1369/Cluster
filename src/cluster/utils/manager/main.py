@@ -186,7 +186,7 @@ class ObjectsManager(object):
             import StringIO
 
         columns = self.get_excel_columns()
-        table = self._create_data_table(self.page_data, columns)
+        table = self._create_data_table(self.filter_obj.all_data, columns)
 
         output = StringIO.StringIO()
         workbook = xlsxwriter.Workbook(output)
