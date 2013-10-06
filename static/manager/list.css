@@ -113,6 +113,10 @@ input.ui-button {
     float: none;
 }
 
+.ui-th-rtl, .ui-jqgrid .ui-jqgrid-htable th.ui-th-rtl {
+    text-align: center;
+}
+
 .manager-excel {
     float: left;
     width: 32px;

@@ -64,7 +64,12 @@
         gridview: true,
         autoencode: true,
         shrinkToFit: true,
-        height: 310,
+        height: {{ manager.height }},
+        {% if manager.aggregation %}
+            footerrow: true,
+            userDataOnFooter: true,
+            altRows: true,
+        {% endif %}
         width: width,
         {% if manager.actions %}
             multiselect: true,
@@ -149,7 +154,20 @@
         }
         return false;
     });
+    {% if manager.get_group_headers %}
+        $manager.jqGrid('setGroupHeaders', {
+            useColSpanStyle: true,
+            groupHeaders: [
+                {% for header in manager.get_group_headers %}
+                    {startColumnName: '{{ header.start_column_name }}', numberOfColumns: {{ header.number_column }}, titleText: '{{ header.title }}'}
+                    {% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ]
+        });
+    {% endif %}
+
     $('#t_manager_list').append('<a href="javascript:void(0)" class="manager-excel" title="دریافت نسخه اکسل"></a>');
+
 
     $('.manager-excel').click(function () {
         var new_url = '/{{ manager.manager_name }}/actions/?t=excel';

@@ -104,6 +104,8 @@ MENU_MAPPERS = {
         MenuMapper('/feedback_manager/', u" نظرات و پیشنهادات"),
         MenuMapper('/news_manager/', u" اخبار"),
         MenuMapper('/messages/', u"جعبه پیام"),
+        MenuMapper('/domains_aggregation/', u"گزارش تجمیعی حوزه ها"),
+        MenuMapper('/members_aggregation/', u"گزارش تجمیعی اعضا"),
     ],
     'arbiter': [
         MenuMapper('/', u"صفحه اصلی"),

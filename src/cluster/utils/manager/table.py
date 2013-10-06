@@ -6,10 +6,11 @@ __author__ = 'M.Y'
 
 
 class Cell(object):
-    def __init__(self, name, value, width):
+    def __init__(self, name, value, width, aggregation):
         self.value = value
         self.width = width
         self.name = name
+        self.aggregation = aggregation
 
 
 class Row(object):
@@ -19,8 +20,8 @@ class Row(object):
     def add_cell(self, cell):
         self.cells.append(cell)
 
-    def create_cell(self, name, value, width):
-        self.cells.append(Cell(name, value, width))
+    def create_cell(self, name, value, width, aggregation):
+        self.add_cell(Cell(name, value, width, aggregation))
 
     def get_cells_dict(self):
         cells_dict = SortedDict()
@@ -39,8 +40,15 @@ class Header(object):
     def add_cell(self, cell):
         self.cells.append(cell)
 
-    def create_cell(self, name, value, width):
-        self.cells.append(Cell(name, value, width))
+    def create_cell(self, name, width, aggregation):
+        self.add_cell(Cell(name, 0, width, aggregation))
+
+    def aggregate(self, row):
+        i = 0
+        for cell in row:
+            if cell.aggregation:
+                self.cells[i].value += int(cell.value)
+            i += 1
 
     def __iter__(self):
         return iter(self.cells)
@@ -56,8 +64,9 @@ class Table(object):
 
     def add_row(self, row):
         self.rows.append(row)
+        self.header.aggregate(row)
 
-    def get_dgrid_json(self, total_page, current_page, all_data_count):
+    def get_dgrid_json(self, total_page, current_page, all_data_count, aggregation=False):
         json_dict = SortedDict({
             "total": total_page,
             "page": current_page,
@@ -67,6 +76,14 @@ class Table(object):
         for row in self.rows:
             json_rows.append(row.get_cells_dict())
         json_dict['rows'] = json_rows
+
+        footer_row = {}
+        for cell in self.header:
+            footer_row[cell.name] = cell.value
+        footer_row.update({self.header.cells[1].name: u"مجموع:"})
+
+        if aggregation:
+            json_dict["userdata"] = footer_row
 
         json = simplejson.dumps(json_dict)
 

@@ -34,12 +34,21 @@ class ManagerRegister(type):
 
 
 class ManagerColumn(object):
-    def __init__(self, column_name, column_verbose_name, column_width, is_variable=False, allow_html=False):
+    def __init__(self, column_name, column_verbose_name, column_width, is_variable=False, allow_html=False,
+                 aggregation=False):
         self.column_name = column_name
         self.column_verbose_name = column_verbose_name
         self.column_width = column_width
         self.is_variable = is_variable
         self.allow_html = allow_html
+        self.aggregation = aggregation
+
+
+class ManagerGroupHeader(object):
+    def __init__(self, start_column_name, number_column, title):
+        self.start_column_name = start_column_name
+        self.number_column = number_column
+        self.title = title
 
 
 class ObjectsManager(object):
@@ -54,8 +63,12 @@ class ObjectsManager(object):
         # type_of_field = str|bool|m2o|m2m|pdate
     )
     data_per_page = 10
+    aggregation = False
 
     actions = []
+
+    # view quality attributes
+    height = 310
 
     def __init__(self, http_request):
         self.http_request = http_request
@@ -103,7 +116,8 @@ class ObjectsManager(object):
 
     def process_json(self):
         table = self._create_data_table(self.page_data)
-        json = table.get_dgrid_json(self.filter_obj.total_pages, self.filter_obj.page_num, self.filter_obj.total_data)
+        json = table.get_dgrid_json(self.filter_obj.total_pages, self.filter_obj.page_num, self.filter_obj.total_data,
+                                    self.aggregation)
         return HttpResponse(json, mimetype='application/json')
 
     def process_manages_actions(self):
@@ -126,7 +140,7 @@ class ObjectsManager(object):
         table = Table()
         header = Header()
         for column in columns:
-            header.create_cell(column.column_name, column.column_verbose_name, column.column_width)
+            header.create_cell(column.column_name, column.column_width, column.aggregation)
 
         table.set_header(header)
         for data in page_data:
@@ -151,7 +165,7 @@ class ObjectsManager(object):
                     value = unicode(value)
                 if value is None or value == 'None':
                     value = u"---"
-                row.create_cell(column.column_name, value, column.column_width)
+                row.create_cell(column.column_name, value, column.column_width, column.aggregation)
             table.add_row(row)
         return table
 
@@ -222,4 +236,7 @@ class ObjectsManager(object):
         return response
 
     def get_excel_columns(self):
+        return []
+
+    def get_group_headers(self):
         return []
