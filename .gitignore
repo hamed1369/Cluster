@@ -5,3 +5,4 @@
 src/cluster/local_settings.py
 *.db
 *.orig
+media/*
