@@ -36,18 +36,20 @@ class Row(object):
 class Header(object):
     def __init__(self):
         self.cells = []
+        self.sums = []
 
     def add_cell(self, cell):
         self.cells.append(cell)
 
-    def create_cell(self, name, width, aggregation):
-        self.add_cell(Cell(name, 0, width, aggregation))
+    def create_cell(self, name, value, width, aggregation):
+        self.add_cell(Cell(name, value, width, aggregation))
+        self.sums.append(0)
 
     def aggregate(self, row):
         i = 0
         for cell in row:
             if cell.aggregation:
-                self.cells[i].value += int(cell.value)
+                self.sums[i] += int(cell.value)
             i += 1
 
     def __iter__(self):
@@ -78,8 +80,10 @@ class Table(object):
         json_dict['rows'] = json_rows
 
         footer_row = {}
+        i = 0
         for cell in self.header:
-            footer_row[cell.name] = cell.value
+            footer_row[cell.name] = self.header.sums[i]
+            i += 1
         footer_row.update({self.header.cells[1].name: u"مجموع:"})
 
         if aggregation:

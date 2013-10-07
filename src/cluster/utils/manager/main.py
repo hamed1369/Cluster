@@ -140,7 +140,7 @@ class ObjectsManager(object):
         table = Table()
         header = Header()
         for column in columns:
-            header.create_cell(column.column_name, column.column_width, column.aggregation)
+            header.create_cell(column.column_name, column.column_verbose_name, column.column_width, column.aggregation)
 
         table.set_header(header)
         for data in page_data:
@@ -208,22 +208,20 @@ class ObjectsManager(object):
         worksheet.right_to_left()
 
         bold = workbook.add_format({'bold': True})
-        i = 0
+        i = 1
         letters = string.uppercase
         for cell in table.header:
-            if i != 0:
-                column_head = letters[i - 1]
-                worksheet.set_column(column_head + ':' + column_head, int(cell.width) * 2)
-                worksheet.write_string(0, i - 1, strip_tags(cell.value), bold)
+            column_head = letters[i - 1]
+            worksheet.set_column(column_head + ':' + column_head, int(cell.width) * 2)
+            worksheet.write_string(0, i - 1, strip_tags(cell.value), bold)
             i += 1
 
         row_i = 1
         align_format = workbook.add_format({'align': 'right'})
         for row in table:
-            cell_i = 1
+            cell_i = 0
             for cell in row:
-                if cell_i != 1:
-                    worksheet.write_string(row_i, cell_i - 2, strip_tags(cell.value), align_format)
+                worksheet.write_string(row_i, cell_i, strip_tags(cell.value), align_format)
                 cell_i += 1
             row_i += 1
 

@@ -90,7 +90,7 @@ class MemberManager(ObjectsManager):
             ManagerColumn('military_place', u"محل خدمت", '10'),
             ManagerColumn('exemption_type', u"نوع معافیت", '10'),
             ManagerColumn('foundation_of_elites', u"عضویت در بنیاد ملی نخبگان", '10'),
-            ManagerColumn('arbiter_interest', u"آیا تمایل به داوری نیز دارید?", '10'),
+            ManagerColumn('arbiter_interest', u"آیا تمایل به داوری نیز دارید؟", '10'),
             ManagerColumn('created_on', u"تاریخ ثبت نام", '10'),
             ]
         return columns
