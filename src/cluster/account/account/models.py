@@ -32,6 +32,7 @@ class Account(models.Model):
     class Meta:
         abstract = True
 
+
 class Member(Account):
 
     EMPLOYMENT_STATUS =(
@@ -73,6 +74,9 @@ class Member(Account):
         return u"%s %s"%(self.user.first_name, self.user.last_name) if (
             self.user.first_name and self.user.last_name) else u"%s" % self.user.username
 
+    def delete(self, using=None):
+        self.user.delete()
+        super(Member, self).delete()
 
 class Arbiter(Account):
     u"""
@@ -122,9 +126,8 @@ class Cluster(models.Model):
         (1, 'A'),
         (2, 'B'),
         (3, 'C'),
-        (4, 'D'),
     )
-    degree = models.IntegerField(u"درجه", choices=CLUSTER_DEGREE, default=1)
+    degree = models.IntegerField(u"درجه", choices=CLUSTER_DEGREE, default=3)
 
     created_on  = models.DateField(u"تاریخ ایجاد", auto_now_add=True)
 
@@ -150,7 +153,6 @@ class Cluster(models.Model):
         return res
 
     def delete(self, using=None):
-        User.objects.filter(member__cluster=self).delete()
         self.members.all().delete()
         self.head.delete()
         super(Cluster, self).delete(using)

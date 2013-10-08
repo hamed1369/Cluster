@@ -52,7 +52,9 @@ class ManagerGroupHeader(object):
 
 
 class ObjectsManager(object):
+    # private fields
     __metaclass__ = ManagerRegister
+    __all_data_cashed = None
 
     manager_name = ""
     manager_verbose_name = ""
@@ -75,7 +77,7 @@ class ObjectsManager(object):
         self.columns = self.get_columns()
         rows = http_request.GET.get('rows') or self.data_per_page
         self.filter_obj = Filter(self.http_request, self.filter_form, self.filter_handlers, rows)
-        all_data = self.get_all_data()
+        all_data = self.get_all_data_cashed()
         self.filter_form, self.page_data = self.filter_obj.process_filter(all_data)
 
     def get_all_data(self):
@@ -83,6 +85,11 @@ class ObjectsManager(object):
             این تابع باید داده ها را برای لیست کردن برگرداند
         """
         return []
+
+    def get_all_data_cashed(self):
+        if self.__all_data_cashed is None:
+            self.__all_data_cashed = self.get_all_data()
+        return self.__all_data_cashed
 
     def get_columns(self):
         columns = [
@@ -183,7 +190,7 @@ class ObjectsManager(object):
             except ValueError:
                 return []
             instances = []
-            all_data = self.get_all_data()
+            all_data = self.get_all_data_cashed()
             for data in all_data:
                 if data.id in instances_id:
                     instances.append(data)
