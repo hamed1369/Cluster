@@ -170,12 +170,16 @@ LOGGING = {
 #EMAIL_HOST_PASSWORD = '!persianelitesinfo'
 
 #DEFAULT_FROM_EMAIL = 'persianelitesinfo@persianelites.com'
-SERVER_EMAIL = 'persianelitesinfo@gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'persianelitesinfo@gmail.com'
-EMAIL_HOST_PASSWORD = '!persianelitesinfo'
+#SERVER_EMAIL = 'persianelitesinfo@gmail.com'
+#EMAIL_USE_TLS = True
+#EMAIL_HOST = 'smtp.gmail.com'
+#EMAIL_PORT = 587
+#EMAIL_HOST_USER = 'persianelitesinfo@gmail.com'
+#EMAIL_HOST_PASSWORD = '!persianelitesinfo'
+SERVER_EMAIL = 'info@persianelites.com'
+EMAIL_USE_TLS = False
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
 
 
 #captcha
