@@ -110,3 +110,31 @@ class MessageServices(object):
         return mark_safe(message)
 
 
+class SMSService(object):
+    from_number = 30004934000555
+    signature = u'موسسه‌پژوهشی‌نگاه‌نو'
+
+    WSID = 30004934000555
+    username = 'tahmooresi'
+    password = 44655288
+
+    @classmethod
+    def send_sms(cls, message, to_numbers):
+        from suds.client import Client
+
+        client = Client(url="http://www.lpsms.ir/SMSWS/SOAPWebService.asmx?WSDL")
+        numbers = client.factory.create('ArrayOfString')
+        numbers.string = to_numbers
+        params = {
+            'WSID': 324,
+            'UserName': cls.username,
+            'Password': cls.password,
+            'RecipientNumber': numbers,
+            'MessageBody': message,
+            'SpecialNumber': cls.from_number,
+            'IsFlashMessage': False,
+
+        }
+        response = client.service.SendArray(**params)
+        print response
+        print response.__printer__.__dict__
