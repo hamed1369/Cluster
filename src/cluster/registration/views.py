@@ -8,7 +8,7 @@ from django.template.context import RequestContext
 from cluster.account.account.models import Cluster, Arbiter
 from cluster.registration.forms import ArbiterForm
 from cluster.registration.handlers import ClusterHandler
-from cluster.utils.messages import MessageServices
+from cluster.utils.messages import MessageServices, SMSService
 
 
 def handle_register_view(request, cluster_id=None):
@@ -25,9 +25,11 @@ def handle_register_view(request, cluster_id=None):
     if register_handler.is_valid_forms():
         member = register_handler.save_forms()
 
-        message = MessageServices.get_title_body_message(u"ثبت نام شما با موفقیت انجام شد.",
-                                                         u"توجه داشته باشید که تا زمان تاییدشدن عضویت شدن توسط مدیر سامانه شما نمیتوانید فعالیتی در سامانه داشته باشید.")
+        subject = u"ثبت نام شما با موفقیت انجام شد."
+        message_body = u"توجه داشته باشید که تا زمان تاییدشدن عضویت شدن توسط مدیر سامانه شما نمیتوانید فعالیتی در سامانه داشته باشید."
+        message = MessageServices.get_title_body_message(subject, message_body)
         MessageServices.send_message(u"ثبت نام در سامانه موسسه پژوهشی نگاه نو", message, member.user)
+        SMSService.send_sms(subject + '\n' + message_body, [member.mobile])
 
         messages.success(request, u"ثبت نام شما با موفقیت انجام شد.")
         return HttpResponseRedirect(reverse('login'))

@@ -8,7 +8,7 @@ from cluster.account.account.models import Member, Cluster
 from cluster.registration.handlers import ClusterHandler
 from cluster.utils.forms import ClusterBaseForm
 from cluster.utils.manager.action import ManagerAction
-from cluster.utils.messages import MessageServices
+from cluster.utils.messages import MessageServices, SMSService
 
 __author__ = 'M.Y'
 
@@ -79,19 +79,21 @@ class ClusterConfirmAction(ManagerAction):
                 selected_instances[0].save()
 
                 if confirm is True:
-                    message = MessageServices.get_title_body_message(u"تایید خوشه",
-                                                                     u"وضعیت خوشه شما با نام  %s به تاییدشده تغییر یافت.\n هم اکنون شما میتوانید در سامانه فعالیت داشته باشید." %
-                                                                     selected_instances[0].name)
+                    message_body = u"وضعیت خوشه شما با نام  %s به تاییدشده تغییر یافت.\n هم اکنون شما میتوانید در سامانه فعالیت داشته باشید." % (
+                        selected_instances[0].name)
+                    message = MessageServices.get_title_body_message(u"تایید خوشه", message_body)
+
                 elif confirm is False:
-                    message = MessageServices.get_title_body_message(u"تغییر وضعیت خوشه",
-                                                                     u"عضویت خوشه شما با نام %s  در سامانه از طرف مدیریت رد  شد. شما دیگر نمیتوانید در سامانه فعالیت داشته باشید." %
-                                                                     selected_instances[0].name)
+                    message_body = u"عضویت خوشه شما با نام %s  در سامانه از طرف مدیریت رد  شد. شما دیگر نمیتوانید در سامانه فعالیت داشته باشید." % (
+                        selected_instances[0].name)
+                    message = MessageServices.get_title_body_message(u"تغییر وضعیت خوشه", message_body)
                 else:
-                    message = MessageServices.get_title_body_message(u"تغییر وضعیت خوشه",
-                                                                     u"وضعیت خوشه شما با نام  %s به نامشخص تغییر یافت." %
-                                                                     selected_instances[0].name)
+                    message_body = u"وضعیت خوشه شما با نام  %s به نامشخص تغییر یافت." % (
+                        selected_instances[0].name)
+                    message = MessageServices.get_title_body_message(u"تغییر وضعیت خوشه", message_body)
 
                 MessageServices.send_message(u"تغییر وضعیت خوشه", message, selected_instances[0].head.user)
+                SMSService.send_sms(message_body, [selected_instances[0].head.mobile])
                 if confirm is False:
                     selected_instances[0].delete()
 
@@ -149,9 +151,10 @@ class EditClusterAction(ManagerAction):
 
 def on_no_cluster_member_confirm_change(instance, confirm):
     if confirm:
-        message = MessageServices.get_title_body_message(u"تغییر وضعیت عضویت",
-                                                         u"وضعیت عضویت شما به تاییدنشده تغییر یافت.")
+        message_body = u"وضعیت عضویت شما به تاییدنشده تغییر یافت."
+        message = MessageServices.get_title_body_message(u"تغییر وضعیت عضویت", message_body)
     else:
-        message = MessageServices.get_title_body_message(u"تایید عضویت",
-                                                         u"وضعیت عضویت شما به تاییدشده تغییر یافت.")
+        message_body = u"وضعیت عضویت شما به تاییدشده تغییر یافت."
+        message = MessageServices.get_title_body_message(u"تایید عضویت", message_body)
     MessageServices.send_message(u"تغییر وضعیت خوشه", message, instance.user)
+    SMSService.send_sms(message, [instance.mobile])

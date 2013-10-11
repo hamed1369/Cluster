@@ -87,8 +87,10 @@ class ProjectMilestone(models.Model):
         i = 1
         if not milestones:
             return
+
+        admin_users = PermissionController.get_admins()
+
         for milestone in milestones:
-            admin_users = PermissionController.get_admins()
             receiver = milestone.project.single_member.user if milestone.project.single_member else milestone.project.cluster.head.user
             section = u"""
                  موعد  %s  مربوط به طرح %s  برای زمان  %s
@@ -102,7 +104,6 @@ class ProjectMilestone(models.Model):
             milestone.is_announced = True
             milestone.save()
             Message.send_message(admin_users[0], title=u"موعدهای گذشته یا نزدیک", body=body, receivers=admin_users)
-
 
         message = MessageServices.get_title_body_message(title=u"موعد های طرح های زیر گذشته اند یا نزدیک هستند:",
                                                          body=body)

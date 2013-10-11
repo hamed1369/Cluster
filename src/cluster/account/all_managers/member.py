@@ -5,7 +5,7 @@ from cluster.account.actions import EditMemberAction
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.manager.action import ShowAction, DeleteAction, ConfirmAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
-from cluster.utils.messages import MessageServices
+from cluster.utils.messages import MessageServices, SMSService
 from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
@@ -92,7 +92,7 @@ class MemberManager(ObjectsManager):
             ManagerColumn('foundation_of_elites', u"عضویت در بنیاد ملی نخبگان", '10'),
             ManagerColumn('arbiter_interest', u"آیا تمایل به داوری نیز دارید؟", '10'),
             ManagerColumn('created_on', u"تاریخ ثبت نام", '10'),
-            ]
+        ]
         return columns
 
     def get_full_name(self, data):
@@ -107,7 +107,7 @@ class MemberManager(ObjectsManager):
         if data.cluster:
             link = u"/clusters/actions/?t=action&n=edit_cluster&i=%s" % data.cluster.id
             return u"""<a onClick="MyWindow=window.open('%s','خوشه/فرد',width=800,height=600); return false;"href='#' class="jqgrid-a">%s</a>""" % (
-            link, unicode(data.cluster))
+                link, unicode(data.cluster))
         return u"""بدون خوشه"""
 
 
@@ -128,15 +128,16 @@ class NoClusterMemberActionForm(ClusterBaseModelForm):
 
 def member_confirm_change(instance, confirm):
     if confirm is True:
-        message = MessageServices.get_title_body_message(u"تایید عضویت",
-                                                         u"عضویت شما تایید شد.\n هم اکنون شما میتوانید در سامانه فعالیت داشته باشید.")
+        message_body = u"عضویت شما تایید شد.\n هم اکنون شما میتوانید در سامانه فعالیت داشته باشید."
+        message = MessageServices.get_title_body_message(u"تایید عضویت", message_body)
     elif confirm is False:
-        message = MessageServices.get_title_body_message(u"رد عضویت",
-                                                         u"عضویت شما در سامانه از طرف مدیریت رد  شد. شما دیگر نمیتوانید در سامانه فعالیت داشته باشید.")
+        message_body = u"عضویت شما در سامانه از طرف مدیریت رد  شد. شما دیگر نمیتوانید در سامانه فعالیت داشته باشید."
+        message = MessageServices.get_title_body_message(u"رد عضویت", message_body)
     else:
-        message = MessageServices.get_title_body_message(u"تغییر وضعیت عضویت",
-                                                         u"وضعیت عضویت شما به نامشخص تغییر یافت.")
+        message_body = u"وضعیت عضویت شما به نامشخص تغییر یافت."
+        message = MessageServices.get_title_body_message(u"تغییر وضعیت عضویت", message_body)
     MessageServices.send_message(u"تغییر وضعیت عضویت", message, instance.user)
+    SMSService.send_sms(message_body, [instance.mobile])
     if confirm is False:
         instance.user.delete()
         instance.delete()

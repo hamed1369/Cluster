@@ -8,7 +8,7 @@ from cluster.project.forms import ProjectManagerForm, ProjectForm, AdminProjectM
 from cluster.project.models import Project, ProjectMilestone, ProjectComment
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.manager.action import ManagerAction
-from cluster.utils.messages import MessageServices
+from cluster.utils.messages import MessageServices, SMSService
 
 __author__ = 'M.Y'
 
@@ -56,14 +56,15 @@ class ProjectCheckAction(ManagerAction):
                 form = None
                 new_state = instance.project_status
                 if old_state != new_state:
-                    message = MessageServices.get_title_body_message(u"تغییر وضعیت طرح",
-                                                                     u"وضعیت طرح %s از %s به %s تغییر پیدا کرد." % (
-                                                                         instance.title, old_state, new_state))
+                    message_body = u"وضعیت طرح %s از %s به %s تغییر پیدا کرد." % (
+                        instance.title, old_state, new_state)
+                    message = MessageServices.get_title_body_message(u"تغییر وضعیت طرح", message_body)
                     if instance.single_member:
-                        user = instance.single_member.user
+                        member = instance.single_member
                     else:
-                        user = instance.cluster.head.user
-                    MessageServices.send_message(u"تغییر وضعیت طرح", message, user)
+                        member = instance.cluster.head
+                    MessageServices.send_message(u"تغییر وضعیت طرح", message, member.user)
+                    SMSService.send_sms(message_body, member.user)
 
                 messages.success(http_request, u"بررسی طرح با موفقیت انجام شد.")
         else:
@@ -157,4 +158,3 @@ class EditProjectAction(ManagerAction):
         return render_to_response('project/edit_project.html',
                                   {'register_form': form, 'title': u"بررسی طرح"},
                                   context_instance=RequestContext(http_request))
-

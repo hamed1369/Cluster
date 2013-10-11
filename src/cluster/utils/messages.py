@@ -114,7 +114,7 @@ class SMSService(object):
     from_number = 30004934000555
     signature = u'موسسه‌پژوهشی‌نگاه‌نو'
 
-    WSID = 30004934000555
+    WSID = 1464
     username = 'tahmooresi'
     password = 44655288
 
@@ -126,7 +126,7 @@ class SMSService(object):
         numbers = client.factory.create('ArrayOfString')
         numbers.string = to_numbers
         params = {
-            'WSID': 324,
+            'WSID': cls.WSID,
             'UserName': cls.username,
             'Password': cls.password,
             'RecipientNumber': numbers,
@@ -136,5 +136,4 @@ class SMSService(object):
 
         }
         response = client.service.SendArray(**params)
-        print response
-        print response.__printer__.__dict__
+        return response
