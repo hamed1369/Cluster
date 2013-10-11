@@ -24,9 +24,8 @@ def handle_register_view(request, cluster_id=None):
     register_handler.initial_forms()
     if register_handler.is_valid_forms():
         member = register_handler.save_forms()
-
-        message = MessageServices.get_title_body_message(u"ثبت نام شما با موفقیت انجام شد.",
-                                                         u"توجه داشته باشید که تا زمان تاییدشدن عضویت شما توسط مدیر سامانه ، نمیتوانید طرحی را در سامانه ثبت کنید .")
+        subject = u"ثبت نام شما با موفقیت انجام شد."
+        message_body = u"توجه داشته باشید که تا زمان تاییدشدن عضویت شما توسط مدیر سامانه ، نمیتوانید طرحی را در سامانه ثبت کنید ."
         message = MessageServices.get_title_body_message(subject, message_body)
         MessageServices.send_message(u"ثبت نام در سامانه موسسه پژوهشی نگاه نو", message, member.user)
         SMSService.send_sms(subject + '\n' + message_body, [member.mobile])
