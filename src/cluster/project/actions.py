@@ -40,7 +40,7 @@ class ProjectCheckAction(ManagerAction):
         instance = selected_instances[0]
         old_state = instance.project_status
         old_state_display = instance.get_project_status_display()
-
+        old_arbiter = instance.arbiter
         inline_form = None
         if http_request.method == 'POST':
             form = self.ActionForm(http_request.POST, instance=instance)
@@ -57,6 +57,7 @@ class ProjectCheckAction(ManagerAction):
                 form = None
                 new_state = instance.project_status
                 new_state_display = instance.get_project_status_display()
+                new_arbiter = instance.arbiter
                 if old_state != new_state:
                     message_body = u'وضعیت طرح "%s" از "%s" به "%s" تغییر پیدا کرد.' % (
                         instance.title, old_state_display, new_state_display)
@@ -67,6 +68,13 @@ class ProjectCheckAction(ManagerAction):
                         member = instance.cluster.head
                     MessageServices.send_message(u"تغییر وضعیت طرح", message, member.user)
                     SMSService.send_sms(message_body, [member.mobile])
+
+                if old_arbiter != new_arbiter and new_arbiter:
+                    message_body = u'%s محترم، مدیریت سامانه موسسه پژوهشی نگاه نو طرح با عنوان "%s" را برای داوری به شما سپرده است.' % (
+                        unicode(new_arbiter.user), instance.title)
+                    message = MessageServices.get_title_body_message(u"ارسال طرح به شما برای داوری", message_body)
+                    MessageServices.send_message(u"ارسال طرح به شما برای داوری", message, new_arbiter.user)
+                    SMSService.send_sms(message_body, [new_arbiter.mobile])
 
                 messages.success(http_request, u"بررسی طرح با موفقیت انجام شد.")
         else:

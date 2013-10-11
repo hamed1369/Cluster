@@ -122,20 +122,28 @@ class SMSService(object):
     def send_sms(cls, message, to_numbers):
         from suds.client import Client
 
+        if not to_numbers:
+            return
+        if not to_numbers[0]:
+            return
+
         message = message + '\n' + cls.signature
 
-        client = Client(url="http://www.lpsms.ir/SMSWS/SOAPWebService.asmx?WSDL")
-        numbers = client.factory.create('ArrayOfString')
-        numbers.string = to_numbers
-        params = {
-            'WSID': cls.WSID,
-            'UserName': cls.username,
-            'Password': cls.password,
-            'RecipientNumber': numbers,
-            'MessageBody': message,
-            'SpecialNumber': cls.from_number,
-            'IsFlashMessage': False,
+        try:
+            client = Client(url="http://www.lpsms.ir/SMSWS/SOAPWebService.asmx?WSDL")
+            numbers = client.factory.create('ArrayOfString')
+            numbers.string = to_numbers
+            params = {
+                'WSID': cls.WSID,
+                'UserName': cls.username,
+                'Password': cls.password,
+                'RecipientNumber': numbers,
+                'MessageBody': message,
+                'SpecialNumber': cls.from_number,
+                'IsFlashMessage': False,
 
-        }
-        response = client.service.SendArray(**params)
-        return response
+            }
+            response = client.service.SendArray(**params)
+            return response
+        except Exception as s:
+            logging.error(s)
