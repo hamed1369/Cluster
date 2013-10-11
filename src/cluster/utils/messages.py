@@ -12,10 +12,14 @@ class MessageServices(object):
     from_email = u'info@persianelites.com'
 
     @staticmethod
-    def send_message(subject, message, user, *args, **kwargs):
+    def send_message(subject, message, user=None, *args, **kwargs):
+        if user:
+            email = user.email
+        else:
+            email = kwargs.get('email')
         try:
             msg = EmailMultiAlternatives(subject=subject, body='', from_email=MessageServices.from_email,
-                                         to=[user.email])
+                                         to=[email])
             msg.attach_alternative(message, "text/html")
             msg.send()
             # send_mail(subject=subject, message=message, from_email=MessageServices.from_email,
@@ -91,6 +95,31 @@ class MessageServices(object):
                 sender.first_name and sender.last_name) else u"%s" % sender.username,
             'title': title,
             'body': body.replace('\r\n', '<br/>').replace('\n\r', '<br/>').replace('\r', '<br/>').replace('\n', '<br/>')
+        }))
+        return mark_safe(message)
+
+    @staticmethod
+    def get_arbiter_invitation_message(first_name, last_name, message_txt, code):
+        from cluster import settings
+        message = Template("""
+                <div style="direction:rtl;">
+                <p>
+                    {{first_name}} {{last_name}} محترم ،
+                    سلام
+                    شما به سامانه موسسه پژوهشی نگاه نو، به جهت داوری دعوت شده اید. برای تکمیل فرایند ثبت نام خود به آدرس زیر مراجعه کنید:
+                    {{link_url}}
+                    پیغام مدیر سامانه برای شما:
+                    {{message_txt|safe}}
+                </p>
+
+                موسسه پژوهشی نگاه نو
+                </div>
+            """).render(Context({
+            'first_name': first_name,
+            'last_name':last_name,
+            'link_url': u"%s/arbiter_register/?c=%s"%(settings.SITE_URL, code),
+            'message_txt': message_txt.replace('\r\n', '<br/>').replace('\n\r', '<br/>').replace('\r', '<br/>').replace('\n', '<br/>')
+
         }))
         return mark_safe(message)
 

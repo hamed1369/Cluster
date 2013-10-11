@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from cluster.account.account.models import Arbiter
-from cluster.registration.forms import ArbiterForm
+from cluster.account.actions import ArbiterInvitationAction
+from cluster.registration.forms import ArbiterForm, AdminEditArbiter
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.manager.action import DeleteAction, AddAction, EditAction, ShowAction, ConfirmAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
@@ -30,11 +31,11 @@ class ArbiterManager(ObjectsManager):
     manager_verbose_name = u"داوران"
     filter_form = ArbiterFilterForm
 
-    actions = [AddAction(ArbiterForm), EditAction(ArbiterForm), ShowAction(ArbiterForm), DeleteAction(),
-               ConfirmAction('is_confirmed')]
+    actions = [AddAction(ArbiterForm), EditAction(AdminEditArbiter), ShowAction(AdminEditArbiter), DeleteAction(),
+               ConfirmAction('is_confirmed'), ArbiterInvitationAction()]
 
     def get_all_data(self):
-        return Arbiter.objects.filter()
+        return Arbiter.objects.filter(invited=False)
 
     def get_columns(self):
         columns = [

@@ -4,6 +4,7 @@ __author__ = 'Hourshad'
 from django.db import models
 from django.contrib.auth.models import User
 
+
 def __unicode__(self):
     if self.first_name and self.last_name:
         return u"%s %s"%(self.first_name,self.last_name)
@@ -12,12 +13,13 @@ def __unicode__(self):
 
 setattr(User,'__unicode__',__unicode__)
 
+
 class Account(models.Model):
     GENDER = (
         (1,u"مرد"),
         (2,u"زن")
         )
-    gender          = models.IntegerField(u"جنسیت", choices=GENDER)
+    gender          = models.IntegerField(u"جنسیت", choices=GENDER, null=True, blank=True)
     # father_name     = models.CharField(u"نام پدر", max_length=30)
     national_code   = models.BigIntegerField(u"کد ملی", null=True, blank=True)
     # identification_number = models.BigIntegerField(u"شماره شناسنامه")
@@ -78,27 +80,31 @@ class Member(Account):
         self.user.delete()
         super(Member, self).delete()
 
+
 class Arbiter(Account):
     u"""
     داور
     """
-    user            = models.OneToOneField(User,related_name = "arbiter")
-    workplace       = models.CharField(u"محل کار", max_length=30)
+    user            = models.OneToOneField(User,related_name = "arbiter", null=True, blank=True)
+    workplace       = models.CharField(u"محل کار", max_length=30, null=True, blank=True)
     # field           = models.CharField(u"رشته", max_length=20)
     # professional    = models.CharField(u"گرایش تخصصی", max_length=20)
     # degree          = models.CharField(u"مرتبه علمی", max_length=20) # TODO : ابهام
     # office_phone    = models.CharField(u"تلفن مخل کار" , max_length=15)
-    fax             = models.CharField(u"فکس", max_length=15)
+    fax             = models.CharField(u"فکس", max_length=15, null=True, blank=True)
     interested_domain = models.ManyToManyField('Domain',related_name="arbiters",verbose_name=u"حوزه های مورد علاقه")
     is_confirmed    = models.NullBooleanField(u"تایید شده")
 
+    invited = models.BooleanField(u"دعوت شده", default=False)
+    invitation_key = models.CharField(u"کد دعوتنامه", max_length=200, null=True, blank=True)
+
     class Meta:
-        app_label ='account'
+        app_label = 'account'
         verbose_name = u"داور"
-        verbose_name_plural =u"داورها"
+        verbose_name_plural = u"داورها"
 
     def __unicode__(self):
-        return u"%s %s"%(self.user.first_name, self.user.last_name)
+        return u"%s %s" % (self.user.first_name, self.user.last_name)
 
 
 class UserDomain(models.Model):

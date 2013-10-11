@@ -4,7 +4,8 @@ from django.contrib import messages
 from django.http import Http404
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
-from cluster.account.account.models import Member, Cluster
+from cluster.account.account.models import Member, Cluster, Arbiter
+from cluster.account.forms import ArbiterInvitationForm
 from cluster.registration.handlers import ClusterHandler
 from cluster.utils.forms import ClusterBaseForm
 from cluster.utils.manager.action import ManagerAction
@@ -158,3 +159,39 @@ def on_no_cluster_member_confirm_change(instance, confirm):
         message = MessageServices.get_title_body_message(u"تایید عضویت", message_body)
     MessageServices.send_message(u"تغییر وضعیت خوشه", message, instance.user)
     SMSService.send_sms(message, [instance.mobile])
+
+
+class ArbiterInvitationAction(ManagerAction):
+    is_view = True
+    action_verbose_name = u"دعوت داور"
+    action_name = 'arbiter_invitation'
+    height = '400'
+
+    def action_view(self, http_request, selected_instances):
+        if http_request.method == 'POST':
+            form = ArbiterInvitationForm(http_request.POST)
+            if form.is_valid():
+                import random
+                import string
+                import urllib
+
+                first_name = form.cleaned_data.get('first_name')
+                last_name = form.cleaned_data.get('last_name')
+                email = form.cleaned_data.get('email')
+                message = form.cleaned_data.get('message')
+
+                invitation_key = ''.join(
+                    random.choice(string.letters + string.digits + '(_)./,;][=+') for x in range(50))
+
+                Arbiter.objects.create(invited=True, invitation_key=invitation_key)
+
+                message = MessageServices.get_arbiter_invitation_message(first_name, last_name, message, urllib.quote(invitation_key))
+                MessageServices.send_message(u"دعوت از شما برای داوری", message, email=email)
+
+                form = None
+                messages.success(http_request, u"دعوت داور با موفقیت انجام شد.")
+        else:
+            form = ArbiterInvitationForm()
+
+        return render_to_response('manager/actions/add_edit.html', {'form': form, 'title': u"دعوت داور"},
+                                  context_instance=RequestContext(http_request))

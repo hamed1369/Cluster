@@ -34,6 +34,7 @@ class MemberActionForm(ClusterBaseModelForm):
 
     def __init__(self, *args, **kwargs):
         super(MemberActionForm, self).__init__(*args, **kwargs)
+        self.fields['gender'].required = True
         self.fields['full_name'] = forms.CharField(initial=unicode(self.instance.user), label=u"نام و نام خانوادگی",
                                                    required=False)
         self.fields.keyOrder.remove('full_name')

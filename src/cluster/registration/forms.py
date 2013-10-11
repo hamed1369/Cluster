@@ -45,7 +45,8 @@ class ClusterForm(ClusterBaseForm):
                 try:
                     if not self.http_request.user.is_anonymous():
                         if self.http_request.user.member and self.http_request.user.member.cluster:
-                            cluster = Cluster.objects.filter(Q(name=name.strip()), ~Q(id=self.http_request.user.member.cluster.id))
+                            cluster = Cluster.objects.filter(Q(name=name.strip()),
+                                                             ~Q(id=self.http_request.user.member.cluster.id))
                 except Member.DoesNotExist:
                     pass
                 if cluster:
@@ -74,6 +75,7 @@ class RegisterForm(ClusterBaseModelForm):
         self.fields['mobile'].required = True
         self.fields['essential_telephone'].required = True
         self.fields['address'].required = True
+        self.fields['gender'].required = True
         self.fields.insert(0, 'first_name', forms.CharField(required=True, label=u"نام"))
         self.fields.insert(1, 'last_name', forms.CharField(required=True, label=u"نام خانوادگی"))
         self.fields.insert(2, 'username', forms.CharField(required=True, label=u"نام کاربری"))
@@ -328,8 +330,8 @@ SoftwareSkillForm = modelformset_factory(SoftwareSkill, form=SoftwareSkillModelF
 class ArbiterForm(ClusterBaseModelForm):
     class Meta:
         model = Arbiter
-        exclude = (
-            'user', 'is_confirmed', 'national_code', 'birth_date', 'residence_city', 'essential_telephone', 'address')
+        exclude = ('user', 'is_confirmed', 'national_code', 'birth_date', 'residence_city',
+                   'essential_telephone', 'address', 'invitation_key', 'invited')
 
     extra_js_validation = {
         're_password': 'equals[id_register-password]',
@@ -343,6 +345,9 @@ class ArbiterForm(ClusterBaseModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ArbiterForm, self).__init__(*args, **kwargs)
+        self.fields['workplace'].required = True
+        self.fields['fax'].required = True
+        self.fields['gender'].required = True
         self.fields.insert(0, 'first_name', forms.CharField(required=True, label=u"نام"))
         self.fields.insert(1, 'last_name', forms.CharField(required=True, label=u"نام خانوادگی"))
         self.fields.insert(2, 'username', forms.CharField(required=True, label=u"نام کاربری"))
@@ -373,8 +378,6 @@ class ArbiterForm(ClusterBaseModelForm):
                 self.fields['username'].widget.attrs.update({'readonly': 'readonly'})
                 self.extra_js_validation['username'] = ''
                 self.fields['email'].initial = self.instance.user.email
-                self.fields['email'].widget.attrs.update({'readonly': 'readonly'})
-                self.extra_js_validation['email'] = ''
 
         self.fields['interested_domain'].queryset = Domain.objects.filter(confirmed=True)
         self.fields['interested_domain'].widget = forms.CheckboxSelectMultiple()
@@ -403,19 +406,20 @@ class ArbiterForm(ClusterBaseModelForm):
 
         user.save()
         instance.user = user
+
+        instance.invited = False
         instance.save()
 
         instance.interested_domain = self.cleaned_data.get('interested_domain')
 
         return instance
 
-class AdminAddArbiter(ArbiterForm):
+
+class AdminEditArbiter(ArbiterForm):
     extra_js_validation = {
         're_password': 'equals[id_register-password]',
-        'username': 'ajax[usernameAjaxEngineCall]',
-        'email': 'ajax[emailAjaxEngineCall]',
         'essential_telephone': 'custom[phone]',
         'mobile': 'custom[mobile]',
         'office_phone': 'custom[phone]',
         'fax': 'custom[phone]',
-        }
+    }

@@ -2,7 +2,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from cluster.utils.fields import BOOLEAN_CHOICES
-from cluster.utils.forms import ClusterBaseModelForm
+from cluster.utils.forms import ClusterBaseModelForm, ClusterBaseForm
 from cluster.utils.js_validation import process_js_validations
 
 __author__ = 'M.Y'
@@ -53,3 +53,10 @@ class AdminForm(ClusterBaseModelForm):
             instance.set_password(password)
             instance.save()
         return instance
+
+
+class ArbiterInvitationForm(ClusterBaseForm):
+    first_name = forms.CharField(label=u"نام")
+    last_name = forms.CharField(label=u"نام خانوادگی")
+    email = forms.EmailField(label=u"پست الکترونیکی")
+    message = forms.CharField(label=u"پیام", widget=forms.Textarea)

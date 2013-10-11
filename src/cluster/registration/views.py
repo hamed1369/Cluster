@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
 from cluster.account.account.models import Cluster, Arbiter
 from cluster.registration.forms import ArbiterForm
@@ -49,14 +49,18 @@ def register_member(request, cluster_id):
 
 
 def arbiter_register(request):
+    invitation_key = request.GET.get('c')
+    arbiter = None
+    if invitation_key:
+        arbiter = get_object_or_404(Arbiter, invitation_key=invitation_key, invited=True)
     if request.POST:
-        arbiter_form = ArbiterForm(request.POST, prefix='register')
+        arbiter_form = ArbiterForm(request.POST, prefix='register', instance=arbiter)
         if arbiter_form.is_valid():
             arbiter_form.save()
             messages.success(request, u"ثبت نام شما با موفقیت انجام شد.")
             return HttpResponseRedirect(reverse('login'))
     else:
-        arbiter_form = ArbiterForm(prefix='register')
+        arbiter_form = ArbiterForm(prefix='register', instance=None)
     context = {
         'arbiter_form': arbiter_form,
     }
