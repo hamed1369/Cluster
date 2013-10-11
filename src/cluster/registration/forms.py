@@ -350,8 +350,12 @@ class ArbiterForm(ClusterBaseModelForm):
         self.fields.insert(4, 're_password',
                            forms.CharField(required=True, label=u"تکرار گذرواژه", widget=forms.PasswordInput))
         self.fields.insert(5, 'email', forms.EmailField(label=u"پست الکترونیک"))
-        prefix = self.prefix or ''
-        self.extra_js_validation['re_password'] = 'equals[id_' + prefix + '-password]'
+        prefix = self.prefix
+        if prefix:
+            self.extra_js_validation['re_password'] = 'equals[id_' + prefix + '-password]'
+        else:
+            self.extra_js_validation['re_password'] = 'equals[id_password]'
+
         if self.instance and self.instance.id:
             self.fields.insert(3, 'change_password',
                                forms.ChoiceField(required=False, choices=BOOLEAN_CHOICES, widget=forms.RadioSelect(),
@@ -365,7 +369,10 @@ class ArbiterForm(ClusterBaseModelForm):
                 self.fields['last_name'].initial = self.instance.user.last_name
                 self.fields['username'].initial = self.instance.user.username
                 self.fields['username'].widget.attrs.update({'readonly': 'readonly'})
+                self.extra_js_validation['username'] = ''
                 self.fields['email'].initial = self.instance.user.email
+                self.fields['email'].widget.attrs.update({'readonly': 'readonly'})
+                self.extra_js_validation['email'] = ''
 
         self.fields['interested_domain'].queryset = Domain.objects.filter(confirmed=True)
         self.fields['interested_domain'].widget = forms.CheckboxSelectMultiple()
@@ -399,3 +406,14 @@ class ArbiterForm(ClusterBaseModelForm):
         instance.interested_domain = self.cleaned_data.get('interested_domain')
 
         return instance
+
+class AdminAddArbiter(ArbiterForm):
+    extra_js_validation = {
+        're_password': 'equals[id_register-password]',
+        'username': 'ajax[usernameAjaxEngineCall]',
+        'email': 'ajax[emailAjaxEngineCall]',
+        'essential_telephone': 'custom[phone]',
+        'mobile': 'custom[mobile]',
+        'office_phone': 'custom[phone]',
+        'fax': 'custom[phone]',
+        }

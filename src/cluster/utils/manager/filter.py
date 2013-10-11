@@ -42,7 +42,7 @@ class Filter(object):
                         handler = (field, '')
                     self.__check_handler(handler, kwargs, form_data)
         if hasattr(all_data, 'model'):
-            if self.order_field in all_data.model._meta.get_all_field_names():
+            if self.order_field.replace('-', '') in all_data.model._meta.get_all_field_names():
                 all_data = all_data.filter(**kwargs).order_by(self.order_field).distinct()
             else:
                 all_data = all_data.filter(**kwargs).distinct()
