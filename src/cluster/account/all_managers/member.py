@@ -74,8 +74,12 @@ class MemberManager(ObjectsManager):
 
     def get_excel_columns(self):
         columns = [
-            ManagerColumn('full_name', u"نام و نام خانوادگی", '30', True),
-            ManagerColumn('cluster', u"خوشه", '20', True, True),
+            ManagerColumn('first_name', u"نام", '10', True),
+            ManagerColumn('last_name', u"نام خانوادگی", '10', True),
+            ManagerColumn('username', u"نام کاربری", '7', True),
+            ManagerColumn('email', u"نام ایمیل", '10', True),
+            ManagerColumn('last_login', u"تاریخ آخرین ورود", '7', True),
+            ManagerColumn('cluster', u"خوشه", '10', True, True),
             ManagerColumn('gender', u"جنسیت", '5'),
             ManagerColumn('national_code', u"کد ملی", '10'),
             ManagerColumn('birth_date', u"تاریخ تولد", '10'),
@@ -97,6 +101,21 @@ class MemberManager(ObjectsManager):
 
     def get_full_name(self, data):
         return unicode(data.user)
+
+    def get_first_name(self, data):
+        return unicode(data.user.first_name)
+
+    def get_last_name(self, data):
+        return unicode(data.user.last_name)
+
+    def get_username(self, data):
+        return unicode(data.user.username)
+
+    def get_email(self, data):
+        return unicode(data.user.email)
+
+    def get_last_login(self, data):
+        return data.user.last_login
 
     def can_view(self):
         if PermissionController.is_admin(self.http_request.user):
