@@ -91,6 +91,34 @@ class ProjectManagerForm(ProjectForm):
         return instance
 
 
+class ArbiterProjectManagerForm(ProjectManagerForm):
+    class Meta:
+        model = Project
+        exclude = ('single_member', 'cluster', 'arbiter', 'score', 'project_status')
+
+    def __init__(self, *args, **kwargs):
+        kwargs['user'] = None
+        super(ProjectManagerForm, self).__init__(*args, **kwargs)
+        self.fields['arbiter_checked'] = forms.BooleanField(required=False, label=u"تاییدشده توسط داور")
+        if self.instance.project_status > 1:
+            self.fields['arbiter_checked'].initial = True
+        self.fields.keyOrder = ['title', 'has_confirmation', 'confirmation_type', 'certificate_image', 'has_patent',
+                                'patent_number', 'patent_date', 'patent_certificate', 'patent_request', 'domain',
+                                'summary', 'keywords', 'innovations', 'state', 'arbiter_checked']
+        process_js_validations(self)
+
+    def save(self, commit=True):
+        instance = super(ArbiterProjectManagerForm, self).save(commit)
+
+        if self.cleaned_data.get('arbiter_checked') is True and instance.project_status == 1:
+            instance.project_status = 2
+        elif self.cleaned_data.get('arbiter_checked') is False and instance.project_status == 2:
+            instance.project_status = 1
+
+        instance.save()
+        return instance
+
+
 class AdminProjectManagerForm(ProjectManagerForm):
     class Meta:
         model = Project

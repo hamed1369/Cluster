@@ -4,7 +4,7 @@ from django.forms.models import inlineformset_factory
 from django.http import Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from cluster.project.forms import ProjectManagerForm, ProjectForm, AdminProjectManagerForm
+from cluster.project.forms import ProjectManagerForm, ProjectForm, AdminProjectManagerForm, ArbiterProjectManagerForm
 from cluster.project.models import Project, ProjectMilestone, ProjectComment
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.manager.action import ManagerAction
@@ -31,7 +31,7 @@ class ProjectCheckAction(ManagerAction):
     action_name = u'check_project'
     action_verbose_name = u"بررسی طرح"
     min_count = '1'
-    ActionForm = ProjectManagerForm
+    ActionForm = ArbiterProjectManagerForm
 
     def action_view(self, http_request, selected_instances):
         if not selected_instances:
