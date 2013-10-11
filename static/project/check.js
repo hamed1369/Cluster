@@ -14,5 +14,6 @@ $(document).ready(function () {
             }
 
         });
+        $('select[name*="project_status"]').change();
     }
 });

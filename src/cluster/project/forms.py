@@ -120,6 +120,10 @@ class AdminProjectManagerForm(ProjectManagerForm):
         model = Project
         exclude = ('single_member', 'cluster')
 
+    extra_js_validation = {
+        'score': 'required',
+    }
+
     def __init__(self, *args, **kwargs):
         kwargs['user'] = None
         super(AdminProjectManagerForm, self).__init__(*args, **kwargs)
@@ -141,3 +145,13 @@ class AdminProjectManagerForm(ProjectManagerForm):
 
         )
         process_js_validations(self)
+
+    def clean(self):
+        cd = super(AdminProjectManagerForm, self).clean()
+        project_status = cd.get('project_status')
+        if project_status == 1:
+            if not cd.get('arbiter'):
+                self.errors['arbiter'] = self.error_class([u"در تایید مرحله اول باید داور مربوطه مشخص شود."])
+            if not cd.get('score'):
+                self.errors['score'] = self.error_class([u"در تایید مرحله اول باید امتیاز مشخص شود."])
+        return cd
