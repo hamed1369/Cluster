@@ -21,6 +21,7 @@ urlpatterns = patterns('',
                        url(r'^accounts/', include('cluster.account.urls')),
                        url(r'^project/', include('cluster.project.urls')),
                        url(r'^ajax/', include('cluster.utils.ajax.urls')),
+                       url(r'^news', include('cluster.news.urls')),
 
 )
 
