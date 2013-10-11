@@ -108,8 +108,10 @@ class ProjectDetailAction(ManagerAction):
         form = ProjectManagerForm(instance=instance)
         for field in form.fields:
             form.fields[field].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})
-        inline_form = ProjectMilestoneForm(instance=instance, prefix='project_milestone')
-        inline_form.readonly = True
+        inline_form = None
+        if instance.project_status > 1:
+            inline_form = ProjectMilestoneForm(instance=instance, prefix='project_milestone')
+            inline_form.readonly = True
 
         if http_request.method == 'POST':
             comment_txt = http_request.POST.get('project-comment-text')

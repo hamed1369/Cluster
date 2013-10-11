@@ -42,11 +42,17 @@
     {% endif %}
 {% endblock %}
 {% block after_main %}
-    {% if inline_form %}
+    {% if inline_form and inline_form.forms %}
         {% include 'formset.html' with legend="موعدهای طرح" formset=inline_form cluster=cluster %}
     {% endif %}
+    {% if not inline_form.forms %}
+        <fieldset class="formset_fieldset">
+            <legend>موعدهای طرح</legend>
+            <div>موعدی تعیین نشده است.</div>
+        </fieldset>
+    {% endif %}
     <fieldset class="inner_fieldset">
-        <legend>کامنت ها</legend>
+        <legend>توضیح ها</legend>
         <ul class="comment-list">
             {% for comment in comments %}
 
@@ -69,7 +75,7 @@
                 <tr>
                     <td class="input_td">
                         <textarea id="project-comment-text" name="project-comment-text" cols="40" rows="10"
-                                  placeholder="متن کامنت مورد نظر خود را وارد نمایید"></textarea>
+                                  placeholder="متن توضیح مورد نظر خود را وارد نمایید"></textarea>
                     </td>
                 </tr>
                 <tr>

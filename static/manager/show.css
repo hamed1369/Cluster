@@ -23,14 +23,17 @@
 .comment-list li .comment-user {
     font-weight: 700;
     font-style: normal;
-    font-size: 20px;
+    font-size: 14px;
     color: rgb(94, 177, 230);
+    font-family: "B Mitra", sans-serif;
+    display: inline-block;
 }
 
 .comment-list li .comment-date {
     color: rgb(214, 213, 213);
     text-transform: uppercase;
     letter-spacing: 3px;
+    display: inline-block;
 }
 
 .comment-list li .comment-text p {

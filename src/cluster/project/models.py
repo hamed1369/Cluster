@@ -113,13 +113,13 @@ class ProjectMilestone(models.Model):
 
 class ProjectComment(models.Model):
     created_on = models.DateField(verbose_name=u"تاریخ ایجاد", auto_now_add=True)
-    comment = models.TextField(verbose_name=u"کامنت", max_length=1000)
+    comment = models.TextField(verbose_name=u"توضیح", max_length=1000)
     project = models.ForeignKey(Project, verbose_name=u"طرح", related_name='comments')
     user = models.ForeignKey(User, verbose_name=u"کاربر مربوطه")
 
     class Meta:
-        verbose_name = u"کامنت طرح"
-        verbose_name_plural = u"کامنت های طرح"
+        verbose_name = u"توضیح طرح"
+        verbose_name_plural = u"توضیح های طرح"
 
     def __unicode__(self):
         return self.comment
