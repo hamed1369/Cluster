@@ -364,6 +364,8 @@ class ArbiterForm(ClusterBaseModelForm):
             self.fields['password'].required = False
             self.fields['re_password'].label = u"تکرار گذرواژه جدید"
             self.fields['re_password'].required = False
+            self.fields['password'].is_hidden = True
+            self.fields['re_password'].is_hidden = True
             if self.instance.user:
                 self.fields['first_name'].initial = self.instance.user.first_name
                 self.fields['last_name'].initial = self.instance.user.last_name
