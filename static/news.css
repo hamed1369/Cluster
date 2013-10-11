@@ -1,0 +1,17 @@
+
+#news-body{
+    direction: rtl;margin-top:30px;
+}
+#news-content{
+    width:920px;min-height: 100%;background-color: white;position: relative;margin:0 auto;padding: 20px;
+}
+
+#news-header-container{
+    border-bottom: 2px solid #0b93d5;font-family: B Mitra;direction: rtl;position: relative;
+}
+#news-title{
+    font-size: 20px;font-weight: bold;
+}
+#news-date{
+    font-size: 14px;font-weight: bold;position: absolute;left:10px;bottom:0px;
+}

@@ -17,3 +17,11 @@ def persian_date(date):
     day_name = JALALI_WEEKDAYS[week_day]
     st = str(sh_date[0])+"/"+str(sh_date[1])+"/"+str(sh_date[2])
     return u"امروز، %s %s"%(day_name,st)
+
+@register.filter
+def pdate(date):
+    date_converter = Calverter()
+    jd = date_converter.gregorian_to_jd(date.year, date.month, date.day)
+    sh_date = date_converter.jd_to_jalali(jd)
+    st = str(sh_date[0])+"/"+str(sh_date[1])+"/"+str(sh_date[2])
+    return u"%s"%st

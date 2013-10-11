@@ -9,7 +9,7 @@ __author__ = 'M.Y'
 
 
 class MessageServices(object):
-    from_email = u'موسسه‌پژوهشی‌نگاه‌نو'
+    from_email = u'info@persianelites.com'
 
     @staticmethod
     def send_message(subject, message, user, *args, **kwargs):
@@ -25,7 +25,7 @@ class MessageServices(object):
 
     @staticmethod
     def get_registration_message(cluster, user, username, password):
-        site_url = 'http://www.persianelites.ir'
+        site_url = 'http://www.persianelites.com'
         url = site_url + u"/register/%s/" % cluster.id
         message = Template("""
             <div style="direction:rtl;">

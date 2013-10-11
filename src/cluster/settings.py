@@ -139,15 +139,9 @@ INSTALLED_APPS = (
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
-            'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         }
     },
@@ -159,7 +153,7 @@ LOGGING = {
         },
     }
 }
-#DEFAULT_FROM_EMAIL = 'persianelitesinfo@persianelites.ir'
+DEFAULT_FROM_EMAIL = 'info@persianelites.com'
 #SERVER_EMAIL = 'persianelitesinfo@persianelites.ir'
 #EMAIL_USE_TLS = False
 #EMAIL_HOST_PASSWORD = ''
@@ -170,13 +164,17 @@ LOGGING = {
 #EMAIL_HOST_PASSWORD = '!persianelitesinfo'
 
 #DEFAULT_FROM_EMAIL = 'persianelitesinfo@persianelites.com'
-SERVER_EMAIL = 'persianelitesinfo@gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'persianelitesinfo@gmail.com'
-EMAIL_HOST_PASSWORD = '!persianelitesinfo'
-
+#SERVER_EMAIL = 'persianelitesinfo@gmail.com'
+#EMAIL_USE_TLS = True
+#EMAIL_HOST = 'smtp.gmail.com'
+#EMAIL_PORT = 587
+#EMAIL_HOST_USER = 'persianelitesinfo@gmail.com'
+#EMAIL_HOST_PASSWORD = '!persianelitesinfo'
+SERVER_EMAIL = 'info@persianelites.com'
+EMAIL_USE_TLS = False
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
+#EMAIL_HOST_USER = 'persianelitesinfo@gmail.com'
 
 #captcha
 CAPTCHA_NOISE_FUNCTIONS = ('captcha.helpers.noise_arcs',)
