@@ -132,5 +132,12 @@ class AdminProjectManagerForm(ProjectManagerForm):
             if self.instance.project_status != 1:
                 self.fields['arbiter'].is_hidden = True
                 self.fields['score'].is_hidden = True
+        self.fields['project_status'].choices = (
+            (-1, u"رد شده"),
+            (0, u"در مرحله درخواست"),
+            (1, u"تایید مرحله اول"),
+            (2, u"تاییدشده توسط داور"),
+            (3, u"تایید مرحله دوم"),
 
+        )
         process_js_validations(self)

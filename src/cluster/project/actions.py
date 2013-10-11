@@ -39,32 +39,34 @@ class ProjectCheckAction(ManagerAction):
 
         instance = selected_instances[0]
         old_state = instance.project_status
+        old_state_display = instance.get_project_status_display()
 
         inline_form = None
         if http_request.method == 'POST':
             form = self.ActionForm(http_request.POST, instance=instance)
-            if instance.project_status > 1:
+            if old_state > 1:
                 inline_form = ProjectMilestoneForm(http_request.POST, instance=instance, prefix='project_milestone')
             inline_form_valid = True
             if inline_form and not inline_form.is_valid():
                 inline_form_valid = False
 
             if form.is_valid() and inline_form_valid:
-                if instance.project_status > 1:
+                if old_state > 1:
                     inline_form.save()
                 instance = form.save()
                 form = None
                 new_state = instance.project_status
+                new_state_display = instance.get_project_status_display()
                 if old_state != new_state:
-                    message_body = u"وضعیت طرح %s از %s به %s تغییر پیدا کرد." % (
-                        instance.title, old_state, new_state)
+                    message_body = u'وضعیت طرح "%s" از "%s" به "%s" تغییر پیدا کرد.' % (
+                        instance.title, old_state_display, new_state_display)
                     message = MessageServices.get_title_body_message(u"تغییر وضعیت طرح", message_body)
                     if instance.single_member:
                         member = instance.single_member
                     else:
                         member = instance.cluster.head
                     MessageServices.send_message(u"تغییر وضعیت طرح", message, member.user)
-                    SMSService.send_sms(message_body, member.user)
+                    SMSService.send_sms(message_body, [member.mobile])
 
                 messages.success(http_request, u"بررسی طرح با موفقیت انجام شد.")
         else:

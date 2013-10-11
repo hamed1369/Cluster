@@ -112,7 +112,7 @@ class MessageServices(object):
 
 class SMSService(object):
     from_number = 30004934000555
-    signature = u'موسسه‌پژوهشی‌نگاه‌نو'
+    signature = u'موسسه پژوهشی نگاه نو'
 
     WSID = 1464
     username = 'tahmooresi'
@@ -121,6 +121,8 @@ class SMSService(object):
     @classmethod
     def send_sms(cls, message, to_numbers):
         from suds.client import Client
+
+        message = message + '\n' + cls.signature
 
         client = Client(url="http://www.lpsms.ir/SMSWS/SOAPWebService.asmx?WSDL")
         numbers = client.factory.create('ArrayOfString')

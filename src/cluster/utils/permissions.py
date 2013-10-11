@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from django.db.models import Q
 from cluster.account.account.models import Arbiter, Member
 
@@ -14,7 +14,6 @@ class PermissionController:
         if user.groups.filter(name=u"مدیر"):
             return True
         return False
-
 
     @classmethod
     def is_arbiter(cls, user):
@@ -45,7 +44,8 @@ class PermissionController:
             return cls.get_admins()
         elif cls.is_member(user):
             if user.member.cluster:
-                return User.objects.filter(id__in=user.member.cluster.user_domains.filter().values_list('user', flat=True))
+                return User.objects.filter(
+                    id__in=user.member.cluster.user_domains.filter().values_list('user', flat=True))
         return User.objects.none()
 
     @classmethod
