@@ -185,8 +185,8 @@
                 <li><a href="/messages/">جعبه پیام</a></li>
             {% endif %}
             {% if user|check_role:"arbiter" %}
-                <li><a href="{% url edit_accounts %}">پروفایل</a></li>
-                <li><a href="/projects/">داوری طرح ها</a></li>
+                <li><a href="/arbiter_edit/">پروفایل</a></li>
+                <li><a href="/projects_arbitration/">داوری طرح ها</a></li>
                 <li><a href="/messages/">جعبه پیام</a></li>
             {% endif %}
         </ul>
