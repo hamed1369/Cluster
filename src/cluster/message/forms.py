@@ -125,7 +125,8 @@ class MemberMessageForm(ClusterBaseModelForm):
         if send_type == 7:
             receivers = PermissionController.get_admins()
         elif send_type == 8:
-            receivers = self.user.member.cluster.user_domains.filter().values_list('user', flat=True)
+            receivers = User.objects.filter(member__in=self.user.cluster.members.filter().distinct())
+            #receivers = self.user.member.cluster.members.filter().values_list('user', flat=True)
         else:
             receivers = self.cleaned_data.get('receivers')
 

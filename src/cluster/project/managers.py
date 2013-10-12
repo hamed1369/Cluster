@@ -32,7 +32,7 @@ class MemberProjectManager(ObjectsManager):
 
     def get_all_data(self):
         return Project.objects.filter(
-            Q(single_member=self.http_request.user.member) | Q(cluster__user_domains__user=self.http_request.user))
+            Q(single_member=self.http_request.user.member) | Q(cluster__members__user=self.http_request.user))
 
     def get_columns(self):
         columns = [

@@ -3,6 +3,15 @@
 
 <table class="register_table">
     <tr>
+        <td class="label_td">{{ register_form.domain.label }}
+        </td>
+        <td class="input_td">{{ register_form.domain }}</td>
+        {% if register_form.domain.errors %}
+            <td class="error_td" width="30%">{{ register_form.domain.errors }}</td>
+        {% endif %}
+
+    </tr>
+    <tr>
         <td class="label_td">{{ register_form.first_name.label }}
         </td>
         <td class="input_td">{{ register_form.first_name }}</td>

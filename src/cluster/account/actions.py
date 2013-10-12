@@ -71,10 +71,10 @@ class ClusterConfirmAction(ManagerAction):
             if form.is_valid():
                 confirm = form.cleaned_data.get('confirm')
                 degree = form.cleaned_data.get('degree')
-                for user_domain in selected_instances[0].user_domains.all():
+                for member in selected_instances[0].members.all():
                     try:
-                        user_domain.user.member.is_confirmed = confirm
-                        user_domain.save()
+                        member.member.is_confirmed = confirm
+                        member.save()
                     except Member.DoesNotExist:
                         pass
                 selected_instances[0].head.is_confirmed = confirm
@@ -188,7 +188,8 @@ class ArbiterInvitationAction(ManagerAction):
 
                 Arbiter.objects.create(invited=True, invitation_key=invitation_key, is_confirmed=True)
 
-                message = MessageServices.get_arbiter_invitation_message(first_name, last_name, message, urllib.quote(invitation_key))
+                message = MessageServices.get_arbiter_invitation_message(first_name, last_name, message,
+                                                                         urllib.quote(invitation_key))
                 MessageServices.send_message(u"دعوت از شما برای داوری", message, email=email)
 
                 form = None

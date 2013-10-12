@@ -42,9 +42,7 @@ class DomainAggregationManager(ObjectsManager):
 
         projects = Project.objects.filter(domain__in=domains).select_related('domain').distinct()
         clusters = Cluster.objects.filter(domains__in=domains).select_related('head', 'domains').distinct()
-        members = Member.objects.filter(user__user_domain__domain__in=domains).select_related('user').prefetch_related(
-            'user__user_domain',
-            'user__user_domain__domain').distinct()
+        members = Member.objects.filter(domain__in=domains).select_related('user', 'domain').distinct()
 
         for project in projects:
             if project.project_status == -1:
@@ -68,9 +66,9 @@ class DomainAggregationManager(ObjectsManager):
 
         for member in members:
             if member.is_confirmed is True:
-                domains_dict[member.user.user_domain.domain]['members_yes'] += 1
+                domains_dict[member.domain]['members_yes'] += 1
             else:
-                domains_dict[member.user.user_domain.domain]['members_no'] += 1
+                domains_dict[member.domain]['members_no'] += 1
 
         self.domains_dict = domains_dict
 

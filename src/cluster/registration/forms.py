@@ -76,6 +76,7 @@ class RegisterForm(ClusterBaseModelForm):
         self.fields['essential_telephone'].required = True
         self.fields['address'].required = True
         self.fields['gender'].required = True
+        self.fields['domain'].required = True
         self.fields.insert(0, 'first_name', forms.CharField(required=True, label=u"نام"))
         self.fields.insert(1, 'last_name', forms.CharField(required=True, label=u"نام خانوادگی"))
         self.fields.insert(2, 'username', forms.CharField(required=True, label=u"نام کاربری"))
@@ -186,28 +187,28 @@ class MemberForm(ClusterBaseForm):
 
     def clean(self):
         cd = super(MemberForm, self).clean()
-        user_domain_id = None
-        if 'user_domain_id' in self.fields:
-            user_domain_id = self.fields['user_domain_id'].initial
-            cd['user_domain_id'] = self.fields['user_domain_id'].initial
+        member_id = None
+        if 'member_id' in self.fields:
+            member_id = self.fields['member_id'].initial
+            cd['member_id'] = self.fields['member_id'].initial
         email = cd.get('email')
         if email:
             users = User.objects.filter(username=email)
-            if user_domain_id:
-                users = users.exclude(user_domain__id=user_domain_id)
+            if member_id:
+                users = users.exclude(member__id=member_id)
             if users:
                 self._errors['email'] = self.error_class([u'این ایمیل تکراری است.'])
         return cd
 
-    def init_by_user_domain(self, user_domain, is_head):
-        self.fields['first_name'].initial = user_domain.user.first_name
-        self.fields['last_name'].initial = user_domain.user.last_name
-        self.fields['email'].initial = user_domain.user.email
-        if user_domain.domain:
-            self.fields['domain'].initial = user_domain.domain.id
+    def init_by_member(self, member, is_head):
+        self.fields['first_name'].initial = member.user.first_name
+        self.fields['last_name'].initial = member.user.last_name
+        self.fields['email'].initial = member.user.email
+        if member.domain:
+            self.fields['domain'].initial = member.domain.id
 
         choices = [(u'', '---------'), ]
-        for domain in user_domain.clusters.all()[0].domains.all():
+        for domain in member.clusters.all()[0].domains.all():
             choices.append((unicode(domain.id), domain.name))
 
         self.fields['domain'].widget = forms.Select(choices=choices)
@@ -216,7 +217,7 @@ class MemberForm(ClusterBaseForm):
             self.fields['last_name'].widget.attrs.update({'readonly': 'readonly'})
             self.fields['email'].widget.attrs.update({'readonly': 'readonly'})
             self.fields['domain'].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})
-        self.fields.insert(0, 'user_domain_id', forms.CharField(widget=forms.HiddenInput(), initial=user_domain.id))
+        self.fields.insert(0, 'member_id', forms.CharField(widget=forms.HiddenInput(), initial=member.id))
         self.extra_js_validation.clear()
         process_js_validations(self)
 

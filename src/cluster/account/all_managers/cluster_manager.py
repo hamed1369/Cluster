@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from django.contrib.auth.models import User
-from cluster.account.account.models import Cluster
+from cluster.account.account.models import Cluster, Member
 from cluster.account.actions import ClusterConfirmAction, EditClusterAction
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.manager.action import ShowAction
@@ -18,7 +17,7 @@ class ClusterForm(ClusterBaseModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ClusterForm, self).__init__(*args, **kwargs)
-        self.fields['users'] = forms.ModelMultipleChoiceField(queryset=User.objects.filter(), label=u"اعضا",
+        self.fields['member'] = forms.ModelMultipleChoiceField(queryset=Member.objects.filter(), label=u"اعضا",
                                                               required=False)
         self.fields['confirmed'] = forms.NullBooleanField(required=False, label=u"تایید شده")
         self.fields['confirmed'].widget.choices = ((u'1', u"--- همه ---"),
@@ -40,9 +39,9 @@ class ClusterActionForm(ClusterBaseModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ClusterActionForm, self).__init__(*args, **kwargs)
-        self.fields['users'] = forms.ModelMultipleChoiceField(queryset=User.objects.filter(), label=u"اعضا",
+        self.fields['members'] = forms.ModelMultipleChoiceField(queryset=Member.objects.filter(), label=u"اعضا",
                                                               required=False)
-        self.fields['users'].initial = self.instance.user_domains.all().values_list('user', flat=True)
+        self.fields['members'].initial = self.instance.members.all()
 
 
 class ClusterManager(ObjectsManager):
@@ -57,7 +56,7 @@ class ClusterManager(ObjectsManager):
         ('institute', 'str'),
         ('head', 'm2o'),
         ('degree', 'this'),
-        ('users', '', 'user_domains__user__in'),
+        ('members', '', 'members__in'),
         ('confirmed', 'null_bool', 'head__is_confirmed'),
     )
 
