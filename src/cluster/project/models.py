@@ -103,10 +103,13 @@ class ProjectMilestone(models.Model):
             i += 1
             milestone.is_announced = True
             milestone.save()
-            Message.send_message(admin_users[0], title=u"موعدهای گذشته یا نزدیک", body=body, receivers=admin_users)
 
         message = MessageServices.get_title_body_message(title=u"موعد های طرح های زیر گذشته اند یا نزدیک هستند:",
                                                          body=body)
+        Message.send_message(admin_users[0], title=u"موعدهای گذشته یا نزدیک",
+                             body=u"موعد های طرح های زیر گذشته اند یا نزدیک هستند:" + '\n' + body,
+                             receivers=admin_users)
+
         for user in admin_users:
             MessageServices.send_message(subject=u"موعدهای طرح", message=message, user=user)
 
