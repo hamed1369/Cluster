@@ -31,6 +31,11 @@ class ClusterForm(ClusterBaseForm):
         'name': 'ajax[clusterNameAjaxEngineCall]'
     }
 
+    def __init__(self, *args, **kwargs):
+        super(ClusterForm, self).__init__(*args, **kwargs)
+        if not self.http_request.user.is_anonymous():
+            self.extra_js_validation = {}
+
     def clean(self):
         cd = super(ClusterForm, self).clean()
         is_cluster = cd.get('is_cluster')
@@ -208,7 +213,7 @@ class MemberForm(ClusterBaseForm):
             self.fields['domain'].initial = member.domain.id
 
         choices = [(u'', '---------'), ]
-        for domain in member.clusters.all()[0].domains.all():
+        for domain in member.cluster.domains.all():
             choices.append((unicode(domain.id), domain.name))
 
         self.fields['domain'].widget = forms.Select(choices=choices)

@@ -26,12 +26,17 @@ class ArbiterFilterForm(ClusterBaseModelForm):
                                                    (u'3', u"خیر"))
 
 
+def arbiter_save(http_request, instance):
+    instance.is_confirmed = True
+    instance.save()
+
+
 class ArbiterManager(ObjectsManager):
     manager_name = u"arbiters_management"
     manager_verbose_name = u"داوران"
     filter_form = ArbiterFilterForm
 
-    actions = [AddAction(ArbiterForm), EditAction(AdminEditArbiter), ShowAction(AdminEditArbiter), DeleteAction(),
+    actions = [AddAction(ArbiterForm, save_def=arbiter_save), EditAction(AdminEditArbiter), ShowAction(AdminEditArbiter), DeleteAction(),
                ConfirmAction('is_confirmed'), ArbiterInvitationAction()]
 
     def get_all_data(self):
