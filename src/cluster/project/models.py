@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.db import models, transaction
 from cluster.account.account.models import Member, Cluster, Domain, Arbiter
 from cluster.utils.calverter import gregorian_to_jalali
-from cluster.utils.messages import MessageServices
+from cluster.utils.messages import MessageServices, SMSService
 from cluster.utils.permissions import PermissionController
 
 
@@ -92,6 +92,7 @@ class ProjectMilestone(models.Model):
 
         for milestone in milestones:
             receiver = milestone.project.single_member.user if milestone.project.single_member else milestone.project.cluster.head.user
+            receiver_mobile = milestone.project.single_member.mobile if milestone.project.single_member else milestone.project.cluster.head.mobile
             section = u"""
                  موعد  %s  مربوط به طرح %s  برای زمان  %s
             """ % (milestone.comment, milestone.project.title, gregorian_to_jalali(milestone.milestone_date))
@@ -99,6 +100,8 @@ class ProjectMilestone(models.Model):
             message = MessageServices.get_title_body_message(title=u"موعد طرح زیر گذشته یا نزدیک است:",
                                                              body=section)
             MessageServices.send_message(subject=u"موعد طرح", message=message, user=receiver)
+            SMSService.send_sms(message=u"موعد طرح زیر گذشته یا نزدیک است:" + '\n' + section,
+                                to_numbers=[receiver_mobile])
             body += '\n' + unicode(i) + u'- ' + section.strip()
             i += 1
             milestone.is_announced = True
