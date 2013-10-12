@@ -159,7 +159,6 @@ def member_confirm_change(instance, confirm):
     MessageServices.send_message(u"تغییر وضعیت عضویت", message, instance.user)
     SMSService.send_sms(message_body, [instance.mobile])
     if confirm is False:
-        instance.user.delete()
         instance.delete()
 
 

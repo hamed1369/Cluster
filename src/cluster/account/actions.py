@@ -61,6 +61,9 @@ class ClusterConfirmAction(ManagerAction):
 
         class ConfirmForm(forms.Form):
             confirm = forms.NullBooleanField(label=field_label, initial=field_val, required=False)
+            confirm.widget.choices = ((u'1', u"نامشخص"),
+                                      (u'2', u"بله"),
+                                      (u'3', u"خیر"))
             degree = forms.ChoiceField(label=u"درجه", choices=Cluster.CLUSTER_DEGREE, required=True)
 
         if http_request.method == 'POST':
@@ -183,7 +186,7 @@ class ArbiterInvitationAction(ManagerAction):
                 invitation_key = ''.join(
                     random.choice(string.letters + string.digits + '(_)./,;][=+') for x in range(50))
 
-                Arbiter.objects.create(invited=True, invitation_key=invitation_key)
+                Arbiter.objects.create(invited=True, invitation_key=invitation_key, is_confirmed=True)
 
                 message = MessageServices.get_arbiter_invitation_message(first_name, last_name, message, urllib.quote(invitation_key))
                 MessageServices.send_message(u"دعوت از شما برای داوری", message, email=email)

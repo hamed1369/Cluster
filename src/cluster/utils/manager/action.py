@@ -147,6 +147,9 @@ class ConfirmAction(ManagerAction):
 
         class ConfirmForm(forms.Form):
             confirm = forms.NullBooleanField(label=field_label, initial=field_val, required=False)
+            confirm.widget.choices = ((u'1', u"نامشخص"),
+                                      (u'2', u"بله"),
+                                      (u'3', u"خیر"))
 
         if http_request.method == 'POST':
             form = ConfirmForm(http_request.POST)

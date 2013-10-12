@@ -2,6 +2,7 @@
 import datetime
 from django import forms
 from cluster.account.account.models import Member, Cluster
+from cluster.project.models import Project
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn, ManagerGroupHeader
 from cluster.utils.permissions import PermissionController
@@ -47,13 +48,33 @@ class MemberAggregationManager(ObjectsManager):
         member_ages = self.get_all_data_cashed()
         for age_range in member_ages:
             range_members = Member.objects.filter(birth_date__range=(age_range.from_date, age_range.until_date))
-            confirmed_members = range_members.filter(is_confirmed=True).count()
+            confirmed_members = range_members.filter(is_confirmed=True).distinct().count()
             age_range.confirmed_members = confirmed_members
-            unconfirmed_members = range_members.exclude(is_confirmed=True).count()
+            unconfirmed_members = range_members.exclude(is_confirmed=True).distinct().count()
             age_range.unconfirmed_members = unconfirmed_members
 
-            # projects = Project.objects.filter().select_related('single_member')
-            # clusters = Cluster.objects.filter().select_related('head', 'domains')
+            age_range.project_type_1 += Project.objects.filter(project_status=-1, single_member__birth_date__range=(
+                age_range.from_date, age_range.until_date)).distinct().count()
+            age_range.project_type0 += Project.objects.filter(project_status=0, single_member__birth_date__range=(
+                age_range.from_date, age_range.until_date)).distinct().count()
+            age_range.project_type1 += Project.objects.filter(project_status=1, single_member__birth_date__range=(
+                age_range.from_date, age_range.until_date)).distinct().count()
+            age_range.project_type2 += Project.objects.filter(project_status=2, single_member__birth_date__range=(
+                age_range.from_date, age_range.until_date)).distinct().count()
+            age_range.project_type3 += Project.objects.filter(project_status=3, single_member__birth_date__range=(
+                age_range.from_date, age_range.until_date)).distinct().count()
+
+            age_range.project_type_1 += Project.objects.filter(project_status=-1, cluster__members__birth_date__range=(
+                age_range.from_date, age_range.until_date)).distinct().count()
+            age_range.project_type0 += Project.objects.filter(project_status=0, cluster__members__birth_date__range=(
+                age_range.from_date, age_range.until_date)).distinct().count()
+            age_range.project_type1 += Project.objects.filter(project_status=1, cluster__members__birth_date__range=(
+                age_range.from_date, age_range.until_date)).distinct().count()
+            age_range.project_type2 += Project.objects.filter(project_status=2, cluster__members__birth_date__range=(
+                age_range.from_date, age_range.until_date)).distinct().count()
+            age_range.project_type3 += Project.objects.filter(project_status=3, cluster__members__birth_date__range=(
+                age_range.from_date, age_range.until_date)).distinct().count()
+
 
     def get_all_data(self):
         return [
@@ -69,11 +90,11 @@ class MemberAggregationManager(ObjectsManager):
             ManagerColumn('title', u"رده سنی", '20'),
             ManagerColumn('confirmed_members', u"تاییدشده", '10', aggregation=True),
             ManagerColumn('unconfirmed_members', u"تاییدنشده", '10', aggregation=True),
-            ManagerColumn('project_type_1', u"رد شده", '10', True, aggregation=True),
-            ManagerColumn('project_type0', u"در مرحله درخواست", '10', True, aggregation=True),
-            ManagerColumn('project_type1', u"تایید مرحله اول", '10', True, aggregation=True),
-            ManagerColumn('project_type2', u"تاییدشده توسط داور", '10', True, aggregation=True),
-            ManagerColumn('project_type3', u"تایید مرحله دوم", '10', True, aggregation=True),
+            ManagerColumn('project_type_1', u"رد شده", '10', aggregation=True),
+            ManagerColumn('project_type0', u"در مرحله درخواست", '10', aggregation=True),
+            ManagerColumn('project_type1', u"تایید مرحله اول", '10', aggregation=True),
+            ManagerColumn('project_type2', u"تاییدشده توسط داور", '10', aggregation=True),
+            ManagerColumn('project_type3', u"تایید مرحله دوم", '10', aggregation=True),
         ]
         return columns
 
@@ -81,21 +102,6 @@ class MemberAggregationManager(ObjectsManager):
         if PermissionController.is_admin(self.http_request.user):
             return True
         return False
-
-    def get_project_type_1(self, data):
-        return 2
-
-    def get_project_type0(self, data):
-        return 2
-
-    def get_project_type1(self, data):
-        return 2
-
-    def get_project_type2(self, data):
-        return 2
-
-    def get_project_type3(self, data):
-        return 2
 
     def get_group_headers(self):
         group_headers = [
@@ -111,6 +117,11 @@ class MemberAgePeriod(object):
         self.id = age_id
         self.confirmed_members = 0
         self.unconfirmed_members = 0
+        self.project_type_1 = 0
+        self.project_type0 = 0
+        self.project_type1 = 0
+        self.project_type2 = 0
+        self.project_type3 = 0
         self.from_age = from_age
         self.until_age = until_age
 
