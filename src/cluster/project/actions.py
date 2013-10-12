@@ -73,8 +73,8 @@ class ProjectCheckAction(ManagerAction):
                 if old_arbiter != new_arbiter and new_arbiter:
                     message_body = u'%s محترم، مدیریت سامانه موسسه پژوهشی نگاه نو طرح با عنوان "%s" را برای داوری به شما سپرده است.' % (
                         unicode(new_arbiter.user), instance.title)
-                    message = MessageServices.get_title_body_message(u"ارسال طرح به شما برای داوری", message_body)
-                    MessageServices.send_message(u"ارسال طرح به شما برای داوری", message, new_arbiter.user)
+                    message = MessageServices.get_title_body_message(u"ارسال طرح برای شما جهت داوری", message_body)
+                    MessageServices.send_message(u"ارسال طرح برای شما جهت داوری", message, new_arbiter.user)
                     SMSService.send_sms(message_body, [new_arbiter.mobile])
 
                 messages.success(http_request, u"بررسی طرح با موفقیت انجام شد.")
@@ -157,7 +157,7 @@ class EditProjectAction(ManagerAction):
             if instance.project_status > 1:
                 inline_form = ProjectMilestoneForm(instance=instance, prefix='project_milestone')
                 inline_form.readonly = True
-            messages.error(http_request, u"طرح شما تایید شده است و امکان ویرایش آن وجود ندارد.")
+            messages.error(http_request, u"طرح شما در جریان افتاده است و امکان ویرایش آن وجود ندارد.")
             return render_to_response('project/show_project.html',
                                       {'form': form, 'inline_form': inline_form, 'title': u"جزئیات طرح"},
                                       context_instance=RequestContext(http_request))
