@@ -32,7 +32,7 @@ class MemberProjectManager(ObjectsManager):
 
     def get_all_data(self):
         return Project.objects.filter(
-            Q(single_member=self.http_request.user.member) | Q(cluster__user_domains__user=self.http_request.user))
+            Q(single_member=self.http_request.user.member) | Q(cluster__members__user=self.http_request.user))
 
     def get_columns(self):
         columns = [
@@ -108,8 +108,7 @@ class ProjectsManagement(ObjectsManager):
     )
 
     def can_view(self):
-        if PermissionController.is_admin(self.http_request.user) or PermissionController.is_arbiter(
-                self.http_request.user):
+        if PermissionController.is_admin(self.http_request.user):
             return True
         return False
 
@@ -161,6 +160,11 @@ class ArbiterProjectsManagement(ProjectsManagement):
     manager_verbose_name = u"مدیریت طرح ها"
     filter_form = ArbiterProjectsFilterForm
     actions = [ProjectCheckAction(), ProjectDetailAction()]
+
+    def can_view(self):
+        if PermissionController.is_arbiter(self.http_request.user):
+            return True
+        return False
 
     def get_all_data(self):
         return Project.objects.filter(arbiter=self.http_request.user.arbiter)

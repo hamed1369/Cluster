@@ -124,6 +124,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'captcha',
+    'django_select2',
     'cluster.registration',
     'cluster.account',
     'cluster.project',

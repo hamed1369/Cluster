@@ -65,6 +65,8 @@ class Member(Account):
     education_certification = models.FileField(u"تصویر آخرین مدرک تحصیلی", upload_to="education_certificates", null=True, blank=True)
     arbiter_interest = models.BooleanField(u"آیا تمایل به داوری نیز دارید؟", default=False)
 
+    domain = models.ForeignKey('Domain', verbose_name=u"حوزه فعالیت", related_name='members', null=True, blank=True, on_delete=models.SET_NULL)
+
     is_confirmed    = models.NullBooleanField(u"وضعیت",)
 
     class Meta:
@@ -107,17 +109,17 @@ class Arbiter(Account):
         return u"%s %s" % (self.user.first_name, self.user.last_name)
 
 
-class UserDomain(models.Model):
-    user = models.OneToOneField(User, verbose_name=u"عضو", related_name='user_domain')
-    domain = models.ForeignKey('Domain', verbose_name=u"حوزه فعالیت", related_name='user_domain', null=True, blank=True, on_delete=models.SET_NULL)
-
-    class Meta:
-        app_label = 'account'
-        verbose_name = u"دامنه عضو"
-        verbose_name_plural = u"دامنه های عضو"
-
-    def __unicode__(self):
-        return u"%s - %s" % (self.user, self.domain or '---')
+#class UserDomain(models.Model):
+#    user = models.OneToOneField(User, verbose_name=u"عضو", related_name='user_domain')
+#    domain = models.ForeignKey('Domain', verbose_name=u"حوزه فعالیت", related_name='user_domain', null=True, blank=True, on_delete=models.SET_NULL)
+#
+#    class Meta:
+#        app_label = 'account'
+#        verbose_name = u"دامنه عضو"
+#        verbose_name_plural = u"دامنه های عضو"
+#
+#    def __unicode__(self):
+#        return u"%s - %s" % (self.user, self.domain or '---')
 
 
 class Cluster(models.Model):
@@ -126,7 +128,7 @@ class Cluster(models.Model):
     institute   = models.CharField(u"دانشگاه / موسسه", max_length=30)
     head        = models.OneToOneField(Member,verbose_name=u"سر خوشه",related_name='head_cluster')
 
-    user_domains= models.ManyToManyField(UserDomain, verbose_name=u"اعضا", related_name='clusters')
+    #user_domains= models.ManyToManyField(UserDomain, verbose_name=u"اعضا", related_name='clusters')
 
     CLUSTER_DEGREE = (
         (1, 'A'),
@@ -147,11 +149,10 @@ class Cluster(models.Model):
 
     def get_members_and_links(self):
         res = []
-        for item in self.user_domains.order_by('-id'):
-            user = item.user
+        for member in self.members.order_by('-id'):
+            user = member.user
             user_unicode = unicode(user)
             try:
-                member = user.member
                 link = "/members/actions/?t=action&n=edit_member&i=%s"%member.id
             except:
                 link = None

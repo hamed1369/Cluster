@@ -180,6 +180,9 @@ $(document).ready(function () {
         $('input[name*="email"]').validationEngine('validate');
     }
 
+    if ($('input[name*="cluster-name"]').val()) {
+        $('input[name*="cluster-name"]').validationEngine('validate');
+    }
 //    $('.register_table tr, .inner_formset tr').click(function () {
 //        $('.register_table tr, .inner_formset tr').css({
 //            border: '0',

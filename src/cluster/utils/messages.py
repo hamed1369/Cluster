@@ -10,6 +10,7 @@ __author__ = 'M.Y'
 
 class MessageServices(object):
     from_email = u'info@persianelites.com'
+    site_url = 'http://www.persianelites.com'
 
     @staticmethod
     def send_message(subject, message, user=None, *args, **kwargs):
@@ -29,8 +30,7 @@ class MessageServices(object):
 
     @staticmethod
     def get_registration_message(cluster, user, username, password):
-        site_url = 'http://www.persianelites.com'
-        url = site_url + u"/register/%s/" % cluster.id
+        url = MessageServices.site_url + u"/register/%s/" % cluster.id
         message = Template("""
             <div style="direction:rtl;">
             <h1>ثبت نام در خوشه {{cluster_name}} </h1>
@@ -101,14 +101,19 @@ class MessageServices(object):
     @staticmethod
     def get_arbiter_invitation_message(first_name, last_name, message_txt, code):
         from cluster import settings
+
         message = Template("""
                 <div style="direction:rtl;">
                 <p>
                     {{first_name}} {{last_name}} محترم ،
                     سلام
+                    <br/>
                     شما به سامانه موسسه پژوهشی نگاه نو، به جهت داوری دعوت شده اید. برای تکمیل فرایند ثبت نام خود به آدرس زیر مراجعه کنید:
+                    <br/>
                     {{link_url}}
+                    <br/>
                     پیغام مدیر سامانه برای شما:
+                    <br/>
                     {{message_txt|safe}}
                 </p>
 
@@ -116,9 +121,10 @@ class MessageServices(object):
                 </div>
             """).render(Context({
             'first_name': first_name,
-            'last_name':last_name,
-            'link_url': u"%s/arbiter_register/?c=%s"%(settings.SITE_URL, code),
-            'message_txt': message_txt.replace('\r\n', '<br/>').replace('\n\r', '<br/>').replace('\r', '<br/>').replace('\n', '<br/>')
+            'last_name': last_name,
+            'link_url': u"%s/arbiter_register/?c=%s" % (MessageServices.site_url, code),
+            'message_txt': message_txt.replace('\r\n', '<br/>').replace('\n\r', '<br/>').replace('\r', '<br/>').replace(
+                '\n', '<br/>')
 
         }))
         return mark_safe(message)

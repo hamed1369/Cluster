@@ -30,10 +30,18 @@ class MemberForm(ClusterBaseModelForm):
 class MemberActionForm(ClusterBaseModelForm):
     class Meta:
         model = Member
-        exclude = ('is_confirmed',)
+        exclude = ('is_confirmed', 'domain')
 
     def __init__(self, *args, **kwargs):
         super(MemberActionForm, self).__init__(*args, **kwargs)
+        self.fields['national_code'].required = True
+        self.fields['birth_date'].required = True
+        self.fields['residence_city'].required = True
+        self.fields['telephone'].required = True
+        self.fields['mobile'].required = True
+        self.fields['essential_telephone'].required = True
+        self.fields['address'].required = True
+        self.fields['domain'].required = True
         self.fields['gender'].required = True
         self.fields['full_name'] = forms.CharField(initial=unicode(self.instance.user), label=u"نام و نام خانوادگی",
                                                    required=False)
@@ -159,7 +167,6 @@ def member_confirm_change(instance, confirm):
     MessageServices.send_message(u"تغییر وضعیت عضویت", message, instance.user)
     SMSService.send_sms(message_body, [instance.mobile])
     if confirm is False:
-        instance.user.delete()
         instance.delete()
 
 

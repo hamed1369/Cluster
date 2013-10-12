@@ -18,7 +18,7 @@ from cluster.utils.permissions import PermissionController
 
 def handle_member_edit(request):
     member = request.user.member
-    handler = ClusterHandler(request, cluster_id=member.cluster_id)
+    handler = ClusterHandler(request, cluster_id=member.cluster_id, has_cluster=member.cluster is not None)
     handler.initial_forms(member=member)
 
     if handler.is_valid_forms():

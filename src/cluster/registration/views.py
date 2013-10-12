@@ -40,6 +40,9 @@ def handle_register_view(request, cluster_id=None):
 
 
 def register(request):
+    if not request.user.is_anonymous():
+        messages.error(request, u"شما دارای پروفایل هستید.")
+        return render_to_response('show_message.html', {}, context_instance=RequestContext(request))
     return handle_register_view(request)
 
 
