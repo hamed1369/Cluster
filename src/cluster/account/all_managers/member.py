@@ -78,7 +78,7 @@ class MemberManager(ObjectsManager):
             ManagerColumn('first_name', u"نام", '10', True),
             ManagerColumn('last_name', u"نام خانوادگی", '10', True),
             ManagerColumn('username', u"نام کاربری", '7', True),
-            ManagerColumn('email', u"نام ایمیل", '10', True),
+            ManagerColumn('email', u"ایمیل", '10', True),
             ManagerColumn('last_login', u"تاریخ آخرین ورود", '7', True),
             ManagerColumn('cluster', u"خوشه", '10', True, True),
             ManagerColumn('gender', u"جنسیت", '5'),
