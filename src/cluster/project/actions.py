@@ -32,6 +32,7 @@ class ProjectCheckAction(ManagerAction):
     action_verbose_name = u"بررسی طرح"
     min_count = '1'
     ActionForm = ArbiterProjectManagerForm
+    can_milestone = False
 
     def action_view(self, http_request, selected_instances):
         if not selected_instances:
@@ -51,7 +52,7 @@ class ProjectCheckAction(ManagerAction):
                 inline_form_valid = False
 
             if form.is_valid() and inline_form_valid:
-                if old_state > 1:
+                if old_state > 1 and self.can_milestone:
                     inline_form.save()
                 instance = form.save()
                 form = None
@@ -81,6 +82,8 @@ class ProjectCheckAction(ManagerAction):
             form = self.ActionForm(instance=instance)
             if instance.project_status > 1:
                 inline_form = ProjectMilestoneForm(instance=instance, prefix='project_milestone')
+                if not self.can_milestone:
+                    inline_form.readonly = True
 
         return render_to_response('project/check_project.html',
                                   {'form': form, 'inline_form': inline_form, 'title': u"بررسی طرح",
@@ -90,6 +93,7 @@ class ProjectCheckAction(ManagerAction):
 
 class AdminProjectCheckAction(ProjectCheckAction):
     ActionForm = AdminProjectManagerForm
+    can_milestone = True
 
 
 class ProjectDetailAction(ManagerAction):

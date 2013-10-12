@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 from django import forms
-from cluster.account.account.models import Domain
+from cluster.account.account.models import Domain, Arbiter
 from cluster.project.models import Project
 from cluster.utils.fields import BOOLEAN_CHOICES
 from cluster.utils.forms import ClusterBaseModelForm
@@ -148,6 +148,7 @@ class AdminProjectManagerForm(ProjectManagerForm):
             (3, u"تایید مرحله دوم"),
 
         )
+        self.fields['arbiter'].queryset = Arbiter.objects.filter(invited=False)
         process_js_validations(self)
 
     def clean(self):
