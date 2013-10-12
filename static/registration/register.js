@@ -176,6 +176,10 @@ $(document).ready(function () {
         $('input[name*="username"]').validationEngine('validate');
     }
 
+    if ($('input[name*="email"]').val()) {
+        $('input[name*="email"]').validationEngine('validate');
+    }
+
 //    $('.register_table tr, .inner_formset tr').click(function () {
 //        $('.register_table tr, .inner_formset tr').css({
 //            border: '0',

@@ -128,7 +128,7 @@ class ProjectDetailAction(ManagerAction):
 
         return render_to_response('project/show_project.html',
                                   {'form': form, 'inline_form': inline_form, 'title': u"جزئیات طرح",
-                                   'project': project, 'comments': instance.comments.all()},
+                                   'project': project, 'comments': instance.comments.all(), 'has_comments': True},
                                   context_instance=RequestContext(http_request))
 
 
@@ -159,7 +159,8 @@ class EditProjectAction(ManagerAction):
                 inline_form.readonly = True
             messages.error(http_request, u"طرح شما در جریان افتاده است و امکان ویرایش آن وجود ندارد.")
             return render_to_response('project/show_project.html',
-                                      {'form': form, 'inline_form': inline_form, 'title': u"جزئیات طرح"},
+                                      {'form': form, 'inline_form': inline_form, 'title': u"جزئیات طرح",
+                                       'has_comments': False},
                                       context_instance=RequestContext(http_request))
 
         if http_request.method == 'POST':

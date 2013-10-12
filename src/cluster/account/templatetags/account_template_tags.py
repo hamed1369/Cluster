@@ -92,5 +92,13 @@ def show_m2m(value):
     return u', '.join([unicode(d) for d in value.all()])
 
 
+@register.filter
+def show_user_for_project_comments(user):
+    if PermissionController.is_admin(user):
+        return u"مدیر"
+    elif PermissionController.is_arbiter(user):
+        return u"داور"
+    else:
+        return u"%s (متقاضی)" % unicode(user)
 
 

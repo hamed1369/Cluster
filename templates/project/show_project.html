@@ -51,41 +51,43 @@
             <div>موعدی تعیین نشده است.</div>
         </fieldset>
     {% endif %}
-    <fieldset class="inner_fieldset">
-        <legend>توضیح ها</legend>
-        <ul class="comment-list">
-            {% for comment in comments %}
+    {% if has_comments %}
+        <fieldset class="inner_fieldset">
+            <legend>توضیح ها</legend>
+            <ul class="comment-list">
+                {% for comment in comments %}
 
-                <li class="comment {% cycle 'odd' 'even' %}">
-                    <div class="comment-user">
-                        {{ comment.user }}
-                    </div>
-                    <div class="comment-date">
-                        {{ comment.created_on|pdate_if_date }}
-                    </div>
-                    <div class="comment-text">
-                        <p>{{ comment.comment }}</p>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
-        <form action="" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <table class="register_table">
-                <tr>
-                    <td class="input_td">
-                        <textarea id="project-comment-text" name="project-comment-text" cols="40" rows="10"
-                                  placeholder="متن توضیح مورد نظر خود را وارد نمایید"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="button_holder">
-                            <input type="submit" value="ثبت" name="register-submit">
+                    <li class="comment {% cycle 'odd' 'even' %}">
+                        <div class="comment-user">
+                            {{ comment.user|show_user_for_project_comments }}
                         </div>
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </fieldset>
+                        <div class="comment-date">
+                            {{ comment.created_on|pdate_if_date }}
+                        </div>
+                        <div class="comment-text">
+                            <p>{{ comment.comment }}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <table class="register_table">
+                    <tr>
+                        <td class="input_td">
+                            <textarea id="project-comment-text" name="project-comment-text" cols="40" rows="10"
+                                      placeholder="متن توضیح مورد نظر خود را وارد نمایید"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="button_holder">
+                                <input type="submit" value="ثبت" name="register-submit">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </fieldset>
+    {% endif %}
 {% endblock %}
