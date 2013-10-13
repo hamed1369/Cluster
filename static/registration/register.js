@@ -109,13 +109,13 @@ $(document).ready(function () {
                         options[$(this).val()] = $(this).find(':selected').text();
                     }
             });
-        } else {
+        } else if(is_cluster == 'False') {
             $('select[name*="domain_choice"]').first().find('option').each(function(){
                 var txt = $(this).text();
                 var value = $(this).val();
                 options[value] = txt;
             });
-        }
+        }else{return}
 
         var $this_select = $(this);
         $this_select

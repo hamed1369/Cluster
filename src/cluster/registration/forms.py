@@ -102,6 +102,12 @@ class RegisterForm(ClusterBaseModelForm):
             self.fields['email'].initial = self.user.email
 
         if self.instance and self.instance.id:
+            if self.instance.cluster and self.instance.cluster.head != self.instance:
+                self.fields['domain'].widget.attrs.update({'readonly': 'readonly', 'disabled':'disabled'})
+                self.fields['domain'].required = False
+                self.domain = self.instance.domain
+            elif not self.instance.cluster:
+                self.fields['domain'].queryset = Domain.objects.filter(confirmed=True)
             self.fields.insert(3, 'change_password',
                                forms.ChoiceField(required=False, choices=BOOLEAN_CHOICES, widget=forms.RadioSelect(),
                                                  label=u"ویرایش گذرواژه", initial=False))
@@ -159,7 +165,8 @@ class RegisterForm(ClusterBaseModelForm):
         password = self.cleaned_data.get('password')
         email = self.cleaned_data.get('email')
         change_pass = self.cleaned_data.get('change_password')
-
+        if self.instance.cluster and self.instance.cluster.head != self.instance:
+            member.domain = self.domain
         try:
             if not user:
                 user = member.user
