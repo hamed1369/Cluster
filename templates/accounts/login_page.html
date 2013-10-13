@@ -4,7 +4,7 @@
 <head>
     <title>ورود</title>
     <link rel="stylesheet" type="text/css" href="/static/lib/bootstrap/css/bootstrap.min.css"/>
-{#    <link rel="stylesheet" type="text/css" href="/static/base.css"/>#}
+    {#    <link rel="stylesheet" type="text/css" href="/static/base.css"/>#}
     <script type="text/javascript" src="/static/lib/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="/static/lib/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/static/base.js"></script>
@@ -14,17 +14,18 @@
 <body>
 
 {% if messages %}
-    <div class="alert alert-danger" style="direction: rtl;">
-        <h2>
-            <ul>
-                {% for message in messages %}
+    {% for message in messages %}
+        <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %}"
+             style="direction: rtl;">
+            <h2>
+                <ul>
                     <li class="{% if message.tags == 'error' %}error_header{% else %}success_header{% endif %}">
                         {{ message }}
                     </li>
-                {% endfor %}
-            </ul>
-        </h2>
-    </div>
+                </ul>
+            </h2>
+        </div>
+    {% endfor %}
 {% endif %}
 
 <div class="container">
@@ -41,7 +42,8 @@
             </div>
             <div class="button-container">
                 <input class="btn btn-primary" type="submit" value="ورود"/>
-                <input class="btn btn-danger" type="button" onclick="location.href ='{% url cluster.registration.views.register %}';"
+                <input class="btn btn-danger" type="button"
+                       onclick="location.href ='{% url cluster.registration.views.register %}';"
                        value="ثبت نام"/>
             </div>
         </form>

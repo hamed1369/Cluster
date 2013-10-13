@@ -52,7 +52,7 @@ class Member(Account):
     )
     cluster             = models.ForeignKey('Cluster',related_name="members", null=True, blank=True)
     user                = models.OneToOneField(User,related_name = "member")
-    employment_status   = models.IntegerField(u"وضعیت شغلی", choices=EMPLOYMENT_STATUS)
+    employment_status   = models.IntegerField(u"وضعیت شغلی", choices=EMPLOYMENT_STATUS, null=True, blank=True)
     organization        = models.CharField(u"محل کار", max_length=30, null=True, blank=True)
     military_status     = models.IntegerField(u"وضعیت نظام وظیفه",choices=MILITARY_STATUS, null=True, blank=True)
     military_place      = models.CharField(u"محل خدمت", max_length=30, null=True, blank=True)

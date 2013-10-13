@@ -57,6 +57,8 @@ $(document).ready(function () {
 
     $('#cluster_member_formset select').focusin(function () {
 
+        var old_value = $(this).val();
+
         var options = {};
 
         $('select[name*="domain_choice"]').each(function () {
@@ -85,6 +87,8 @@ $(document).ready(function () {
                     .attr("value", key)
                     .text(value));
         });
+
+        $this_select.val(old_value);
     });
 
 
@@ -172,17 +176,44 @@ $(document).ready(function () {
     $('input[name*="change_password"]').change();
 
 
-    if ($('input[name*="username"]').val()) {
-        $('input[name*="username"]').validationEngine('validate');
-    }
+    $('input[name*="username"]').each(function () {
+        if ($(this).val()) {
+            $(this).validationEngine('validate');
+        }
+    });
 
-    if ($('input[name*="email"]').val()) {
-        $('input[name*="email"]').validationEngine('validate');
-    }
+    $('input[name*="email"]').each(function () {
+        if ($(this).val()) {
+            $(this).validationEngine('validate');
+        }
+    });
 
-    if ($('input[name*="cluster-name"]').val()) {
-        $('input[name*="cluster-name"]').validationEngine('validate');
-    }
+    $('input[name*="cluster-name"]').each(function () {
+        if ($(this).val()) {
+            $(this).validationEngine('validate');
+        }
+    });
+
+    $('#register_form').submit(function () {
+        $('input[name*="username"]').each(function () {
+            if ($(this).val()) {
+                $(this).validationEngine('validate');
+            }
+        });
+
+        $('input[name*="email"]').each(function () {
+            if ($(this).val()) {
+                $(this).validationEngine('validate');
+            }
+        });
+
+        $('input[name*="cluster-name"]').each(function () {
+            if ($(this).val()) {
+                $(this).validationEngine('validate');
+            }
+        });
+        return true;
+    });
 //    $('.register_table tr, .inner_formset tr').click(function () {
 //        $('.register_table tr, .inner_formset tr').css({
 //            border: '0',

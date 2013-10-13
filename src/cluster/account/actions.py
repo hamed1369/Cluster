@@ -73,7 +73,7 @@ class ClusterConfirmAction(ManagerAction):
                 degree = form.cleaned_data.get('degree')
                 for member in selected_instances[0].members.all():
                     try:
-                        member.member.is_confirmed = confirm
+                        member.is_confirmed = confirm
                         member.save()
                     except Member.DoesNotExist:
                         pass

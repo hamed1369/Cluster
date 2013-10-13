@@ -11,6 +11,7 @@ from cluster.account.personal_info.models import EducationalResume, Publication,
 from cluster.utils.fields import BOOLEAN_CHOICES
 from cluster.utils.forms import ClusterBaseForm, ClusterBaseModelForm
 from cluster.utils.js_validation import process_js_validations
+from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
 
@@ -33,8 +34,9 @@ class ClusterForm(ClusterBaseForm):
 
     def __init__(self, *args, **kwargs):
         super(ClusterForm, self).__init__(*args, **kwargs)
-        if not self.http_request.user.is_anonymous():
+        if not self.http_request.user.is_anonymous() and not PermissionController.is_member(self.http_request.user):
             self.extra_js_validation = {}
+        process_js_validations(self)
 
     def clean(self):
         cd = super(ClusterForm, self).clean()
@@ -82,6 +84,7 @@ class RegisterForm(ClusterBaseModelForm):
         self.fields['address'].required = True
         self.fields['gender'].required = True
         self.fields['domain'].required = True
+        self.fields['employment_status'].required = True
         self.fields.insert(0, 'first_name', forms.CharField(required=True, label=u"نام"))
         self.fields.insert(1, 'last_name', forms.CharField(required=True, label=u"نام خانوادگی"))
         self.fields.insert(2, 'username', forms.CharField(required=True, label=u"نام کاربری"))
