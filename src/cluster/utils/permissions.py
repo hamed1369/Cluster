@@ -49,6 +49,14 @@ class PermissionController:
         return User.objects.none()
 
     @classmethod
+    def get_arbiters_user(cls):
+        return User.objects.filter(arbiter__isnull=False,arbiter__invited=False)
+
+    @classmethod
+    def get_members_user(cls):
+        return User.objects.filter(member__isnull=False)
+
+    @classmethod
     def get_user_menus(cls, user):
         perms = []
         if user.is_anonymous():

@@ -6,10 +6,20 @@ $(document).ready(function () {
 
     $('select[name*=send_type]').change(function () {
         var send_type = parseInt($(this).val());
-        if (send_type in [4,6,9]){
-            $(this).parents('tr').first().next('tr').fadeOut();
-        }else{
+        if (send_type == 9) {
             $(this).parents('tr').first().next('tr').fadeIn();
+            $('[name*="member_receivers"]').parents('tr').first().fadeOut();
+            $('[name*="arbiter_receivers"]').parents('tr').first().fadeOut();
+        } else if (send_type == 4) {
+            $('[name*="member_receivers"]').parents('tr').first().fadeIn();
+            $('[name*="arbiter_receivers"]').parents('tr').first().fadeOut();
+        } else if (send_type == 6) {
+            $('[name*="arbiter_receivers"]').parents('tr').first().fadeIn();
+            $('[name*="member_receivers"]').parents('tr').first().fadeOut();
+        } else {
+            $(this).parents('tr').first().next('tr').fadeOut();
+            $('[name*="member_receivers"]').parents('tr').first().fadeOut();
+            $('[name*="arbiter_receivers"]').parents('tr').first().fadeOut();
         }
     });
     $('select[name*=send_type]').change();
