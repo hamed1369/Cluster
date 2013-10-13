@@ -89,6 +89,7 @@ class MemberManager(ObjectsManager):
             ManagerColumn('email', u"ایمیل", '10', True),
             ManagerColumn('last_login', u"تاریخ آخرین ورود", '7', True),
             ManagerColumn('cluster', u"خوشه", '10', True, True),
+            ManagerColumn('uni', u"دانشگاه", '10', True),
             ManagerColumn('gender', u"جنسیت", '5'),
             ManagerColumn('national_code', u"کد ملی", '10'),
             ManagerColumn('birth_date', u"تاریخ تولد", '10'),
@@ -137,6 +138,11 @@ class MemberManager(ObjectsManager):
             return u"""<a onClick="MyWindow=window.open('%s','خوشه/فرد',width=800,height=600); return false;"href='#' class="jqgrid-a">%s</a>""" % (
                 link, unicode(data.cluster))
         return u"""بدون خوشه"""
+
+    def get_uni(self, data):
+        if data.cluster:
+            return data.cluster.institute
+        return None
 
 
 class NoClusterMemberActionForm(ClusterBaseModelForm):
