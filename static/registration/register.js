@@ -92,6 +92,50 @@ $(document).ready(function () {
     });
 
 
+    $('select[name*="register-domain"]').focusin(function () {
+        var is_cluster = $('input[name*="is_cluster"]:checked', '#register_form').val();
+
+        var old_value = $(this).val();
+        var options = {};
+        if (is_cluster == 'True') {
+            $('select[name*="domain_choice"]').each(function () {
+                if ($(this).parents('tr').first().css('display') != 'none')
+                    if ($(this).val().trim() == '') {
+                        var text_val = $(this).parents('tr').first().find('input[name*="new_domain_name"]').val().trim();
+                        if (text_val != "") {
+                            options[text_val] = text_val;
+                        }
+                    } else {
+                        options[$(this).val()] = $(this).find(':selected').text();
+                    }
+            });
+        } else {
+            $('select[name*="domain_choice"]').first().find('option').each(function(){
+                var txt = $(this).text();
+                var value = $(this).val();
+                options[value] = txt;
+            });
+        }
+
+        var $this_select = $(this);
+        $this_select
+            .find('option')
+            .remove();
+        $this_select
+            .append($("<option></option>")
+                .attr("value", '')
+                .text('---------'));
+        $.each(options, function (key, value) {
+            $this_select
+                .append($("<option></option>")
+                    .attr("value", key)
+                    .text(value));
+        });
+
+        $this_select.val(old_value);
+    });
+
+
     $('input[name*="is_cluster"]').change(function () {
         var is_cluster = $('input[name*="is_cluster"]:checked', '#register_form').val();
 
