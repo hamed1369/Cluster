@@ -97,7 +97,7 @@ class ClusterConfirmAction(ManagerAction):
                     message = MessageServices.get_title_body_message(u"تغییر وضعیت خوشه", message_body)
 
                 MessageServices.send_message(u"تغییر وضعیت خوشه", message, selected_instances[0].head.user)
-                SMSService.send_sms(message_body, [selected_instances[0].head.mobile])
+                #SMSService.send_sms(message_body, [selected_instances[0].head.mobile])
                 if confirm is False:
                     selected_instances[0].delete()
 

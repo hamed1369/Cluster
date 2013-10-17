@@ -69,14 +69,15 @@ class ProjectCheckAction(ManagerAction):
                     else:
                         member = instance.cluster.head
                     MessageServices.send_message(u"تغییر وضعیت طرح", message, member.user)
-                    SMSService.send_sms(message_body, [member.mobile])
+                    if new_state == Project.REJECT_STATE or new_state == Project.CONFIRM_STATE:
+                        SMSService.send_sms(message_body, [member.mobile])
 
                 if old_arbiter != new_arbiter and new_arbiter:
                     message_body = u'%s محترم، مدیریت سامانه موسسه پژوهشی نگاه نو طرح با عنوان "%s" را برای داوری به شما سپرده است.' % (
                         unicode(new_arbiter.user), instance.title)
                     message = MessageServices.get_title_body_message(u"ارسال طرح برای شما جهت داوری", message_body)
                     MessageServices.send_message(u"ارسال طرح برای شما جهت داوری", message, new_arbiter.user)
-                    SMSService.send_sms(message_body, [new_arbiter.mobile])
+                    #SMSService.send_sms(message_body, [new_arbiter.mobile])
 
                 messages.success(http_request, u"بررسی طرح با موفقیت انجام شد.")
         else:

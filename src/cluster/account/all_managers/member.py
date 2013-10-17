@@ -171,7 +171,7 @@ def member_confirm_change(instance, confirm):
         message_body = u"وضعیت عضویت شما به نامشخص تغییر یافت."
         message = MessageServices.get_title_body_message(u"تغییر وضعیت عضویت", message_body)
     MessageServices.send_message(u"تغییر وضعیت عضویت", message, instance.user)
-    SMSService.send_sms(message_body, [instance.mobile])
+    #SMSService.send_sms(message_body, [instance.mobile])
     if confirm is False:
         instance.delete()
 
