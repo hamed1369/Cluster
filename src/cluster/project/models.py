@@ -122,6 +122,7 @@ class ProjectComment(models.Model):
     comment = models.TextField(verbose_name=u"توضیح", max_length=1000)
     project = models.ForeignKey(Project, verbose_name=u"طرح", related_name='comments')
     user = models.ForeignKey(User, verbose_name=u"کاربر مربوطه")
+    seen_by_member = models.BooleanField(verbose_name=u"مشاهده توسط متقاضی", default=False)
 
     class Meta:
         verbose_name = u"توضیح طرح"

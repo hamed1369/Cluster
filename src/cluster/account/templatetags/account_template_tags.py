@@ -102,3 +102,13 @@ def show_user_for_project_comments(user):
         return u"%s (متقاضی)" % unicode(user)
 
 
+@register.filter
+def is_admin(user):
+    return PermissionController.is_admin(user)
+
+
+@register.filter
+def is_arbiter(user):
+    return PermissionController.is_arbiter(user)
+
+

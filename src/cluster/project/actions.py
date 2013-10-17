@@ -9,6 +9,7 @@ from cluster.project.models import Project, ProjectMilestone, ProjectComment
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.manager.action import ManagerAction
 from cluster.utils.messages import MessageServices, SMSService
+from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
 
@@ -120,15 +121,23 @@ class ProjectDetailAction(ManagerAction):
         if http_request.method == 'POST':
             comment_txt = http_request.POST.get('project-comment-text')
             if comment_txt:
-                ProjectComment.objects.create(user=http_request.user, comment=comment_txt, project=instance)
+                comment = ProjectComment.objects.create(user=http_request.user, comment=comment_txt, project=instance)
+                if not PermissionController.is_arbiter(http_request.user):
+                    comment.seen_by_member = True
+                    comment.save()
 
         project = None
         if self.for_admin:
             project = instance
 
+        if PermissionController.is_member(http_request.user):
+            comments = instance.comments.filter(seen_by_member=True)
+        else:
+            comments = instance.comments.all()
+
         return render_to_response('project/show_project.html',
                                   {'form': form, 'inline_form': inline_form, 'title': u"جزئیات طرح",
-                                   'project': project, 'comments': instance.comments.all(), 'has_comments': True},
+                                   'project': project, 'comments': comments, 'has_comments': True},
                                   context_instance=RequestContext(http_request))
 
 

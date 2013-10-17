@@ -2,9 +2,12 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
+from django.shortcuts import get_object_or_404
 from django.utils import simplejson
+from django.views.decorators.csrf import csrf_exempt
 from cluster.account.account.models import Cluster, Member
+from cluster.project.models import ProjectComment
 from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
@@ -40,7 +43,8 @@ def validationEngine(request):
             try:
                 if not request.user.is_anonymous():
                     if request.user.member and request.user.member.cluster:
-                        cluster = Cluster.objects.filter(Q(name=field_val.strip()), ~Q(id=request.user.member.cluster.id))
+                        cluster = Cluster.objects.filter(Q(name=field_val.strip()),
+                                                         ~Q(id=request.user.member.cluster.id))
             except Member.DoesNotExist:
                 pass
             if cluster:
@@ -65,3 +69,20 @@ def select2(request):
                 result[user.username] = {'id': user.id, 'name': unicode(user)}
     json = simplejson.dumps(result)
     return HttpResponse(json, mimetype='application/json')
+
+
+@login_required
+@csrf_exempt
+def change_seen_by_member(request):
+    if PermissionController.is_admin(request.user):
+        is_seen = request.POST.get('i')
+        comment_id = request.POST.get('c')
+        if is_seen and comment_id:
+            comment = get_object_or_404(ProjectComment, id=comment_id)
+            if is_seen == 'true':
+                comment.seen_by_member = True
+            elif is_seen == 'false':
+                comment.seen_by_member = False
+            comment.save()
+            return HttpResponse('Ok')
+    raise Http404

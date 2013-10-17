@@ -36,6 +36,11 @@
     display: inline-block;
 }
 
+.comment-list li .seen-by-member {
+    color: rgb(150, 150, 150);
+    display: inline-block;
+}
+
 .comment-list li .comment-text p {
     white-space: pre;
 }
