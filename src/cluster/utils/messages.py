@@ -99,13 +99,11 @@ class MessageServices(object):
         return mark_safe(message)
 
     @staticmethod
-    def get_arbiter_invitation_message(first_name, last_name, message_txt, code):
-        from cluster import settings
-
+    def get_arbiter_invitation_message(title, message_txt, code):
         message = Template("""
                 <div style="direction:rtl;">
                 <p>
-                    {{first_name}} {{last_name}} محترم ،
+                    {{title}} ،
                     سلام
                     <br/>
                     شما به سامانه موسسه پژوهشی نگاه نو، به جهت داوری دعوت شده اید. برای تکمیل فرایند ثبت نام خود به آدرس زیر مراجعه کنید:
@@ -120,8 +118,7 @@ class MessageServices(object):
                 موسسه پژوهشی نگاه نو
                 </div>
             """).render(Context({
-            'first_name': first_name,
-            'last_name': last_name,
+            'title': title,
             'link_url': u"%s/arbiter_register/?c=%s" % (MessageServices.site_url, code),
             'message_txt': message_txt.replace('\r\n', '<br/>').replace('\n\r', '<br/>').replace('\r', '<br/>').replace(
                 '\n', '<br/>')

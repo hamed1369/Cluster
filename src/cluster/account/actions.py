@@ -178,8 +178,7 @@ class ArbiterInvitationAction(ManagerAction):
                 import string
                 import urllib
 
-                first_name = form.cleaned_data.get('first_name')
-                last_name = form.cleaned_data.get('last_name')
+                title = form.cleaned_data.get('title')
                 email = form.cleaned_data.get('email')
                 message = form.cleaned_data.get('message')
 
@@ -188,7 +187,7 @@ class ArbiterInvitationAction(ManagerAction):
 
                 Arbiter.objects.create(invited=True, invitation_key=invitation_key, is_confirmed=True)
 
-                message = MessageServices.get_arbiter_invitation_message(first_name, last_name, message,
+                message = MessageServices.get_arbiter_invitation_message(title, message,
                                                                          urllib.quote(invitation_key))
                 MessageServices.send_message(u"دعوت از شما برای داوری", message, email=email)
 

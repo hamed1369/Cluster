@@ -126,6 +126,7 @@ class AdminProjectManagerForm(ProjectManagerForm):
 
     extra_js_validation = {
         'score': 'required',
+        'arbiter': 'required',
     }
 
     def __init__(self, *args, **kwargs):
