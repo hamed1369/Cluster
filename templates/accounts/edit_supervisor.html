@@ -1,0 +1,13 @@
+{% extends 'accounts/edit_admin.html' %}
+{% block form_table %}
+    {{ block.super }}
+    <tr>
+        <td class="label_td">{{ form.mobile.label }}
+        </td>
+        <td class="input_td">{{ form.mobile }}</td>
+        {% if form.mobile.errors %}
+            <td class="error_td" width="30%">{{ form.mobile.errors }}</td>
+        {% endif %}
+    </tr>
+
+{% endblock %}

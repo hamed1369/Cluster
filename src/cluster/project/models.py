@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from django.db import models, transaction
-from cluster.account.account.models import Member, Cluster, Domain, Arbiter
+from cluster.account.account.models import Member, Cluster, Domain, Arbiter, Supervisor
 from cluster.utils.calverter import gregorian_to_jalali
 from cluster.utils.messages import MessageServices, SMSService
 from cluster.utils.permissions import PermissionController
@@ -53,7 +53,9 @@ class Project(models.Model):
     single_member = models.ForeignKey(Member, verbose_name=u"عضو", null=True, blank=True)
     cluster = models.ForeignKey(Cluster, verbose_name=u"خوشه", null=True, blank=True)
 
-    arbiter = models.ForeignKey(Arbiter, verbose_name=u"داوری مربوطه", null=True, blank=True)
+    arbiter = models.ForeignKey(Arbiter, verbose_name=u"داوری مربوطه", null=True, blank=True, on_delete=models.SET_NULL)
+    supervisor = models.ForeignKey(Supervisor, verbose_name=u"ناظر طرح", null=True, blank=True,
+                                   on_delete=models.SET_NULL)
     score = models.FloatField(verbose_name=u"امتیاز", null=True, blank=True)
 
     class Meta:
@@ -108,15 +110,18 @@ class ProjectMilestone(models.Model):
             i += 1
             milestone.is_announced = True
             milestone.save()
+            if milestone.project.supervisor:
+                MessageServices.send_message(subject=u"موعد طرح", message=message,
+                                             user=milestone.project.supervisor.user)
 
-        message = MessageServices.get_title_body_message(title=u"موعد های طرح های زیر گذشته اند یا نزدیک هستند:",
-                                                         body=body)
+        #message = MessageServices.get_title_body_message(title=u"موعد های طرح های زیر گذشته اند یا نزدیک هستند:",
+        #                                                 body=body)
         Message.send_message(admin_users[0], title=u"موعدهای گذشته یا نزدیک",
-                             body=u"موعد های طرح های زیر گذشته اند یا نزدیک هستند:" + '\n' + body,
+                             body=body,
                              receivers=admin_users)
 
-        for user in admin_users:
-            MessageServices.send_message(subject=u"موعدهای طرح", message=message, user=user)
+        #for user in admin_users:
+        #    MessageServices.send_message(subject=u"موعدهای طرح", message=message, user=user)
 
 
 class ProjectComment(models.Model):
@@ -132,7 +137,3 @@ class ProjectComment(models.Model):
 
     def __unicode__(self):
         return self.comment
-
-
-
-

@@ -34,74 +34,75 @@
             {% csrf_token %}
             <fieldset class="inner_fieldset">
                 <table class="register_table">
-                    <tr>
-                        <td class="label_td">{{ form.first_name.label }}
-                        </td>
-                        <td class="input_td">{{ form.first_name }}</td>
-                        {% if cluster_form.first_name.errors %}
-                            <td class="error_td" width="30%">{{ cluster_form.first_name.errors }}</td>
-                        {% endif %}
-
-                    </tr>
-                    <tr>
-                        <td class="label_td">{{ form.last_name.label }}
-                        </td>
-                        <td class="input_td">{{ form.last_name }}</td>
-                        {% if form.last_name.errors %}
-                            <td class="error_td" width="30%">{{ form.last_name.errors }}</td>
-                        {% endif %}
-                    </tr>
-                    <tr>
-
-                        <td class="label_td">{{ form.username.label }}
-                        </td>
-                        <td class="input_td">{{ form.username }}</td>
-                        {% if form.username.errors %}
-                            <td class="error_td" width="30%">{{ form.username.errors }}</td>
-                        {% endif %}
-                    </tr>
-
-                    {% if form.change_password %}
+                    {% block form_table %}
                         <tr>
-
-                            <td class="label_td">{{ form.change_password.label }}
+                            <td class="label_td">{{ form.first_name.label }}
                             </td>
-                            <td class="input_td">{{ form.change_password }}</td>
-                            {% if form.change_password.errors %}
-                                <td class="error_td" width="30%">{{ form.change_password.errors }}</td>
+                            <td class="input_td">{{ form.first_name }}</td>
+                            {% if cluster_form.first_name.errors %}
+                                <td class="error_td" width="30%">{{ cluster_form.first_name.errors }}</td>
+                            {% endif %}
+
+                        </tr>
+                        <tr>
+                            <td class="label_td">{{ form.last_name.label }}
+                            </td>
+                            <td class="input_td">{{ form.last_name }}</td>
+                            {% if form.last_name.errors %}
+                                <td class="error_td" width="30%">{{ form.last_name.errors }}</td>
                             {% endif %}
                         </tr>
-                    {% endif %}
+                        <tr>
 
-                    <tr{% if form.change_password %} style="display: none"{% endif %}>
+                            <td class="label_td">{{ form.username.label }}
+                            </td>
+                            <td class="input_td">{{ form.username }}</td>
+                            {% if form.username.errors %}
+                                <td class="error_td" width="30%">{{ form.username.errors }}</td>
+                            {% endif %}
+                        </tr>
 
-                        <td class="label_td">{{ form.password.label }}
-                        </td>
-                        <td class="input_td">{{ form.password }}</td>
-                        {% if form.password.errors %}
-                            <td class="error_td" width="30%">{{ form.password.errors }}</td>
+                        {% if form.change_password %}
+                            <tr>
+
+                                <td class="label_td">{{ form.change_password.label }}
+                                </td>
+                                <td class="input_td">{{ form.change_password }}</td>
+                                {% if form.change_password.errors %}
+                                    <td class="error_td" width="30%">{{ form.change_password.errors }}</td>
+                                {% endif %}
+                            </tr>
                         {% endif %}
-                    </tr>
-                    <tr{% if form.change_password %} style="display: none"{% endif %}>
 
-                        <td class="label_td">{{ form.re_password.label }}
-                        </td>
-                        <td class="input_td">{{ form.re_password }}</td>
-                        {% if form.re_password.errors %}
-                            <td class="error_td" width="30%">{{ form.re_password.errors }}</td>
-                        {% endif %}
-                    </tr>
+                        <tr{% if form.change_password %} style="display: none"{% endif %}>
 
-                    <tr>
+                            <td class="label_td">{{ form.password.label }}
+                            </td>
+                            <td class="input_td">{{ form.password }}</td>
+                            {% if form.password.errors %}
+                                <td class="error_td" width="30%">{{ form.password.errors }}</td>
+                            {% endif %}
+                        </tr>
+                        <tr{% if form.change_password %} style="display: none"{% endif %}>
 
-                        <td class="label_td">{{ form.email.label }}
-                        </td>
-                        <td class="input_td">{{ form.email }}</td>
-                        {% if form.email.errors %}
-                            <td class="error_td" width="30%">{{ form.email.errors }}</td>
-                        {% endif %}
-                    </tr>
+                            <td class="label_td">{{ form.re_password.label }}
+                            </td>
+                            <td class="input_td">{{ form.re_password }}</td>
+                            {% if form.re_password.errors %}
+                                <td class="error_td" width="30%">{{ form.re_password.errors }}</td>
+                            {% endif %}
+                        </tr>
 
+                        <tr>
+
+                            <td class="label_td">{{ form.email.label }}
+                            </td>
+                            <td class="input_td">{{ form.email }}</td>
+                            {% if form.email.errors %}
+                                <td class="error_td" width="30%">{{ form.email.errors }}</td>
+                            {% endif %}
+                        </tr>
+                    {% endblock %}
                 </table>
 
             </fieldset>

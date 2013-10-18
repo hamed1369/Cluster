@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from django.db.models import Q
-from cluster.account.account.models import Arbiter, Member
+from cluster.account.account.models import Arbiter, Member, Supervisor
 
 __author__ = 'M.Y'
 
 
-class PermissionController:
+class PermissionController(object):
     @classmethod
     def is_admin(cls, user):
         if user.is_superuser:
@@ -21,6 +21,14 @@ class PermissionController:
             Arbiter.objects.get(user=user)
             return True
         except Arbiter.DoesNotExist:
+            return False
+
+    @classmethod
+    def is_supervisor(cls, user):
+        try:
+            Supervisor.objects.get(user=user)
+            return True
+        except Supervisor.DoesNotExist:
             return False
 
     @classmethod
@@ -50,7 +58,7 @@ class PermissionController:
 
     @classmethod
     def get_arbiters_user(cls):
-        return User.objects.filter(arbiter__isnull=False,arbiter__invited=False)
+        return User.objects.filter(arbiter__isnull=False, arbiter__invited=False)
 
     @classmethod
     def get_members_user(cls):
@@ -69,6 +77,10 @@ class PermissionController:
             for menu in MENU_MAPPERS['arbiter']:
                 if menu not in perms:
                     perms.append(menu)
+        if cls.is_supervisor(user):
+            for menu in MENU_MAPPERS['supervisor']:
+                if menu not in perms:
+                    perms.append(menu)
         if cls.is_member(user):
             for menu in MENU_MAPPERS['member']:
                 if menu not in perms:
@@ -85,6 +97,8 @@ class PermissionController:
             return MENU_MAPPERS['admin'][0].url
         elif cls.is_arbiter(user):
             return MENU_MAPPERS['arbiter'][1].url
+        elif cls.is_supervisor(user):
+            return MENU_MAPPERS['supervisor'][1].url
         elif cls.is_member(user):
             return MENU_MAPPERS['member'][1].url
         return '/'
@@ -108,6 +122,7 @@ MENU_MAPPERS = {
         MenuMapper('/no_cluster_members/', u"  افراد بدون خوشه"),
         MenuMapper('/clusters/', u"خوشه ها"),
         MenuMapper('/arbiters_management/', u"داوران"),
+        MenuMapper('/supervisors_management/', u"ناظران"),
         MenuMapper('/projects_management/', u" طرح ها"),
         MenuMapper('/feedback_manager/', u" نظرات و پیشنهادات"),
         MenuMapper('/news_manager/', u" اخبار"),
@@ -121,6 +136,11 @@ MENU_MAPPERS = {
         MenuMapper('/projects_arbitration/', u"بررسی طرح ها"),
         MenuMapper('/messages/', u"جعبه پیام"),
         MenuMapper('/feedback/', u"ارسال نظرات و پیشنهادات"),
+    ],
+    'supervisor': [
+        MenuMapper('/', u"صفحه اصلی"),
+        MenuMapper('/accounts/edit/', u"ویرایش اطلاعات فردی"),
+        MenuMapper('/projects_supervision/', u"بررسی طرح ها"),
     ],
     'member': [
         MenuMapper('/', u"صفحه اصلی"),

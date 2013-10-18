@@ -169,3 +169,34 @@ class ArbiterProjectsManagement(ProjectsManagement):
     def get_all_data(self):
         return Project.objects.filter(arbiter=self.http_request.user.arbiter)
 
+    def get_columns(self):
+        columns = [
+            ManagerColumn('title', u"عنوان", '10'),
+            ManagerColumn('cluster', u"خوشه", '10', True),
+            ManagerColumn('keywords', u"کلید واژه ها", '10'),
+            ManagerColumn('domain', u"حوزه طرح", '10'),
+            ManagerColumn('state', u"مرحله", '10'),
+            ManagerColumn('project_status', u"مرحله داوری", '10'),
+        ]
+        return columns
+
+    def get_cluster(self, data):
+        if data.cluster:
+            return unicode(data.cluster)
+        if data.single_member and not data.cluster:
+            return unicode(data.single_member)
+
+
+class SupervisorProjectsManagement(ArbiterProjectsManagement):
+    manager_name = u"projects_supervision"
+    manager_verbose_name = u"مدیریت طرح ها"
+    filter_form = ArbiterProjectsFilterForm
+    actions = [ProjectDetailAction(has_comments=False)]
+
+    def can_view(self):
+        if PermissionController.is_supervisor(self.http_request.user):
+            return True
+        return False
+
+    def get_all_data(self):
+        return Project.objects.filter(supervisor=self.http_request.user.supervisor)

@@ -17,7 +17,7 @@ class ProjectForm(ClusterBaseModelForm):
 
     class Meta:
         model = Project
-        exclude = ('single_member', 'cluster', 'project_status', 'arbiter', 'score')
+        exclude = ('single_member', 'cluster', 'project_status', 'arbiter', 'score', 'supervisor')
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
@@ -74,7 +74,7 @@ class ProjectForm(ClusterBaseModelForm):
 class ProjectManagerForm(ProjectForm):
     class Meta:
         model = Project
-        exclude = ('single_member', 'cluster', 'arbiter', 'score')
+        exclude = ('single_member', 'cluster', 'arbiter', 'score', 'supervisor')
 
     def __init__(self, *args, **kwargs):
         kwargs['user'] = None
@@ -94,7 +94,7 @@ class ProjectManagerForm(ProjectForm):
 class ArbiterProjectManagerForm(ProjectManagerForm):
     class Meta:
         model = Project
-        exclude = ('single_member', 'cluster', 'arbiter', 'score', 'project_status')
+        exclude = ('single_member', 'cluster', 'arbiter', 'score', 'project_status', 'supervisor')
 
     def __init__(self, *args, **kwargs):
         kwargs['user'] = None
@@ -135,7 +135,7 @@ class AdminProjectManagerForm(ProjectManagerForm):
             del self.fields['agreement']
         self.fields.keyOrder = ['title', 'has_confirmation', 'confirmation_type', 'certificate_image', 'has_patent',
                                 'patent_number', 'patent_date', 'patent_certificate', 'patent_request', 'domain',
-                                'summary', 'keywords', 'innovations', 'state', 'project_status', 'arbiter', 'score']
+                                'summary', 'keywords', 'innovations', 'supervisor', 'state', 'project_status', 'arbiter', 'score']
         if self.instance and self.instance.id:
             if self.instance.project_status != 1:
                 self.fields['arbiter'].is_hidden = True

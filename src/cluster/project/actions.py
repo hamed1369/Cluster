@@ -105,6 +105,10 @@ class ProjectDetailAction(ManagerAction):
     min_count = '1'
     for_admin = True
 
+    def __init__(self, has_comments=True):
+        super(ProjectDetailAction, self).__init__()
+        self.has_comments = has_comments
+
     def action_view(self, http_request, selected_instances):
         if not selected_instances:
             raise Http404()
@@ -119,7 +123,7 @@ class ProjectDetailAction(ManagerAction):
             inline_form = ProjectMilestoneForm(instance=instance, prefix='project_milestone')
             inline_form.readonly = True
 
-        if http_request.method == 'POST':
+        if http_request.method == 'POST' and self.has_comments:
             comment_txt = http_request.POST.get('project-comment-text')
             if comment_txt:
                 comment = ProjectComment.objects.create(user=http_request.user, comment=comment_txt, project=instance)
@@ -131,14 +135,17 @@ class ProjectDetailAction(ManagerAction):
         if self.for_admin:
             project = instance
 
-        if PermissionController.is_member(http_request.user):
-            comments = instance.comments.filter(seen_by_member=True)
+        if not self.has_comments:
+            comments = None
         else:
-            comments = instance.comments.all()
+            if PermissionController.is_member(http_request.user):
+                comments = instance.comments.filter(seen_by_member=True).order_by('-id')
+            else:
+                comments = instance.comments.all().order_by('-id')
 
         return render_to_response('project/show_project.html',
                                   {'form': form, 'inline_form': inline_form, 'title': u"جزئیات طرح",
-                                   'project': project, 'comments': comments, 'has_comments': True},
+                                   'project': project, 'comments': comments, 'has_comments': self.has_comments},
                                   context_instance=RequestContext(http_request))
 
 

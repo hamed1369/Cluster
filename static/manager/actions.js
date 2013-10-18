@@ -24,6 +24,22 @@ $(document).ready(function () {
     });
     $('select[name*=send_type]').change();
 
+
+    $('input[name*="change_password"]').change(function () {
+        var change_pass = $('input[name*="change_password"]:checked').val();
+        var $first_tr = $(this).parents('tr').first().next('tr');
+        var $second_tr = $first_tr.next('tr');
+
+        if (change_pass == 'True') {
+            $first_tr.show(500);
+            $second_tr.show(500);
+        } else {
+            $first_tr.hide(500);
+            $second_tr.hide(500);
+        }
+    });
+    $('input[name*="change_password"]').change();
+
 //    $('select[name*=receivers]').select2({
 //        placeholder: "جستجو کاربران",
 //        minimumInputLength: 1,

@@ -108,6 +108,30 @@ class Arbiter(Account):
     def __unicode__(self):
         return u"%s %s" % (self.user.first_name, self.user.last_name)
 
+    def delete(self, using=None):
+        self.user.delete()
+        super(Arbiter, self).delete()
+
+
+class Supervisor(models.Model):
+    user = models.OneToOneField(User, related_name="supervisor")
+    mobile = models.CharField(u"تلفن همراه", max_length=11, null=True, blank=True)
+
+    class Meta:
+        app_label = 'account'
+        verbose_name = u"ناظر"
+        verbose_name_plural = u"ناظران"
+
+    def __unicode__(self):
+        return u"%s %s" % (self.user.first_name, self.user.last_name) if (
+            self.user.first_name and self.user.last_name) else u"%s" % self.user.username
+
+    def delete(self, using=None):
+        self.user.delete()
+        super(Supervisor, self).delete()
+
+
+
 
 #class UserDomain(models.Model):
 #    user = models.OneToOneField(User, verbose_name=u"عضو", related_name='user_domain')
