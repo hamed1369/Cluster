@@ -10,6 +10,15 @@
                 <legend>اطلاعات عمومی</legend>
                 <table class="register_table">
                     <tr>
+                        <td class="label_td">{{ arbiter_form.title.label }}
+                            {% if arbiter_form.title.field.required %}<span class="required_field">*</span>{% endif %}
+                        </td>
+                        <td class="input_td">{{ arbiter_form.title }}</td>
+                        {% if arbiter_form.title.errors %}
+                            <td class="error_td" style="width: 30%">{{ arbiter_form.title.errors }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
                         <td class="label_td">{{ arbiter_form.first_name.label }}
                             {% if arbiter_form.first_name.field.required %}<span class="required_field">*</span>{% endif %}
                         </td>

@@ -399,6 +399,8 @@ class ArbiterForm(ClusterBaseModelForm):
         self.fields['interested_domain'].widget = forms.CheckboxSelectMultiple()
         self.fields['interested_domain'].widget.multiple_check = True
         self.fields['interested_domain'].label = u"حوزه های مورد علاقه برای داوری"
+        self.fields.keyOrder.remove('title')
+        self.fields.keyOrder.insert(0, 'title')
         process_js_validations(self)
 
     def save(self, commit=True):

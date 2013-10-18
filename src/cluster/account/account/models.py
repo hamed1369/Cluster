@@ -88,6 +88,12 @@ class Arbiter(Account):
     u"""
     داور
     """
+    ARBITER_TITLES = (
+        (1, u'پروفسور'),
+        (2, u'دکتر'),
+        (3, u'مهندس'),
+    )
+    title = models.IntegerField(u"عنوان", choices=ARBITER_TITLES, null=True, blank=True)
     user = models.OneToOneField(User, related_name="arbiter", null=True, blank=True)
     workplace = models.CharField(u"محل کار", max_length=30, null=True, blank=True)
     # field           = models.CharField(u"رشته", max_length=20)
@@ -108,7 +114,13 @@ class Arbiter(Account):
 
     def __unicode__(self):
         if self.user:
-            return u"%s %s" % (self.user.first_name, self.user.last_name)
+            if self.gender == 1:
+                full_name = u"جناب آقای "
+            else:
+                full_name = u"سرکار خانم "
+            full_name += self.get_title_display() + u" "
+            full_name += u"%s %s" % (self.user.first_name, self.user.last_name)
+            return full_name
         else:
             return u"داور دعوت شده: %s" % self.invitation_key
 
