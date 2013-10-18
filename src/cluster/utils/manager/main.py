@@ -216,15 +216,33 @@ class ObjectsManager(object):
         worksheet.right_to_left()
 
         bold = workbook.add_format({'bold': True})
-        i = 1
         letters = string.uppercase
-        for cell in table.header:
-            column_head = letters[i - 1]
-            worksheet.set_column(column_head + ':' + column_head, int(cell.width) * 2)
-            worksheet.write_string(0, i - 1, strip_tags(cell.value), bold)
-            i += 1
+
+        group_headers = self.get_group_headers()
+        if group_headers:
+            i = 2
+            for group_header in group_headers:
+                column_head_s = letters[i]
+                column_head_f = letters[i - 1 + group_header.number_column]
+                worksheet.merge_range(column_head_s + '1:' + column_head_f + '1', strip_tags(group_header.title), bold)
+                i += group_header.number_column
+            i = 1
+            for cell in table.header:
+                column_head = letters[i - 1]
+                worksheet.set_column(column_head + ':' + column_head, int(cell.width) * 2)
+                worksheet.write_string(1, i - 1, strip_tags(cell.value), bold)
+                i += 1
+        else:
+            i = 1
+            for cell in table.header:
+                column_head = letters[i - 1]
+                worksheet.set_column(column_head + ':' + column_head, int(cell.width) * 2)
+                worksheet.write_string(0, i - 1, strip_tags(cell.value), bold)
+                i += 1
 
         row_i = 1
+        if group_headers:
+            row_i = 2
         align_format = workbook.add_format({'align': 'right'})
         for row in table:
             cell_i = 0

@@ -76,9 +76,7 @@
         {% endif %}
         stype: 'select',
         caption: "{{ manager.verbose_name }}",
-        {% if manager.actions %}
-            toolbar: [true, "top"],
-        {% endif %}
+        toolbar: [true, "top"],
         jsonReader: {
             root: "rows",
             page: "page",

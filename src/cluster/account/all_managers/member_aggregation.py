@@ -106,7 +106,6 @@ class MemberAggregationManager(ObjectsManager):
     def get_group_headers(self):
         group_headers = [
             ManagerGroupHeader('confirmed_members', 2, u"تعداد اعضا"),
-            ManagerGroupHeader('clusters_yes', 2, u"تعداد خوشه ها"),
             ManagerGroupHeader('project_type_1', 5, u"تعداد طرح ها"),
         ]
         return group_headers
