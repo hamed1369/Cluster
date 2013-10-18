@@ -118,8 +118,8 @@ class Arbiter(Account):
                 full_name = u"جناب آقای "
             else:
                 full_name = u"سرکار خانم "
-            full_name += self.get_title_display() + u" "
-            full_name += u"%s %s" % (self.user.first_name, self.user.last_name)
+            full_name += self.get_title_display() or ''
+            full_name += u" %s %s" % (self.user.first_name, self.user.last_name)
             return full_name
         else:
             return u"داور دعوت شده: %s" % self.invitation_key

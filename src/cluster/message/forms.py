@@ -5,7 +5,7 @@ from cluster.account.account.models import Cluster
 from cluster.message.models import Message
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.js_validation import process_js_validations
-from cluster.utils.messages import MessageServices
+from cluster.utils.messages import MessageServices, SMSService
 from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
@@ -31,18 +31,21 @@ class AdminMessageForm(ClusterBaseModelForm):
         self.fields['send_type'] = forms.ChoiceField(label=u"نوع گیرنده", choices=AdminMessageForm.SEND_TYPE)
         self.fields['send_type'].required = False
 
-        self.fields['arbiter_receivers'] = forms.ModelMultipleChoiceField(queryset=PermissionController.get_arbiters_user(),
-                                                                          label=u"گیرنده ها")
+        self.fields['arbiter_receivers'] = forms.ModelMultipleChoiceField(
+            queryset=PermissionController.get_arbiters_user(),
+            label=u"گیرنده ها")
         self.fields['arbiter_receivers'].required = False
         self.fields['arbiter_receivers'].is_hidden = True
-        self.fields['member_receivers'] = forms.ModelMultipleChoiceField(queryset=PermissionController.get_members_user(),
-                                                                         label=u"گیرنده ها")
+        self.fields['member_receivers'] = forms.ModelMultipleChoiceField(
+            queryset=PermissionController.get_members_user(),
+            label=u"گیرنده ها")
         self.fields['member_receivers'].required = False
         self.fields['member_receivers'].is_hidden = True
 
+        self.fields['is_sms'] = forms.BooleanField(required=False, label=u"ارسال پیامک")
         process_js_validations(self)
         self.fields['send_type'].required = True
-        self.fields.keyOrder = ['title', 'body', 'send_type', 'arbiter_receivers', 'member_receivers']
+        self.fields.keyOrder = ['title', 'body', 'send_type', 'arbiter_receivers', 'member_receivers', 'is_sms']
 
     def save(self, commit=True):
         message = super(AdminMessageForm, self).save(commit=False)
@@ -68,11 +71,22 @@ class AdminMessageForm(ClusterBaseModelForm):
 
         message.receivers = receivers
 
+        is_sms = self.cleaned_data.get('is_sms')
         if receivers:
             for user in receivers:
                 message_text = MessageServices.get_send_message(self.user, message.title, message.body)
                 MessageServices.send_message(subject=u"پیام دریافتی از مدیریت سیستم",
                                              message=message_text, user=user)
+                if is_sms:
+                    mobile = None
+                    if PermissionController.is_supervisor(user):
+                        mobile = user.supervisor.mobile
+                    elif PermissionController.is_arbiter(user):
+                        mobile = user.arbiter.mobile
+                    elif PermissionController.is_member(user):
+                        mobile = user.member.mobile
+                    if mobile:
+                        SMSService.send_sms(message_text, [mobile])
         return message
 
 
