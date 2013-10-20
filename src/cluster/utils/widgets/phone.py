@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 from django import forms
+from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe
 
 __author__ = 'M.Y'
@@ -83,12 +84,12 @@ class MobileNumberMultiWidget(PhoneNumberMultiWidget):
 
 
 class MobileNumberField(forms.CharField):
-    widget = MobileNumberMultiWidget(example=u"123456 100 912")
+    widget = MobileNumberMultiWidget(example=u"1234 100 912")
 
-    def clean(self, value):
-        value = super(MobileNumberField, self).clean(value)
-        print value
-        return value
+    def validate(self, value):
+        super(MobileNumberField, self).validate(value)
+        if value and len(value) != 13:
+            raise ValidationError(u"شماره تلفن همراه باید 10 رقمی باشد.")
 
 
 def handle_phone_fields(form):
@@ -100,4 +101,3 @@ def handle_phone_fields(form):
             old_required = form.fields[field].required
             old_initial = form.fields[field].initial
             form.fields[field] = MobileNumberField(label=old_label, required=old_required, initial=old_initial)
-            print type(form.fields[field])

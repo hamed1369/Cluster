@@ -16,19 +16,19 @@ $(document).ready(function () {
                 "url": "/ajax/validationEngine/",
 //                "alertTextOk": "این نام کاربری در دسترس است",
                 "alertText": "* این نام‌کاربری تکراری است",
-                "alertTextLoad": "* درحال اعتبار سنجی، لطفا صبر کنید"
+//                "alertTextLoad": "* درحال اعتبار سنجی، لطفا صبر کنید"
             },
             emailAjaxEngineCall: {
                 "url": "/ajax/validationEngine/",
 //                "alertTextOk": "این ایمیل در دسترس است",
                 "alertText": "* این ایمیل تکراری است",
-                "alertTextLoad": "* درحال اعتبار سنجی، لطفا صبر کنید"
+//                "alertTextLoad": "* درحال اعتبار سنجی، لطفا صبر کنید"
             },
             clusterNameAjaxEngineCall: {
                 "url": "/ajax/validationEngine/",
 //                "alertTextOk": "این ایمیل در دسترس است",
                 "alertText": "* این نام تکراری است",
-                "alertTextLoad": "* درحال اعتبار سنجی، لطفا صبر کنید"
+//                "alertTextLoad": "* درحال اعتبار سنجی، لطفا صبر کنید"
             }
         });
         $(".js-validation-from").validationEngine({
