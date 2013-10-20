@@ -5,11 +5,14 @@ $(document).ready(function () {
             if ($(this).val() == 1) {
                 $('input[name*="score"]').parents('tr').first().fadeIn();
                 $('#arbiter_formset_div').fadeIn();
-                $('#project_arbiters_div').fadeIn();
             } else {
                 $('input[name*="score"]').parents('tr').first().fadeOut();
                 $('input[name*="score"]').val('');
                 $('#arbiter_formset_div').fadeOut();
+            }
+            if ($(this).val() >= 1) {
+                $('#project_arbiters_div').fadeIn();
+            }else{
                 $('#project_arbiters_div').fadeOut();
             }
         });

@@ -193,6 +193,19 @@ class MemberForm(ClusterBaseForm):
     email = forms.EmailField(label=u"پست الکترونیک", widget=forms.TextInput(attrs={'style': 'width:85%;'}))
     domain = forms.CharField(label=u"حوزه فعالیت", widget=forms.Select(choices=[(u'', '---------'), ]))
 
+    def __init__(self, *args, **kwargs):
+        super(MemberForm, self).__init__(*args, **kwargs)
+        domain_key = self.prefix + '-domain'
+        domain_val = self.data.get(domain_key)
+        if domain_val:
+            try:
+                domain_name = Domain.objects.get(id=int(domain_val)).name
+            except (Domain.DoesNotExist, ValueError):
+                domain_name = unicode(domain_val)
+
+            self.fields['domain'].widget = forms.Select(
+                choices=[(u'', '---------'), (unicode(domain_val), domain_name)])
+
     extra_js_validation = {
         'email': 'ajax[emailAjaxEngineCall]',
     }
