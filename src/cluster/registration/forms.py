@@ -16,8 +16,8 @@ from cluster.utils.permissions import PermissionController
 __author__ = 'M.Y'
 
 REGISTER_CHOICES = (
-    (True, u"خوشه ای"),
     (False, u"فردی"),
+    (True, u"خوشه ای"),
 )
 
 
@@ -103,7 +103,7 @@ class RegisterForm(ClusterBaseModelForm):
 
         if self.instance and self.instance.id:
             if self.instance.cluster and self.instance.cluster.head != self.instance:
-                self.fields['domain'].widget.attrs.update({'readonly': 'readonly', 'disabled':'disabled'})
+                self.fields['domain'].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})
                 self.fields['domain'].required = False
                 self.domain = self.instance.domain
             elif not self.instance.cluster:

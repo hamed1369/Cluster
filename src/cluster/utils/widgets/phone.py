@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 from django import forms
 from django.utils.safestring import mark_safe
 
@@ -5,7 +6,8 @@ __author__ = 'M.Y'
 
 
 class PhoneNumberMultiWidget(forms.MultiWidget):
-    def __init__(self, attrs=None):
+    def __init__(self, attrs=None, example=None):
+        self.example = example
         widgets = (
             forms.TextInput(
                 attrs={'size': '8', 'maxlength': '8', 'class': 'phone',
@@ -21,6 +23,9 @@ class PhoneNumberMultiWidget(forms.MultiWidget):
 
     def decompress(self, value):
         if value:
+            values = value.split('-')
+            if len(values) == 3:
+                return [values[2], values[1], values[0]]
             return [value[6:], value[3:6], value[:3]]
         return tuple([None, None, None])
 
@@ -32,14 +37,17 @@ class PhoneNumberMultiWidget(forms.MultiWidget):
         if value[0] == value[1] == value[2] == u'':
             return None
         value = list(reversed(value))
-        return u'%s%s%s' % tuple(value)
+        return u'%s-%s-%s' % tuple(value)
 
     def render(self, name, value, attrs=None):
         content = super(PhoneNumberMultiWidget, self).render(name, value, attrs)
-        return mark_safe(u'<span class="phone-sign">+</span>' + content)
+        before_content = u'<span class="phone-sign">+</span><span class="phone-example"> مثال : %s </span>' % self.example
+        return mark_safe(before_content + content)
 
 
 def handle_phone_fields(form):
     for field in form.fields:
-        if field == 'telephone':
-            form.fields[field].widget = PhoneNumberMultiWidget()
+        if field == 'telephone' or field == 'essential_telephone':
+            form.fields[field].widget = PhoneNumberMultiWidget(example=u"87654321 21 98")
+            #elif field == 'mobile':
+            #    form.fields[field].widget = PhoneNumberMultiWidget(example=u"456789 123 912")

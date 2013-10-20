@@ -1,183 +1,183 @@
 <fieldset class="inner_fieldset">
-<legend>اطلاعات عمومی<span class="required_field">*</span></legend>
-
-<table class="register_table">
-    <tr>
-        <td class="label_td">{{ register_form.domain.label }}
-        </td>
-        <td class="input_td">{{ register_form.domain }}</td>
-        {% if register_form.domain.errors %}
-            <td class="error_td" width="30%">{{ register_form.domain.errors }}</td>
-        {% endif %}
-
-    </tr>
-    <tr>
-        <td class="label_td">{{ register_form.first_name.label }}
-        </td>
-        <td class="input_td">{{ register_form.first_name }}</td>
-        {% if register_form.first_name.errors %}
-            <td class="error_td" width="30%">{{ register_form.first_name.errors }}</td>
-        {% endif %}
-
-    </tr>
-    <tr>
-        <td class="label_td">{{ register_form.last_name.label }}
-        </td>
-        <td class="input_td">{{ register_form.last_name }}</td>
-        {% if register_form.last_name.errors %}
-            <td class="error_td" width="30%">{{ register_form.last_name.errors }}</td>
-        {% endif %}
-    </tr>
-    <tr>
-
-        <td class="label_td">{{ register_form.username.label }}
-        </td>
-        <td class="input_td">{{ register_form.username }}</td>
-        {% if register_form.username.errors %}
-            <td class="error_td" width="30%">{{ register_form.username.errors }}</td>
-        {% endif %}
-    </tr>
-
-    {% if register_form.change_password %}
+    <legend>اطلاعات عمومی<span class="required_field">*</span></legend>
+    <p>لطفا فیلدها به جز فیلد نام کاربری و پست الکترونیک را به صورت فارسی وارد نمایید.</p>
+    <table class="register_table">
         <tr>
-
-            <td class="label_td">{{ register_form.change_password.label }}
+            <td class="label_td">{{ register_form.domain.label }}
             </td>
-            <td class="input_td">{{ register_form.change_password }}</td>
-            {% if register_form.change_password.errors %}
-                <td class="error_td" width="30%">{{ register_form.change_password.errors }}</td>
+            <td class="input_td">{{ register_form.domain }}</td>
+            {% if register_form.domain.errors %}
+                <td class="error_td" width="30%">{{ register_form.domain.errors }}</td>
+            {% endif %}
+
+        </tr>
+        <tr>
+            <td class="label_td">{{ register_form.first_name.label }}
+            </td>
+            <td class="input_td">{{ register_form.first_name }}</td>
+            {% if register_form.first_name.errors %}
+                <td class="error_td" width="30%">{{ register_form.first_name.errors }}</td>
+            {% endif %}
+
+        </tr>
+        <tr>
+            <td class="label_td">{{ register_form.last_name.label }}
+            </td>
+            <td class="input_td">{{ register_form.last_name }}</td>
+            {% if register_form.last_name.errors %}
+                <td class="error_td" width="30%">{{ register_form.last_name.errors }}</td>
             {% endif %}
         </tr>
-    {% endif %}
+        <tr>
 
-    <tr{% if register_form.change_password %} style="display: none"{% endif %}>
+            <td class="label_td">{{ register_form.username.label }}
+            </td>
+            <td class="input_td">{{ register_form.username }}</td>
+            {% if register_form.username.errors %}
+                <td class="error_td" width="30%">{{ register_form.username.errors }}</td>
+            {% endif %}
+        </tr>
 
-        <td class="label_td">{{ register_form.password.label }}
-        </td>
-        <td class="input_td">{{ register_form.password }}</td>
-        {% if register_form.password.errors %}
-            <td class="error_td" width="30%">{{ register_form.password.errors }}</td>
-        {% endif %}
-    </tr>
-    <tr{% if register_form.change_password %} style="display: none"{% endif %}>
+        {% if register_form.change_password %}
+            <tr>
 
-        <td class="label_td">{{ register_form.re_password.label }}
-        </td>
-        <td class="input_td">{{ register_form.re_password }}</td>
-        {% if register_form.re_password.errors %}
-            <td class="error_td" width="30%">{{ register_form.re_password.errors }}</td>
-        {% endif %}
-    </tr>
-
-    <tr>
-
-        <td class="label_td">{{ register_form.email.label }}
-        </td>
-        <td class="input_td">{{ register_form.email }}</td>
-        {% if register_form.email.errors %}
-            <td class="error_td" width="30%">{{ register_form.email.errors }}</td>
-        {% endif %}
-    </tr>
-    <tr>
-
-        <td class="label_td">{{ register_form.gender.label }}
-        </td>
-        <td class="input_td">{{ register_form.gender }}</td>
-        {% if register_form.gender.errors %}
-            <td class="error_td" width="30%">{{ register_form.gender.errors }}</td>
-        {% endif %}
-    </tr>
-{#    <tr>#}
-{#        <td class="label_td">{{ register_form.father_name.label }}#}
-{#        </td>#}
-{#        <td class="input_td">{{ register_form.father_name }}</td>#}
-{#        {% if register_form.father_name.errors %}#}
-{#            <td class="error_td" width="30%">{{ register_form.father_name.errors }}</td>#}
-{#        {% endif %}#}
-{#    </tr>#}
-    <tr>
-
-        <td class="label_td">{{ register_form.national_code.label }}
-        </td>
-        <td class="input_td">{{ register_form.national_code }}</td>
-        {% if register_form.national_code.errors %}
-            <td class="error_td" width="30%">{{ register_form.national_code.errors }}</td>
-        {% endif %}
-    </tr>
-{#    <tr>#}
-{#        <td class="label_td">{{ register_form.identification_number.label }}#}
-{#        </td>#}
-{#        <td class="input_td">{{ register_form.identification_number }}</td>#}
-{#        {% if register_form.identification_number.errors %}#}
-{#            <td class="error_td" width="30%">{{ register_form.identification_number.errors }}</td>#}
-{#        {% endif %}#}
-{#    </tr>#}
-    <tr>
-
-        <td class="label_td">{{ register_form.birth_date.label }}
-        </td>
-        <td class="input_td">{{ register_form.birth_date }}</td>
-        {% if register_form.birth_date.errors %}
-            <td class="error_td" width="30%">{{ register_form.birth_date.errors }}</td>
+                <td class="label_td">{{ register_form.change_password.label }}
+                </td>
+                <td class="input_td">{{ register_form.change_password }}</td>
+                {% if register_form.change_password.errors %}
+                    <td class="error_td" width="30%">{{ register_form.change_password.errors }}</td>
+                {% endif %}
+            </tr>
         {% endif %}
 
-    </tr>
-    <tr>
+        <tr{% if register_form.change_password %} style="display: none"{% endif %}>
+
+            <td class="label_td">{{ register_form.password.label }}
+            </td>
+            <td class="input_td">{{ register_form.password }}</td>
+            {% if register_form.password.errors %}
+                <td class="error_td" width="30%">{{ register_form.password.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr{% if register_form.change_password %} style="display: none"{% endif %}>
+
+            <td class="label_td">{{ register_form.re_password.label }}
+            </td>
+            <td class="input_td">{{ register_form.re_password }}</td>
+            {% if register_form.re_password.errors %}
+                <td class="error_td" width="30%">{{ register_form.re_password.errors }}</td>
+            {% endif %}
+        </tr>
+
+        <tr>
+
+            <td class="label_td">{{ register_form.email.label }}
+            </td>
+            <td class="input_td">{{ register_form.email }}</td>
+            {% if register_form.email.errors %}
+                <td class="error_td" width="30%">{{ register_form.email.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr>
+
+            <td class="label_td">{{ register_form.gender.label }}
+            </td>
+            <td class="input_td">{{ register_form.gender }}</td>
+            {% if register_form.gender.errors %}
+                <td class="error_td" width="30%">{{ register_form.gender.errors }}</td>
+            {% endif %}
+        </tr>
+        {#    <tr>#}
+        {#        <td class="label_td">{{ register_form.father_name.label }}#}
+        {#        </td>#}
+        {#        <td class="input_td">{{ register_form.father_name }}</td>#}
+        {#        {% if register_form.father_name.errors %}#}
+        {#            <td class="error_td" width="30%">{{ register_form.father_name.errors }}</td>#}
+        {#        {% endif %}#}
+        {#    </tr>#}
+        <tr>
+
+            <td class="label_td">{{ register_form.national_code.label }}
+            </td>
+            <td class="input_td">{{ register_form.national_code }}</td>
+            {% if register_form.national_code.errors %}
+                <td class="error_td" width="30%">{{ register_form.national_code.errors }}</td>
+            {% endif %}
+        </tr>
+        {#    <tr>#}
+        {#        <td class="label_td">{{ register_form.identification_number.label }}#}
+        {#        </td>#}
+        {#        <td class="input_td">{{ register_form.identification_number }}</td>#}
+        {#        {% if register_form.identification_number.errors %}#}
+        {#            <td class="error_td" width="30%">{{ register_form.identification_number.errors }}</td>#}
+        {#        {% endif %}#}
+        {#    </tr>#}
+        <tr>
+
+            <td class="label_td">{{ register_form.birth_date.label }}
+            </td>
+            <td class="input_td">{{ register_form.birth_date }}</td>
+            {% if register_form.birth_date.errors %}
+                <td class="error_td" width="30%">{{ register_form.birth_date.errors }}</td>
+            {% endif %}
+
+        </tr>
+        <tr>
 
 
-        <td class="label_td">{{ register_form.residence_city.label }}
-        </td>
-        <td class="input_td">{{ register_form.residence_city }}</td>
-        {% if register_form.residence_city.errors %}
-            <td class="error_td" width="30%">{{ register_form.residence_city.errors }}</td>
-        {% endif %}
-    </tr>
-    <tr>
+            <td class="label_td">{{ register_form.residence_city.label }}
+            </td>
+            <td class="input_td">{{ register_form.residence_city }}</td>
+            {% if register_form.residence_city.errors %}
+                <td class="error_td" width="30%">{{ register_form.residence_city.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr>
 
-        <td class="label_td">{{ register_form.telephone.label }}
-        </td>
-        <td class="input_td">{{ register_form.telephone }}</td>
-        {% if register_form.telephone.errors %}
-            <td class="error_td" width="30%">{{ register_form.telephone.errors }}</td>
-        {% endif %}
-    </tr>
-    <tr>
+            <td class="label_td">{{ register_form.mobile.label }}
+            </td>
+            <td class="input_td">{{ register_form.mobile }}</td>
+            {% if register_form.mobile.errors %}
+                <td class="error_td" width="30%">{{ register_form.mobile.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr>
 
-        <td class="label_td">{{ register_form.mobile.label }}
-        </td>
-        <td class="input_td">{{ register_form.mobile }}</td>
-        {% if register_form.mobile.errors %}
-            <td class="error_td" width="30%">{{ register_form.mobile.errors }}</td>
-        {% endif %}
-    </tr>
-    <tr>
+            <td class="label_td">{{ register_form.telephone.label }}
+            </td>
+            <td class="input_td">{{ register_form.telephone }}</td>
+            {% if register_form.telephone.errors %}
+                <td class="error_td" width="30%">{{ register_form.telephone.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr>
 
-        <td class="label_td">{{ register_form.essential_telephone.label }}
-        </td>
-        <td class="input_td">{{ register_form.essential_telephone }}</td>
-        {% if register_form.essential_telephone.errors %}
-            <td class="error_td" width="30%">{{ register_form.essential_telephone.errors }}</td>
-        {% endif %}
-    </tr>
-    <tr>
+            <td class="label_td">{{ register_form.essential_telephone.label }}
+            </td>
+            <td class="input_td">{{ register_form.essential_telephone }}</td>
+            {% if register_form.essential_telephone.errors %}
+                <td class="error_td" width="30%">{{ register_form.essential_telephone.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr>
 
-        <td class="label_td">{{ register_form.address.label }}
-        </td>
-        <td class="input_td">{{ register_form.address }}</td>
-        {% if register_form.address.errors %}
-            <td class="error_td" width="30%">{{ register_form.address.errors }}</td>
-        {% endif %}
-    </tr>
-    <tr>
+            <td class="label_td">{{ register_form.address.label }}
+            </td>
+            <td class="input_td">{{ register_form.address }}</td>
+            {% if register_form.address.errors %}
+                <td class="error_td" width="30%">{{ register_form.address.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr>
 
-        <td class="label_td">{{ register_form.arbiter_interest.label }}
-        </td>
-        <td class="input_td">{{ register_form.arbiter_interest }}</td>
-        {% if register_form.arbiter_interest.errors %}
-            <td class="error_td" width="30%">{{ register_form.arbiter_interest.errors }}</td>
-        {% endif %}
-    </tr>
-</table>
+            <td class="label_td">{{ register_form.arbiter_interest.label }}
+            </td>
+            <td class="input_td">{{ register_form.arbiter_interest }}</td>
+            {% if register_form.arbiter_interest.errors %}
+                <td class="error_td" width="30%">{{ register_form.arbiter_interest.errors }}</td>
+            {% endif %}
+        </tr>
+    </table>
 </fieldset>
 <fieldset class="inner_fieldset">
     <legend>وضعیت شغلی<span class="required_field">*</span></legend>
@@ -224,38 +224,38 @@
 {#<br/>#}
 {#{% include 'formset.html' with legend="مهارت های نرم افزاری" formset=software_skill_formset cluster=cluster%}#}
 <br/>
-{% include 'formset.html' with legend="رزومه تحصیلی" formset=resume_formset cluster=cluster%}
+{% include 'formset.html' with legend="رزومه تحصیلی" formset=resume_formset cluster=cluster %}
 <br/>
 <fieldset class="inner_fieldset">
     <legend>عضویت در بنیاد ملی نخبگان</legend>
 
-<table class="register_table">
-    <tr>
-        <td class="label_td">{{ register_form.foundation_of_elites.label }}
-        </td>
-        <td class="input_td">{{ register_form.foundation_of_elites }}</td>
-        {% if register_form.foundation_of_elites.errors %}
-            <td class="error_td" width="30%">{{ register_form.foundation_of_elites.errors }}</td>
-        {% endif %}
-    </tr>
-{#    <tr{% if register_form.instance and register_form.instance.foundation_of_elites %}{% else %}#}
-{#        style="display: none" {% endif %}>#}
-{##}
-{#        <td class="label_td">{{ register_form.elite_certification.label }}#}
-{#        </td>#}
-{#        <td class="input_td">{{ register_form.elite_certification }}</td>#}
-{#        {% if register_form.elite_certification.errors %}#}
-{#            <td class="error_td" width="30%">{{ register_form.elite_certification.errors }}</td>#}
-{#        {% endif %}#}
-{#    </tr>#}
-</table>
+    <table class="register_table">
+        <tr>
+            <td class="label_td">{{ register_form.foundation_of_elites.label }}
+            </td>
+            <td class="input_td">{{ register_form.foundation_of_elites }}</td>
+            {% if register_form.foundation_of_elites.errors %}
+                <td class="error_td" width="30%">{{ register_form.foundation_of_elites.errors }}</td>
+            {% endif %}
+        </tr>
+        {#    <tr{% if register_form.instance and register_form.instance.foundation_of_elites %}{% else %}#}
+        {#        style="display: none" {% endif %}>#}
+        {##}
+        {#        <td class="label_td">{{ register_form.elite_certification.label }}#}
+        {#        </td>#}
+        {#        <td class="input_td">{{ register_form.elite_certification }}</td>#}
+        {#        {% if register_form.elite_certification.errors %}#}
+        {#            <td class="error_td" width="30%">{{ register_form.elite_certification.errors }}</td>#}
+        {#        {% endif %}#}
+        {#    </tr>#}
+    </table>
 </fieldset>
 <br/>
-{% include 'formset.html' with legend="طرح اجرایی یا طرح پژوهشی" formset=executive_research_formset cluster=cluster%}
+{% include 'formset.html' with legend="طرح اجرایی یا طرح پژوهشی" formset=executive_research_formset cluster=cluster %}
 <br/>
-{% include 'formset.html' with legend="مقاله ها پژوهشی / کتابهای چاپ شده" formset=publication_formset cluster=cluster%}
+{% include 'formset.html' with legend="مقاله ها پژوهشی / کتابهای چاپ شده" formset=publication_formset cluster=cluster %}
 <br/>
-{% include 'formset.html' with legend="اختراع ها" formset=invention_formset cluster=cluster%}
+{% include 'formset.html' with legend="اختراع ها" formset=invention_formset cluster=cluster %}
 <br/>
 
 
@@ -279,14 +279,14 @@
             {% endif %}
 
         </tr>
-{#        <tr>#}
-{#            <td class="label_td">{{ register_form.back_id_card.label }}#}
-{#            </td>#}
-{#            <td class="input_td">{{ register_form.back_id_card }}</td>#}
-{#            {% if register_form.back_id_card.errors %}#}
-{#                <td class="error_td" width="30%">{{ register_form.back_id_card.errors }}</td>#}
-{#            {% endif %}#}
-{#        </tr>#}
+        {#        <tr>#}
+        {#            <td class="label_td">{{ register_form.back_id_card.label }}#}
+        {#            </td>#}
+        {#            <td class="input_td">{{ register_form.back_id_card }}</td>#}
+        {#            {% if register_form.back_id_card.errors %}#}
+        {#                <td class="error_td" width="30%">{{ register_form.back_id_card.errors }}</td>#}
+        {#            {% endif %}#}
+        {#        </tr>#}
         <tr>
             <td class="label_td">{{ register_form.image.label }}
             </td>
@@ -300,19 +300,19 @@
     </table>
 </fieldset>
 {% if register_form.captcha %}
-<fieldset class="inner_fieldset">
-    <legend>تایید ثبت نام</legend>
-    <table>
-        <tr>
-            <td class="label_td">{{ register_form.captcha.label }}
-            </td>
-            <td class="input_td" style="width: 300px;">{{ register_form.captcha }}</td>
-            {% if register_form.captcha.errors %}
-                <td class="error_td" width="30%">{{ register_form.captcha.errors }}</td>
-            {% endif %}
-        </tr>
-    </table>
-</fieldset>
+    <fieldset class="inner_fieldset">
+        <legend>تایید ثبت نام</legend>
+        <table>
+            <tr>
+                <td class="label_td">{{ register_form.captcha.label }}
+                </td>
+                <td class="input_td" style="width: 300px;">{{ register_form.captcha }}</td>
+                {% if register_form.captcha.errors %}
+                    <td class="error_td" width="30%">{{ register_form.captcha.errors }}</td>
+                {% endif %}
+            </tr>
+        </table>
+    </fieldset>
 {% endif %}
 {#<table id="register_table">#}
 {#{% for field in register_form %}#}

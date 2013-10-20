@@ -433,6 +433,12 @@ input[name$=email], input[name$=username], input[name*=phone], input[name*=mobil
     left: -4px;
 }
 
+.phone-example {
+    position: relative;
+    top: 4px;
+    left: -30px;
+}
+
 input[name*=phone], input[name*=mobile] {
 }
 
