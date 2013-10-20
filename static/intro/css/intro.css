@@ -17,7 +17,7 @@ body{
     width: 100%;
 }
 
-#sliderFrame 
+#sliderFrame
 {
     width:920px;
     margin:0 auto; /*center-aligned*/
@@ -50,7 +50,7 @@ body{
 	background-repeat:no-repeat;
 	background-position:18px 0px;
     color:#1d5987;
-	
+
 }
 #thumbs .thumb-1{
 	z-index: 400;
@@ -95,7 +95,7 @@ body{
     position: relative;
     text-align: left;
     vertical-align: middle;
-    width: 240px;
+    width: 315px;
     float: left;
     color: #003147;
     font-family: B Mitra;
@@ -279,7 +279,7 @@ body{
     direction: rtl;
     text-align: right;
     color:#4F4F4F;
-    width: 240px;
+    width: 300px;
     padding: 5px;
     border-color: #FFF838;
     border-width: thin;

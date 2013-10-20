@@ -18,8 +18,11 @@ def get_dict(input_dict, key):
 
 @register.simple_tag
 def welcome_st(user):
-    overall_name = u"%s %s" % (user.first_name, user.last_name) if (
-        user.first_name and user.last_name) else u"%s" % user.username
+    if PermissionController.is_arbiter(user):
+        overall_name = unicode(user.arbiter)
+    else:
+        overall_name = u"%s %s" % (user.first_name, user.last_name) if (
+            user.first_name and user.last_name) else u"%s" % user.username
     return u"%s خوش آمدید." % overall_name
 
 
