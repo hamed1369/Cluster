@@ -95,7 +95,7 @@ body{
     position: relative;
     text-align: left;
     vertical-align: middle;
-    width: 315px;
+    width: 240px;
     float: left;
     color: #003147;
     font-family: B Mitra;
@@ -279,7 +279,7 @@ body{
     direction: rtl;
     text-align: right;
     color:#4F4F4F;
-    width: 300px;
+    width: 240px;
     padding: 5px;
     border-color: #FFF838;
     border-width: thin;

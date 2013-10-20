@@ -377,6 +377,8 @@ class ArbiterForm(ClusterBaseModelForm):
         else:
             self.extra_js_validation['re_password'] = 'equals[id_password]'
 
+        self.fields['other_domain'] = forms.CharField(label=u"سایر", required=False)
+
         if self.instance and self.instance.id:
             self.fields.insert(3, 'change_password',
                                forms.ChoiceField(required=False, choices=BOOLEAN_CHOICES, widget=forms.RadioSelect(),
@@ -394,11 +396,14 @@ class ArbiterForm(ClusterBaseModelForm):
                 self.fields['username'].widget.attrs.update({'readonly': 'readonly'})
                 self.extra_js_validation['username'] = ''
                 self.fields['email'].initial = self.instance.user.email
+            if self.instance.interested_domain.filter(confirmed=False):
+                self.fields['other_domain'].initial = self.instance.interested_domain.filter(confirmed=False)[0].name
 
         self.fields['interested_domain'].queryset = Domain.objects.filter(confirmed=True)
         self.fields['interested_domain'].widget = forms.CheckboxSelectMultiple()
         self.fields['interested_domain'].widget.multiple_check = True
         self.fields['interested_domain'].label = u"حوزه های مورد علاقه برای داوری"
+
         self.fields.keyOrder.remove('title')
         self.fields.keyOrder.insert(0, 'title')
         process_js_validations(self)
@@ -411,6 +416,7 @@ class ArbiterForm(ClusterBaseModelForm):
         password = self.cleaned_data.get('password')
         email = self.cleaned_data.get('email')
         change_pass = self.cleaned_data.get('change_password')
+        other_domain = self.cleaned_data.get('other_domain')
         try:
             user = instance.user
             user.first_name = first_name
@@ -428,8 +434,21 @@ class ArbiterForm(ClusterBaseModelForm):
         instance.invited = False
         instance.save()
 
-        instance.interested_domain = self.cleaned_data.get('interested_domain')
+        domain = None
+        if other_domain:
+            if instance.interested_domain.filter(confirmed=False):
+                domain = instance.interested_domain.filter(confirmed=False)[0]
+                domain.name = other_domain
+                domain.save()
+            else:
+                domain = Domain.objects.create(name=other_domain)
+        else:
+            if instance.interested_domain.filter(confirmed=False):
+                instance.interested_domain.filter(confirmed=False).delete()
 
+        instance.interested_domain = self.cleaned_data.get('interested_domain')
+        if domain:
+            instance.interested_domain.add(domain)
         return instance
 
 
