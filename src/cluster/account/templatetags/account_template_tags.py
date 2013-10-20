@@ -112,3 +112,10 @@ def is_arbiter(user):
     return PermissionController.is_arbiter(user)
 
 
+@register.filter
+def filename(file_val):
+    import os
+
+    return os.path.basename(file_val.name)
+
+

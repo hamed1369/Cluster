@@ -2,7 +2,7 @@
 from django import forms
 from django.db.models.query_utils import Q
 from cluster.account.account.models import Cluster, Member, Domain
-from cluster.project.actions import ProjectCheckAction, ProjectDetailAction, ProjectDetailMemberAction, EditProjectAction, AdminProjectCheckAction
+from cluster.project.actions import ProjectDetailAction, ProjectDetailMemberAction, EditProjectAction, AdminProjectCheckAction, ArbiterProjectCheckAction
 from cluster.project.models import Project
 from cluster.utils.date import handel_date_fields
 from cluster.utils.forms import ClusterBaseModelForm
@@ -159,7 +159,7 @@ class ArbiterProjectsManagement(ProjectsManagement):
     manager_name = u"projects_arbitration"
     manager_verbose_name = u"مدیریت طرح ها"
     filter_form = ArbiterProjectsFilterForm
-    actions = [ProjectCheckAction(), ProjectDetailAction()]
+    actions = [ArbiterProjectCheckAction(), ProjectDetailAction()]
 
     def can_view(self):
         if PermissionController.is_arbiter(self.http_request.user):
@@ -167,7 +167,8 @@ class ArbiterProjectsManagement(ProjectsManagement):
         return False
 
     def get_all_data(self):
-        return Project.objects.filter(arbiter=self.http_request.user.arbiter)
+        return Project.objects.filter(project_arbiters__arbiter=self.http_request.user.arbiter,
+                                      project_arbiters__project__project_status=Project.MIDDLE_CONFIRM_STATE)
 
     def get_columns(self):
         columns = [

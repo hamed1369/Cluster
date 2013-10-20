@@ -24,12 +24,13 @@ class Project(models.Model):
         (4, u"در حال تولید"),
     )
     REJECT_STATE = -1
+    MIDDLE_CONFIRM_STATE = 1
     CONFIRM_STATE = 3
     STATUS = (
         (-1, u"رد شده"),
         (0, u"در مرحله درخواست"),
         (1, u"تایید مرحله اول"),
-        (2, u"تاییدشده توسط داور"),
+        #(2, u"تاییدشده توسط داور"),
         (3, u"تایید مرحله دوم"),
 
     )
@@ -53,7 +54,6 @@ class Project(models.Model):
     single_member = models.ForeignKey(Member, verbose_name=u"عضو", null=True, blank=True)
     cluster = models.ForeignKey(Cluster, verbose_name=u"خوشه", null=True, blank=True)
 
-    arbiter = models.ForeignKey(Arbiter, verbose_name=u"داوری مربوطه", null=True, blank=True, on_delete=models.SET_NULL)
     supervisor = models.ForeignKey(Supervisor, verbose_name=u"ناظر طرح", null=True, blank=True,
                                    on_delete=models.SET_NULL)
     score = models.FloatField(verbose_name=u"امتیاز", null=True, blank=True)
@@ -137,3 +137,32 @@ class ProjectComment(models.Model):
 
     def __unicode__(self):
         return self.comment
+
+
+class ProjectArbiter(models.Model):
+    created_on = models.DateField(verbose_name=u"تاریخ ایجاد", auto_now_add=True)
+    project = models.ForeignKey(Project, verbose_name=u"طرح مربوطه", related_name='project_arbiters')
+    arbiter = models.ForeignKey(Arbiter, verbose_name=u"داور مربوطه", related_name='project_arbiters')
+    comment = models.TextField(verbose_name=u"نظر کلی", max_length=1000, null=True, blank=True)
+    attachment = models.FileField(u"ضمیمه", upload_to="project_arbiter_attachments/", null=True, blank=True)
+    confirmed = models.BooleanField(verbose_name=u"تاییدنهایی شده", default=False)
+    confirm_date = models.DateField(verbose_name=u"تاریخ تاییدنهایی", null=True, blank=True)
+
+    class Meta:
+        verbose_name = u"داوری طرح"
+        verbose_name_plural = u"داوری های طرح"
+
+    def __unicode__(self):
+        un = u"طرح %s - داور %s" % (self.project, self.arbiter)
+        if not self.confirmed:
+            return unicode(un) + u"(تایید نهایی نشده)"
+        else:
+            return unicode(un)
+
+    def save(self, force_insert=False, force_update=False, using=None):
+        import datetime
+
+        if self.confirmed is True:
+            self.confirm_date = datetime.date.today()
+        instance = super(ProjectArbiter, self).save(force_insert, force_update, using)
+        return instance

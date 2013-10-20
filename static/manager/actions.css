@@ -34,3 +34,20 @@ body {
 input[type="text"], input[type="password"], input[type="email"], input[type="url"], textarea {
     width: 60% !important;
 }
+
+.even-tr {
+    background-color: ghostwhite;
+}
+
+.odd-tr {
+    background-color: rgb(252, 252, 250);
+}
+
+.header-tr {
+    background-color: rgb(230, 230, 230);
+}
+
+.action-pre {
+    font-family: Tahoma, sans-serif;
+    font-size: 12px;
+}

@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 from django import forms
 from cluster.account.account.models import Domain, Arbiter
-from cluster.project.models import Project
+from cluster.project.models import Project, ProjectMilestone, ProjectArbiter
 from cluster.utils.fields import BOOLEAN_CHOICES
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.js_validation import process_js_validations
@@ -17,7 +17,7 @@ class ProjectForm(ClusterBaseModelForm):
 
     class Meta:
         model = Project
-        exclude = ('single_member', 'cluster', 'project_status', 'arbiter', 'score', 'supervisor')
+        exclude = ('single_member', 'cluster', 'project_status', 'score', 'supervisor')
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
@@ -74,7 +74,7 @@ class ProjectForm(ClusterBaseModelForm):
 class ProjectManagerForm(ProjectForm):
     class Meta:
         model = Project
-        exclude = ('single_member', 'cluster', 'arbiter', 'score', 'supervisor')
+        exclude = ('single_member', 'cluster', 'score', 'supervisor')
 
     def __init__(self, *args, **kwargs):
         kwargs['user'] = None
@@ -94,29 +94,15 @@ class ProjectManagerForm(ProjectForm):
 class ArbiterProjectManagerForm(ProjectManagerForm):
     class Meta:
         model = Project
-        exclude = ('single_member', 'cluster', 'arbiter', 'score', 'project_status', 'supervisor')
+        exclude = ('single_member', 'cluster', 'score', 'project_status', 'supervisor')
 
     def __init__(self, *args, **kwargs):
         kwargs['user'] = None
         super(ProjectManagerForm, self).__init__(*args, **kwargs)
-        self.fields['arbiter_checked'] = forms.BooleanField(required=False, label=u"تاییدشده توسط داور")
-        if self.instance.project_status > 1:
-            self.fields['arbiter_checked'].initial = True
         self.fields.keyOrder = ['title', 'has_confirmation', 'confirmation_type', 'certificate_image', 'has_patent',
                                 'patent_number', 'patent_date', 'patent_certificate', 'patent_request', 'domain',
-                                'summary', 'keywords', 'innovations', 'state', 'arbiter_checked']
+                                'summary', 'keywords', 'innovations', 'state']
         process_js_validations(self)
-
-    def save(self, commit=True):
-        instance = super(ArbiterProjectManagerForm, self).save(commit)
-
-        if self.cleaned_data.get('arbiter_checked') is True and instance.project_status == 1:
-            instance.project_status = 2
-        elif self.cleaned_data.get('arbiter_checked') is False and instance.project_status == 2:
-            instance.project_status = 1
-
-        instance.save()
-        return instance
 
 
 class AdminProjectManagerForm(ProjectManagerForm):
@@ -126,7 +112,6 @@ class AdminProjectManagerForm(ProjectManagerForm):
 
     extra_js_validation = {
         'score': 'required',
-        'arbiter': 'required',
     }
 
     def __init__(self, *args, **kwargs):
@@ -136,10 +121,9 @@ class AdminProjectManagerForm(ProjectManagerForm):
             del self.fields['agreement']
         self.fields.keyOrder = ['title', 'has_confirmation', 'confirmation_type', 'certificate_image', 'has_patent',
                                 'patent_number', 'patent_date', 'patent_certificate', 'patent_request', 'domain',
-                                'summary', 'keywords', 'innovations', 'supervisor', 'state', 'project_status', 'arbiter', 'score']
+                                'summary', 'keywords', 'innovations', 'supervisor', 'state', 'project_status', 'score']
         if self.instance and self.instance.id:
             if self.instance.project_status != 1:
-                self.fields['arbiter'].is_hidden = True
                 self.fields['score'].is_hidden = True
         self.fields['project_status'].choices = (
             (-1, u"رد شده"),
@@ -149,15 +133,45 @@ class AdminProjectManagerForm(ProjectManagerForm):
             (3, u"تایید مرحله دوم"),
 
         )
-        self.fields['arbiter'].queryset = Arbiter.objects.filter(invited=False)
         process_js_validations(self)
 
     def clean(self):
         cd = super(AdminProjectManagerForm, self).clean()
         project_status = cd.get('project_status')
         if project_status == 1:
-            if not cd.get('arbiter'):
-                self.errors['arbiter'] = self.error_class([u"در تایید مرحله اول باید داور مربوطه مشخص شود."])
             if not cd.get('score'):
                 self.errors['score'] = self.error_class([u"در تایید مرحله اول باید امتیاز مشخص شود."])
         return cd
+
+
+class MilestoneForm(ClusterBaseModelForm):
+    js_validation_configs = {
+        'required': False,
+    }
+
+    class Meta:
+        model = ProjectMilestone
+        exclude = ('is_announced',)
+
+
+class ProjectArbiterForm(ClusterBaseModelForm):
+    js_validation_configs = {
+        'required': False,
+    }
+
+    class Meta:
+        model = ProjectArbiter
+        exclude = ('confirm_date', 'comment', 'attachment', 'confirmed')
+
+    def __init__(self, *args, **kwargs):
+        super(ProjectArbiterForm, self).__init__(*args, **kwargs)
+        self.fields['arbiter'].queryset = Arbiter.objects.filter(invited=False)
+
+
+class ProjectArbitrationForm(ClusterBaseModelForm):
+    class Meta:
+        model = ProjectArbiter
+        exclude = ('confirm_date', 'arbiter', 'project')
+
+    def __init__(self, *args, **kwargs):
+        super(ProjectArbitrationForm, self).__init__(*args, **kwargs)
