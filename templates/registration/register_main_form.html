@@ -168,15 +168,6 @@
                 <td class="error_td" width="30%">{{ register_form.address.errors }}</td>
             {% endif %}
         </tr>
-        <tr>
-
-            <td class="label_td">{{ register_form.arbiter_interest.label }}
-            </td>
-            <td class="input_td">{{ register_form.arbiter_interest }}</td>
-            {% if register_form.arbiter_interest.errors %}
-                <td class="error_td" width="30%">{{ register_form.arbiter_interest.errors }}</td>
-            {% endif %}
-        </tr>
     </table>
 </fieldset>
 <fieldset class="inner_fieldset">
@@ -299,6 +290,24 @@
 
     </table>
 </fieldset>
+
+{% if register_form.arbiter_interest %}
+    <fieldset class="inner_fieldset">
+        <legend>تمایل به داوری</legend>
+        <p>در صورت امکان، آیا تمایل دارید که در سامانه به صورت داور نیز از شما استفاده شود؟</p><br/>
+        <table>
+            <tr>
+                <td class="label_td">{{ register_form.arbiter_interest.label }}
+                </td>
+                <td class="input_td">{{ register_form.arbiter_interest }}</td>
+                {% if register_form.arbiter_interest.errors %}
+                    <td class="error_td" width="30%">{{ register_form.arbiter_interest.errors }}</td>
+                {% endif %}
+            </tr>
+        </table>
+    </fieldset>
+{% endif %}
+
 {% if register_form.captcha %}
     <fieldset class="inner_fieldset">
         <legend>تایید ثبت نام</legend>

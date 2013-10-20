@@ -63,7 +63,7 @@ class Member(Account):
     # back_id_card        = models.FileField(u"تصویر پشت کارت ملی", upload_to="national_id_cards/", null=True, blank=True)
     education_certification = models.FileField(u"تصویر آخرین مدرک تحصیلی", upload_to="education_certificates",
                                                null=True, blank=True)
-    arbiter_interest = models.BooleanField(u"آیا تمایل به داوری نیز دارید؟", default=False)
+    arbiter_interest = models.BooleanField(u"تمایل به داوری دارم", default=False)
 
     domain = models.ForeignKey('Domain', verbose_name=u"حوزه فعالیت", related_name='members', null=True, blank=True,
                                on_delete=models.SET_NULL)
