@@ -32,6 +32,7 @@ class Project(models.Model):
         (1, u"تایید مرحله اول"),
         #(2, u"تاییدشده توسط داور"),
         (3, u"تایید مرحله دوم"),
+        (4, u"تکمیل شده"),
 
     )
     title = models.CharField(u"عنوان طرح", max_length=300)
