@@ -65,63 +65,67 @@
         </fieldset>
     {% endif %}
     {% if arbiter_formset %}
-        {% include 'formset.html' with legend="داوران طرح" formset=arbiter_formset %}
+        <div id="arbiter_formset_div">
+            {% include 'formset.html' with legend="داوران طرح" formset=arbiter_formset %}
+        </div>
         <br/>
     {% endif %}
     {% if project_arbiters %}
-        <fieldset class="inner_fieldset">
-            <legend>نتایج داوری</legend>
-            <table>
-                <thead>
-                <tr class="header-tr">
-                    <td width="35%">
-                        داور مربوطه
-                    </td>
-                    <td width="45%">
-                        نظر کلی
-                    </td>
-                    <td width="10%">
-                        ضمیمه
-                    </td>
-                    <td width="10%">
-                        تاییدنهایی شده
-                    </td>
-                </tr>
-                </thead>
-                <tbody>
-                {% for project_arbiter in project_arbiters %}
-                    <tr class="{% cycle 'odd-tr' 'even-tr' %}">
-                        <td>
-                            {{ project_arbiter.arbiter }}
+        <div id="project_arbiters_div">
+            <fieldset class="inner_fieldset">
+                <legend>نتایج داوری</legend>
+                <table>
+                    <thead>
+                    <tr class="header-tr">
+                        <td width="35%">
+                            داور مربوطه
                         </td>
-                        <td>
-                            {% if project_arbiter.comment %}
-                                <pre class="action-pre">{{ project_arbiter.comment }}</pre>
-                            {% else %}
-                                ---
-                            {% endif %}
+                        <td width="45%">
+                            نظر کلی
                         </td>
-                        <td>
-                            {% if project_arbiter.attachment %}
-                                <a target="_blank"
-                                   href="{{ project_arbiter.attachment.url }}">{{ project_arbiter.attachment|filename }}</a>
-                            {% else %}
-                                ---
-                            {% endif %}
+                        <td width="10%">
+                            ضمیمه
                         </td>
-                        <td>
-                            {% if project_arbiter.confirmed|is_true %}
-                                بله
-                            {% else %}
-                                خیر
-                            {% endif %}
+                        <td width="10%">
+                            تاییدنهایی شده
                         </td>
-
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </fieldset>
+                    </thead>
+                    <tbody>
+                    {% for project_arbiter in project_arbiters %}
+                        <tr class="{% cycle 'odd-tr' 'even-tr' %}">
+                            <td>
+                                {{ project_arbiter.arbiter }}
+                            </td>
+                            <td>
+                                {% if project_arbiter.comment %}
+                                    <pre class="action-pre">{{ project_arbiter.comment }}</pre>
+                                {% else %}
+                                    ---
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if project_arbiter.attachment %}
+                                    <a target="_blank"
+                                       href="{{ project_arbiter.attachment.url }}">{{ project_arbiter.attachment|filename }}</a>
+                                {% else %}
+                                    ---
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if project_arbiter.confirmed|is_true %}
+                                    بله
+                                {% else %}
+                                    خیر
+                                {% endif %}
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </fieldset>
+        </div>
         <br/>
     {% endif %}
     {% if milestone_formset %}

@@ -49,10 +49,12 @@ class AdminProjectCheckAction(ManagerAction):
                 if old_state > 1:
                     milestone_formset.save()
 
-                arbiter_formset.save()
                 instance = form.save()
                 form = None
                 new_state = instance.project_status
+                if new_state == 1:
+                    arbiter_formset.save()
+
                 new_state_display = instance.get_project_status_display()
                 if old_state != new_state:
                     message_body = u'وضعیت طرح "%s" از "%s" به "%s" تغییر پیدا کرد.' % (
