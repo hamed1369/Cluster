@@ -45,9 +45,59 @@ class PhoneNumberMultiWidget(forms.MultiWidget):
         return mark_safe(before_content + content)
 
 
+class MobileNumberMultiWidget(PhoneNumberMultiWidget):
+    def __init__(self, attrs=None, example=None):
+        self.example = example
+        widgets = (
+            forms.TextInput(
+                attrs={'size': '4', 'maxlength': '4', 'class': 'phone',
+                       'style': 'width: 80px !important; padding: 4px 2px;margin-left: 3px;'}),
+            forms.TextInput(
+                attrs={'size': '3', 'maxlength': '3', 'class': 'phone',
+                       'style': 'width: 30px !important; padding: 4px 2px;margin-left: 3px;'}),
+            forms.TextInput(
+                attrs={'size': '3', 'maxlength': '3', 'class': 'phone',
+                       'style': 'width: 30px !important;padding: 4px 2px;margin-left: 3px;'}),
+        )
+        super(PhoneNumberMultiWidget, self).__init__(widgets, attrs)
+
+    def decompress(self, value):
+        if value:
+            if value[0] == '0':
+                value = value[1:]
+            values = value.split('-')
+            if len(values) == 3:
+                return [values[2], values[1], values[0]]
+            return [value[6:], value[3:6], value[:3]]
+        return tuple([None, None, None])
+
+    def value_from_datadict(self, data, files, name):
+        value = [u'', u'', u'']
+        for d in filter(lambda x: x.startswith(name), data):
+            index = int(d[len(name) + 1:])
+            value[index] = data[d]
+        if value[0] == value[1] == value[2] == u'':
+            return None
+        value = list(reversed(value))
+        return u'0%s-%s-%s' % tuple(value)
+
+
+class MobileNumberField(forms.CharField):
+    widget = MobileNumberMultiWidget(example=u"123456 100 912")
+
+    def clean(self, value):
+        value = super(MobileNumberField, self).clean(value)
+        print value
+        return value
+
+
 def handle_phone_fields(form):
     for field in form.fields:
         if field == 'telephone' or field == 'essential_telephone':
             form.fields[field].widget = PhoneNumberMultiWidget(example=u"87654321 21 98")
-            #elif field == 'mobile':
-            #    form.fields[field].widget = PhoneNumberMultiWidget(example=u"456789 123 912")
+        elif field == 'mobile':
+            old_label = form.fields[field].label
+            old_required = form.fields[field].required
+            old_initial = form.fields[field].initial
+            form.fields[field] = MobileNumberField(label=old_label, required=old_required, initial=old_initial)
+            print type(form.fields[field])

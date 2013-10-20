@@ -159,6 +159,9 @@ class SMSService(object):
         if not to_numbers[0]:
             return
 
+        for i in range(len(to_numbers)):
+            to_numbers[i] = to_numbers[i].replace('-', '')
+
         message = message + '\n' + cls.signature
 
         try:

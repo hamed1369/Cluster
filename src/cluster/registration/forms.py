@@ -123,7 +123,7 @@ class RegisterForm(ClusterBaseModelForm):
             self.extra_js_validation = {
                 're_password': 'equals[id_register-password]',
                 'essential_telephone': 'custom[phone]',
-                'mobile': 'custom[mobile]',
+                'mobile': 'custom[phone]',
             }
             if has_cluster:
                 self.extra_js_validation['username'] = 'ajax[usernameAjaxEngineCall]'
@@ -133,7 +133,7 @@ class RegisterForm(ClusterBaseModelForm):
             self.extra_js_validation = {
                 're_password': 'equals[id_register-password]',
                 'essential_telephone': 'custom[phone]',
-                'mobile': 'custom[mobile]',
+                'mobile': 'custom[phone]',
             }
             if has_cluster:
                 self.extra_js_validation['username'] = 'ajax[usernameAjaxEngineCall]'
@@ -354,7 +354,7 @@ class ArbiterForm(ClusterBaseModelForm):
         'username': 'ajax[usernameAjaxEngineCall]',
         'email': 'ajax[emailAjaxEngineCall]',
         'essential_telephone': 'custom[phone]',
-        'mobile': 'custom[mobile]',
+        'mobile': 'custom[phone]',
         'office_phone': 'custom[phone]',
         'fax': 'custom[phone]',
     }
@@ -456,7 +456,7 @@ class AdminEditArbiter(ArbiterForm):
     extra_js_validation = {
         're_password': 'equals[id_register-password]',
         'essential_telephone': 'custom[phone]',
-        'mobile': 'custom[mobile]',
+        'mobile': 'custom[phone]',
         'office_phone': 'custom[phone]',
         'fax': 'custom[phone]',
     }

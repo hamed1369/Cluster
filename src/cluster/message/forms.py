@@ -86,7 +86,7 @@ class AdminMessageForm(ClusterBaseModelForm):
                     elif PermissionController.is_member(user):
                         mobile = user.member.mobile
                     if mobile:
-                        SMSService.send_sms(message_text, [mobile])
+                        SMSService.send_sms(message.body, [mobile])
         return message
 
 

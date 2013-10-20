@@ -25,9 +25,9 @@ class Account(models.Model):
     # identification_number = models.BigIntegerField(u"شماره شناسنامه")
     birth_date = models.DateField(u"تاریخ تولد", null=True, blank=True)
     residence_city = models.CharField(u"شهر محل اقامت", max_length=20, null=True, blank=True)
-    telephone = models.CharField(u"تلفن ثابت", max_length=15, null=True, blank=True)
-    mobile = models.CharField(u"تلفن همراه", max_length=11, null=True, blank=True)
-    essential_telephone = models.CharField(u"تلفن ضروری", max_length=15, null=True, blank=True)
+    telephone = models.CharField(u"تلفن ثابت", max_length=16, null=True, blank=True)
+    mobile = models.CharField(u"تلفن همراه", max_length=13, null=True, blank=True)
+    essential_telephone = models.CharField(u"تلفن ضروری", max_length=16, null=True, blank=True)
     address = models.CharField(u"آدرس", max_length=400, null=True, blank=True)
     created_on = models.DateField(u"تاریخ ایجاد", auto_now_add=True)
 
