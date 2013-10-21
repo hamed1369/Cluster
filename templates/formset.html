@@ -79,7 +79,25 @@
                                     yearRange: '1300,1400',
                                     dateFormat: 'yy/mm/dd'
                                 });
-                                $('#' + '{{ formset.prefix }}' + '_table tbody tr').find('input[type=text], select').attr('data-prompt-position', 'topLeft:-100');
+                                var $formset_tr = $('#' + '{{ formset.prefix }}' + '_table tbody tr');
+                                $formset_tr.find('input[type=text], select').attr('data-prompt-position', 'topLeft:-100');
+                                {% if formset.prefix != 'cluster_domain' %}
+                                    $formset_tr.each(function () {
+                                        var all_fields_name = [];
+                                        $(this).find('input[type=text], select').each(function () {
+                                            all_fields_name.push($(this).attr('id'));
+                                        });
+                                        $(this).find('input[type=text], select').each(function () {
+                                            if ($(this).attr('name').indexOf('end_year') == -1) {
+                                                var cls_attr = $(this).attr('class');
+                                                var new_cls_attr = cls_attr.substring(0, cls_attr.lastIndexOf(']')) + 'condRequired[' + all_fields_name + ']' + cls_attr.substring(cls_attr.lastIndexOf(']'));
+                                                $(this).removeClass(cls_attr);
+                                                $(this).addClass(new_cls_attr);
+                                            }
+                                        });
+                                    });
+                                {% endif %}
+
                             }
 
                         });
