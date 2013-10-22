@@ -5,7 +5,7 @@ from cluster.account.account.models import Cluster, Member, Domain
 from cluster.project.actions import ProjectDetailAction, ProjectDetailMemberAction, EditProjectAction, AdminProjectCheckAction, ArbiterProjectCheckAction
 from cluster.project.models import Project
 from cluster.utils.date import handel_date_fields
-from cluster.utils.forms import ClusterBaseModelForm
+from cluster.utils.forms import ClusterBaseModelForm, ClusterFilterModelForm
 from cluster.utils.manager.action import DeleteAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
 from cluster.utils.permissions import PermissionController
@@ -13,7 +13,7 @@ from cluster.utils.permissions import PermissionController
 __author__ = 'M.Y'
 
 
-class MemberProjectFilterForm(ClusterBaseModelForm):
+class MemberProjectFilterForm(ClusterFilterModelForm):
     class Meta:
         model = Project
         fields = ('title', 'keywords', 'domain')
@@ -65,7 +65,7 @@ class MemberProjectManager(ObjectsManager):
         """
 
 
-class ProjectsManagementFilterForm(ClusterBaseModelForm):
+class ProjectsManagementFilterForm(ClusterFilterModelForm):
     class Meta:
         model = Project
         fields = ('title', 'keywords', 'domain', 'project_status', 'cluster', 'single_member')
@@ -84,6 +84,7 @@ class ProjectsManagementFilterForm(ClusterBaseModelForm):
             (0, u"در مرحله درخواست"),
             (1, u"تایید مرحله اول"),
             (2, u"تایید مرحله دوم"),
+            (4, u"تکمیل شده"),
         )
         self.fields['milestone_from'] = forms.DateField(label=u"موعدها از تاریخ", required=False)
         self.fields['milestone_until'] = forms.DateField(label=u"موعدها تا تاریخ", required=False)
@@ -137,7 +138,7 @@ class ProjectsManagement(ObjectsManager):
                 link, unicode(data.single_member))
 
 
-class ArbiterProjectsFilterForm(ClusterBaseModelForm):
+class ArbiterProjectsFilterForm(ClusterFilterModelForm):
     class Meta:
         model = Project
         fields = ('title', 'keywords', 'domain', 'cluster', 'single_member')

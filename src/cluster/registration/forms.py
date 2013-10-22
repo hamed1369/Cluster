@@ -122,8 +122,8 @@ class RegisterForm(ClusterBaseModelForm):
                 self.fields['email'].initial = self.instance.user.email
             self.extra_js_validation = {
                 're_password': 'equals[id_register-password]',
-                'essential_telephone': 'custom[phone]',
-                'mobile': 'custom[phone]',
+                'essential_telephone': 'custom[number]',
+                'mobile': 'custom[number]',
             }
             if has_cluster:
                 self.extra_js_validation['username'] = 'ajax[usernameAjaxEngineCall]'
@@ -132,8 +132,8 @@ class RegisterForm(ClusterBaseModelForm):
                 'invalid': u"کد امنیتی وارد شده صحیح نمی باشد."}))
             self.extra_js_validation = {
                 're_password': 'equals[id_register-password]',
-                'essential_telephone': 'custom[phone]',
-                'mobile': 'custom[phone]',
+                'essential_tele': 'custom[number]',
+                'mobile': 'custom[number]',
             }
             if has_cluster:
                 self.extra_js_validation['username'] = 'ajax[usernameAjaxEngineCall]'
@@ -366,10 +366,10 @@ class ArbiterForm(ClusterBaseModelForm):
         're_password': 'equals[id_register-password]',
         'username': 'ajax[usernameAjaxEngineCall]',
         'email': 'ajax[emailAjaxEngineCall]',
-        'essential_telephone': 'custom[phone]',
-        'mobile': 'custom[phone]',
-        'office_phone': 'custom[phone]',
-        'fax': 'custom[phone]',
+        'essential_telephone': 'custom[number]',
+        'mobile': 'custom[number]',
+        'office_phone': 'custom[number]',
+        'fax': 'custom[number]',
     }
 
     def __init__(self, *args, **kwargs):
@@ -468,8 +468,8 @@ class ArbiterForm(ClusterBaseModelForm):
 class AdminEditArbiter(ArbiterForm):
     extra_js_validation = {
         're_password': 'equals[id_register-password]',
-        'essential_telephone': 'custom[phone]',
-        'mobile': 'custom[phone]',
-        'office_phone': 'custom[phone]',
-        'fax': 'custom[phone]',
+        'essential_telephone': 'custom[number]',
+        'mobile': 'custom[number]',
+        'office_phone': 'custom[number]',
+        'fax': 'custom[number]',
     }

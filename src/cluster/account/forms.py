@@ -133,4 +133,4 @@ class SupervisorForm(ClusterBaseModelForm):
 class ArbiterInvitationForm(ClusterBaseForm):
     title = forms.CharField(label=u"عنوان")
     email = forms.EmailField(label=u"پست الکترونیکی")
-    message = forms.CharField(label=u"پیام", widget=forms.Textarea)
+    #message = forms.CharField(label=u"پیام", widget=forms.Textarea)

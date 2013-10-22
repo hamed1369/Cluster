@@ -2,7 +2,7 @@
 from django import forms
 from cluster.account.account.models import Member, Cluster
 from cluster.account.actions import EditMemberAction
-from cluster.utils.forms import ClusterBaseModelForm
+from cluster.utils.forms import ClusterBaseModelForm, ClusterFilterModelForm
 from cluster.utils.manager.action import ShowAction, DeleteAction, ConfirmAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
 from cluster.utils.messages import MessageServices, SMSService
@@ -11,7 +11,7 @@ from cluster.utils.permissions import PermissionController
 __author__ = 'M.Y'
 
 
-class MemberForm(ClusterBaseModelForm):
+class MemberForm(ClusterFilterModelForm):
     class Meta:
         model = Member
         fields = ('cluster', 'national_code', 'military_status', 'foundation_of_elites')
@@ -74,7 +74,7 @@ class MemberManager(ObjectsManager):
             ManagerColumn('national_code', u"کد ملی", '10'),
             ManagerColumn('birth_date', u"تاریخ تولد", '10'),
             ManagerColumn('residence_city', u"شهر محل اقامت", '10'),
-            ManagerColumn('mobile', u"تلفن همراه", '12'),
+            ManagerColumn('mobile', u"تلفن همراه", '12', True, True),
             ManagerColumn('military_status', u"وضعیت نظام وظیفه", '15'),
             ManagerColumn('foundation_of_elites', u"عضویت در بنیاد ملی نخبگان", '10'),
             ManagerColumn('created_on', u"تاریخ ثبت نام", '10'),
@@ -95,7 +95,7 @@ class MemberManager(ObjectsManager):
             ManagerColumn('birth_date', u"تاریخ تولد", '10'),
             ManagerColumn('residence_city', u"شهر محل اقامت", '10'),
             ManagerColumn('telephone', u"تلفن ثابت", '10'),
-            ManagerColumn('mobile', u"تلفن همراه", '10'),
+            ManagerColumn('mobile', u"تلفن همراه", '10', True, True),
             ManagerColumn('essential_telephone', u"تلفن ضروری", '10'),
             ManagerColumn('address', u"آدرس", '10'),
             ManagerColumn('employment_status', u"وضعیت شغلی", '10'),
@@ -144,8 +144,12 @@ class MemberManager(ObjectsManager):
             return data.cluster.institute
         return None
 
+    def get_mobile(self, data):
+        if data.mobile:
+            return "<span style='direction:ltr;float: left;'>+%s</span>" % data.mobile.replace('-', '')
 
-class NoClusterMemberActionForm(ClusterBaseModelForm):
+
+class NoClusterMemberActionForm(ClusterFilterModelForm):
     class Meta:
         model = Member
         fields = ('national_code', 'military_status', 'foundation_of_elites')
@@ -194,7 +198,7 @@ class NoClusterMemberManager(MemberManager):
             ManagerColumn('national_code', u"کد ملی", '10'),
             ManagerColumn('birth_date', u"تاریخ تولد", '10'),
             ManagerColumn('residence_city', u"شهر محل اقامت", '10'),
-            ManagerColumn('mobile', u"تلفن همراه", '12'),
+            ManagerColumn('mobile', u"تلفن همراه", '12', True, True),
             ManagerColumn('military_status', u"وضعیت نظام وظیفه", '10'),
             ManagerColumn('foundation_of_elites', u"عضویت در بنیاد ملی نخبگان", '20'),
             ManagerColumn('created_on', u"تاریخ ثبت نام", '10'),
@@ -209,3 +213,7 @@ class NoClusterMemberManager(MemberManager):
         ('military_status', 'this'),
         ('foundation_of_elites', 'null_bool'),
     )
+
+    def get_mobile(self, data):
+        if data.mobile:
+            return "<span style='direction:ltr;float: left;'>+%s</span>" % data.mobile.replace('-', '')

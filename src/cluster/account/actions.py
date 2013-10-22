@@ -168,7 +168,7 @@ class ArbiterInvitationAction(ManagerAction):
     is_view = True
     action_verbose_name = u"دعوت داور"
     action_name = 'arbiter_invitation'
-    height = '400'
+    height = '200'
 
     def action_view(self, http_request, selected_instances):
         if http_request.method == 'POST':
@@ -180,14 +180,14 @@ class ArbiterInvitationAction(ManagerAction):
 
                 title = form.cleaned_data.get('title')
                 email = form.cleaned_data.get('email')
-                message = form.cleaned_data.get('message')
+                #message = form.cleaned_data.get('message')
 
                 invitation_key = ''.join(
                     random.choice(string.letters + string.digits + '(_)./,;][=+') for x in range(50))
 
                 Arbiter.objects.create(invited=True, invitation_key=invitation_key, is_confirmed=True)
 
-                message = MessageServices.get_arbiter_invitation_message(title, message,
+                message = MessageServices.get_arbiter_invitation_message(title,
                                                                          urllib.quote(invitation_key))
                 MessageServices.send_message(u"دعوت از شما برای داوری", message, email=email)
 

@@ -3,7 +3,7 @@ from django import forms
 from cluster.account.account.models import Arbiter
 from cluster.account.actions import ArbiterInvitationAction
 from cluster.registration.forms import ArbiterForm, AdminEditArbiter
-from cluster.utils.forms import ClusterBaseModelForm
+from cluster.utils.forms import ClusterBaseModelForm, ClusterFilterModelForm
 from cluster.utils.manager.action import DeleteAction, AddAction, EditAction, ShowAction, ConfirmAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
 from cluster.utils.permissions import PermissionController
@@ -11,7 +11,7 @@ from cluster.utils.permissions import PermissionController
 __author__ = 'M.Y'
 
 
-class ArbiterFilterForm(ClusterBaseModelForm):
+class ArbiterFilterForm(ClusterFilterModelForm):
     class Meta:
         model = Arbiter
         fields = ('workplace', 'interested_domain', 'is_confirmed')

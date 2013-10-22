@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 from django import forms
-from cluster.account.account.models import Domain, Arbiter
+from cluster.account.account.models import Domain, Arbiter, Member
 from cluster.project.models import Project, ProjectMilestone, ProjectArbiter
 from cluster.utils.fields import BOOLEAN_CHOICES
 from cluster.utils.forms import ClusterBaseModelForm
@@ -18,6 +18,10 @@ class ProjectForm(ClusterBaseModelForm):
     class Meta:
         model = Project
         exclude = ('single_member', 'cluster', 'project_status', 'score', 'supervisor')
+
+    js_validation_configs = {
+        'excludes_required': 'attended_members'
+    }
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
@@ -48,7 +52,8 @@ class ProjectForm(ClusterBaseModelForm):
         self.fields['patent_request'].label = u"آیا صاحب طرح متقاضی ثبت اختراع می باشد؟"
 
         self.fields['summary'].widget = forms.Textarea()
-
+        if self.user and self.user.member and self.user.member.cluster:
+            self.fields['attended_members'].queryset = Member.objects.filter(cluster=self.user.member.cluster)
         self.fields['agreement'] = forms.BooleanField(required=True)
         self.fields[
             'agreement'].label = u"اينجانب با اطلاع کامل از رويه‌ها و ضوابط ارائه اختراع، اين پرسشنامه را تکميل نموده و کليه اطلاعات مندرج در آن را تأئيد مي‌نمايم. مسئوليت هرگونه نقص يا اشتباه در اطلاعات ارسالي به عهده اينجانب است."
@@ -83,7 +88,7 @@ class ProjectManagerForm(ProjectForm):
             del self.fields['agreement']
         self.fields.keyOrder = ['title', 'has_confirmation', 'confirmation_type', 'certificate_image', 'has_patent',
                                 'patent_number', 'patent_date', 'patent_certificate', 'patent_request', 'domain',
-                                'summary', 'keywords', 'innovations', 'state', 'project_status']
+                                'summary', 'keywords', 'innovations', 'state', 'attended_members', 'project_status']
         process_js_validations(self)
 
     def save(self, commit=True):
@@ -101,7 +106,7 @@ class ArbiterProjectManagerForm(ProjectManagerForm):
         super(ProjectManagerForm, self).__init__(*args, **kwargs)
         self.fields.keyOrder = ['title', 'has_confirmation', 'confirmation_type', 'certificate_image', 'has_patent',
                                 'patent_number', 'patent_date', 'patent_certificate', 'patent_request', 'domain',
-                                'summary', 'keywords', 'innovations', 'state']
+                                'summary', 'keywords', 'innovations', 'state', 'attended_members']
         process_js_validations(self)
 
 
@@ -121,7 +126,8 @@ class AdminProjectManagerForm(ProjectManagerForm):
             del self.fields['agreement']
         self.fields.keyOrder = ['title', 'has_confirmation', 'confirmation_type', 'certificate_image', 'has_patent',
                                 'patent_number', 'patent_date', 'patent_certificate', 'patent_request', 'domain',
-                                'summary', 'keywords', 'innovations', 'supervisor', 'state', 'project_status', 'score']
+                                'summary', 'keywords', 'innovations', 'supervisor', 'state', 'attended_members',
+                                'project_status', 'score']
         if self.instance and self.instance.id:
             if self.instance.project_status != 1:
                 self.fields['score'].is_hidden = True
@@ -129,8 +135,9 @@ class AdminProjectManagerForm(ProjectManagerForm):
             (-1, u"رد شده"),
             (0, u"در مرحله درخواست"),
             (1, u"تایید مرحله اول"),
-            (2, u"تاییدشده توسط داور"),
+            #(2, u"تاییدشده توسط داور"),
             (3, u"تایید مرحله دوم"),
+            (4, u"تکمیل شده"),
 
         )
         process_js_validations(self)

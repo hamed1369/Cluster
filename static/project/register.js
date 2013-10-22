@@ -34,4 +34,5 @@ $(document).ready(function () {
     });
     $('input[name*="has_patent"]').change();
 
+    $('select[name*="attended_members"]').select2();
 });

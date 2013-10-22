@@ -2,7 +2,7 @@
 from django import forms
 from cluster.account.account.models import Supervisor
 from cluster.account.forms import SupervisorForm
-from cluster.utils.forms import ClusterBaseModelForm
+from cluster.utils.forms import ClusterBaseModelForm, ClusterFilterModelForm
 from cluster.utils.manager.action import DeleteAction, AddAction, EditAction, ShowAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
 from cluster.utils.permissions import PermissionController
@@ -10,7 +10,7 @@ from cluster.utils.permissions import PermissionController
 __author__ = 'M.Y'
 
 
-class SupervisorFilterForm(ClusterBaseModelForm):
+class SupervisorFilterForm(ClusterFilterModelForm):
     class Meta:
         model = Supervisor
         fields = ('mobile',)

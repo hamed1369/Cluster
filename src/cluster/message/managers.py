@@ -3,14 +3,14 @@ from django import forms
 from django.utils.safestring import mark_safe
 from cluster.message.actions import SendMessage, ShowMessage
 from cluster.message.models import Message
-from cluster.utils.forms import ClusterBaseModelForm
+from cluster.utils.forms import ClusterBaseModelForm, ClusterFilterModelForm
 from cluster.utils.manager.action import DeleteAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
 
 __author__ = 'M.Y'
 
 
-class MessageFilterForm(ClusterBaseModelForm):
+class MessageFilterForm(ClusterFilterModelForm):
     body = forms.CharField(label=u"متن", required=False)
 
     class Meta:

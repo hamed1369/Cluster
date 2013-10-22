@@ -50,6 +50,8 @@ class Project(models.Model):
     keywords = models.CharField(u"کلید واژه", max_length=100)
     innovations = models.CharField(u"نوآوری های طرح", max_length=300)
     state = models.IntegerField(u"مرحله", choices=STATE)
+    attended_members = models.ManyToManyField(Member, verbose_name=u"اعضای مربوط به طرح",
+                                              related_name='projects_attended')
     project_status = models.IntegerField(u"مرحله داوری", choices=STATUS, default=0)
 
     single_member = models.ForeignKey(Member, verbose_name=u"عضو", null=True, blank=True)
@@ -145,7 +147,8 @@ class ProjectArbiter(models.Model):
     project = models.ForeignKey(Project, verbose_name=u"طرح مربوطه", related_name='project_arbiters')
     arbiter = models.ForeignKey(Arbiter, verbose_name=u"داور مربوطه", related_name='project_arbiters')
     comment = models.TextField(verbose_name=u"نظر کلی", max_length=1000, null=True, blank=True)
-    attachment = models.FileField(u"ضمیمه", upload_to="project_arbiter_attachments/", null=True, blank=True)
+    attachment = models.FileField(u"بارگزاری فرم داوری", upload_to="project_arbiter_attachments/", null=True,
+                                  blank=True)
     confirmed = models.BooleanField(verbose_name=u"تاییدنهایی شده", default=False)
     confirm_date = models.DateField(verbose_name=u"تاریخ تاییدنهایی", null=True, blank=True)
 

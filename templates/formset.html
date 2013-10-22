@@ -71,7 +71,8 @@
                             addCssClass: 'formset_add',
                             deleteCssClass: 'formset_delete',
                             added: function check_date_picker() {
-                                var $date_fields = $('.' + $(this)[0].formCssClass).last().find('.hasDatepicker');
+                                var $formset_tr = $('#' + '{{ formset.prefix }}' + '_table tbody tr');
+                                var $date_fields = $formset_tr.find('.hasDatepicker');
                                 $date_fields.removeClass('hasDatepicker');
                                 $date_fields.datepicker({
                                     changeMonth: true,
@@ -79,7 +80,6 @@
                                     yearRange: '1300,1400',
                                     dateFormat: 'yy/mm/dd'
                                 });
-                                var $formset_tr = $('#' + '{{ formset.prefix }}' + '_table tbody tr');
                                 $formset_tr.find('input[type=text], select').attr('data-prompt-position', 'topLeft:-100');
                                 {% if formset.prefix != 'cluster_domain' %}
                                     $formset_tr.each(function () {

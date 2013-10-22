@@ -2,7 +2,7 @@
     margin: 1%;
 }
 
-#register_form fieldset , .inner_fieldset{
+#register_form fieldset, .inner_fieldset {
     border-color: #f1f1f1;
     border-radius: 2px;
     margin-top: 5px;
@@ -86,9 +86,30 @@ form fieldset legend {
     font-size: 16px;
     font-weight: bold;
 }
+
 .art-sheet {
     width: 1000px;
 }
-#inner-header{
+
+#inner-header {
     width: 1000px;
+}
+
+.select2-container-multi .select2-choices {
+    width: 100%;
+}
+
+.select2-container {
+    width: 60%;
+}
+
+.select2-container, .select2-container ul, .select2-container ul li, .select2-container-multi .select2-choices li {
+    direction: rtl;
+    text-align: right;
+    float: right;
+}
+
+.select2-search-choice-close {
+    left: 3px;
+    right: inherit;
 }

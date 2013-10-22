@@ -26,3 +26,12 @@ class ClusterBaseModelForm(forms.ModelForm):
         process_js_validations(self)
         handle_phone_fields(self)
 
+
+class ClusterFilterModelForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        if 'http_request' in kwargs:
+            self.http_request = kwargs.pop('http_request')
+        super(ClusterFilterModelForm, self).__init__(*args, **kwargs)
+        handel_date_fields(self)
+        process_js_validations(self)
+

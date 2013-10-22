@@ -99,7 +99,7 @@ class MessageServices(object):
         return mark_safe(message)
 
     @staticmethod
-    def get_arbiter_invitation_message(title, message_txt, code):
+    def get_arbiter_invitation_message(title, code):
         message = Template("""
                 <div style="direction:rtl;">
                 <p>
@@ -110,9 +110,7 @@ class MessageServices(object):
                     <br/>
                     {{link_url}}
                     <br/>
-                    پیغام مدیر سامانه برای شما:
-                    <br/>
-                    {{message_txt|safe}}
+
                 </p>
 
                 موسسه پژوهشی نگاه نو
@@ -120,8 +118,6 @@ class MessageServices(object):
             """).render(Context({
             'title': title,
             'link_url': u"%s/arbiter_register/?c=%s" % (MessageServices.site_url, code),
-            'message_txt': message_txt.replace('\r\n', '<br/>').replace('\n\r', '<br/>').replace('\r', '<br/>').replace(
-                '\n', '<br/>')
 
         }))
         return mark_safe(message)
@@ -160,7 +156,7 @@ class SMSService(object):
             return
 
         for i in range(len(to_numbers)):
-            to_numbers[i] = to_numbers[i].replace('-', '')
+            to_numbers[i] = '+' + to_numbers[i].replace('-', '')
 
         message = message + '\n' + cls.signature
 
