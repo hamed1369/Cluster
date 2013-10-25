@@ -2,7 +2,7 @@
 {% if not cluster and not member%}
     <div id="cluster_form">
         <div>
-            {{ cluster_form.is_cluster.label }}
+            {{ cluster_form.is_cluster.label }}:
             {{ cluster_form.is_cluster }}
             {% if cluster_form.is_cluster.errors %}
                 {{ cluster_form.is_cluster.errors }}

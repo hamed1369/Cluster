@@ -21,7 +21,7 @@ body{
 {
     width:920px;
     margin:0 auto; /*center-aligned*/
-    margin-top:20px;
+    margin-top:0px;
     padding:20px;
     position: relative;
     /*box-shadow: 0 0 5px #BBB;border:1px solid #CCC; background-color:#FFF;*/
@@ -196,7 +196,7 @@ body{
     width: 100%;
     background-color: #696969;
     background-image: url(../images/pageglare.png);
-    background-position: center;
+    background-position: center 0px;
     background-repeat: no-repeat;
     color: white;
 }
@@ -204,11 +204,11 @@ body{
     width: 920px;
     position: relative;
     margin: 0 auto;
-    height: 170px;
+    height: 235px;
     direction: rtl;
 }
 .inner-intro-div{
-    margin-top: 20px;
+    margin-top: 4px;
     text-align: right;
     font-size: 20px;
     float: right;
@@ -226,7 +226,7 @@ body{
 
 #reg-detail-container{
     width: 100%;
-    margin-top: 30px;
+    margin-top: 10px;
     background-color: #1570a6;
 
 }

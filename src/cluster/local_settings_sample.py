@@ -22,7 +22,7 @@ SECRET_KEY = 'local!'
 
 BASE_PATH = 'D:/Documents/Aptana/Khooshe'
 SITE_URL = 'localhost:8000'
-MEDIA_ROOT = ''
+MEDIA_ROOT = BASE_PATH+'media/'
 STATIC_ROOT = BASE_PATH+'static/'
 STATICFILES_DIRS = (
     STATIC_ROOT,
