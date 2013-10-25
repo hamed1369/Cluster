@@ -88,8 +88,12 @@ class ClusterConfirmAction(ManagerAction):
                     message = MessageServices.get_title_body_message(u"تایید خوشه", message_body)
 
                 elif confirm is False:
-                    message_body = u"عضویت خوشه شما با نام %s  در سامانه از طرف مدیریت رد  شد. شما دیگر نمیتوانید در سامانه فعالیت داشته باشید." % (
-                        selected_instances[0].name)
+                    if selected_instances[0].head.gender == 1:
+                        message_body = u"آقای "
+                    else:
+                        message_body = u"خانم "
+                    message_body += u"%s ضمن قدردانی از بذل توجه شما به این موسسه و ثبت نام در سامانه، متاسفانه عضویت شما در سامانه مورد موافقت موسسه قرار نگرفته است.  با آرزوی موفقیت و سلامتی برای شما دوست عزیز." % unicode(
+                        selected_instances[0].head)
                     message = MessageServices.get_title_body_message(u"تغییر وضعیت خوشه", message_body)
                 else:
                     message_body = u"وضعیت خوشه شما با نام  %s به نامشخص تغییر یافت." % (

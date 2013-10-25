@@ -47,20 +47,66 @@
     {% if inline_form %}
         <fieldset class="inner_fieldset">
             <legend>داوری طرح</legend>
+            <p>این قسمت از فرم به منظور خلاصه سازی ارزیابی کلی طرح، طراحی شده است. لذا از شما داور محترم درخواست می شود
+                تا نظر خود را در مورد موارد زیر مطرح نمایید.</p>
+
             <table>
-                {% for field in inline_form %}
-                    <tr {% if field.field.is_hidden|is_true %}style="display: none;"{% endif %}>
-                        <td class="label_td">{{ field.label }}
-                            {% if field.field.required %}<span class="required_field">*</span>{% endif %}
-                        </td>
-                        <td class="input_td">
-                            {{ field }}
-                        </td>
-                        {% if field.errors %}
-                            <td class="error_td" width="30%">{{ field.errors }}</td>
-                        {% endif %}
-                    </tr>
-                {% endfor %}
+                <tr>
+                    <td>{{ inline_form.economic_comment.label }}{% if inline_form.economic_comment.field.required %}
+                        <span class="required_field">*</span>{% endif %}</td>
+                </tr>
+                <tr>
+                    <td>{{ inline_form.economic_comment }}</td>
+                    {% if inline_form.economic_comment.errors %}
+                        <td class="error_td" width="30%">{{ inline_form.economic_comment.errors }}</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td>{{ inline_form.innovation_comment.label }}{% if inline_form.innovation_comment.field.required %}
+                        <span class="required_field">*</span>{% endif %}</td>
+                </tr>
+                <tr>
+                    <td>{{ inline_form.innovation_comment }}</td>
+                    {% if inline_form.innovation_comment.errors %}
+                        <td class="error_td" width="30%">{{ inline_form.innovation_comment.errors }}</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td>{{ inline_form.time_comment.label }}{% if inline_form.time_comment.field.required %}
+                        <span class="required_field">*</span>{% endif %}</td>
+                </tr>
+                <tr>
+                    <td>{{ inline_form.time_comment }}</td>
+                    {% if inline_form.time_comment.errors %}
+                        <td class="error_td" width="30%">{{ inline_form.time_comment.errors }}</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td>{{ inline_form.budget_comment.label }}{% if inline_form.budget_comment.field.required %}
+                        <span class="required_field">*</span>{% endif %}</td>
+                </tr>
+                <tr>
+                    <td>{{ inline_form.budget_comment }}</td>
+                    {% if inline_form.budget_comment.errors %}
+                        <td class="error_td" width="30%">{{ inline_form.budget_comment.errors }}</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td>{{ inline_form.attachment.label }}{% if inline_form.attachment.field.required %}
+                        <span class="required_field">*</span>{% endif %} {{ inline_form.attachment }}
+
+                    </td>
+                    {% if inline_form.attachment.errors %}
+                        <td class="error_td" width="30%">{{ inline_form.attachment.errors }}</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td>{{ inline_form.confirmed.label }}{% if inline_form.confirmed.field.required %}
+                        <span class="required_field">*</span>{% endif %} {{ inline_form.confirmed }}</td>
+                    {% if inline_form.confirmed.errors %}
+                        <td class="error_td" width="30%">{{ inline_form.confirmed.errors }}</td>
+                    {% endif %}
+                </tr>
             </table>
         </fieldset>
     {% endif %}
@@ -81,7 +127,7 @@
                             داور مربوطه
                         </td>
                         <td width="45%">
-                            نظر کلی
+                            نظرات داور
                         </td>
                         <td width="10%">
                             ضمیمه
@@ -98,11 +144,9 @@
                                 {{ project_arbiter.arbiter }}
                             </td>
                             <td>
-                                {% if project_arbiter.comment %}
-                                    <pre class="action-pre">{{ project_arbiter.comment }}</pre>
-                                {% else %}
-                                    ---
-                                {% endif %}
+                                <a class="button_link"
+                                   onclick="return popitup('/project/view_arbiter_comment/{{ project_arbiter.id }}/', 'مشاهده نظرات {{ project_arbiter.arbiter }}')"
+                                   href="/view_arbiter_comment/{{ project_arbiter.id }}/">مشاهده نظرات</a>
                             </td>
                             <td>
                                 {% if project_arbiter.attachment %}

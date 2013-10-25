@@ -122,3 +122,8 @@ def filename(file_val):
     return os.path.basename(file_val.name)
 
 
+@register.filter
+def get_verbose_name_by_name(instance, name):
+    return instance._meta.get_field_by_name(name)[0].verbose_name
+
+

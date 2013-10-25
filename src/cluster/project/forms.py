@@ -174,7 +174,10 @@ class ProjectArbiterForm(ClusterBaseModelForm):
 
     class Meta:
         model = ProjectArbiter
-        exclude = ('confirm_date', 'comment', 'attachment', 'confirmed')
+        exclude = (
+            'confirm_date', 'economic_comment', 'innovation_comment', 'time_comment', 'budget_comment', 'attachment',
+            'confirmed'
+        )
 
     def __init__(self, *args, **kwargs):
         super(ProjectArbiterForm, self).__init__(*args, **kwargs)

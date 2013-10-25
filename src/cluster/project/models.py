@@ -146,7 +146,10 @@ class ProjectArbiter(models.Model):
     created_on = models.DateField(verbose_name=u"تاریخ ایجاد", auto_now_add=True)
     project = models.ForeignKey(Project, verbose_name=u"طرح مربوطه", related_name='project_arbiters')
     arbiter = models.ForeignKey(Arbiter, verbose_name=u"داور مربوطه", related_name='project_arbiters')
-    comment = models.TextField(verbose_name=u"نظر کلی", max_length=1000, null=True, blank=True)
+    economic_comment = models.TextField(verbose_name=u"1-	به نظر شما طرح از لحاظ آینده اقتصادی و سودآوری دارای چه توانی است؟", max_length=1000, null=True, blank=True)
+    innovation_comment = models.TextField(verbose_name=u"2-	ارزیابی شما در مورد شاخص نوآوری(ملی، بین المللی) طرح چه می باشد؟", max_length=1000, null=True, blank=True)
+    time_comment = models.TextField(verbose_name=u"3-	آیا طرح پیشنهادی در زمانبندی ارائه شده قابل اجرا می باشد؟", max_length=1000, null=True, blank=True)
+    budget_comment = models.TextField(verbose_name=u"4-	آیا میزان بودجه عنوان شده بصورت واقعی و متناسب با حجم پروژه می باشد؟", max_length=1000, null=True, blank=True)
     attachment = models.FileField(u"بارگزاری فرم داوری", upload_to="project_arbiter_attachments/", null=True,
                                   blank=True)
     confirmed = models.BooleanField(verbose_name=u"تاییدنهایی شده", default=False)

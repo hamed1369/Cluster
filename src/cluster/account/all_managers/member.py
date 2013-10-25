@@ -5,7 +5,7 @@ from cluster.account.actions import EditMemberAction
 from cluster.utils.forms import ClusterBaseModelForm, ClusterFilterModelForm
 from cluster.utils.manager.action import ShowAction, DeleteAction, ConfirmAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
-from cluster.utils.messages import MessageServices, SMSService
+from cluster.utils.messages import MessageServices
 from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
@@ -169,7 +169,12 @@ def member_confirm_change(instance, confirm):
         message_body = u"عضویت شما تایید شد.\n هم اکنون شما میتوانید در سامانه فعالیت داشته باشید."
         message = MessageServices.get_title_body_message(u"تایید عضویت", message_body)
     elif confirm is False:
-        message_body = u"عضویت شما در سامانه از طرف مدیریت رد  شد. شما دیگر نمیتوانید در سامانه فعالیت داشته باشید."
+        if instance.gender == 1:
+            message_body = u"آقای "
+        else:
+            message_body = u"خانم "
+        message_body += u"%s ضمن قدردانی از بذل توجه شما به این موسسه و ثبت نام در سامانه، متاسفانه عضویت شما در سامانه مورد موافقت موسسه قرار نگرفته است.  با آرزوی موفقیت و سلامتی برای شما دوست عزیز." % unicode(
+            instance)
         message = MessageServices.get_title_body_message(u"رد عضویت", message_body)
     else:
         message_body = u"وضعیت عضویت شما به نامشخص تغییر یافت."

@@ -2,10 +2,11 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from cluster.account.account.models import Member
 from cluster.project.handlers import ProjectHandler
+from cluster.project.models import ProjectArbiter
 from cluster.utils.permissions import PermissionController
 
 
@@ -31,4 +32,13 @@ def register(request):
     context = project_handler.get_context()
     return render_to_response('project/register.html',
                               context,
+                              context_instance=RequestContext(request))
+
+
+@login_required
+def view_arbiter_comment(request, project_arbiter_id):
+    if not PermissionController.is_admin(request.user) or not project_arbiter_id:
+        raise Http404()
+    project_arbiter = get_object_or_404(ProjectArbiter, id=project_arbiter_id)
+    return render_to_response('project/view_arbiter_comment.html', {'project_arbiter': project_arbiter},
                               context_instance=RequestContext(request))
