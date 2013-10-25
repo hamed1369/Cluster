@@ -38,7 +38,7 @@ class AddAction(ManagerAction):
 
     def action_view(self, http_request, selected_instances):
         if http_request.method == 'POST':
-            form = self.modelForm(http_request.POST)
+            form = self.modelForm(http_request.POST, http_request=http_request)
             if form.is_valid():
                 if self.save_def:
                     instance = form.save(commit=False)
@@ -48,7 +48,7 @@ class AddAction(ManagerAction):
                 form = None
                 messages.success(http_request, u"%s با موفقیت انجام شد." % self.form_title)
         else:
-            form = self.modelForm()
+            form = self.modelForm(http_request=http_request)
 
         return render_to_response('manager/actions/add_edit.html', {'form': form, 'title': self.form_title},
                                   context_instance=RequestContext(http_request))
@@ -69,13 +69,13 @@ class EditAction(ManagerAction):
         if not selected_instances:
             raise Http404()
         if http_request.method == 'POST':
-            form = self.modelForm(http_request.POST, instance=selected_instances[0])
+            form = self.modelForm(http_request.POST, instance=selected_instances[0], http_request=http_request)
             if form.is_valid():
                 form.save()
                 form = None
                 messages.success(http_request, u"%s با موفقیت انجام شد." % self.form_title)
         else:
-            form = self.modelForm(instance=selected_instances[0])
+            form = self.modelForm(instance=selected_instances[0], http_request=http_request)
 
         return render_to_response('manager/actions/add_edit.html', {'form': form, 'title': self.form_title},
                                   context_instance=RequestContext(http_request))
@@ -117,7 +117,7 @@ class ShowAction(ManagerAction):
         self.min_count = min_count
 
     def action_view(self, http_request, selected_instances):
-        form = self.modelForm(instance=selected_instances[0])
+        form = self.modelForm(instance=selected_instances[0], prefix='show', http_request=http_request)
         for field in form.fields:
             form.fields[field].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})
         return render_to_response('manager/actions/show.html', {'form': form, 'title': self.form_title},

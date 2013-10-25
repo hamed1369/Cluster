@@ -2,7 +2,7 @@
 from django import forms
 from cluster.account.account.models import Cluster, Member
 from cluster.account.actions import ClusterConfirmAction, EditClusterAction
-from cluster.utils.forms import ClusterBaseModelForm
+from cluster.utils.forms import ClusterBaseModelForm, ClusterFilterModelForm
 from cluster.utils.manager.action import ShowAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
 from cluster.utils.permissions import PermissionController
@@ -10,7 +10,7 @@ from cluster.utils.permissions import PermissionController
 __author__ = 'M.Y'
 
 
-class ClusterForm(ClusterBaseModelForm):
+class ClusterForm(ClusterFilterModelForm):
     class Meta:
         model = Cluster
         fields = ('name', 'domains', 'institute', 'degree')

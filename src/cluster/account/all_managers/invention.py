@@ -2,7 +2,7 @@
 from django import forms
 from cluster.account.account.models import Cluster
 from cluster.account.personal_info.models import Invention
-from cluster.utils.forms import ClusterBaseModelForm
+from cluster.utils.forms import ClusterBaseModelForm, ClusterFilterModelForm
 from cluster.utils.manager.action import ShowAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
 from cluster.utils.permissions import PermissionController
@@ -10,7 +10,7 @@ from cluster.utils.permissions import PermissionController
 __author__ = 'M.Y'
 
 
-class InventionForm(ClusterBaseModelForm):
+class InventionForm(ClusterFilterModelForm):
     class Meta:
         model = Invention
         fields = ('title', 'registration_number', 'registration_date', 'participation')

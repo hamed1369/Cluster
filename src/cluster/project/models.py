@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from django.db import models, transaction
-from cluster.account.account.models import Member, Cluster, Domain, Arbiter
+from cluster.account.account.models import Member, Cluster, Domain, Arbiter, Supervisor
 from cluster.utils.calverter import gregorian_to_jalali
 from cluster.utils.messages import MessageServices, SMSService
 from cluster.utils.permissions import PermissionController
@@ -23,12 +23,16 @@ class Project(models.Model):
         (3, u"نمونه آزمایشی"),
         (4, u"در حال تولید"),
     )
+    REJECT_STATE = -1
+    MIDDLE_CONFIRM_STATE = 1
+    CONFIRM_STATE = 3
     STATUS = (
         (-1, u"رد شده"),
         (0, u"در مرحله درخواست"),
         (1, u"تایید مرحله اول"),
-        (2, u"تاییدشده توسط داور"),
+        #(2, u"تاییدشده توسط داور"),
         (3, u"تایید مرحله دوم"),
+        (4, u"تکمیل شده"),
 
     )
     title = models.CharField(u"عنوان طرح", max_length=300)
@@ -46,12 +50,15 @@ class Project(models.Model):
     keywords = models.CharField(u"کلید واژه", max_length=100)
     innovations = models.CharField(u"نوآوری های طرح", max_length=300)
     state = models.IntegerField(u"مرحله", choices=STATE)
+    attended_members = models.ManyToManyField(Member, verbose_name=u"اعضای مربوط به طرح",
+                                              related_name='projects_attended')
     project_status = models.IntegerField(u"مرحله داوری", choices=STATUS, default=0)
 
     single_member = models.ForeignKey(Member, verbose_name=u"عضو", null=True, blank=True)
     cluster = models.ForeignKey(Cluster, verbose_name=u"خوشه", null=True, blank=True)
 
-    arbiter = models.ForeignKey(Arbiter, verbose_name=u"داوری مربوطه", null=True, blank=True)
+    supervisor = models.ForeignKey(Supervisor, verbose_name=u"ناظر طرح", null=True, blank=True,
+                                   on_delete=models.SET_NULL)
     score = models.FloatField(verbose_name=u"امتیاز", null=True, blank=True)
 
     class Meta:
@@ -106,15 +113,18 @@ class ProjectMilestone(models.Model):
             i += 1
             milestone.is_announced = True
             milestone.save()
+            if milestone.project.supervisor:
+                MessageServices.send_message(subject=u"موعد طرح", message=message,
+                                             user=milestone.project.supervisor.user)
 
-        message = MessageServices.get_title_body_message(title=u"موعد های طرح های زیر گذشته اند یا نزدیک هستند:",
-                                                         body=body)
+        #message = MessageServices.get_title_body_message(title=u"موعد های طرح های زیر گذشته اند یا نزدیک هستند:",
+        #                                                 body=body)
         Message.send_message(admin_users[0], title=u"موعدهای گذشته یا نزدیک",
-                             body=u"موعد های طرح های زیر گذشته اند یا نزدیک هستند:" + '\n' + body,
+                             body=body,
                              receivers=admin_users)
 
-        for user in admin_users:
-            MessageServices.send_message(subject=u"موعدهای طرح", message=message, user=user)
+        #for user in admin_users:
+        #    MessageServices.send_message(subject=u"موعدهای طرح", message=message, user=user)
 
 
 class ProjectComment(models.Model):
@@ -122,6 +132,7 @@ class ProjectComment(models.Model):
     comment = models.TextField(verbose_name=u"توضیح", max_length=1000)
     project = models.ForeignKey(Project, verbose_name=u"طرح", related_name='comments')
     user = models.ForeignKey(User, verbose_name=u"کاربر مربوطه")
+    seen_by_member = models.BooleanField(verbose_name=u"مشاهده توسط متقاضی", default=False)
 
     class Meta:
         verbose_name = u"توضیح طرح"
@@ -131,5 +142,34 @@ class ProjectComment(models.Model):
         return self.comment
 
 
+class ProjectArbiter(models.Model):
+    created_on = models.DateField(verbose_name=u"تاریخ ایجاد", auto_now_add=True)
+    project = models.ForeignKey(Project, verbose_name=u"طرح مربوطه", related_name='project_arbiters')
+    arbiter = models.ForeignKey(Arbiter, verbose_name=u"داور مربوطه", related_name='project_arbiters')
+    economic_comment = models.TextField(verbose_name=u"1-	به نظر شما طرح از لحاظ آینده اقتصادی و سودآوری دارای چه توانی است؟", max_length=1000, null=True, blank=True)
+    innovation_comment = models.TextField(verbose_name=u"2-	ارزیابی شما در مورد شاخص نوآوری(ملی، بین المللی) طرح چه می باشد؟", max_length=1000, null=True, blank=True)
+    time_comment = models.TextField(verbose_name=u"3-	آیا طرح پیشنهادی در زمانبندی ارائه شده قابل اجرا می باشد؟", max_length=1000, null=True, blank=True)
+    budget_comment = models.TextField(verbose_name=u"4-	آیا میزان بودجه عنوان شده بصورت واقعی و متناسب با حجم پروژه می باشد؟", max_length=1000, null=True, blank=True)
+    attachment = models.FileField(u"بارگزاری فرم داوری", upload_to="project_arbiter_attachments/", null=True,
+                                  blank=True)
+    confirmed = models.BooleanField(verbose_name=u"تاییدنهایی شده", default=False)
+    confirm_date = models.DateField(verbose_name=u"تاریخ تاییدنهایی", null=True, blank=True)
 
+    class Meta:
+        verbose_name = u"داوری طرح"
+        verbose_name_plural = u"داوری های طرح"
 
+    def __unicode__(self):
+        un = u"طرح %s - داور %s" % (self.project, self.arbiter)
+        if not self.confirmed:
+            return unicode(un) + u"(تایید نهایی نشده)"
+        else:
+            return unicode(un)
+
+    def save(self, force_insert=False, force_update=False, using=None):
+        import datetime
+
+        if self.confirmed is True:
+            self.confirm_date = datetime.date.today()
+        instance = super(ProjectArbiter, self).save(force_insert, force_update, using)
+        return instance

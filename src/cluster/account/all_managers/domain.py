@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from cluster.account.account.models import Domain
-from cluster.utils.forms import ClusterBaseModelForm
+from cluster.utils.forms import ClusterBaseModelForm, ClusterFilterModelForm
 from cluster.utils.manager.action import AddAction, EditAction, DeleteAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
 from cluster.utils.permissions import PermissionController
@@ -15,7 +15,7 @@ class DomainActionForm(ClusterBaseModelForm):
         fields = ('name', 'confirmed')
 
 
-class DomainForm(ClusterBaseModelForm):
+class DomainForm(ClusterFilterModelForm):
     class Meta:
         model = Domain
         fields = ('name', 'confirmed')

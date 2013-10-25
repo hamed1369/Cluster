@@ -11,12 +11,13 @@ from cluster.account.personal_info.models import EducationalResume, Publication,
 from cluster.utils.fields import BOOLEAN_CHOICES
 from cluster.utils.forms import ClusterBaseForm, ClusterBaseModelForm
 from cluster.utils.js_validation import process_js_validations
+from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
 
 REGISTER_CHOICES = (
-    (True, u"خوشه ای"),
     (False, u"فردی"),
+    (True, u"خوشه ای"),
 )
 
 
@@ -30,6 +31,12 @@ class ClusterForm(ClusterBaseForm):
     extra_js_validation = {
         'name': 'ajax[clusterNameAjaxEngineCall]'
     }
+
+    def __init__(self, *args, **kwargs):
+        super(ClusterForm, self).__init__(*args, **kwargs)
+        if not self.http_request.user.is_anonymous() and not PermissionController.is_member(self.http_request.user):
+            self.extra_js_validation = {}
+        process_js_validations(self)
 
     def clean(self):
         cd = super(ClusterForm, self).clean()
@@ -77,6 +84,7 @@ class RegisterForm(ClusterBaseModelForm):
         self.fields['address'].required = True
         self.fields['gender'].required = True
         self.fields['domain'].required = True
+        self.fields['employment_status'].required = True
         self.fields.insert(0, 'first_name', forms.CharField(required=True, label=u"نام"))
         self.fields.insert(1, 'last_name', forms.CharField(required=True, label=u"نام خانوادگی"))
         self.fields.insert(2, 'username', forms.CharField(required=True, label=u"نام کاربری"))
@@ -94,6 +102,12 @@ class RegisterForm(ClusterBaseModelForm):
             self.fields['email'].initial = self.user.email
 
         if self.instance and self.instance.id:
+            if self.instance.cluster and self.instance.cluster.head != self.instance:
+                self.fields['domain'].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})
+                self.fields['domain'].required = False
+                self.domain = self.instance.domain
+            elif not self.instance.cluster:
+                self.fields['domain'].queryset = Domain.objects.filter(confirmed=True)
             self.fields.insert(3, 'change_password',
                                forms.ChoiceField(required=False, choices=BOOLEAN_CHOICES, widget=forms.RadioSelect(),
                                                  label=u"ویرایش گذرواژه", initial=False))
@@ -108,8 +122,8 @@ class RegisterForm(ClusterBaseModelForm):
                 self.fields['email'].initial = self.instance.user.email
             self.extra_js_validation = {
                 're_password': 'equals[id_register-password]',
-                'essential_telephone': 'custom[phone]',
-                'mobile': 'custom[mobile]',
+                'essential_telephone': 'custom[number]',
+                'mobile': 'custom[number]',
             }
             if has_cluster:
                 self.extra_js_validation['username'] = 'ajax[usernameAjaxEngineCall]'
@@ -118,8 +132,8 @@ class RegisterForm(ClusterBaseModelForm):
                 'invalid': u"کد امنیتی وارد شده صحیح نمی باشد."}))
             self.extra_js_validation = {
                 're_password': 'equals[id_register-password]',
-                'essential_telephone': 'custom[phone]',
-                'mobile': 'custom[mobile]',
+                'essential_tele': 'custom[number]',
+                'mobile': 'custom[number]',
             }
             if has_cluster:
                 self.extra_js_validation['username'] = 'ajax[usernameAjaxEngineCall]'
@@ -151,7 +165,8 @@ class RegisterForm(ClusterBaseModelForm):
         password = self.cleaned_data.get('password')
         email = self.cleaned_data.get('email')
         change_pass = self.cleaned_data.get('change_password')
-
+        if self.instance.cluster and self.instance.cluster.head != self.instance:
+            member.domain = self.domain
         try:
             if not user:
                 user = member.user
@@ -177,6 +192,19 @@ class MemberForm(ClusterBaseForm):
     last_name = forms.CharField(label=u"نام خانوادگی")
     email = forms.EmailField(label=u"پست الکترونیک", widget=forms.TextInput(attrs={'style': 'width:85%;'}))
     domain = forms.CharField(label=u"حوزه فعالیت", widget=forms.Select(choices=[(u'', '---------'), ]))
+
+    def __init__(self, *args, **kwargs):
+        super(MemberForm, self).__init__(*args, **kwargs)
+        domain_key = self.prefix + '-domain'
+        domain_val = self.data.get(domain_key)
+        if domain_val:
+            try:
+                domain_name = Domain.objects.get(id=int(domain_val)).name
+            except (Domain.DoesNotExist, ValueError):
+                domain_name = unicode(domain_val)
+
+            self.fields['domain'].widget = forms.Select(
+                choices=[(u'', '---------'), (unicode(domain_val), domain_name)])
 
     extra_js_validation = {
         'email': 'ajax[emailAjaxEngineCall]',
@@ -208,7 +236,7 @@ class MemberForm(ClusterBaseForm):
             self.fields['domain'].initial = member.domain.id
 
         choices = [(u'', '---------'), ]
-        for domain in member.clusters.all()[0].domains.all():
+        for domain in member.cluster.domains.all():
             choices.append((unicode(domain.id), domain.name))
 
         self.fields['domain'].widget = forms.Select(choices=choices)
@@ -338,10 +366,10 @@ class ArbiterForm(ClusterBaseModelForm):
         're_password': 'equals[id_register-password]',
         'username': 'ajax[usernameAjaxEngineCall]',
         'email': 'ajax[emailAjaxEngineCall]',
-        'essential_telephone': 'custom[phone]',
-        'mobile': 'custom[mobile]',
-        'office_phone': 'custom[phone]',
-        'fax': 'custom[phone]',
+        'essential_telephone': 'custom[number]',
+        'mobile': 'custom[number]',
+        'office_phone': 'custom[number]',
+        'fax': 'custom[number]',
     }
 
     def __init__(self, *args, **kwargs):
@@ -362,6 +390,8 @@ class ArbiterForm(ClusterBaseModelForm):
         else:
             self.extra_js_validation['re_password'] = 'equals[id_password]'
 
+        self.fields['other_domain'] = forms.CharField(label=u"سایر", required=False)
+
         if self.instance and self.instance.id:
             self.fields.insert(3, 'change_password',
                                forms.ChoiceField(required=False, choices=BOOLEAN_CHOICES, widget=forms.RadioSelect(),
@@ -379,11 +409,16 @@ class ArbiterForm(ClusterBaseModelForm):
                 self.fields['username'].widget.attrs.update({'readonly': 'readonly'})
                 self.extra_js_validation['username'] = ''
                 self.fields['email'].initial = self.instance.user.email
+            if self.instance.interested_domain.filter(confirmed=False):
+                self.fields['other_domain'].initial = self.instance.interested_domain.filter(confirmed=False)[0].name
 
         self.fields['interested_domain'].queryset = Domain.objects.filter(confirmed=True)
         self.fields['interested_domain'].widget = forms.CheckboxSelectMultiple()
         self.fields['interested_domain'].widget.multiple_check = True
         self.fields['interested_domain'].label = u"حوزه های مورد علاقه برای داوری"
+
+        self.fields.keyOrder.remove('title')
+        self.fields.keyOrder.insert(0, 'title')
         process_js_validations(self)
 
     def save(self, commit=True):
@@ -394,6 +429,7 @@ class ArbiterForm(ClusterBaseModelForm):
         password = self.cleaned_data.get('password')
         email = self.cleaned_data.get('email')
         change_pass = self.cleaned_data.get('change_password')
+        other_domain = self.cleaned_data.get('other_domain')
         try:
             user = instance.user
             user.first_name = first_name
@@ -411,16 +447,29 @@ class ArbiterForm(ClusterBaseModelForm):
         instance.invited = False
         instance.save()
 
-        instance.interested_domain = self.cleaned_data.get('interested_domain')
+        domain = None
+        if other_domain:
+            if instance.interested_domain.filter(confirmed=False):
+                domain = instance.interested_domain.filter(confirmed=False)[0]
+                domain.name = other_domain
+                domain.save()
+            else:
+                domain = Domain.objects.create(name=other_domain)
+        else:
+            if instance.interested_domain.filter(confirmed=False):
+                instance.interested_domain.filter(confirmed=False).delete()
 
+        instance.interested_domain = self.cleaned_data.get('interested_domain')
+        if domain:
+            instance.interested_domain.add(domain)
         return instance
 
 
 class AdminEditArbiter(ArbiterForm):
     extra_js_validation = {
         're_password': 'equals[id_register-password]',
-        'essential_telephone': 'custom[phone]',
-        'mobile': 'custom[mobile]',
-        'office_phone': 'custom[phone]',
-        'fax': 'custom[phone]',
+        'essential_telephone': 'custom[number]',
+        'mobile': 'custom[number]',
+        'office_phone': 'custom[number]',
+        'fax': 'custom[number]',
     }

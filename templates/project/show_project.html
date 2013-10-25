@@ -1,4 +1,8 @@
 {% extends 'manager/actions/show.html' %}
+{% block JS %}
+    {{ block.super }}
+    <script type="text/javascript" src='/static/project/show.js'></script>
+{% endblock %}
 {% load account_template_tags %}
 {% block before_main %}
     {% include 'messages.html' %}
@@ -64,6 +68,18 @@
                         <div class="comment-date">
                             {{ comment.created_on|pdate_if_date }}
                         </div>
+                        {% if user|is_admin and comment.user|is_arbiter %}
+                            <div class="seen-by-member">
+                                <label>
+                                    <input type="checkbox"
+                                            {% if comment.seen_by_member|is_true %} checked="checked"{% endif %}
+                                           class="seen-by-member-input"/>
+                                    <input type="hidden" name="comment-id" value="{{ comment.id }}">
+                                    مشاهده توسط متقاضی
+                                    <img src="/static/images/ajax.gif" hidden="hidden">
+                                </label>
+                            </div>
+                        {% endif %}
                         <div class="comment-text">
                             <p>{{ comment.comment }}</p>
                         </div>

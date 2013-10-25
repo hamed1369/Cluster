@@ -2,10 +2,10 @@
 from django import forms
 from django.db.models.query_utils import Q
 from cluster.account.account.models import Cluster, Member, Domain
-from cluster.project.actions import ProjectCheckAction, ProjectDetailAction, ProjectDetailMemberAction, EditProjectAction, AdminProjectCheckAction
+from cluster.project.actions import ProjectDetailAction, ProjectDetailMemberAction, EditProjectAction, AdminProjectCheckAction, ArbiterProjectCheckAction
 from cluster.project.models import Project
 from cluster.utils.date import handel_date_fields
-from cluster.utils.forms import ClusterBaseModelForm
+from cluster.utils.forms import ClusterBaseModelForm, ClusterFilterModelForm
 from cluster.utils.manager.action import DeleteAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
 from cluster.utils.permissions import PermissionController
@@ -13,7 +13,7 @@ from cluster.utils.permissions import PermissionController
 __author__ = 'M.Y'
 
 
-class MemberProjectFilterForm(ClusterBaseModelForm):
+class MemberProjectFilterForm(ClusterFilterModelForm):
     class Meta:
         model = Project
         fields = ('title', 'keywords', 'domain')
@@ -65,7 +65,7 @@ class MemberProjectManager(ObjectsManager):
         """
 
 
-class ProjectsManagementFilterForm(ClusterBaseModelForm):
+class ProjectsManagementFilterForm(ClusterFilterModelForm):
     class Meta:
         model = Project
         fields = ('title', 'keywords', 'domain', 'project_status', 'cluster', 'single_member')
@@ -84,6 +84,7 @@ class ProjectsManagementFilterForm(ClusterBaseModelForm):
             (0, u"در مرحله درخواست"),
             (1, u"تایید مرحله اول"),
             (2, u"تایید مرحله دوم"),
+            (4, u"تکمیل شده"),
         )
         self.fields['milestone_from'] = forms.DateField(label=u"موعدها از تاریخ", required=False)
         self.fields['milestone_until'] = forms.DateField(label=u"موعدها تا تاریخ", required=False)
@@ -137,7 +138,7 @@ class ProjectsManagement(ObjectsManager):
                 link, unicode(data.single_member))
 
 
-class ArbiterProjectsFilterForm(ClusterBaseModelForm):
+class ArbiterProjectsFilterForm(ClusterFilterModelForm):
     class Meta:
         model = Project
         fields = ('title', 'keywords', 'domain', 'cluster', 'single_member')
@@ -159,7 +160,7 @@ class ArbiterProjectsManagement(ProjectsManagement):
     manager_name = u"projects_arbitration"
     manager_verbose_name = u"مدیریت طرح ها"
     filter_form = ArbiterProjectsFilterForm
-    actions = [ProjectCheckAction(), ProjectDetailAction()]
+    actions = [ArbiterProjectCheckAction(), ProjectDetailAction()]
 
     def can_view(self):
         if PermissionController.is_arbiter(self.http_request.user):
@@ -167,5 +168,37 @@ class ArbiterProjectsManagement(ProjectsManagement):
         return False
 
     def get_all_data(self):
-        return Project.objects.filter(arbiter=self.http_request.user.arbiter)
+        return Project.objects.filter(project_arbiters__arbiter=self.http_request.user.arbiter,
+                                      project_arbiters__project__project_status=Project.MIDDLE_CONFIRM_STATE)
 
+    def get_columns(self):
+        columns = [
+            ManagerColumn('title', u"عنوان", '10'),
+            ManagerColumn('cluster', u"خوشه", '10', True),
+            ManagerColumn('keywords', u"کلید واژه ها", '10'),
+            ManagerColumn('domain', u"حوزه طرح", '10'),
+            ManagerColumn('state', u"مرحله", '10'),
+            ManagerColumn('project_status', u"مرحله داوری", '10'),
+        ]
+        return columns
+
+    def get_cluster(self, data):
+        if data.cluster:
+            return unicode(data.cluster)
+        if data.single_member and not data.cluster:
+            return unicode(data.single_member)
+
+
+class SupervisorProjectsManagement(ArbiterProjectsManagement):
+    manager_name = u"projects_supervision"
+    manager_verbose_name = u"مدیریت طرح ها"
+    filter_form = ArbiterProjectsFilterForm
+    actions = [ProjectDetailAction(has_comments=False)]
+
+    def can_view(self):
+        if PermissionController.is_supervisor(self.http_request.user):
+            return True
+        return False
+
+    def get_all_data(self):
+        return Project.objects.filter(supervisor=self.http_request.user.supervisor)

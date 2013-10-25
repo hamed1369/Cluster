@@ -2,16 +2,16 @@
 from django import forms
 from cluster.account.account.models import Member, Cluster
 from cluster.account.actions import EditMemberAction
-from cluster.utils.forms import ClusterBaseModelForm
+from cluster.utils.forms import ClusterBaseModelForm, ClusterFilterModelForm
 from cluster.utils.manager.action import ShowAction, DeleteAction, ConfirmAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
-from cluster.utils.messages import MessageServices, SMSService
+from cluster.utils.messages import MessageServices
 from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
 
 
-class MemberForm(ClusterBaseModelForm):
+class MemberForm(ClusterFilterModelForm):
     class Meta:
         model = Member
         fields = ('cluster', 'national_code', 'military_status', 'foundation_of_elites')
@@ -30,7 +30,7 @@ class MemberForm(ClusterBaseModelForm):
 class MemberActionForm(ClusterBaseModelForm):
     class Meta:
         model = Member
-        exclude = ('is_confirmed', 'domain')
+        exclude = ('is_confirmed',)
 
     def __init__(self, *args, **kwargs):
         super(MemberActionForm, self).__init__(*args, **kwargs)
@@ -68,13 +68,13 @@ class MemberManager(ObjectsManager):
 
     def get_columns(self):
         columns = [
-            ManagerColumn('full_name', u"نام و نام خانوادگی", '30', True),
+            ManagerColumn('full_name', u"نام و نام خانوادگی", '25', True),
             ManagerColumn('cluster', u"خوشه", '20', True, True),
             ManagerColumn('gender', u"جنسیت", '5'),
             ManagerColumn('national_code', u"کد ملی", '10'),
             ManagerColumn('birth_date', u"تاریخ تولد", '10'),
             ManagerColumn('residence_city', u"شهر محل اقامت", '10'),
-            ManagerColumn('mobile', u"تلفن همراه", '10'),
+            ManagerColumn('mobile', u"تلفن همراه", '12', True, True),
             ManagerColumn('military_status', u"وضعیت نظام وظیفه", '15'),
             ManagerColumn('foundation_of_elites', u"عضویت در بنیاد ملی نخبگان", '10'),
             ManagerColumn('created_on', u"تاریخ ثبت نام", '10'),
@@ -89,12 +89,13 @@ class MemberManager(ObjectsManager):
             ManagerColumn('email', u"ایمیل", '10', True),
             ManagerColumn('last_login', u"تاریخ آخرین ورود", '7', True),
             ManagerColumn('cluster', u"خوشه", '10', True, True),
+            ManagerColumn('uni', u"دانشگاه", '10', True),
             ManagerColumn('gender', u"جنسیت", '5'),
             ManagerColumn('national_code', u"کد ملی", '10'),
             ManagerColumn('birth_date', u"تاریخ تولد", '10'),
             ManagerColumn('residence_city', u"شهر محل اقامت", '10'),
             ManagerColumn('telephone', u"تلفن ثابت", '10'),
-            ManagerColumn('mobile', u"تلفن همراه", '10'),
+            ManagerColumn('mobile', u"تلفن همراه", '10', True, True),
             ManagerColumn('essential_telephone', u"تلفن ضروری", '10'),
             ManagerColumn('address', u"آدرس", '10'),
             ManagerColumn('employment_status', u"وضعیت شغلی", '10'),
@@ -138,8 +139,17 @@ class MemberManager(ObjectsManager):
                 link, unicode(data.cluster))
         return u"""بدون خوشه"""
 
+    def get_uni(self, data):
+        if data.cluster:
+            return data.cluster.institute
+        return None
 
-class NoClusterMemberActionForm(ClusterBaseModelForm):
+    def get_mobile(self, data):
+        if data.mobile:
+            return "<span style='direction:ltr;float: left;'>+%s</span>" % data.mobile.replace('-', '')
+
+
+class NoClusterMemberActionForm(ClusterFilterModelForm):
     class Meta:
         model = Member
         fields = ('national_code', 'military_status', 'foundation_of_elites')
@@ -159,13 +169,18 @@ def member_confirm_change(instance, confirm):
         message_body = u"عضویت شما تایید شد.\n هم اکنون شما میتوانید در سامانه فعالیت داشته باشید."
         message = MessageServices.get_title_body_message(u"تایید عضویت", message_body)
     elif confirm is False:
-        message_body = u"عضویت شما در سامانه از طرف مدیریت رد  شد. شما دیگر نمیتوانید در سامانه فعالیت داشته باشید."
+        if instance.gender == 1:
+            message_body = u"آقای "
+        else:
+            message_body = u"خانم "
+        message_body += u"%s ضمن قدردانی از بذل توجه شما به این موسسه و ثبت نام در سامانه، متاسفانه عضویت شما در سامانه مورد موافقت موسسه قرار نگرفته است.  با آرزوی موفقیت و سلامتی برای شما دوست عزیز." % unicode(
+            instance)
         message = MessageServices.get_title_body_message(u"رد عضویت", message_body)
     else:
         message_body = u"وضعیت عضویت شما به نامشخص تغییر یافت."
         message = MessageServices.get_title_body_message(u"تغییر وضعیت عضویت", message_body)
     MessageServices.send_message(u"تغییر وضعیت عضویت", message, instance.user)
-    SMSService.send_sms(message_body, [instance.mobile])
+    #SMSService.send_sms(message_body, [instance.mobile])
     if confirm is False:
         instance.delete()
 
@@ -183,12 +198,12 @@ class NoClusterMemberManager(MemberManager):
 
     def get_columns(self):
         columns = [
-            ManagerColumn('full_name', u"نام و نام خانوادگی", '30', True),
+            ManagerColumn('full_name', u"نام و نام خانوادگی", '25', True),
             ManagerColumn('gender', u"جنسیت", '10'),
             ManagerColumn('national_code', u"کد ملی", '10'),
             ManagerColumn('birth_date', u"تاریخ تولد", '10'),
             ManagerColumn('residence_city', u"شهر محل اقامت", '10'),
-            ManagerColumn('mobile', u"تلفن همراه", '10'),
+            ManagerColumn('mobile', u"تلفن همراه", '12', True, True),
             ManagerColumn('military_status', u"وضعیت نظام وظیفه", '10'),
             ManagerColumn('foundation_of_elites', u"عضویت در بنیاد ملی نخبگان", '20'),
             ManagerColumn('created_on', u"تاریخ ثبت نام", '10'),
@@ -203,3 +218,7 @@ class NoClusterMemberManager(MemberManager):
         ('military_status', 'this'),
         ('foundation_of_elites', 'null_bool'),
     )
+
+    def get_mobile(self, data):
+        if data.mobile:
+            return "<span style='direction:ltr;float: left;'>+%s</span>" % data.mobile.replace('-', '')

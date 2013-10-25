@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 from cluster.news.forms import NewsForm, NewsShowForm
 from cluster.news.models import News
-from cluster.utils.forms import ClusterBaseModelForm
+from cluster.utils.forms import ClusterBaseModelForm, ClusterFilterModelForm
 from cluster.utils.manager.action import DeleteAction, ShowAction, AddAction, EditAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
 
 __author__ = 'M.Y'
 
 
-class NewsFilterForm(ClusterBaseModelForm):
+class NewsFilterForm(ClusterFilterModelForm):
     class Meta:
         model = News
         fields = ('title', 'publish_date')

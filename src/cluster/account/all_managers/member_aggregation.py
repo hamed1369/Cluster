@@ -3,14 +3,14 @@ import datetime
 from django import forms
 from cluster.account.account.models import Member, Cluster
 from cluster.project.models import Project
-from cluster.utils.forms import ClusterBaseModelForm
+from cluster.utils.forms import ClusterBaseModelForm, ClusterFilterModelForm
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn, ManagerGroupHeader
 from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
 
 
-class MemberForm(ClusterBaseModelForm):
+class MemberForm(ClusterFilterModelForm):
     class Meta:
         model = Member
         fields = ('cluster', 'national_code', 'military_status', 'foundation_of_elites')
@@ -63,6 +63,8 @@ class MemberAggregationManager(ObjectsManager):
                 age_range.from_date, age_range.until_date)).distinct().count()
             age_range.project_type3 += Project.objects.filter(project_status=3, single_member__birth_date__range=(
                 age_range.from_date, age_range.until_date)).distinct().count()
+            age_range.project_type4 += Project.objects.filter(project_status=4, single_member__birth_date__range=(
+                age_range.from_date, age_range.until_date)).distinct().count()
 
             age_range.project_type_1 += Project.objects.filter(project_status=-1, cluster__members__birth_date__range=(
                 age_range.from_date, age_range.until_date)).distinct().count()
@@ -73,6 +75,8 @@ class MemberAggregationManager(ObjectsManager):
             age_range.project_type2 += Project.objects.filter(project_status=2, cluster__members__birth_date__range=(
                 age_range.from_date, age_range.until_date)).distinct().count()
             age_range.project_type3 += Project.objects.filter(project_status=3, cluster__members__birth_date__range=(
+                age_range.from_date, age_range.until_date)).distinct().count()
+            age_range.project_type4 += Project.objects.filter(project_status=4, cluster__members__birth_date__range=(
                 age_range.from_date, age_range.until_date)).distinct().count()
 
 
@@ -93,8 +97,9 @@ class MemberAggregationManager(ObjectsManager):
             ManagerColumn('project_type_1', u"رد شده", '10', aggregation=True),
             ManagerColumn('project_type0', u"در مرحله درخواست", '10', aggregation=True),
             ManagerColumn('project_type1', u"تایید مرحله اول", '10', aggregation=True),
-            ManagerColumn('project_type2', u"تاییدشده توسط داور", '10', aggregation=True),
+            #ManagerColumn('project_type2', u"تاییدشده توسط داور", '10', aggregation=True),
             ManagerColumn('project_type3', u"تایید مرحله دوم", '10', aggregation=True),
+            ManagerColumn('project_type4', u"تکمیل شده", '10', aggregation=True),
         ]
         return columns
 
@@ -106,8 +111,7 @@ class MemberAggregationManager(ObjectsManager):
     def get_group_headers(self):
         group_headers = [
             ManagerGroupHeader('confirmed_members', 2, u"تعداد اعضا"),
-            ManagerGroupHeader('clusters_yes', 2, u"تعداد خوشه ها"),
-            ManagerGroupHeader('project_type_1', 5, u"تعداد طرح ها"),
+            ManagerGroupHeader('project_type_1', 4, u"تعداد طرح ها"),
         ]
         return group_headers
 
@@ -122,6 +126,7 @@ class MemberAgePeriod(object):
         self.project_type1 = 0
         self.project_type2 = 0
         self.project_type3 = 0
+        self.project_type4 = 0
         self.from_age = from_age
         self.until_age = until_age
 

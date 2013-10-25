@@ -12,8 +12,6 @@ from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from cluster.utils.manager.action import ManagerAction
 
-__author__ = 'M.Y'
-
 
 class SendMessage(ManagerAction):
     action_name = 'send_message'
@@ -30,7 +28,7 @@ class SendMessage(ManagerAction):
             model_form = MemberMessageForm
 
         if http_request.method == 'POST':
-            form = model_form(http_request.POST, user=http_request.user)
+            form = model_form(http_request.POST, http_request.FILES, user=http_request.user)
             if form.is_valid():
                 form.save()
                 form = None

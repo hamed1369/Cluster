@@ -1,0 +1,61 @@
+{% extends 'no_base.html' %}
+{% load account_template_tags %}
+{% block content %}
+    <fieldset class="inner_fieldset">
+        <legend>نظرات داوری {{ project_arbiter.arbiter }}</legend>
+        <table>
+            <tr class="even-tr">
+                <td>
+                    <p>{{ project_arbiter|get_verbose_name_by_name:'economic_comment' }}</p>
+
+                    <div class="arbiter_comment">
+                        {% if project_arbiter.economic_comment %}
+                            <pre class="action-pre">{{ project_arbiter.economic_comment }}</pre>
+                        {% else %}
+                            ---
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+            <tr class="odd-tr">
+                <td>
+                    <p>{{ project_arbiter|get_verbose_name_by_name:'innovation_comment' }}</p>
+
+                    <div class="arbiter_comment">
+                        {% if project_arbiter.innovation_comment %}
+                            <pre class="action-pre">{{ project_arbiter.innovation_comment }}</pre>
+                        {% else %}
+                            ---
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+            <tr class="even-tr">
+                <td>
+                    <p>{{ project_arbiter|get_verbose_name_by_name:'time_comment' }}</p>
+
+                    <div class="arbiter_comment">
+                        {% if project_arbiter.time_comment %}
+                            <pre class="action-pre">{{ project_arbiter.time_comment }}</pre>
+                        {% else %}
+                            ---
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+            <tr class="odd-tr">
+                <td>
+                    <p>{{ project_arbiter|get_verbose_name_by_name:'budget_comment' }}</p>
+
+                    <div class="arbiter_comment">
+                        {% if project_arbiter.budget_comment %}
+                            <pre class="action-pre">{{ project_arbiter.budget_comment }}</pre>
+                        {% else %}
+                            ---
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+{% endblock %}

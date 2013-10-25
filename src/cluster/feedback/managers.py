@@ -5,14 +5,14 @@ from cluster.feedback.forms import FeedbackShowForm
 from cluster.feedback.models import Feedback
 from cluster.message.actions import SendMessage, ShowMessage
 from cluster.message.models import Message
-from cluster.utils.forms import ClusterBaseModelForm
+from cluster.utils.forms import ClusterBaseModelForm, ClusterFilterModelForm
 from cluster.utils.manager.action import DeleteAction, ShowAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
 
 __author__ = 'M.Y'
 
 
-class FeedbackFilterForm(ClusterBaseModelForm):
+class FeedbackFilterForm(ClusterFilterModelForm):
     class Meta:
         model = Feedback
         fields = ('title', 'creator')

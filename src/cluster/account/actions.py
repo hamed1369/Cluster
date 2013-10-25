@@ -73,7 +73,7 @@ class ClusterConfirmAction(ManagerAction):
                 degree = form.cleaned_data.get('degree')
                 for member in selected_instances[0].members.all():
                     try:
-                        member.member.is_confirmed = confirm
+                        member.is_confirmed = confirm
                         member.save()
                     except Member.DoesNotExist:
                         pass
@@ -88,8 +88,12 @@ class ClusterConfirmAction(ManagerAction):
                     message = MessageServices.get_title_body_message(u"تایید خوشه", message_body)
 
                 elif confirm is False:
-                    message_body = u"عضویت خوشه شما با نام %s  در سامانه از طرف مدیریت رد  شد. شما دیگر نمیتوانید در سامانه فعالیت داشته باشید." % (
-                        selected_instances[0].name)
+                    if selected_instances[0].head.gender == 1:
+                        message_body = u"آقای "
+                    else:
+                        message_body = u"خانم "
+                    message_body += u"%s ضمن قدردانی از بذل توجه شما به این موسسه و ثبت نام در سامانه، متاسفانه عضویت شما در سامانه مورد موافقت موسسه قرار نگرفته است.  با آرزوی موفقیت و سلامتی برای شما دوست عزیز." % unicode(
+                        selected_instances[0].head)
                     message = MessageServices.get_title_body_message(u"تغییر وضعیت خوشه", message_body)
                 else:
                     message_body = u"وضعیت خوشه شما با نام  %s به نامشخص تغییر یافت." % (
@@ -97,7 +101,7 @@ class ClusterConfirmAction(ManagerAction):
                     message = MessageServices.get_title_body_message(u"تغییر وضعیت خوشه", message_body)
 
                 MessageServices.send_message(u"تغییر وضعیت خوشه", message, selected_instances[0].head.user)
-                SMSService.send_sms(message_body, [selected_instances[0].head.mobile])
+                #SMSService.send_sms(message_body, [selected_instances[0].head.mobile])
                 if confirm is False:
                     selected_instances[0].delete()
 
@@ -168,7 +172,7 @@ class ArbiterInvitationAction(ManagerAction):
     is_view = True
     action_verbose_name = u"دعوت داور"
     action_name = 'arbiter_invitation'
-    height = '400'
+    height = '200'
 
     def action_view(self, http_request, selected_instances):
         if http_request.method == 'POST':
@@ -178,17 +182,16 @@ class ArbiterInvitationAction(ManagerAction):
                 import string
                 import urllib
 
-                first_name = form.cleaned_data.get('first_name')
-                last_name = form.cleaned_data.get('last_name')
+                title = form.cleaned_data.get('title')
                 email = form.cleaned_data.get('email')
-                message = form.cleaned_data.get('message')
+                #message = form.cleaned_data.get('message')
 
                 invitation_key = ''.join(
                     random.choice(string.letters + string.digits + '(_)./,;][=+') for x in range(50))
 
                 Arbiter.objects.create(invited=True, invitation_key=invitation_key, is_confirmed=True)
 
-                message = MessageServices.get_arbiter_invitation_message(first_name, last_name, message,
+                message = MessageServices.get_arbiter_invitation_message(title,
                                                                          urllib.quote(invitation_key))
                 MessageServices.send_message(u"دعوت از شما برای داوری", message, email=email)
 

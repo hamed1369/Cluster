@@ -2,14 +2,14 @@
 from django import forms
 from cluster.account.account.models import Domain, Cluster, Member
 from cluster.project.models import Project
-from cluster.utils.forms import ClusterBaseModelForm
+from cluster.utils.forms import ClusterBaseModelForm, ClusterFilterModelForm
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn, ManagerGroupHeader
 from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
 
 
-class DomainForm(ClusterBaseModelForm):
+class DomainForm(ClusterFilterModelForm):
     class Meta:
         model = Domain
         fields = ('name', 'confirmed')
@@ -38,7 +38,7 @@ class DomainAggregationManager(ObjectsManager):
         for domain in domains:
             domains_dict[domain] = {'members_yes': 0, 'members_no': 0, 'clusters_yes': 0, 'clusters_no': 0,
                                     'project_type_1': 0, 'project_type0': 0, 'project_type1': 0, 'project_type2': 0,
-                                    'project_type3': 0}
+                                    'project_type3': 0,'project_type4': 0}
 
         projects = Project.objects.filter(domain__in=domains).select_related('domain').distinct()
         clusters = Cluster.objects.filter(domains__in=domains).select_related('head', 'domains').distinct()
@@ -55,6 +55,8 @@ class DomainAggregationManager(ObjectsManager):
                 domains_dict[project.domain]['project_type2'] += 1
             elif project.project_status == 3:
                 domains_dict[project.domain]['project_type3'] += 1
+            elif project.project_status == 4:
+                domains_dict[project.domain]['project_type4'] += 1
 
         for cluster in clusters:
             if cluster.head.is_confirmed is True:
@@ -85,8 +87,9 @@ class DomainAggregationManager(ObjectsManager):
             ManagerColumn('project_type_1', u"رد شده", '10', True, aggregation=True),
             ManagerColumn('project_type0', u"در مرحله درخواست", '10', True, aggregation=True),
             ManagerColumn('project_type1', u"تایید مرحله اول", '10', True, aggregation=True),
-            ManagerColumn('project_type2', u"تاییدشده توسط داور", '10', True, aggregation=True),
+            #ManagerColumn('project_type2', u"تاییدشده توسط داور", '10', True, aggregation=True),
             ManagerColumn('project_type3', u"تایید مرحله دوم", '10', True, aggregation=True),
+            ManagerColumn('project_type4', u"تکمیل شده", '10', True, aggregation=True),
         ]
         return columns
 
@@ -121,11 +124,13 @@ class DomainAggregationManager(ObjectsManager):
 
     def get_project_type3(self, data):
         return self.domains_dict[data]['project_type3']
+    def get_project_type4(self, data):
+        return self.domains_dict[data]['project_type4']
 
     def get_group_headers(self):
         group_headers = [
             ManagerGroupHeader('members_yes', 2, u"تعداد اعضا"),
             ManagerGroupHeader('clusters_yes', 2, u"تعداد خوشه ها"),
-            ManagerGroupHeader('project_type_1', 5, u"تعداد طرح ها"),
+            ManagerGroupHeader('project_type_1', 4, u"تعداد طرح ها"),
         ]
         return group_headers

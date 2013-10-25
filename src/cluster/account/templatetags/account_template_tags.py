@@ -18,8 +18,11 @@ def get_dict(input_dict, key):
 
 @register.simple_tag
 def welcome_st(user):
-    overall_name = u"%s %s" % (user.first_name, user.last_name) if (
-        user.first_name and user.last_name) else u"%s" % user.username
+    if PermissionController.is_arbiter(user):
+        overall_name = unicode(user.arbiter)
+    else:
+        overall_name = u"%s %s" % (user.first_name, user.last_name) if (
+            user.first_name and user.last_name) else u"%s" % user.username
     return u"%s خوش آمدید." % overall_name
 
 
@@ -100,5 +103,27 @@ def show_user_for_project_comments(user):
         return u"داور"
     else:
         return u"%s (متقاضی)" % unicode(user)
+
+
+@register.filter
+def is_admin(user):
+    return PermissionController.is_admin(user)
+
+
+@register.filter
+def is_arbiter(user):
+    return PermissionController.is_arbiter(user)
+
+
+@register.filter
+def filename(file_val):
+    import os
+
+    return os.path.basename(file_val.name)
+
+
+@register.filter
+def get_verbose_name_by_name(instance, name):
+    return instance._meta.get_field_by_name(name)[0].verbose_name
 
 

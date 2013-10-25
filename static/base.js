@@ -16,19 +16,19 @@ $(document).ready(function () {
                 "url": "/ajax/validationEngine/",
 //                "alertTextOk": "این نام کاربری در دسترس است",
                 "alertText": "* این نام‌کاربری تکراری است",
-                "alertTextLoad": "* درحال اعتبار سنجی، لطفا صبر کنید"
+//                "alertTextLoad": "* درحال اعتبار سنجی، لطفا صبر کنید"
             },
             emailAjaxEngineCall: {
                 "url": "/ajax/validationEngine/",
 //                "alertTextOk": "این ایمیل در دسترس است",
                 "alertText": "* این ایمیل تکراری است",
-                "alertTextLoad": "* درحال اعتبار سنجی، لطفا صبر کنید"
+//                "alertTextLoad": "* درحال اعتبار سنجی، لطفا صبر کنید"
             },
             clusterNameAjaxEngineCall: {
                 "url": "/ajax/validationEngine/",
 //                "alertTextOk": "این ایمیل در دسترس است",
                 "alertText": "* این نام تکراری است",
-                "alertTextLoad": "* درحال اعتبار سنجی، لطفا صبر کنید"
+//                "alertTextLoad": "* درحال اعتبار سنجی، لطفا صبر کنید"
             }
         });
         $(".js-validation-from").validationEngine({
@@ -55,3 +55,16 @@ $(document).ready(function () {
 //    });
 
 });
+
+function popitup(url, windowName) {
+    var width = '600';
+    var height = '500';
+    var left = (screen.width / 2) - (width / 2);
+    var top = (screen.height / 2) - (height / 2);
+
+    newwindow = window.open(url, windowName, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
+    if (window.focus) {
+        newwindow.focus()
+    }
+    return false;
+}

@@ -6,13 +6,39 @@ $(document).ready(function () {
 
     $('select[name*=send_type]').change(function () {
         var send_type = parseInt($(this).val());
-        if (send_type in [4,6,9]){
-            $(this).parents('tr').first().next('tr').fadeOut();
-        }else{
+        if (send_type == 9) {
             $(this).parents('tr').first().next('tr').fadeIn();
+            $('[name*="member_receivers"]').parents('tr').first().fadeOut();
+            $('[name*="arbiter_receivers"]').parents('tr').first().fadeOut();
+        } else if (send_type == 4) {
+            $('[name*="member_receivers"]').parents('tr').first().fadeIn();
+            $('[name*="arbiter_receivers"]').parents('tr').first().fadeOut();
+        } else if (send_type == 6) {
+            $('[name*="arbiter_receivers"]').parents('tr').first().fadeIn();
+            $('[name*="member_receivers"]').parents('tr').first().fadeOut();
+        } else {
+            $(this).parents('tr').first().next('tr').fadeOut();
+            $('[name*="member_receivers"]').parents('tr').first().fadeOut();
+            $('[name*="arbiter_receivers"]').parents('tr').first().fadeOut();
         }
     });
     $('select[name*=send_type]').change();
+
+
+    $('input[name*="change_password"]').change(function () {
+        var change_pass = $('input[name*="change_password"]:checked').val();
+        var $first_tr = $(this).parents('tr').first().next('tr');
+        var $second_tr = $first_tr.next('tr');
+
+        if (change_pass == 'True') {
+            $first_tr.show(500);
+            $second_tr.show(500);
+        } else {
+            $first_tr.hide(500);
+            $second_tr.hide(500);
+        }
+    });
+    $('input[name*="change_password"]').change();
 
 //    $('select[name*=receivers]').select2({
 //        placeholder: "جستجو کاربران",

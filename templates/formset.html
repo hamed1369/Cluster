@@ -1,6 +1,6 @@
 {% load account_template_tags %}
 <fieldset class="formset_fieldset">
-    <legend>{{ legend }}<span class="required_field">*</span></legend>
+    <legend>{{ legend }}</legend>
     <div id="{{ formset.prefix }}_formset">
         <input type="hidden" name="formset_prefix" value="{{ formset.prefix }}">
         {% if formset.prefix == 'cluster_domain' %}
@@ -71,7 +71,8 @@
                             addCssClass: 'formset_add',
                             deleteCssClass: 'formset_delete',
                             added: function check_date_picker() {
-                                var $date_fields = $('.' + $(this)[0].formCssClass).last().find('.hasDatepicker');
+                                var $formset_tr = $('#' + '{{ formset.prefix }}' + '_table tbody tr');
+                                var $date_fields = $formset_tr.find('.hasDatepicker');
                                 $date_fields.removeClass('hasDatepicker');
                                 $date_fields.datepicker({
                                     changeMonth: true,
@@ -79,7 +80,24 @@
                                     yearRange: '1300,1400',
                                     dateFormat: 'yy/mm/dd'
                                 });
-                                $('#' + '{{ formset.prefix }}' + '_table tbody tr').find('input[type=text], select').attr('data-prompt-position', 'topLeft:-100');
+                                $formset_tr.find('input[type=text], select').attr('data-prompt-position', 'topLeft:-100');
+                                {% if formset.prefix != 'cluster_domain' %}
+                                    $formset_tr.each(function () {
+                                        var all_fields_name = [];
+                                        $(this).find('input[type=text], select').each(function () {
+                                            all_fields_name.push($(this).attr('id'));
+                                        });
+                                        $(this).find('input[type=text], select').each(function () {
+                                            if ($(this).attr('name').indexOf('end_year') == -1) {
+                                                var cls_attr = $(this).attr('class');
+                                                var new_cls_attr = cls_attr.substring(0, cls_attr.lastIndexOf(']')) + 'condRequired[' + all_fields_name + ']' + cls_attr.substring(cls_attr.lastIndexOf(']'));
+                                                $(this).removeClass(cls_attr);
+                                                $(this).addClass(new_cls_attr);
+                                            }
+                                        });
+                                    });
+                                {% endif %}
+
                             }
 
                         });
