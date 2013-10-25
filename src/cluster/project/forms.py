@@ -26,11 +26,6 @@ class ProjectForm(ClusterBaseModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
         super(ProjectForm, self).__init__(*args, **kwargs)
-        if self.instance and self.instance.id:
-            if self.instance.confirmation_type != 1:
-                self.fields['has_confirmation'].initial = True
-            else:
-                self.fields['has_confirmation'].initial = False
         self.fields['confirmation_type'].choices = (
             (1, '---------'),
             (2, u"تاییدیه سازمان پژوهش های علمی و صنعتی ایران"),
@@ -46,6 +41,17 @@ class ProjectForm(ClusterBaseModelForm):
         self.fields['has_patent'] = forms.ChoiceField(required=True, choices=BOOLEAN_CHOICES,
                                                       widget=forms.RadioSelect(), )
         self.fields['has_patent'].label = u"آیا طرح پیشنهادی دارای ثبت اختراع می باشد؟"
+        if self.instance and self.instance.id:
+            if self.instance.confirmation_type != 1:
+                self.fields['has_confirmation'].initial = True
+            else:
+                self.fields['has_confirmation'].initial = False
+                self.fields['confirmation_type'].is_hidden = True
+                self.fields['certificate_image'].is_hidden = True
+            if not self.instance.has_patent:
+                self.fields['patent_number'].is_hidden = True
+                self.fields['patent_date'].is_hidden = True
+                self.fields['patent_certificate'].is_hidden = True
 
         self.fields['patent_request'] = forms.ChoiceField(required=True, choices=BOOLEAN_CHOICES,
                                                           widget=forms.RadioSelect(), )

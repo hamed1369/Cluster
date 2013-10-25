@@ -107,18 +107,18 @@ class ArbiterProjectCheckAction(ManagerAction):
             raise Http404()
         instance = selected_instances[0]
         project_arbiter = get_object_or_404(ProjectArbiter, arbiter=http_request.user.arbiter, project=instance)
+        form = ArbiterProjectManagerForm(instance=instance, http_request=http_request)
+        for field in form.fields:
+            form.fields[field].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})
 
         if http_request.method == 'POST':
-            form = ArbiterProjectManagerForm(http_request.POST, http_request.FILES, instance=instance)
             inline_form = ProjectArbitrationForm(http_request.POST, http_request.FILES, instance=project_arbiter,
                                                  prefix='project_arbiter')
-            if form.is_valid() and inline_form.is_valid():
-                instance = form.save()
+            if inline_form.is_valid():
                 inline_form.save()
                 form = None
                 messages.success(http_request, u"بررسی طرح با موفقیت انجام شد.")
         else:
-            form = ArbiterProjectManagerForm(instance=instance)
             inline_form = ProjectArbitrationForm(instance=project_arbiter, prefix='project_arbiter')
 
         return render_to_response('project/check_project.html',
