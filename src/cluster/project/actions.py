@@ -75,13 +75,14 @@ class AdminProjectCheckAction(ManagerAction):
                             instance.title)
                         SMSService.send_sms(message_body, [member.mobile])
 
-                #TODO : FOR ALL ARBITER OF PROJECTS MUST MESSAGE SEND
-                #if old_arbiter != new_arbiter and new_arbiter:
-                #    message_body = u'%s محترم، مدیریت سامانه موسسه پژوهشی نگاه نو طرح با عنوان "%s" را برای داوری به شما سپرده است.' % (
-                #        unicode(new_arbiter), instance.title)
-                #    message = MessageServices.get_title_body_message(u"ارسال طرح برای شما جهت داوری", message_body)
-                #    MessageServices.send_message(u"ارسال طرح برای شما جهت داوری", message, new_arbiter.user)
-                #    #SMSService.send_sms(message_body, [new_arbiter.mobile])
+                for project_arbiter in instance.project_arbiters.all():
+                    arbiter = project_arbiter.arbiter
+                    #if old_arbiter != new_arbiter and new_arbiter:
+                    message_body = u'%s محترم، مدیریت سامانه موسسه پژوهشی نگاه نو طرح با عنوان "%s" را برای داوری به شما سپرده است.' % (
+                        unicode(arbiter), instance.title)
+                    message = MessageServices.get_title_body_message(u"ارسال طرح برای شما جهت داوری", message_body)
+                    MessageServices.send_message(u"ارسال طرح برای شما جهت داوری", message, arbiter.user)
+                    #    #SMSService.send_sms(message_body, [new_arbiter.mobile])
 
                 messages.success(http_request, u"بررسی طرح با موفقیت انجام شد.")
         else:
