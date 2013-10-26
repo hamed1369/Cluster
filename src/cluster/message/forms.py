@@ -43,9 +43,11 @@ class AdminMessageForm(ClusterBaseModelForm):
         self.fields['member_receivers'].is_hidden = True
 
         self.fields['is_sms'] = forms.BooleanField(required=False, label=u"ارسال پیامک")
+        self.fields['is_mail'] = forms.BooleanField(required=False, label=u"ارسال پست الکترونیک")
         process_js_validations(self)
         self.fields['send_type'].required = True
-        self.fields.keyOrder = ['title', 'body', 'send_type', 'arbiter_receivers', 'member_receivers', 'is_sms']
+        self.fields.keyOrder = ['title', 'body', 'send_type', 'arbiter_receivers', 'member_receivers', 'is_sms',
+                                'is_mail']
 
     def save(self, commit=True):
         message = super(AdminMessageForm, self).save(commit=False)
@@ -72,11 +74,13 @@ class AdminMessageForm(ClusterBaseModelForm):
         message.receivers = receivers
 
         is_sms = self.cleaned_data.get('is_sms')
+        is_mail = self.cleaned_data.get('is_mail')
         if receivers:
             for user in receivers:
-                message_text = MessageServices.get_send_message(self.user, message.title, message.body)
-                MessageServices.send_message(subject=u"پیام دریافتی از مدیریت سیستم",
-                                             message=message_text, user=user)
+                if is_mail:
+                    message_text = MessageServices.get_send_message(self.user, message.title, message.body)
+                    MessageServices.send_message(subject=u"پیام دریافتی از مدیریت سیستم",
+                                                 message=message_text, user=user)
                 if is_sms:
                     mobile = None
                     if PermissionController.is_supervisor(user):
@@ -86,7 +90,7 @@ class AdminMessageForm(ClusterBaseModelForm):
                     elif PermissionController.is_member(user):
                         mobile = user.member.mobile
                     if mobile:
-                        SMSService.send_sms(message.body, [mobile])
+                        SMSService.send_sms(message.title + '\n' + message.body, [mobile])
         return message
 
 

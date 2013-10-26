@@ -54,4 +54,3 @@ class MessageManager(ObjectsManager):
         else:
             return u"خیر"
             # result = u'<img src="/static/manager/images/unread.png" />'
-        return mark_safe(result)
