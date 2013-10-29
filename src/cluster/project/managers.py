@@ -2,10 +2,11 @@
 from django import forms
 from django.db.models.query_utils import Q
 from cluster.account.account.models import Cluster, Member, Domain
-from cluster.project.actions import ProjectDetailAction, ProjectDetailMemberAction, EditProjectAction, AdminProjectCheckAction, ArbiterProjectCheckAction
+from cluster.project.actions import ProjectDetailAction, EditProjectAction, \
+    AdminProjectCheckAction, ArbiterProjectCheckAction
 from cluster.project.models import Project
 from cluster.utils.date import handel_date_fields
-from cluster.utils.forms import ClusterBaseModelForm, ClusterFilterModelForm
+from cluster.utils.forms import ClusterFilterModelForm
 from cluster.utils.manager.action import DeleteAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
 from cluster.utils.permissions import PermissionController
@@ -24,7 +25,8 @@ class MemberProjectManager(ObjectsManager):
     manager_verbose_name = u"طرح های من"
     filter_form = MemberProjectFilterForm
 
-    actions = [EditProjectAction(), DeleteAction(action_verbose_name=u"انصراف از طرح"), ProjectDetailMemberAction()]
+    actions = [EditProjectAction(), DeleteAction(action_verbose_name=u"انصراف از طرح"),
+               ProjectDetailAction(for_admin=False)]
 
     def can_view(self):
         if PermissionController.is_member(self.http_request.user):
@@ -95,7 +97,7 @@ class ProjectsManagement(ObjectsManager):
     manager_name = u"projects_management"
     manager_verbose_name = u"مدیریت طرح ها"
     filter_form = ProjectsManagementFilterForm
-    actions = [AdminProjectCheckAction(), ProjectDetailAction()]
+    actions = [AdminProjectCheckAction(), ProjectDetailAction(), DeleteAction()]
 
     filter_handlers = (
         ('title', 'str'),
@@ -193,7 +195,8 @@ class SupervisorProjectsManagement(ArbiterProjectsManagement):
     manager_name = u"projects_supervision"
     manager_verbose_name = u"مدیریت طرح ها"
     filter_form = ArbiterProjectsFilterForm
-    actions = [ProjectDetailAction(has_comments=False)]
+    actions = [
+        ProjectDetailAction(has_comments=False, action_verbose_name=u"بررسی و مشاهده جزئیات", change_milestones=True)]
 
     def can_view(self):
         if PermissionController.is_supervisor(self.http_request.user):

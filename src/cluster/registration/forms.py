@@ -85,8 +85,8 @@ class RegisterForm(ClusterBaseModelForm):
         self.fields['gender'].required = True
         self.fields['domain'].required = True
         self.fields['employment_status'].required = True
-        self.fields.insert(0, 'first_name', forms.CharField(required=True, label=u"نام"))
-        self.fields.insert(1, 'last_name', forms.CharField(required=True, label=u"نام خانوادگی"))
+        self.fields.insert(0, 'first_name', forms.CharField(required=True, label=u"نام (فارسی)"))
+        self.fields.insert(1, 'last_name', forms.CharField(required=True, label=u"نام خانوادگی (فارسی)"))
         self.fields.insert(2, 'username', forms.CharField(required=True, label=u"نام کاربری"))
         self.fields.insert(3, 'password', forms.CharField(required=True, label=u"گذرواژه", widget=forms.PasswordInput))
         self.fields.insert(4, 're_password',

@@ -46,14 +46,23 @@
     {% endif %}
 {% endblock %}
 {% block after_main %}
-    {% if inline_form and inline_form.forms %}
-        {% include 'formset.html' with legend="موعدهای طرح" formset=inline_form cluster=cluster %}
-    {% endif %}
     {% if not inline_form.forms %}
         <fieldset class="formset_fieldset">
             <legend>موعدهای طرح</legend>
             <div>موعدی تعیین نشده است.</div>
         </fieldset>
+    {% else %}
+        {% if inline_form.readonly %}
+            {% include 'formset.html' with legend="موعدهای طرح" formset=inline_form cluster=cluster %}
+        {% else %}
+        <form action="" method="post" enctype="multipart/form-data" id="register_form" class="js-validation-from">
+            {% csrf_token %}
+            {% include 'formset.html' with legend="موعدهای طرح" formset=inline_form cluster=cluster %}
+            <div class="button_holder">
+                <input type="submit" value="ثبت" name="register-submit">
+            </div>
+        </form>
+        {% endif %}
     {% endif %}
     {% if has_comments %}
         <fieldset class="inner_fieldset">

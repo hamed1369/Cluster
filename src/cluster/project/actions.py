@@ -52,8 +52,9 @@ class AdminProjectCheckAction(ManagerAction):
                 instance = form.save()
                 form = None
                 new_state = instance.project_status
+                project_arbiters = []
                 if new_state == 1:
-                    arbiter_formset.save()
+                    project_arbiters = arbiter_formset.save()
                 elif new_state < 1:
                     instance.project_arbiters.all().delete()
                 new_state_display = instance.get_project_status_display()
@@ -75,7 +76,7 @@ class AdminProjectCheckAction(ManagerAction):
                             instance.title)
                         SMSService.send_sms(message_body, [member.mobile])
 
-                for project_arbiter in instance.project_arbiters.all():
+                for project_arbiter in project_arbiters:
                     arbiter = project_arbiter.arbiter
                     #if old_arbiter != new_arbiter and new_arbiter:
                     message_body = u'%s محترم، مدیریت سامانه موسسه پژوهشی نگاه نو طرح با عنوان "%s" را برای داوری به شما سپرده است.' % (
@@ -131,27 +132,42 @@ class ArbiterProjectCheckAction(ManagerAction):
 class ProjectDetailAction(ManagerAction):
     is_view = True
     action_name = u'detail'
-    action_verbose_name = u"مشاهده جزئیات"
     min_count = '1'
-    for_admin = True
 
-    def __init__(self, has_comments=True):
+    def __init__(self, has_comments=True, action_verbose_name=u"مشاهده جزئیات", for_admin=True,
+                 change_milestones=False):
         super(ProjectDetailAction, self).__init__()
         self.has_comments = has_comments
+        self.action_verbose_name = action_verbose_name
+        self.for_admin = for_admin
+        self.change_milestones = change_milestones
 
     def action_view(self, http_request, selected_instances):
         if not selected_instances:
             raise Http404()
 
-        ProjectMilestoneForm = inlineformset_factory(Project, ProjectMilestone, form=MilestoneForm, extra=0)
+        if self.change_milestones:
+            ProjectMilestoneForm = inlineformset_factory(Project, ProjectMilestone, form=MilestoneForm, extra=3)
+        else:
+            ProjectMilestoneForm = inlineformset_factory(Project, ProjectMilestone, form=MilestoneForm, extra=0)
+
         instance = selected_instances[0]
         form = ProjectManagerForm(instance=instance)
         for field in form.fields:
             form.fields[field].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})
         inline_form = None
         if instance.project_status > 1:
-            inline_form = ProjectMilestoneForm(instance=instance, prefix='project_milestone')
-            inline_form.readonly = True
+            if self.change_milestones:
+                if http_request.method == 'POST':
+                    inline_form = ProjectMilestoneForm(http_request.POST, instance=instance, prefix='project_milestone')
+                    if inline_form.is_valid:
+                        inline_form.save()
+                        messages.success(http_request, u"بررسی طرح با موفقیت انجام شد.")
+                else:
+                    inline_form = ProjectMilestoneForm(instance=instance, prefix='project_milestone')
+            else:
+                inline_form = ProjectMilestoneForm(instance=instance, prefix='project_milestone')
+                inline_form.readonly = True
 
         if http_request.method == 'POST' and self.has_comments:
             comment_txt = http_request.POST.get('project-comment-text')
@@ -177,10 +193,6 @@ class ProjectDetailAction(ManagerAction):
                                   {'form': form, 'inline_form': inline_form, 'title': u"جزئیات طرح",
                                    'project': project, 'comments': comments, 'has_comments': self.has_comments},
                                   context_instance=RequestContext(http_request))
-
-
-class ProjectDetailMemberAction(ProjectDetailAction):
-    for_admin = False
 
 
 class EditProjectAction(ManagerAction):
