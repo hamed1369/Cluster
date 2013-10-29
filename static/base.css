@@ -108,7 +108,7 @@ ul.art-hmenu > li > a, ul.art-vmenu > li > a {
 .required_field {
     color: red;
     vertical-align: top;
-    font-size: smaller;
+    font-size: 14px;
 }
 
 .input_td input[type="text"], .input_td input[type="password"], .input_td input[type="email"], .input_td input[type="url"], .input_td input[type="file"], .input_td select, .input_td ul, textarea {
