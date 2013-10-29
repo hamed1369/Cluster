@@ -232,14 +232,16 @@ class MemberForm(ClusterBaseForm):
         self.fields['first_name'].initial = member.user.first_name
         self.fields['last_name'].initial = member.user.last_name
         self.fields['email'].initial = member.user.email
-        if member.domain:
-            self.fields['domain'].initial = member.domain.id
 
         choices = [(u'', '---------'), ]
         for domain in member.cluster.domains.all():
             choices.append((unicode(domain.id), domain.name))
 
         self.fields['domain'].widget = forms.Select(choices=choices)
+
+        if member.domain:
+            self.fields['domain'].initial = member.domain.id
+
         if not is_head:
             self.fields['first_name'].widget.attrs.update({'readonly': 'readonly'})
             self.fields['last_name'].widget.attrs.update({'readonly': 'readonly'})

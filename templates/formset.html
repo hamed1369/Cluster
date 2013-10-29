@@ -65,11 +65,9 @@
                         var $formset_tr = $('#' + '{{ formset.prefix }}' + '_table tbody tr');
                         $formset_tr.formset({
                             prefix: '{{ formset.prefix }}',
-                            formCssClass: 'dynamic-formset',
+                            formCssClass: 'dynamic-formset-{{ formset.prefix }}',
                             addText: 'افزودن',
                             deleteText: '',
-                            addCssClass: 'formset_add',
-                            deleteCssClass: 'formset_delete',
                             added: function check_date_picker() {
                                 var $formset_tr = $('#' + '{{ formset.prefix }}' + '_table tbody tr');
                                 var $date_fields = $formset_tr.find('.hasDatepicker');

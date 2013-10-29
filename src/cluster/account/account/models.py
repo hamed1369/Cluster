@@ -49,7 +49,7 @@ class Member(Account):
         (1, u"معافیت تحصیلی"),
         (2, u"معافیت دائم")
     )
-    cluster = models.ForeignKey('Cluster', related_name="members", null=True, blank=True)
+    cluster = models.ForeignKey('Cluster', verbose_name=u"خوشه", related_name="members", null=True, blank=True)
     user = models.OneToOneField(User, related_name="member")
     employment_status = models.IntegerField(u"وضعیت شغلی", choices=EMPLOYMENT_STATUS, null=True, blank=True)
     organization = models.CharField(u"محل کار", max_length=30, null=True, blank=True)

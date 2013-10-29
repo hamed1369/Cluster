@@ -191,7 +191,7 @@ ul.art-hmenu > li > a, ul.art-vmenu > li > a {
 }
 
 /* formset */
-.formset_delete {
+.delete-row {
     display: block;
     text-align: left;
     background: url(./images/formset/delete.png) no-repeat right center;
@@ -217,12 +217,12 @@ ul.art-hmenu > li > a, ul.art-vmenu > li > a {
 
 }
 
-.formset_delete:hover {
+.delete-row:hover {
     opacity: 0.7;
     /*background: #f7a0bb;*/
 }
 
-.formset_add {
+.add-row {
 
     padding-right: 18px;
     text-align: right;
@@ -252,7 +252,7 @@ ul.art-hmenu > li > a, ul.art-vmenu > li > a {
     /*margin-top: 7px;*/
 }
 
-.formset_add:hover {
+.add-row:hover {
     opacity: 0.7;
     /*background: #5CdD33;*/
 }

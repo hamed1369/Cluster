@@ -30,7 +30,7 @@ class MemberForm(ClusterFilterModelForm):
 class MemberActionForm(ClusterBaseModelForm):
     class Meta:
         model = Member
-        exclude = ('is_confirmed',)
+        exclude = ('is_confirmed', 'user')
 
     def __init__(self, *args, **kwargs):
         super(MemberActionForm, self).__init__(*args, **kwargs)
