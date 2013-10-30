@@ -12,7 +12,8 @@ class ProjectHandler(object):
 
     def initial_forms(self, check_post=True):
         if self.http_request.method == 'POST' and self.http_request.POST.get('register-submit') and check_post:
-            self.register_form = ProjectForm(self.http_request.POST, prefix='project', user=self.http_request.user)
+            self.register_form = ProjectForm(self.http_request.POST, self.http_request.FILES, prefix='project',
+                                             user=self.http_request.user)
         else:
             self.register_form = ProjectForm(prefix='project', user=self.http_request.user)
 

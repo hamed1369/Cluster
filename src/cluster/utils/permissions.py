@@ -35,6 +35,7 @@ class PermissionController(object):
     def is_member(cls, user):
         try:
             Member.objects.get(user=user)
+            return True
         except Member.DoesNotExist:
             return False
 

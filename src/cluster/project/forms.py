@@ -54,7 +54,7 @@ class ProjectForm(ClusterBaseModelForm):
                 self.fields['patent_certificate'].is_hidden = True
 
         self.fields['patent_request'] = forms.ChoiceField(required=True, choices=BOOLEAN_CHOICES,
-                                                          widget=forms.RadioSelect(),initial=False )
+                                                          widget=forms.RadioSelect(), initial=False)
         self.fields['patent_request'].label = u"آیا صاحب طرح متقاضی ثبت اختراع می باشد؟"
 
         self.fields['summary'].widget = forms.Textarea()
@@ -94,7 +94,8 @@ class ProjectManagerForm(ProjectForm):
             del self.fields['agreement']
         self.fields.keyOrder = ['title', 'has_confirmation', 'confirmation_type', 'certificate_image', 'has_patent',
                                 'patent_number', 'patent_date', 'patent_certificate', 'patent_request', 'domain',
-                                'summary', 'keywords', 'innovations', 'state', 'attended_members', 'project_status']
+                                'summary', 'keywords', 'innovations', 'state', 'proposal', 'attended_members',
+                                'project_status']
         process_js_validations(self)
 
     def save(self, commit=True):
@@ -112,7 +113,7 @@ class ArbiterProjectManagerForm(ProjectManagerForm):
         super(ProjectManagerForm, self).__init__(*args, **kwargs)
         self.fields.keyOrder = ['title', 'has_confirmation', 'confirmation_type', 'certificate_image', 'has_patent',
                                 'patent_number', 'patent_date', 'patent_certificate', 'patent_request', 'domain',
-                                'summary', 'keywords', 'innovations', 'state', 'attended_members']
+                                'summary', 'keywords', 'innovations', 'state', 'proposal', 'attended_members']
         process_js_validations(self)
 
 
@@ -132,8 +133,8 @@ class AdminProjectManagerForm(ProjectManagerForm):
             del self.fields['agreement']
         self.fields.keyOrder = ['title', 'has_confirmation', 'confirmation_type', 'certificate_image', 'has_patent',
                                 'patent_number', 'patent_date', 'patent_certificate', 'patent_request', 'domain',
-                                'summary', 'keywords', 'innovations', 'supervisor', 'state', 'attended_members',
-                                'project_status', 'score']
+                                'summary', 'keywords', 'innovations', 'supervisor', 'state', 'proposal',
+                                'attended_members', 'project_status', 'score']
         if self.instance and self.instance.id:
             if self.instance.project_status != 1:
                 self.fields['score'].is_hidden = True
