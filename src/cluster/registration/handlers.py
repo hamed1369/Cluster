@@ -403,7 +403,7 @@ class ClusterHandler(object):
             try:
                 self.cluster.members.get(user__id=self.http_request.user.id)
                 try:
-                    if self.member and self.member.cluster == self.cluster:
+                    if self.member and self.member.cluster == self.cluster and self.member.national_code:
                         return u"شما قبلا در این خوشه ثبت نام کردید."
                 except Member.DoesNotExist:
                     pass

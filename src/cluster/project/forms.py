@@ -11,8 +11,8 @@ __author__ = 'M.Y'
 
 class ProjectForm(ClusterBaseModelForm):
     has_confirmation = forms.ChoiceField(required=True, choices=BOOLEAN_CHOICES,
-                                         widget=forms.RadioSelect(),
-                                         label=u"آیا طرح دارای تاییدیه علمی و نوآوری از مراجع می باشد?",
+                                         widget=forms.RadioSelect(), initial=False,
+                                         label=u"آیا طرح دارای تاییدیه علمی و نوآوری از مراجع می باشد؟",
                                          help_text=u"تأئيديه سازمان پژوهشهای علمی و صنعتی ايران، برگزيده جشنواره خوارزمی، برگزيده جشنواره رازی، برگزيده جشنواره شیخ بهائی، برگزيده جشنواره فارابی، سایر دانشگاه ها و مراکز دولتی، همراه با تصوریری از مدرک", )
 
     class Meta:
@@ -39,7 +39,7 @@ class ProjectForm(ClusterBaseModelForm):
         self.fields['domain'].required = True
         self.fields['domain'].queryset = Domain.objects.filter(confirmed=True)
         self.fields['has_patent'] = forms.ChoiceField(required=True, choices=BOOLEAN_CHOICES,
-                                                      widget=forms.RadioSelect(), )
+                                                      widget=forms.RadioSelect(), initial=False)
         self.fields['has_patent'].label = u"آیا طرح پیشنهادی دارای ثبت اختراع می باشد؟"
         if self.instance and self.instance.id:
             if self.instance.confirmation_type != 1:
@@ -54,7 +54,7 @@ class ProjectForm(ClusterBaseModelForm):
                 self.fields['patent_certificate'].is_hidden = True
 
         self.fields['patent_request'] = forms.ChoiceField(required=True, choices=BOOLEAN_CHOICES,
-                                                          widget=forms.RadioSelect(), )
+                                                          widget=forms.RadioSelect(),initial=False )
         self.fields['patent_request'].label = u"آیا صاحب طرح متقاضی ثبت اختراع می باشد؟"
 
         self.fields['summary'].widget = forms.Textarea()
