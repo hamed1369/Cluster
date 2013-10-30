@@ -34,12 +34,9 @@ class PermissionController(object):
     @classmethod
     def is_member(cls, user):
         try:
-            member = Member.objects.get(user=user)
-            if member.national_code:
-                return True
+            Member.objects.get(user=user)
         except Member.DoesNotExist:
-            pass
-        return False
+            return False
 
     @classmethod
     def get_admins(cls):
