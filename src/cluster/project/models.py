@@ -50,6 +50,8 @@ class Project(models.Model):
     keywords = models.CharField(u"کلید واژه", max_length=100)
     innovations = models.CharField(u"نوآوری های طرح", max_length=300)
     state = models.IntegerField(u"مرحله", choices=STATE)
+    proposal = models.FileField(u"پروپوزال طرح", upload_to="project_proposal/", null=True)
+
     attended_members = models.ManyToManyField(Member, verbose_name=u"اعضای مربوط به طرح",
                                               related_name='projects_attended')
     project_status = models.IntegerField(u"مرحله داوری", choices=STATUS, default=0)

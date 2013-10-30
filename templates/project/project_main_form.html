@@ -142,14 +142,21 @@
 
     </tr>
     <tr>
-
-
         <td class="label_td">{{ register_form.state.label }}
             {% if register_form.state.field.required %}<span class="required_field">*</span>{% endif %}
         </td>
         <td class="input_td">{{ register_form.state }}</td>
         {% if register_form.state.errors %}
             <td class="error_td" width="30%">{{ register_form.state.errors }}</td>
+        {% endif %}
+    </tr>
+    <tr>
+        <td class="label_td">{{ register_form.proposal.label }}
+            {% if register_form.proposal.field.required %}<span class="required_field">*</span>{% endif %}
+        </td>
+        <td class="input_td">{{ register_form.proposal }}</td>
+        {% if register_form.proposal.errors %}
+            <td class="error_td" width="30%">{{ register_form.proposal.errors }}</td>
         {% endif %}
     </tr>
     <tr>
