@@ -45,7 +45,7 @@ class ClusterHandler(object):
         if self.has_cluster:
             self.__init_cluster_form(check_post)
         if self.has_register:
-            self.__init_register_form(member, check_post)
+            self.__init_register_form(member or self.member, check_post)
 
     def __init_register_form(self, member, check_post):
         if self.http_request.method == 'POST' and self.http_request.POST.get('register-submit') and check_post:
