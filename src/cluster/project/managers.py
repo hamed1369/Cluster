@@ -121,7 +121,7 @@ class ProjectsManagement(ObjectsManager):
     def get_columns(self):
         columns = [
             ManagerColumn('title', u"عنوان", '10'),
-            ManagerColumn('cluster', u"خوشه", '10', True, True),
+            ManagerColumn('cluster', u"خوشه/عضو", '10', True, True),
             ManagerColumn('keywords', u"کلید واژه ها", '10'),
             ManagerColumn('domain', u"حوزه طرح", '10'),
             ManagerColumn('state', u"مرحله", '10'),
@@ -176,7 +176,7 @@ class ArbiterProjectsManagement(ProjectsManagement):
     def get_columns(self):
         columns = [
             ManagerColumn('title', u"عنوان", '10'),
-            ManagerColumn('cluster', u"خوشه", '10', True),
+            ManagerColumn('cluster', u"خوشه/عضو", '10', True),
             ManagerColumn('keywords', u"کلید واژه ها", '10'),
             ManagerColumn('domain', u"حوزه طرح", '10'),
             ManagerColumn('state', u"مرحله", '10'),
