@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from cluster.news.models import News
+from cluster.news.models import News, Link
 from cluster.utils.date import handel_date_fields
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.js_validation import process_js_validations
@@ -24,3 +24,13 @@ class NewsShowForm(ClusterBaseModelForm):
         self.fields['created_on'].initial = self.instance.created_on
         handel_date_fields(self)
         process_js_validations(self)
+
+
+class LinkForm(ClusterBaseModelForm):
+    class Meta:
+        model = Link
+
+
+class LinkShowForm(NewsShowForm):
+    class Meta:
+        model = Link

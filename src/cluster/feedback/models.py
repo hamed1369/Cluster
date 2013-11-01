@@ -45,5 +45,5 @@ class ContactUs(models.Model):
 
     @staticmethod
     def create_contact_us(title, body, email):
-        message = Feedback.objects.create(title=title, body=body, email=email)
+        message = ContactUs.objects.create(title=title, body=body, email=email)
         return message
