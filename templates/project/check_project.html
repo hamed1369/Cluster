@@ -42,8 +42,201 @@
         {% endif %}
     </fieldset>
 {% endblock %}
-
+{% block main_form %}
+    <fieldset class="inner_fieldset">
+        <legend>{{ title }}</legend>
+        <table class="register_table">
+            <tr {% if form.title.field.is_hidden|is_true %}style="display: none;"{% endif %}>
+                <td class="label_td">{{ form.title.label }}
+                    {% if form.title.field.required %}<span class="required_field">*</span>{% endif %}
+                </td>
+                <td class="input_td">{{ form.title }}</td>
+                {% if form.title.errors %}
+                    <td class="error_td" width="30%">{{ form.title.errors }}</td>
+                {% endif %}
+            </tr>
+            <tr {% if form.has_confirmation.field.is_hidden|is_true %}style="display: none;"{% endif %}>
+                <td class="label_td">{{ form.has_confirmation.label }}
+                    {% if form.has_confirmation.field.required %}<span class="required_field">*</span>{% endif %}
+                </td>
+                <td class="input_td">{{ form.has_confirmation }}</td>
+                {% if form.has_confirmation.errors %}
+                    <td class="error_td" width="30%">{{ form.has_confirmation.errors }}</td>
+                {% endif %}
+            </tr>
+            <tr {% if form.confirmation_type.field.is_hidden|is_true %}style="display: none;"{% endif %}>
+                <td class="label_td">{{ form.confirmation_type.label }}
+                    {% if form.confirmation_type.field.required %}<span class="required_field">*</span>{% endif %}
+                </td>
+                <td class="input_td">{{ form.confirmation_type }}</td>
+                {% if form.confirmation_type.errors %}
+                    <td class="error_td" width="30%">{{ form.confirmation_type.errors }}</td>
+                {% endif %}
+            </tr>
+            <tr {% if form.certificate_image.field.is_hidden|is_true %}style="display: none;"{% endif %}>
+                <td class="label_td">{{ form.certificate_image.label }}
+                    {% if form.certificate_image.field.required %}<span class="required_field">*</span>{% endif %}
+                </td>
+                <td class="input_td">{{ form.certificate_image }}</td>
+                {% if form.certificate_image.errors %}
+                    <td class="error_td" width="30%">{{ form.certificate_image.errors }}</td>
+                {% endif %}
+            </tr>
+            <tr {% if form.has_patent.field.is_hidden|is_true %}style="display: none;"{% endif %}>
+                <td class="label_td">{{ form.has_patent.label }}
+                    {% if form.has_patent.field.required %}<span class="required_field">*</span>{% endif %}
+                </td>
+                <td class="input_td">{{ form.has_patent }}</td>
+                {% if form.has_patent.errors %}
+                    <td class="error_td" width="30%">{{ form.has_patent.errors }}</td>
+                {% endif %}
+            </tr>
+            <tr {% if form.patent_number.field.is_hidden|is_true %}style="display: none;"{% endif %}>
+                <td class="label_td">{{ form.patent_number.label }}
+                    {% if form.patent_number.field.required %}<span class="required_field">*</span>{% endif %}
+                </td>
+                <td class="input_td">{{ form.patent_number }}</td>
+                {% if form.patent_number.errors %}
+                    <td class="error_td" width="30%">{{ form.patent_number.errors }}</td>
+                {% endif %}
+            </tr>
+            <tr {% if form.patent_date.field.is_hidden|is_true %}style="display: none;"{% endif %}>
+                <td class="label_td">{{ form.patent_date.label }}
+                    {% if form.patent_date.field.required %}<span class="required_field">*</span>{% endif %}
+                </td>
+                <td class="input_td">{{ form.patent_date }}</td>
+                {% if form.patent_date.errors %}
+                    <td class="error_td" width="30%">{{ form.patent_date.errors }}</td>
+                {% endif %}
+            </tr>
+            <tr {% if form.patent_certificate.field.is_hidden|is_true %}style="display: none;"{% endif %}>
+                <td class="label_td">{{ form.patent_certificate.label }}
+                    {% if form.patent_certificate.field.required %}<span class="required_field">*</span>{% endif %}
+                </td>
+                <td class="input_td">{{ form.patent_certificate }}</td>
+                {% if form.patent_certificate.errors %}
+                    <td class="error_td" width="30%">{{ form.patent_certificate.errors }}</td>
+                {% endif %}
+            </tr>
+            <tr {% if form.patent_request.field.is_hidden|is_true %}style="display: none;"{% endif %}>
+                <td class="label_td">{{ form.patent_request.label }}
+                    {% if form.patent_request.field.required %}<span class="required_field">*</span>{% endif %}
+                </td>
+                <td class="input_td">{{ form.patent_request }}</td>
+                {% if form.patent_request.errors %}
+                    <td class="error_td" width="30%">{{ form.patent_request.errors }}</td>
+                {% endif %}
+            </tr>
+            <tr {% if form.domain.field.is_hidden|is_true %}style="display: none;"{% endif %}>
+                <td class="label_td">{{ form.domain.label }}
+                    {% if form.domain.field.required %}<span class="required_field">*</span>{% endif %}
+                </td>
+                <td class="input_td">{{ form.domain }}</td>
+                {% if form.domain.errors %}
+                    <td class="error_td" width="30%">{{ form.domain.errors }}</td>
+                {% endif %}
+            </tr>
+            <tr {% if form.summary.field.is_hidden|is_true %}style="display: none;"{% endif %}>
+                <td class="label_td">{{ form.summary.label }}
+                    {% if form.summary.field.required %}<span class="required_field">*</span>{% endif %}
+                </td>
+                <td class="input_td">{{ form.summary }}</td>
+                {% if form.summary.errors %}
+                    <td class="error_td" width="30%">{{ form.summary.errors }}</td>
+                {% endif %}
+            </tr>
+            <tr {% if form.keywords.field.is_hidden|is_true %}style="display: none;"{% endif %}>
+                <td class="label_td">{{ form.keywords.label }}
+                    {% if form.keywords.field.required %}<span class="required_field">*</span>{% endif %}
+                </td>
+                <td class="input_td">{{ form.keywords }}</td>
+                {% if form.keywords.errors %}
+                    <td class="error_td" width="30%">{{ form.keywords.errors }}</td>
+                {% endif %}
+            </tr>
+            <tr {% if form.innovations.field.is_hidden|is_true %}style="display: none;"{% endif %}>
+                <td class="label_td">{{ form.innovations.label }}
+                    {% if form.innovations.field.required %}<span class="required_field">*</span>{% endif %}
+                </td>
+                <td class="input_td">{{ form.innovations }}</td>
+                {% if form.innovations.errors %}
+                    <td class="error_td" width="30%">{{ form.innovations.errors }}</td>
+                {% endif %}
+            </tr>
+            <tr {% if form.state.field.is_hidden|is_true %}style="display: none;"{% endif %}>
+                <td class="label_td">{{ form.state.label }}
+                    {% if form.state.field.required %}<span class="required_field">*</span>{% endif %}
+                </td>
+                <td class="input_td">{{ form.state }}</td>
+                {% if form.state.errors %}
+                    <td class="error_td" width="30%">{{ form.state.errors }}</td>
+                {% endif %}
+            </tr>
+            <tr {% if form.proposal.field.is_hidden|is_true %}style="display: none;"{% endif %}>
+                <td class="label_td">{{ form.proposal.label }}
+                    {% if form.proposal.field.required %}<span class="required_field">*</span>{% endif %}
+                </td>
+                <td class="input_td">{{ form.proposal }}</td>
+                {% if form.proposal.errors %}
+                    <td class="error_td" width="30%">{{ form.proposal.errors }}</td>
+                {% endif %}
+            </tr>
+            <tr {% if form.attended_members.field.is_hidden|is_true %}style="display: none;"{% endif %}>
+                <td class="label_td">{{ form.attended_members.label }}
+                    {% if form.attended_members.field.required %}<span class="required_field">*</span>{% endif %}
+                </td>
+                <td class="input_td">{{ form.attended_members }}</td>
+                {% if form.attended_members.errors %}
+                    <td class="error_td" width="30%">{{ form.attended_members.errors }}</td>
+                {% endif %}
+            </tr>
+        </table>
+    </fieldset>
+{% endblock %}
 {% block after_main %}
+    {% if form.project_status %}
+        <fieldset class="inner_fieldset">
+            <legend>داوری</legend>
+            <table class="register_table">
+                <tr {% if form.project_status.field.is_hidden|is_true %}style="display: none;"{% endif %}>
+                    <td class="label_td">{{ form.project_status.label }}
+                        {% if form.project_status.field.required %}<span class="required_field">*</span>{% endif %}
+                    </td>
+                    <td class="input_td">{{ form.project_status }}</td>
+                    {% if form.project_status.errors %}
+                        <td class="error_td" width="30%">{{ form.project_status.errors }}</td>
+                    {% endif %}
+                </tr>
+                <tr {% if form.score.field.is_hidden|is_true %}style="display: none;"{% endif %}>
+                    <td class="label_td">{{ form.score.label }}
+                        {% if form.score.field.required %}<span class="required_field">*</span>{% endif %}
+                    </td>
+                    <td class="input_td">{{ form.score }}</td>
+                    {% if form.score.errors %}
+                        <td class="error_td" width="30%">{{ form.score.errors }}</td>
+                    {% endif %}
+                </tr>
+            </table>
+        </fieldset>
+    {% endif %}
+
+    {% if form.supervisor %}
+        <fieldset class="inner_fieldset">
+            <legend>ناظر طرح</legend>
+            <table class="register_table">
+                <tr>
+                    <td class="label_td">{{ form.supervisor.label }}
+                        {% if form.supervisor.field.required %}<span class="required_field">*</span>{% endif %}
+                    </td>
+                    <td class="input_td">{{ form.supervisor }}</td>
+                    {% if form.supervisor.errors %}
+                        <td class="error_td" width="30%">{{ form.supervisor.errors }}</td>
+                    {% endif %}
+
+                </tr>
+            </table>
+        </fieldset>
+    {% endif %}
     {% if inline_form %}
         <fieldset class="inner_fieldset">
             <legend>داوری طرح</legend>
