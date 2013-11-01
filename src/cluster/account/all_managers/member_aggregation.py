@@ -46,12 +46,16 @@ class MemberAggregationManager(ObjectsManager):
         super(MemberAggregationManager, self).__init__(http_request)
 
         member_ages = self.get_all_data_cashed()
+        print Member.objects.all().count()
         for age_range in member_ages:
             range_members = Member.objects.filter(birth_date__range=(age_range.from_date, age_range.until_date))
+            print range_members.count()
             confirmed_members = range_members.filter(is_confirmed=True).distinct().count()
             age_range.confirmed_members = confirmed_members
-            unconfirmed_members = range_members.exclude(is_confirmed=True).distinct().count()
+            unconfirmed_members = range_members.filter(is_confirmed__isnull=True).distinct().count()
             age_range.unconfirmed_members = unconfirmed_members
+            not_confirmed_members = range_members.filter(is_confirmed=False).distinct().count()
+            age_range.not_confirmed_members = not_confirmed_members
 
             age_range.project_type_1 += Project.objects.filter(project_status=-1, single_member__birth_date__range=(
                 age_range.from_date, age_range.until_date)).distinct().count()
@@ -94,6 +98,7 @@ class MemberAggregationManager(ObjectsManager):
             ManagerColumn('title', u"رده سنی", '20'),
             ManagerColumn('confirmed_members', u"تاییدشده", '10', aggregation=True),
             ManagerColumn('unconfirmed_members', u"تاییدنشده", '10', aggregation=True),
+            ManagerColumn('not_confirmed_members', u"ردشده", '10', aggregation=True),
             ManagerColumn('project_type_1', u"رد شده", '10', aggregation=True),
             ManagerColumn('project_type0', u"در مرحله درخواست", '10', aggregation=True),
             ManagerColumn('project_type1', u"تایید مرحله اول", '10', aggregation=True),
@@ -110,7 +115,7 @@ class MemberAggregationManager(ObjectsManager):
 
     def get_group_headers(self):
         group_headers = [
-            ManagerGroupHeader('confirmed_members', 2, u"تعداد اعضا"),
+            ManagerGroupHeader('confirmed_members', 3, u"تعداد اعضا"),
             ManagerGroupHeader('project_type_1', 4, u"تعداد طرح ها"),
         ]
         return group_headers
@@ -121,6 +126,7 @@ class MemberAgePeriod(object):
         self.id = age_id
         self.confirmed_members = 0
         self.unconfirmed_members = 0
+        self.not_confirmed_members = 0
         self.project_type_1 = 0
         self.project_type0 = 0
         self.project_type1 = 0

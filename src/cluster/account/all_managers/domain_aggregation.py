@@ -2,7 +2,7 @@
 from django import forms
 from cluster.account.account.models import Domain, Cluster, Member
 from cluster.project.models import Project
-from cluster.utils.forms import ClusterBaseModelForm, ClusterFilterModelForm
+from cluster.utils.forms import ClusterFilterModelForm
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn, ManagerGroupHeader
 from cluster.utils.permissions import PermissionController
 
@@ -36,9 +36,9 @@ class DomainAggregationManager(ObjectsManager):
         domains_dict = {}
         domains = self.get_all_data_cashed()
         for domain in domains:
-            domains_dict[domain] = {'members_yes': 0, 'members_no': 0, 'clusters_yes': 0, 'clusters_no': 0,
-                                    'project_type_1': 0, 'project_type0': 0, 'project_type1': 0, 'project_type2': 0,
-                                    'project_type3': 0,'project_type4': 0}
+            domains_dict[domain] = {'members_yes': 0, 'members_no': 0, 'members_null': 0, 'clusters_yes': 0,
+                                    'clusters_no': 0, 'clusters_null': 0, 'project_type_1': 0, 'project_type0': 0,
+                                    'project_type1': 0, 'project_type2': 0, 'project_type3': 0, 'project_type4': 0}
 
         projects = Project.objects.filter(domain__in=domains).select_related('domain').distinct()
         clusters = Cluster.objects.filter(domains__in=domains).select_related('head', 'domains').distinct()
@@ -59,18 +59,23 @@ class DomainAggregationManager(ObjectsManager):
                 domains_dict[project.domain]['project_type4'] += 1
 
         for cluster in clusters:
-            if cluster.head.is_confirmed is True:
+            if cluster.head.is_confirmed in [True, 1]:
                 for domain in cluster.domains.all():
                     domains_dict[domain]['clusters_yes'] += 1
-            else:
+            elif cluster.head.is_confirmed in [False, 0]:
                 for domain in cluster.domains.all():
                     domains_dict[domain]['clusters_no'] += 1
+            else:
+                for domain in cluster.domains.all():
+                    domains_dict[domain]['clusters_null'] += 1
 
         for member in members:
             if member.is_confirmed is True:
                 domains_dict[member.domain]['members_yes'] += 1
-            else:
+            elif member.is_confirmed is False:
                 domains_dict[member.domain]['members_no'] += 1
+            else:
+                domains_dict[member.domain]['members_null'] += 1
 
         self.domains_dict = domains_dict
 
@@ -81,9 +86,11 @@ class DomainAggregationManager(ObjectsManager):
         columns = [
             ManagerColumn('name', u"نام حوزه", '10'),
             ManagerColumn('members_yes', u"تاییدشده", '10', True, aggregation=True),
-            ManagerColumn('members_no', u"تاییدنشده", '10', True, aggregation=True),
+            ManagerColumn('members_null', u"تاییدنشده", '10', True, aggregation=True),
+            ManagerColumn('members_no', u"ردشده", '10', True, aggregation=True),
             ManagerColumn('clusters_yes', u"تاییدشده", '10', True, aggregation=True),
-            ManagerColumn('clusters_no', u"تاییدنشده", '10', True, aggregation=True),
+            ManagerColumn('clusters_null', u"تاییدنشده", '10', True, aggregation=True),
+            ManagerColumn('clusters_no', u"ردشده", '10', True, aggregation=True),
             ManagerColumn('project_type_1', u"رد شده", '10', True, aggregation=True),
             ManagerColumn('project_type0', u"در مرحله درخواست", '10', True, aggregation=True),
             ManagerColumn('project_type1', u"تایید مرحله اول", '10', True, aggregation=True),
@@ -101,11 +108,17 @@ class DomainAggregationManager(ObjectsManager):
     def get_members_yes(self, data):
         return self.domains_dict[data]['members_yes']
 
+    def get_members_null(self, data):
+        return self.domains_dict[data]['members_null']
+
     def get_members_no(self, data):
         return self.domains_dict[data]['members_no']
 
     def get_clusters_yes(self, data):
         return self.domains_dict[data]['clusters_yes']
+
+    def get_clusters_null(self, data):
+        return self.domains_dict[data]['clusters_null']
 
     def get_clusters_no(self, data):
         return self.domains_dict[data]['clusters_no']
@@ -124,13 +137,14 @@ class DomainAggregationManager(ObjectsManager):
 
     def get_project_type3(self, data):
         return self.domains_dict[data]['project_type3']
+
     def get_project_type4(self, data):
         return self.domains_dict[data]['project_type4']
 
     def get_group_headers(self):
         group_headers = [
-            ManagerGroupHeader('members_yes', 2, u"تعداد اعضا"),
-            ManagerGroupHeader('clusters_yes', 2, u"تعداد خوشه ها"),
+            ManagerGroupHeader('members_yes', 3, u"تعداد اعضا"),
+            ManagerGroupHeader('clusters_yes', 3, u"تعداد خوشه ها"),
             ManagerGroupHeader('project_type_1', 4, u"تعداد طرح ها"),
         ]
         return group_headers

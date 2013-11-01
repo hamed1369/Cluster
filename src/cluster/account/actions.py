@@ -59,12 +59,15 @@ class ClusterConfirmAction(ManagerAction):
         field_label = self.field_label
         field_val = selected_instances[0].head.is_confirmed
 
+        degree_initial = selected_instances[0].degree
+
         class ConfirmForm(forms.Form):
             confirm = forms.NullBooleanField(label=field_label, initial=field_val, required=False)
             confirm.widget.choices = ((u'1', u"نامشخص"),
                                       (u'2', u"بله"),
                                       (u'3', u"خیر"))
-            degree = forms.ChoiceField(label=u"درجه", choices=Cluster.CLUSTER_DEGREE, required=True)
+            degree = forms.ChoiceField(label=u"درجه", choices=Cluster.CLUSTER_DEGREE, required=True,
+                                       initial=degree_initial)
 
         if http_request.method == 'POST':
             form = ConfirmForm(http_request.POST)
@@ -102,8 +105,9 @@ class ClusterConfirmAction(ManagerAction):
 
                 MessageServices.send_message(u"تغییر وضعیت خوشه", message, selected_instances[0].head.user)
                 #SMSService.send_sms(message_body, [selected_instances[0].head.mobile])
-                if confirm is False:
-                    selected_instances[0].delete()
+
+                #if confirm is False:
+                #    selected_instances[0].delete()
 
                 form = None
                 messages.success(http_request, u"%s با موفقیت انجام شد." % self.form_title)

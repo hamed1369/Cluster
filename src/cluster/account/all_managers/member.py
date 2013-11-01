@@ -78,6 +78,7 @@ class MemberManager(ObjectsManager):
             ManagerColumn('military_status', u"وضعیت نظام وظیفه", '15'),
             ManagerColumn('foundation_of_elites', u"عضویت در بنیاد ملی نخبگان", '10'),
             ManagerColumn('created_on', u"تاریخ ثبت نام", '10'),
+            ManagerColumn('is_confirmed', u"تایید شده", '10'),
         ]
         return columns
 
@@ -106,6 +107,7 @@ class MemberManager(ObjectsManager):
             ManagerColumn('foundation_of_elites', u"عضویت در بنیاد ملی نخبگان", '10'),
             ManagerColumn('arbiter_interest', u"آیا تمایل به داوری نیز دارید؟", '10'),
             ManagerColumn('created_on', u"تاریخ ثبت نام", '10'),
+            ManagerColumn('is_confirmed', u"تایید شده", '10'),
         ]
         return columns
 
@@ -181,8 +183,8 @@ def member_confirm_change(instance, confirm):
         message = MessageServices.get_title_body_message(u"تغییر وضعیت عضویت", message_body)
     MessageServices.send_message(u"تغییر وضعیت عضویت", message, instance.user)
     #SMSService.send_sms(message_body, [instance.mobile])
-    if confirm is False:
-        instance.delete()
+    #if confirm is False:
+    #    instance.delete()
 
 
 class NoClusterMemberManager(MemberManager):
