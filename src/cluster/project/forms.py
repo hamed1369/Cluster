@@ -20,7 +20,7 @@ class ProjectForm(ClusterBaseModelForm):
         exclude = ('single_member', 'cluster', 'project_status', 'score', 'supervisor')
 
     js_validation_configs = {
-        'excludes_required': 'attended_members'
+        'excludes_required': 'attended_members, proposal'
     }
 
     def __init__(self, *args, **kwargs):

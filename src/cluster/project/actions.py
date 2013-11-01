@@ -34,20 +34,20 @@ class AdminProjectCheckAction(ManagerAction):
             form = AdminProjectManagerForm(http_request.POST, http_request.FILES, instance=instance)
             arbiter_formset = ProjectArbiterFormset(http_request.POST, http_request.FILES, instance=instance,
                                                     prefix='project_arbiter')
-            if old_state > 1:
-                milestone_formset = ProjectMilestoneFormset(http_request.POST, http_request.FILES, instance=instance,
-                                                            prefix='project_milestone')
+            #if old_state > 1:
+            #    milestone_formset = ProjectMilestoneFormset(http_request.POST, http_request.FILES, instance=instance,
+            #                                                prefix='project_milestone')
             milestone_formset_valid = True
-            if milestone_formset and not milestone_formset.is_valid():
-                milestone_formset_valid = False
+            #if milestone_formset and not milestone_formset.is_valid():
+            #    milestone_formset_valid = False
 
             arbiter_formset_valid = True
             if arbiter_formset and not arbiter_formset.is_valid():
                 arbiter_formset_valid = False
 
             if form.is_valid() and milestone_formset_valid and arbiter_formset_valid:
-                if old_state > 1:
-                    milestone_formset.save()
+                #if old_state > 1:
+                #    milestone_formset.save()
 
                 instance = form.save()
                 form = None
@@ -88,8 +88,8 @@ class AdminProjectCheckAction(ManagerAction):
                 messages.success(http_request, u"بررسی طرح با موفقیت انجام شد.")
         else:
             form = AdminProjectManagerForm(instance=instance)
-            if instance.project_status > 1:
-                milestone_formset = ProjectMilestoneFormset(instance=instance, prefix='project_milestone')
+            #if instance.project_status > 1:
+            #    milestone_formset = ProjectMilestoneFormset(instance=instance, prefix='project_milestone')
             arbiter_formset = ProjectArbiterFormset(instance=instance, prefix='project_arbiter')
         return render_to_response('project/check_project.html',
                                   {'form': form, 'milestone_formset': milestone_formset, 'title': u"بررسی طرح",
@@ -147,7 +147,7 @@ class ProjectDetailAction(ManagerAction):
             raise Http404()
 
         if self.change_milestones:
-            ProjectMilestoneForm = inlineformset_factory(Project, ProjectMilestone, form=MilestoneForm, extra=3)
+            ProjectMilestoneForm = inlineformset_factory(Project, ProjectMilestone, form=MilestoneForm, extra=1)
         else:
             ProjectMilestoneForm = inlineformset_factory(Project, ProjectMilestone, form=MilestoneForm, extra=0)
 
