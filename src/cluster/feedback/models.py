@@ -27,3 +27,23 @@ class Feedback(models.Model):
     def send_feedback(user, title, body):
         message = Feedback.objects.create(title=title, body=body, creator=user)
         return message
+
+
+class ContactUs(models.Model):
+    title = models.CharField(verbose_name=u"عنوان", max_length=255)
+    body = models.TextField(verbose_name=u"متن", max_length=1000)
+    email = models.EmailField(verbose_name=u"پست الکترونیک", null=True, blank=True)
+    created_on = models.DateField(verbose_name=u"تاریخ ایجاد", auto_now_add=True)
+
+    class Meta:
+        app_label = 'feedback'
+        verbose_name = u"تماس با ما"
+        verbose_name_plural = u"تماس با ما"
+
+    def __unicode__(self):
+        return u"%s" % self.title
+
+    @staticmethod
+    def create_contact_us(title, body, email):
+        message = Feedback.objects.create(title=title, body=body, email=email)
+        return message

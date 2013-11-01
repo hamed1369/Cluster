@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
-from django import forms
-from django.utils.safestring import mark_safe
-from cluster.feedback.forms import FeedbackShowForm
-from cluster.feedback.models import Feedback
-from cluster.message.actions import SendMessage, ShowMessage
-from cluster.message.models import Message
-from cluster.utils.forms import ClusterBaseModelForm, ClusterFilterModelForm
+from cluster.feedback.forms import FeedbackShowForm, ContactShowForm
+from cluster.feedback.models import Feedback, ContactUs
+from cluster.utils.forms import ClusterFilterModelForm
 from cluster.utils.manager.action import DeleteAction, ShowAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
 
@@ -18,7 +14,7 @@ class FeedbackFilterForm(ClusterFilterModelForm):
         fields = ('title', 'creator')
 
 
-class MessageManager(ObjectsManager):
+class FeedbackManager(ObjectsManager):
     manager_name = u"feedback_manager"
     manager_verbose_name = u"مشاهده نظرات و پیشنهادات"
     filter_form = FeedbackFilterForm
@@ -67,3 +63,37 @@ class MessageManager(ObjectsManager):
                     link, unicode(data.creator.member.cluster))
         except (Member.DoesNotExist, Cluster.DoesNotExist):
             return None
+
+
+class ContactFilterForm(ClusterFilterModelForm):
+    class Meta:
+        model = ContactUs
+        fields = ('title', 'email')
+
+
+class ContactManager(ObjectsManager):
+    manager_name = u"contact_manager"
+    manager_verbose_name = u"تماس ها"
+    filter_form = ContactFilterForm
+    actions = [
+        DeleteAction(),
+        ShowAction(ContactShowForm, height='350'),
+    ]
+
+    def get_all_data(self):
+        return ContactUs.objects.filter()
+
+    def get_columns(self):
+        columns = [
+            ManagerColumn('title', u"عنوان", 7),
+            ManagerColumn('body', u"متن", 20, True),
+            ManagerColumn('email', u"پست الکترونیک", 7),
+            ManagerColumn('created_on', u"تاریخ ایجاد", 3),
+        ]
+        return columns
+
+    def get_body(self, obj):
+        body = obj.body.replace('\r\n', ' ').replace('\n\r', ' ').replace('\r', ' ').replace('\n', ' ')
+        if len(body) > 45:
+            body = body[:45] + ' ...'
+        return body

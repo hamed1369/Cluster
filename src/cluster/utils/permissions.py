@@ -125,6 +125,7 @@ MENU_MAPPERS = {
         MenuMapper('/supervisors_management/', u"ناظران"),
         MenuMapper('/projects_management/', u" طرح ها"),
         MenuMapper('/feedback_manager/', u" نظرات و پیشنهادات"),
+        MenuMapper('/contact_manager/', u" تماس ها"),
         MenuMapper('/news_manager/', u" اخبار"),
         MenuMapper('/messages/', u"جعبه پیام"),
         MenuMapper('/domains_aggregation/', u"گزارش تجمیعی حوزه ها"),
