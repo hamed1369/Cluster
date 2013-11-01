@@ -37,9 +37,7 @@ class MemberActionForm(ClusterBaseModelForm):
         self.fields['national_code'].required = True
         self.fields['birth_date'].required = True
         self.fields['residence_city'].required = True
-        self.fields['telephone'].required = True
         self.fields['mobile'].required = True
-        self.fields['essential_telephone'].required = True
         self.fields['address'].required = True
         self.fields['domain'].required = True
         self.fields['gender'].required = True
@@ -97,7 +95,7 @@ class MemberManager(ObjectsManager):
             ManagerColumn('residence_city', u"شهر محل اقامت", '10'),
             ManagerColumn('telephone', u"تلفن ثابت", '10'),
             ManagerColumn('mobile', u"تلفن همراه", '10', True, True),
-            ManagerColumn('essential_telephone', u"تلفن ضروری", '10'),
+            #ManagerColumn('essential_telephone', u"تلفن ضروری", '10'),
             ManagerColumn('address', u"آدرس", '10'),
             ManagerColumn('employment_status', u"وضعیت شغلی", '10'),
             ManagerColumn('organization', u"محل کار", '10'),

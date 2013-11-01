@@ -66,7 +66,7 @@ class ClusterForm(ClusterBaseForm):
 class RegisterForm(ClusterBaseModelForm):
     class Meta:
         model = Member
-        exclude = ('cluster', 'user', 'is_confirmed')
+        exclude = ('cluster', 'user', 'is_confirmed', 'essential_telephone')
 
     def __init__(self, *args, **kwargs):
         has_cluster = kwargs.pop('has_cluster')
@@ -78,9 +78,7 @@ class RegisterForm(ClusterBaseModelForm):
         self.fields['national_code'].required = True
         self.fields['birth_date'].required = True
         self.fields['residence_city'].required = True
-        self.fields['telephone'].required = True
         self.fields['mobile'].required = True
-        self.fields['essential_telephone'].required = True
         self.fields['address'].required = True
         self.fields['gender'].required = True
         self.fields['domain'].required = True
@@ -122,7 +120,6 @@ class RegisterForm(ClusterBaseModelForm):
                 self.fields['email'].initial = self.instance.user.email
             self.extra_js_validation = {
                 're_password': 'equals[id_register-password]',
-                'essential_telephone': 'custom[number]',
                 'mobile': 'custom[number]',
             }
             if has_cluster:
@@ -368,7 +365,6 @@ class ArbiterForm(ClusterBaseModelForm):
         're_password': 'equals[id_register-password]',
         'username': 'ajax[usernameAjaxEngineCall]',
         'email': 'ajax[emailAjaxEngineCall]',
-        'essential_telephone': 'custom[number]',
         'mobile': 'custom[number]',
         'office_phone': 'custom[number]',
         'fax': 'custom[number]',
@@ -470,7 +466,6 @@ class ArbiterForm(ClusterBaseModelForm):
 class AdminEditArbiter(ArbiterForm):
     extra_js_validation = {
         're_password': 'equals[id_register-password]',
-        'essential_telephone': 'custom[number]',
         'mobile': 'custom[number]',
         'office_phone': 'custom[number]',
         'fax': 'custom[number]',
