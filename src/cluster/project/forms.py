@@ -5,6 +5,7 @@ from cluster.project.models import Project, ProjectMilestone, ProjectArbiter
 from cluster.utils.fields import BOOLEAN_CHOICES
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.js_validation import process_js_validations
+from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
 
@@ -157,6 +158,11 @@ class AdminProjectManagerForm(ProjectManagerForm):
         )
         if not 'attended_members' in self.fields:
             self.fields.keyOrder.remove('attended_members')
+        if PermissionController.is_supervisor(user=self.http_request.user):
+            if 'supervisor' in self.fields:
+                del self.fields['supervisor']
+            if 'supervisor' in self.fields.keyOrder:
+                self.fields.keyOrder.remove('supervisor')
         process_js_validations(self)
 
     def clean(self):

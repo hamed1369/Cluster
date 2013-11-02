@@ -195,8 +195,7 @@ class SupervisorProjectsManagement(ArbiterProjectsManagement):
     manager_name = u"projects_supervision"
     manager_verbose_name = u"مدیریت طرح ها"
     filter_form = ArbiterProjectsFilterForm
-    actions = [
-        ProjectDetailAction(has_comments=False, action_verbose_name=u"بررسی و مشاهده جزئیات", change_milestones=True)]
+    actions = [AdminProjectCheckAction(), ProjectDetailAction(), DeleteAction()]
 
     def can_view(self):
         if PermissionController.is_supervisor(self.http_request.user):
