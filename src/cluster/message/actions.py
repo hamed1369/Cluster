@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-from cluster.message.forms import MessageShowForm, ArbiterMessageForm, MemberMessageForm, AdminMessageForm
+from django.http import Http404
+from cluster.message.forms import MessageShowForm, ArbiterMessageForm, MemberMessageForm, AdminMessageForm, EmailSendForm
 from cluster.message.models import Message
+from cluster.utils.messages import MessageServices
 from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
@@ -55,4 +57,29 @@ class ShowMessage(ManagerAction):
         selected_instances[0].state = Message.UNREAD
         selected_instances[0].save()
         return render_to_response('manager/actions/show.html', {'form': form, 'title': u"مشاهده پیام"},
+                                  context_instance=RequestContext(http_request))
+
+
+class SendEmail(ManagerAction):
+    action_name = 'send_email'
+    action_verbose_name = u"ارسال پست الکترونیک"
+    is_view = True
+    height = '550'
+
+    def action_view(self, http_request, selected_instances):
+        if not PermissionController.is_admin(http_request.user):
+            raise Http404
+        if http_request.method == 'POST':
+            form = EmailSendForm(http_request.POST)
+            if form.is_valid():
+                receivers = form.cleaned_data.get('receivers')
+                subject = form.cleaned_data.get('subject')
+                body = form.cleaned_data.get('body')
+                MessageServices.send_mass_message(subject, body, receivers)
+                form = None
+                messages.success(http_request, u"پست الکترونیک ارسال شد.")
+        else:
+            form = EmailSendForm()
+
+        return render_to_response('manager/actions/add_edit.html', {'form': form, 'title': u"ارسال پیام"},
                                   context_instance=RequestContext(http_request))

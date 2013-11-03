@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 import logging
-from django.core.mail import EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives, send_mass_mail
 from django.template.base import Template
 from django.template.context import Context
 from django.utils.safestring import mark_safe
@@ -27,6 +27,14 @@ class MessageServices(object):
             #           recipient_list=[user.email])
         except Exception as s:
             logging.error(s)
+
+    @staticmethod
+    def send_mass_message(subject, body, receivers):
+        try:
+            send_mass_mail(datatuple=((subject, body, MessageServices.from_email, receivers),))
+        except Exception as s:
+            logging.error(s)
+
 
     @staticmethod
     def get_registration_message(cluster, user, username, password):

@@ -3,7 +3,8 @@ from django import forms
 from django.contrib.auth.models import User
 from cluster.account.account.models import Cluster
 from cluster.message.models import Message
-from cluster.utils.forms import ClusterBaseModelForm
+from cluster.utils.fields.email_fields import EmailsListField
+from cluster.utils.forms import ClusterBaseModelForm, ClusterBaseForm
 from cluster.utils.js_validation import process_js_validations
 from cluster.utils.messages import MessageServices, SMSService
 from cluster.utils.permissions import PermissionController
@@ -192,3 +193,10 @@ class MessageShowForm(ClusterBaseModelForm):
     class Meta:
         model = Message
         exclude = ('state', 'receivers')
+
+
+class EmailSendForm(ClusterBaseForm):
+    receivers = EmailsListField(label=u"گیرنده ها  (می توانید گیرنده ها را در سطرهای جداگانه وارد کنید یا گیرنده ها را با ',' از هم جدا نمایید)",
+                                widget=forms.Textarea({'style': 'direction:ltr;'}))
+    subject = forms.CharField(label=u"موضوع", max_length=500)
+    body = forms.CharField(label=u"متن", max_length=5000, widget=forms.Textarea)
