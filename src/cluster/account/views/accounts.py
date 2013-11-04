@@ -5,8 +5,10 @@ Created on 16/08/13
 @author: hamed
 '''
 from django.contrib import messages
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.http import Http404
+from django.core.urlresolvers import reverse
+from django.http import Http404, HttpResponseRedirect
 
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -16,8 +18,13 @@ from cluster.registration.handlers import ClusterHandler
 from cluster.utils.permissions import PermissionController
 
 
+@login_required
 def handle_member_edit(request):
     member = request.user.member
+    if member.is_confirmed is False:
+        messages.error(request, u"ثبت نام شما از طرف مدیریت رد شده است و نمی توانید در سامانه وارد شوید.")
+        logout(request)
+        return HttpResponseRedirect(reverse('login'))
     handler = ClusterHandler(request, cluster_id=member.cluster_id, has_cluster=member.cluster is not None)
     handler.initial_forms(member=member)
 
@@ -33,6 +40,7 @@ def handle_member_edit(request):
                               context_instance=RequestContext(request))
 
 
+@login_required
 def handle_admin_edit(request):
     if request.method == 'POST':
         form = AdminForm(request.POST, prefix='admin', instance=request.user, http_request=request)
@@ -45,6 +53,7 @@ def handle_admin_edit(request):
     return render_to_response('accounts/edit_admin.html', {'form': form}, context_instance=RequestContext(request))
 
 
+@login_required
 def handle_supervisor_edit(request):
     if request.method == 'POST':
         form = SupervisorForm(request.POST, instance=request.user.supervisor, http_request=request)

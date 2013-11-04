@@ -101,6 +101,8 @@ def show_user_for_project_comments(user):
         return u"مدیر"
     elif PermissionController.is_arbiter(user):
         return u"داور"
+    elif PermissionController.is_supervisor(user):
+        return u"ناظر"
     else:
         return u"%s (متقاضی)" % unicode(user)
 

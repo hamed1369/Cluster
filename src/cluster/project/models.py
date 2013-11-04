@@ -46,7 +46,7 @@ class Project(models.Model):
     patent_request = models.BooleanField(u"تقاضای ثبت اختراع", default=False)
     domain = models.ForeignKey(Domain, verbose_name=u"حوزه علمی و کاربردی طرح", related_name='projects',
                                on_delete=models.SET_NULL, null=True)
-    summary = models.CharField(u"خلاصه طرح", max_length=2000)
+    summary = models.CharField(u"خلاصه طرح (حداکثر 2000 کاراکتر)", max_length=2000)
     keywords = models.CharField(u"کلید واژه", max_length=100)
     innovations = models.CharField(u"نوآوری های طرح", max_length=300)
     state = models.IntegerField(u"مرحله", choices=STATE)

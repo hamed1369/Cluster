@@ -117,3 +117,11 @@ form fieldset legend {
 .arbiter_comment {
     margin: 20px;
 }
+
+.middle {
+    text-align: center;
+}
+
+.middle a {
+    width: 50%;
+}

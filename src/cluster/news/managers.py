@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from cluster.news.forms import NewsForm, NewsShowForm
-from cluster.news.models import News
+from cluster.news.forms import NewsForm, NewsShowForm, LinkForm, LinkShowForm
+from cluster.news.models import News, Link
 from cluster.utils.forms import ClusterBaseModelForm, ClusterFilterModelForm
 from cluster.utils.manager.action import DeleteAction, ShowAction, AddAction, EditAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
@@ -47,3 +47,33 @@ class MessageManager(ObjectsManager):
         if len(body) > 45:
             body = body[:45] + ' ...'
         return body
+
+
+class LinkFilterForm(ClusterFilterModelForm):
+    class Meta:
+        model = Link
+        fields = ('title', 'url')
+
+
+class LinkManager(ObjectsManager):
+    manager_name = u"links_manager"
+    manager_verbose_name = u"لینک ها"
+    filter_form = LinkFilterForm
+    actions = [
+        AddAction(LinkForm),
+        EditAction(LinkForm),
+        ShowAction(LinkShowForm, height='350'),
+        DeleteAction(),
+    ]
+
+    def get_all_data(self):
+        return Link.objects.filter()
+
+    def get_columns(self):
+        columns = [
+            ManagerColumn('title', u"عنوان", 12),
+            ManagerColumn('url', u"لینک", 12),
+            ManagerColumn('order', u"ترتیب نمایش", 3),
+            ManagerColumn('created_on', u"تاریخ ایجاد", 4),
+        ]
+        return columns

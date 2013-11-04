@@ -37,9 +37,7 @@ class MemberActionForm(ClusterBaseModelForm):
         self.fields['national_code'].required = True
         self.fields['birth_date'].required = True
         self.fields['residence_city'].required = True
-        self.fields['telephone'].required = True
         self.fields['mobile'].required = True
-        self.fields['essential_telephone'].required = True
         self.fields['address'].required = True
         self.fields['domain'].required = True
         self.fields['gender'].required = True
@@ -78,6 +76,7 @@ class MemberManager(ObjectsManager):
             ManagerColumn('military_status', u"وضعیت نظام وظیفه", '15'),
             ManagerColumn('foundation_of_elites', u"عضویت در بنیاد ملی نخبگان", '10'),
             ManagerColumn('created_on', u"تاریخ ثبت نام", '10'),
+            ManagerColumn('is_confirmed', u"تایید شده", '10'),
         ]
         return columns
 
@@ -96,7 +95,7 @@ class MemberManager(ObjectsManager):
             ManagerColumn('residence_city', u"شهر محل اقامت", '10'),
             ManagerColumn('telephone', u"تلفن ثابت", '10'),
             ManagerColumn('mobile', u"تلفن همراه", '10', True, True),
-            ManagerColumn('essential_telephone', u"تلفن ضروری", '10'),
+            #ManagerColumn('essential_telephone', u"تلفن ضروری", '10'),
             ManagerColumn('address', u"آدرس", '10'),
             ManagerColumn('employment_status', u"وضعیت شغلی", '10'),
             ManagerColumn('organization', u"محل کار", '10'),
@@ -106,6 +105,7 @@ class MemberManager(ObjectsManager):
             ManagerColumn('foundation_of_elites', u"عضویت در بنیاد ملی نخبگان", '10'),
             ManagerColumn('arbiter_interest', u"آیا تمایل به داوری نیز دارید؟", '10'),
             ManagerColumn('created_on', u"تاریخ ثبت نام", '10'),
+            ManagerColumn('is_confirmed', u"تایید شده", '10'),
         ]
         return columns
 
@@ -181,8 +181,8 @@ def member_confirm_change(instance, confirm):
         message = MessageServices.get_title_body_message(u"تغییر وضعیت عضویت", message_body)
     MessageServices.send_message(u"تغییر وضعیت عضویت", message, instance.user)
     #SMSService.send_sms(message_body, [instance.mobile])
-    if confirm is False:
-        instance.delete()
+    #if confirm is False:
+    #    instance.delete()
 
 
 class NoClusterMemberManager(MemberManager):

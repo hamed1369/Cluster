@@ -74,7 +74,7 @@ def select2(request):
 @login_required
 @csrf_exempt
 def change_seen_by_member(request):
-    if PermissionController.is_admin(request.user):
+    if PermissionController.is_admin(request.user) or PermissionController.is_supervisor(request.user):
         is_seen = request.POST.get('i')
         comment_id = request.POST.get('c')
         if is_seen and comment_id:

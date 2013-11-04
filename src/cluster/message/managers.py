@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.utils.safestring import mark_safe
-from cluster.message.actions import SendMessage, ShowMessage
+from cluster.message.actions import SendMessage, ShowMessage, SendEmail
 from cluster.message.models import Message
 from cluster.utils.forms import ClusterBaseModelForm, ClusterFilterModelForm
 from cluster.utils.manager.action import DeleteAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
+from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
 
@@ -27,6 +28,16 @@ class MessageManager(ObjectsManager):
         DeleteAction(),
         ShowMessage(),
     ]
+
+    def __init__(self, http_request):
+        super(MessageManager, self).__init__(http_request=http_request)
+        if PermissionController.is_admin(http_request.user):
+            self.actions = [
+                SendMessage(),
+                DeleteAction(),
+                ShowMessage(),
+                SendEmail(),
+            ]
 
     def get_all_data(self):
         return Message.get_user_messages(self.http_request.user)

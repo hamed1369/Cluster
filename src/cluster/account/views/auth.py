@@ -1,13 +1,10 @@
 # -*- coding:utf-8 -*-
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
-from cluster.account.account.models import Member
 from cluster.account.forms import SignInForm
-from cluster.project.models import ProjectMilestone
 from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
@@ -23,6 +20,8 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is None or not user.is_active:
                 messages.error(request, u"نام کاربری یا گذرواژه نادرست است.")
+            elif PermissionController.is_member(user) and user.member.is_confirmed is False:
+                messages.error(request, u"ثبت نام شما از طرف مدیریت رد شده است و نمی توانید در سامانه وارد شوید.")
             else:
                 login(request, user)
                 next_page = request.GET.get('next')

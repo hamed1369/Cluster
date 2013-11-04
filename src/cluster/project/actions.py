@@ -4,7 +4,8 @@ from django.forms.models import inlineformset_factory
 from django.http import Http404
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
-from cluster.project.forms import ProjectManagerForm, ProjectForm, AdminProjectManagerForm, ArbiterProjectManagerForm, MilestoneForm, ProjectArbiterForm, ProjectArbitrationForm
+from cluster.project.forms import ProjectManagerForm, ProjectForm, AdminProjectManagerForm, ArbiterProjectManagerForm, \
+    MilestoneForm, ProjectArbiterForm, ProjectArbitrationForm
 from cluster.project.models import Project, ProjectMilestone, ProjectComment, ProjectArbiter
 from cluster.utils.manager.action import ManagerAction
 from cluster.utils.messages import MessageServices, SMSService
@@ -31,7 +32,8 @@ class AdminProjectCheckAction(ManagerAction):
         old_state_display = instance.get_project_status_display()
         milestone_formset = None
         if http_request.method == 'POST':
-            form = AdminProjectManagerForm(http_request.POST, http_request.FILES, instance=instance)
+            form = AdminProjectManagerForm(http_request.POST, http_request.FILES, instance=instance,
+                                           http_request=http_request)
             arbiter_formset = ProjectArbiterFormset(http_request.POST, http_request.FILES, instance=instance,
                                                     prefix='project_arbiter')
             if old_state > 1:
@@ -58,6 +60,7 @@ class AdminProjectCheckAction(ManagerAction):
                 elif new_state < 1:
                     instance.project_arbiters.all().delete()
                 new_state_display = instance.get_project_status_display()
+
                 if old_state != new_state:
                     message_body = u'وضعیت طرح "%s" از "%s" به "%s" تغییر پیدا کرد.' % (
                         instance.title, old_state_display, new_state_display)
@@ -87,7 +90,7 @@ class AdminProjectCheckAction(ManagerAction):
 
                 messages.success(http_request, u"بررسی طرح با موفقیت انجام شد.")
         else:
-            form = AdminProjectManagerForm(instance=instance)
+            form = AdminProjectManagerForm(instance=instance, http_request=http_request)
             if instance.project_status > 1:
                 milestone_formset = ProjectMilestoneFormset(instance=instance, prefix='project_milestone')
             arbiter_formset = ProjectArbiterFormset(instance=instance, prefix='project_arbiter')
@@ -147,7 +150,7 @@ class ProjectDetailAction(ManagerAction):
             raise Http404()
 
         if self.change_milestones:
-            ProjectMilestoneForm = inlineformset_factory(Project, ProjectMilestone, form=MilestoneForm, extra=3)
+            ProjectMilestoneForm = inlineformset_factory(Project, ProjectMilestone, form=MilestoneForm, extra=1)
         else:
             ProjectMilestoneForm = inlineformset_factory(Project, ProjectMilestone, form=MilestoneForm, extra=0)
 

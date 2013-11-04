@@ -5,6 +5,7 @@ from cluster.project.models import Project, ProjectMilestone, ProjectArbiter
 from cluster.utils.fields import BOOLEAN_CHOICES
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.js_validation import process_js_validations
+from cluster.utils.permissions import PermissionController
 
 __author__ = 'M.Y'
 
@@ -20,7 +21,7 @@ class ProjectForm(ClusterBaseModelForm):
         exclude = ('single_member', 'cluster', 'project_status', 'score', 'supervisor')
 
     js_validation_configs = {
-        'excludes_required': 'attended_members'
+        'excludes_required': 'attended_members, proposal'
     }
 
     def __init__(self, *args, **kwargs):
@@ -60,6 +61,9 @@ class ProjectForm(ClusterBaseModelForm):
         self.fields['summary'].widget = forms.Textarea()
         if self.user and self.user.member and self.user.member.cluster:
             self.fields['attended_members'].queryset = Member.objects.filter(cluster=self.user.member.cluster)
+        else:
+            if 'attended_members' in self.fields:
+                del self.fields['attended_members']
         self.fields['agreement'] = forms.BooleanField(required=True)
         self.fields[
             'agreement'].label = u"اينجانب با اطلاع کامل از رويه‌ها و ضوابط ارائه اختراع، اين پرسشنامه را تکميل نموده و کليه اطلاعات مندرج در آن را تأئيد مي‌نمايم. مسئوليت هرگونه نقص يا اشتباه در اطلاعات ارسالي به عهده اينجانب است."
@@ -78,6 +82,7 @@ class ProjectForm(ClusterBaseModelForm):
             instance.cluster = self.user.member.cluster
         else:
             instance.single_member = self.user.member
+            instance.attended_members = [self.user.member]
         instance.save()
         return instance
 
@@ -96,6 +101,8 @@ class ProjectManagerForm(ProjectForm):
                                 'patent_number', 'patent_date', 'patent_certificate', 'patent_request', 'domain',
                                 'summary', 'keywords', 'innovations', 'state', 'proposal', 'attended_members',
                                 'project_status']
+        if not 'attended_members' in self.fields:
+            self.fields.keyOrder.remove('attended_members')
         process_js_validations(self)
 
     def save(self, commit=True):
@@ -114,6 +121,8 @@ class ArbiterProjectManagerForm(ProjectManagerForm):
         self.fields.keyOrder = ['title', 'has_confirmation', 'confirmation_type', 'certificate_image', 'has_patent',
                                 'patent_number', 'patent_date', 'patent_certificate', 'patent_request', 'domain',
                                 'summary', 'keywords', 'innovations', 'state', 'proposal', 'attended_members']
+        if not 'attended_members' in self.fields:
+            self.fields.keyOrder.remove('attended_members')
         process_js_validations(self)
 
 
@@ -147,6 +156,13 @@ class AdminProjectManagerForm(ProjectManagerForm):
             (4, u"تکمیل شده"),
 
         )
+        if not 'attended_members' in self.fields:
+            self.fields.keyOrder.remove('attended_members')
+        if PermissionController.is_supervisor(user=self.http_request.user):
+            if 'supervisor' in self.fields:
+                del self.fields['supervisor']
+            if 'supervisor' in self.fields.keyOrder:
+                self.fields.keyOrder.remove('supervisor')
         process_js_validations(self)
 
     def clean(self):
