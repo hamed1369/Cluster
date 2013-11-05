@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 import logging
-from django.core.mail import EmailMultiAlternatives, send_mass_mail
+from django.core.mail import EmailMultiAlternatives, get_connection
 from django.template.base import Template
 from django.template.context import Context
 from django.utils.safestring import mark_safe
@@ -31,7 +31,19 @@ class MessageServices(object):
     @staticmethod
     def send_mass_message(subject, body, receivers):
         try:
-            send_mass_mail(datatuple=((subject, body, MessageServices.from_email, receivers),))
+            msg_body = """
+                <div style="font-family: tahoma, sans-serif;font-size: 12px;text-align: right;direction: rtl;">
+                    %s
+                </div>
+            """ % body
+            connection = get_connection(username=None,
+                                        password=None,
+                                        fail_silently=None)
+            message = EmailMultiAlternatives(subject=subject, body='', from_email=MessageServices.from_email,
+                                             bcc=receivers, )
+            message.attach_alternative(msg_body, 'text/html')
+            messages = [message]
+            return connection.send_messages(messages)
         except Exception as s:
             logging.error(s)
 

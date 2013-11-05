@@ -29,7 +29,7 @@ class AdminProjectCheckAction(ManagerAction):
 
         instance = selected_instances[0]
         old_state = instance.project_status
-        old_state_display = instance.get_project_status_display()
+        #old_state_display = instance.get_project_status_display()
         milestone_formset = None
         if http_request.method == 'POST':
             form = AdminProjectManagerForm(http_request.POST, http_request.FILES, instance=instance,
@@ -59,25 +59,34 @@ class AdminProjectCheckAction(ManagerAction):
                     project_arbiters = arbiter_formset.save()
                 elif new_state < 1:
                     instance.project_arbiters.all().delete()
-                new_state_display = instance.get_project_status_display()
+                #new_state_display = instance.get_project_status_display()
 
                 if old_state != new_state:
-                    message_body = u'وضعیت طرح "%s" از "%s" به "%s" تغییر پیدا کرد.' % (
-                        instance.title, old_state_display, new_state_display)
-                    message = MessageServices.get_title_body_message(u"تغییر وضعیت طرح", message_body)
+                    #message_body = u'وضعیت طرح "%s" از "%s" به "%s" تغییر پیدا کرد.' % (
+                    #    instance.title, old_state_display, new_state_display)
+                    message = None
                     if instance.single_member:
                         member = instance.single_member
                     else:
                         member = instance.cluster.head
-                    MessageServices.send_message(u"تغییر وضعیت طرح", message, member.user)
                     if new_state == Project.REJECT_STATE:
                         message_body = u'وضعیت طرح "%s" به رد شده تغییر پیدا کرد.' % (
                             instance.title)
+                        message = MessageServices.get_title_body_message(u"ردشدن طرح", message_body)
                         SMSService.send_sms(message_body, [member.mobile])
                     elif new_state == Project.CONFIRM_STATE:
                         message_body = u'وضعیت طرح "%s" به تاییدشده تغییر پیدا کرد.' % (
                             instance.title)
+                        message = MessageServices.get_title_body_message(u"تایید طرح", message_body)
                         SMSService.send_sms(message_body, [member.mobile])
+                    elif old_state == Project.CONFIRM_STATE:
+                        message_body = u'وضعیت طرح "%s" به حالت در حال بررسی تغییر پیدا کرد.' % (
+                            instance.title)
+                        message = MessageServices.get_title_body_message(u"تغییر طرح به در حال بررسی", message_body)
+                        SMSService.send_sms(message_body, [member.mobile])
+
+                    if message:
+                        MessageServices.send_message(u"تغییر وضعیت طرح", message, member.user)
 
                 for project_arbiter in project_arbiters:
                     arbiter = project_arbiter.arbiter
@@ -137,40 +146,20 @@ class ProjectDetailAction(ManagerAction):
     action_name = u'detail'
     min_count = '1'
 
-    def __init__(self, has_comments=True, action_verbose_name=u"مشاهده جزئیات", for_admin=True,
-                 change_milestones=False):
+    def __init__(self, has_comments=True, action_verbose_name=u"مشاهده جزئیات", for_admin=True):
         super(ProjectDetailAction, self).__init__()
         self.has_comments = has_comments
         self.action_verbose_name = action_verbose_name
         self.for_admin = for_admin
-        self.change_milestones = change_milestones
 
     def action_view(self, http_request, selected_instances):
         if not selected_instances:
             raise Http404()
 
-        if self.change_milestones:
-            ProjectMilestoneForm = inlineformset_factory(Project, ProjectMilestone, form=MilestoneForm, extra=1)
-        else:
-            ProjectMilestoneForm = inlineformset_factory(Project, ProjectMilestone, form=MilestoneForm, extra=0)
-
         instance = selected_instances[0]
         form = ProjectManagerForm(instance=instance)
         for field in form.fields:
             form.fields[field].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})
-        inline_form = None
-        if instance.project_status > 1:
-            if self.change_milestones:
-                if http_request.method == 'POST':
-                    inline_form = ProjectMilestoneForm(http_request.POST, instance=instance, prefix='project_milestone')
-                    if inline_form.is_valid:
-                        inline_form.save()
-                        messages.success(http_request, u"بررسی طرح با موفقیت انجام شد.")
-                else:
-                    inline_form = ProjectMilestoneForm(instance=instance, prefix='project_milestone')
-            else:
-                inline_form = ProjectMilestoneForm(instance=instance, prefix='project_milestone')
-                inline_form.readonly = True
 
         if http_request.method == 'POST' and self.has_comments:
             comment_txt = http_request.POST.get('project-comment-text')
@@ -193,7 +182,7 @@ class ProjectDetailAction(ManagerAction):
                 comments = instance.comments.all().order_by('-id')
 
         return render_to_response('project/show_project.html',
-                                  {'form': form, 'inline_form': inline_form, 'title': u"جزئیات طرح",
+                                  {'form': form, 'title': u"جزئیات طرح",
                                    'project': project, 'comments': comments, 'has_comments': self.has_comments},
                                   context_instance=RequestContext(http_request))
 
