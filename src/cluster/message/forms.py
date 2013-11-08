@@ -199,4 +199,4 @@ class EmailSendForm(ClusterBaseForm):
     receivers = EmailsListField(label=u"گیرنده ها  (می توانید گیرنده ها را در سطرهای جداگانه وارد کنید یا گیرنده ها را با ',' از هم جدا نمایید)",
                                 widget=forms.Textarea({'style': 'direction:ltr;'}))
     subject = forms.CharField(label=u"موضوع", max_length=500)
-    body = forms.CharField(label=u"متن", max_length=5000, widget=forms.Textarea)
+    body = forms.TextInput(label=u"متن", max_length=5000, widget=forms.Textarea)
