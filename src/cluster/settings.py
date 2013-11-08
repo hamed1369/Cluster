@@ -131,6 +131,7 @@ INSTALLED_APPS = (
     'cluster.message',
     'cluster.feedback',
     'cluster.news',
+    'tinymce',
 )
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
