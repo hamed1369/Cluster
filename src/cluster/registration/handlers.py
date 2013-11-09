@@ -85,6 +85,8 @@ class ClusterHandler(object):
             self.software_skill_formset = SoftwareSkillForm(prefix='software_skill',
                                                             queryset=SoftwareSkill.objects.filter(
                                                                 cluster_member=member))
+        if self.resume_formset:
+            self.resume_formset.forms[0].empty_permitted = False
 
     def __init_cluster_form(self, check_post):
         self.cluster_member_formset = None

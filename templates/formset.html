@@ -79,7 +79,7 @@
                                     dateFormat: 'yy/mm/dd'
                                 });
                                 $formset_tr.find('input[type=text], select').attr('data-prompt-position', 'topLeft:-100');
-                                {% if formset.prefix != 'cluster_domain' %}
+                                {% if formset.prefix != 'cluster_domain' and formset.prefix != 'resume' %}
                                     $formset_tr.each(function () {
                                         var all_fields_name = [];
                                         $(this).find('input[type=text], select').each(function () {
@@ -101,7 +101,7 @@
                         });
 
                         $formset_tr.find('input[type=text], select').attr('data-prompt-position', 'topLeft:-100');
-                        {% if formset.prefix != 'cluster_domain' %}
+                        {% if formset.prefix != 'cluster_domain' and formset.prefix != 'resume' %}
                             $formset_tr.each(function () {
                                 var all_fields_name = [];
                                 $(this).find('input[type=text], select').each(function () {
