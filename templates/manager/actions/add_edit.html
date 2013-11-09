@@ -1,6 +1,12 @@
 {% extends 'no_base.html' %}
 {% load account_template_tags %}
 {% block title %}{{ title }}{% endblock %}
+{% block JS %}
+    {{ block.super }}
+        {% if form %}
+            {{ form.media }}
+        {% endif %}
+{% endblock %}
 {% block content %}
     {% if form or register_form %}
         <form action="" method="post" enctype="multipart/form-data" id="register_form" class="js-validation-from">

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.contrib.auth.models import User
+from tinymce.widgets import TinyMCE
 from cluster.account.account.models import Cluster
 from cluster.message.models import Message
 from cluster.utils.fields.email_fields import EmailsListField
@@ -199,4 +200,4 @@ class EmailSendForm(ClusterBaseForm):
     receivers = EmailsListField(label=u"گیرنده ها  (می توانید گیرنده ها را در سطرهای جداگانه وارد کنید یا گیرنده ها را با ',' از هم جدا نمایید)",
                                 widget=forms.Textarea({'style': 'direction:ltr;'}))
     subject = forms.CharField(label=u"موضوع", max_length=500)
-    body = forms.CharField(label=u"متن", max_length=5000, widget=forms.Textarea)
+    body = forms.CharField(label=u"متن", max_length=5000, widget=TinyMCE(attrs={'cols': 60, 'rows': 20}))

@@ -131,6 +131,7 @@ INSTALLED_APPS = (
     'cluster.message',
     'cluster.feedback',
     'cluster.news',
+    'tinymce',
 )
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -182,3 +183,11 @@ CAPTCHA_NOISE_FUNCTIONS = ('captcha.helpers.noise_arcs',)
 CAPTCHA_LENGTH = 4
 CAPTCHA_FONT_SIZE = 30
 CAPTCHA_TIMEOUT = 200  # minutes
+TINYMCE_DEFAULT_CONFIG = {
+    'plugins': "table,spellchecker,paste,searchreplace",
+    'theme': "advanced",
+    'cleanup_on_startup': True,
+    'custom_undo_redo_levels': 10,
+    'theme' : "advanced",
+    'theme_advanced_toolbar_location' : "top"
+}
