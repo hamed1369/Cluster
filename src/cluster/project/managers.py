@@ -43,8 +43,12 @@ class MemberProjectManager(ObjectsManager):
             ManagerColumn('domain', u"حوزه طرح", '10'),
             ManagerColumn('state', u"مرحله", '10'),
             ManagerColumn('project_status', u"مرحله داوری", '10'),
+            ManagerColumn('attended_members', u"انجام دهنده ها", '20', True),
         ]
         return columns
+
+    def get_attended_members(self, data):
+        return u"، ".join([unicode(x) for x in data.attended_members.all()])
 
     def get_filter_form_content(self):
         return """
@@ -126,6 +130,7 @@ class ProjectsManagement(ObjectsManager):
             ManagerColumn('domain', u"حوزه طرح", '10'),
             ManagerColumn('state', u"مرحله", '10'),
             ManagerColumn('project_status', u"مرحله داوری", '10'),
+            ManagerColumn('attended_members', u"انجام دهنده ها", '20', True),
         ]
         return columns
 
@@ -138,6 +143,9 @@ class ProjectsManagement(ObjectsManager):
             link = u"/members/actions/?t=action&n=edit_member&i=%s" % data.single_member.id
             return u"""<a onClick="MyWindow=window.open('%s','خوشه/فرد',width=800,height=600); return false;"href='#' class="jqgrid-a">%s</a>""" % (
                 link, unicode(data.single_member))
+
+    def get_attended_members(self, data):
+        return u"، ".join([unicode(x) for x in data.attended_members.all()])
 
 
 class ArbiterProjectsFilterForm(ClusterFilterModelForm):
@@ -181,6 +189,7 @@ class ArbiterProjectsManagement(ProjectsManagement):
             ManagerColumn('domain', u"حوزه طرح", '10'),
             ManagerColumn('state', u"مرحله", '10'),
             ManagerColumn('project_status', u"مرحله داوری", '10'),
+            ManagerColumn('attended_members', u"انجام دهنده ها", '20', True),
         ]
         return columns
 
