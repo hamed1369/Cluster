@@ -279,9 +279,6 @@ ClusterDomainForm = formset_factory(DomainForm, can_delete=True)
 
 
 class EducationalResumeModelForm(ClusterBaseModelForm):
-    js_validation_configs = {
-        'required': False,
-    }
 
     class Meta:
         model = EducationalResume
