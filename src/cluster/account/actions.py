@@ -142,6 +142,23 @@ class EditMemberAction(ManagerAction):
                                   context_instance=RequestContext(http_request))
 
 
+class ShowMemberAction(ManagerAction):
+    is_view = True
+    min_count = 1
+    action_name = 'show_member'
+    action_verbose_name = u"مشاهده جزئیات"
+
+    def action_view(self, http_request, selected_instances):
+        instance = selected_instances[0]
+        member = instance
+        handler = ClusterHandler(http_request, cluster_id=member.cluster_id, has_cluster=False)
+        handler.initial_forms(member=member)
+        handler.set_all_readonly()
+        c = handler.get_context()
+        return render_to_response('accounts/show_member_action.html', c,
+                                  context_instance=RequestContext(http_request))
+
+
 class EditClusterAction(ManagerAction):
     is_view = True
     min_count = 1
