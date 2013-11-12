@@ -77,7 +77,8 @@ class ObjectsManager(object):
         if self.can_view():
             self.columns = self.get_columns()
             rows = http_request.GET.get('rows') or self.data_per_page
-            self.filter_obj = Filter(self.http_request, self.filter_form, self.filter_handlers, rows)
+            self.filter_obj = Filter(self.http_request, self.filter_form, self.filter_handlers, self.other_filter_func,
+                                     rows)
             all_data = self.get_all_data_cashed()
             self.filter_form, self.page_data = self.filter_obj.process_filter(all_data)
 
@@ -258,6 +259,9 @@ class ObjectsManager(object):
         response['Content-Disposition'] = "attachment; filename=%s.xlsx" % self.manager_name
 
         return response
+
+    def other_filter_func(self, all_data, form):
+        return all_data
 
     def get_excel_columns(self):
         return []

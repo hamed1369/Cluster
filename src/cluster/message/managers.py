@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from django.utils.safestring import mark_safe
+from django.db.models import Q
 from cluster.message.actions import SendMessage, ShowMessage, SendEmail
 from cluster.message.models import Message
-from cluster.utils.forms import ClusterBaseModelForm, ClusterFilterModelForm
+from cluster.utils.forms import ClusterFilterModelForm
 from cluster.utils.manager.action import DeleteAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
 from cluster.utils.permissions import PermissionController
@@ -13,10 +13,15 @@ __author__ = 'M.Y'
 
 class MessageFilterForm(ClusterFilterModelForm):
     body = forms.CharField(label=u"متن", required=False)
+    status = forms.ChoiceField(label=u"نوع", choices=((u"1", u"دریافت شده"), (u"2", u"فرستاده شده"), (u"3", u"همه")),
+                               initial=u"1", )
 
     class Meta:
         model = Message
         fields = ('title', 'body', 'sender')
+
+    def __init__(self, *args, **kwargs):
+        super(MessageFilterForm, self).__init__(*args, **kwargs)
 
 
 class MessageManager(ObjectsManager):
@@ -28,6 +33,11 @@ class MessageManager(ObjectsManager):
         DeleteAction(),
         ShowMessage(),
     ]
+    filter_handlers = (
+        ('title', 'str'),
+        ('body', 'str'),
+        ('sender', 'this'),
+    )
 
     def __init__(self, http_request):
         super(MessageManager, self).__init__(http_request=http_request)
@@ -40,7 +50,7 @@ class MessageManager(ObjectsManager):
             ]
 
     def get_all_data(self):
-        return Message.get_user_messages(self.http_request.user)
+        return Message.objects.filter(Q(receivers=self.http_request.user) | Q(sender=self.http_request.user))
 
     def get_columns(self):
         columns = [
@@ -65,3 +75,15 @@ class MessageManager(ObjectsManager):
         else:
             return u"خیر"
             # result = u'<img src="/static/manager/images/unread.png" />'
+
+    def other_filter_func(self, all_data, form):
+        if form:
+            form_data = form.data
+            status = form_data.get('status')
+            if status == u'2':
+                all_data = all_data.filter(sender=self.http_request.user).distinct()
+            elif status == u'3':
+                pass
+            else:
+                all_data = all_data.filter(receivers=self.http_request.user).distinct()
+        return all_data

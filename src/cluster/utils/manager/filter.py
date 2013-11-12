@@ -7,12 +7,13 @@ __author__ = 'M.Y'
 
 
 class Filter(object):
-    def __init__(self, http_request, filter_form, filter_handlers, data_per_page):
+    def __init__(self, http_request, filter_form, filter_handlers, other_filter_func, data_per_page):
         self.http_request = http_request
         self.page_num = self.http_request.GET.get('page') or 1
         self.filter_form = filter_form
         self.filter_handlers = filter_handlers
         self.data_per_page = data_per_page
+        self.other_filter_func = other_filter_func
         self.ordering_handle()
 
     def process_filter(self, all_data):
@@ -47,11 +48,15 @@ class Filter(object):
             else:
                 all_data = all_data.filter(**kwargs).distinct()
 
+        all_data = self.other_filter_func(all_data, form)
+
         self.all_data = all_data
 
         p = Paginator(all_data, self.data_per_page)
         self.total_pages = p.num_pages
         self.total_data = p.count
+        if self.page_num > self.total_pages:
+            self.page_num = self.total_pages
         page = p.page(self.page_num)
         paginate_data = page.object_list
 
