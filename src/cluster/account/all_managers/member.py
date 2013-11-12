@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from cluster.account.account.models import Member, Cluster
-from cluster.account.actions import EditMemberAction
+from cluster.account.actions import EditMemberAction, SendMemberMessage
 from cluster.utils.forms import ClusterBaseModelForm, ClusterFilterModelForm
 from cluster.utils.manager.action import ShowAction, DeleteAction, ConfirmAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
@@ -59,7 +59,7 @@ class MemberManager(ObjectsManager):
         ('military_status', 'this'),
         ('foundation_of_elites', 'null_bool'),
     )
-    actions = [ShowAction(MemberActionForm), EditMemberAction()]
+    actions = [ShowAction(MemberActionForm), EditMemberAction(), SendMemberMessage()]
 
     def get_all_data(self):
         return Member.objects.filter()

@@ -55,7 +55,7 @@ class Filter(object):
         p = Paginator(all_data, self.data_per_page)
         self.total_pages = p.num_pages
         self.total_data = p.count
-        if self.page_num > self.total_pages:
+        if int(self.page_num) > self.total_pages:
             self.page_num = self.total_pages
         page = p.page(self.page_num)
         paginate_data = page.object_list
