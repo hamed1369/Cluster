@@ -15,19 +15,19 @@ $(document).ready(function () {
             usernameAjaxEngineCall: {
                 "url": "/ajax/validationEngine/",
 //                "alertTextOk": "این نام کاربری در دسترس است",
-                "alertText": "* این نام‌کاربری تکراری است",
+                "alertText": "* این نام‌کاربری تکراری است"
 //                "alertTextLoad": "* درحال اعتبار سنجی، لطفا صبر کنید"
             },
             emailAjaxEngineCall: {
                 "url": "/ajax/validationEngine/",
 //                "alertTextOk": "این ایمیل در دسترس است",
-                "alertText": "* این ایمیل تکراری است",
+                "alertText": "* این پست الکترونیک تکراری است"
 //                "alertTextLoad": "* درحال اعتبار سنجی، لطفا صبر کنید"
             },
             clusterNameAjaxEngineCall: {
                 "url": "/ajax/validationEngine/",
 //                "alertTextOk": "این ایمیل در دسترس است",
-                "alertText": "* این نام تکراری است",
+                "alertText": "* این نام تکراری است"
 //                "alertTextLoad": "* درحال اعتبار سنجی، لطفا صبر کنید"
             }
         });
