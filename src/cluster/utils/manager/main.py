@@ -71,6 +71,7 @@ class ObjectsManager(object):
 
     # view quality attributes
     height = 310
+    auto_width = True
 
     def __init__(self, http_request):
         self.http_request = http_request
@@ -217,7 +218,10 @@ class ObjectsManager(object):
         worksheet.right_to_left()
 
         bold = workbook.add_format({'bold': True})
-        letters = string.uppercase
+        letters = list(string.uppercase)
+        for case in string.uppercase:
+            for case2 in string.uppercase:
+                letters.append(case + case2)
 
         group_headers = self.get_group_headers()
         if group_headers:
