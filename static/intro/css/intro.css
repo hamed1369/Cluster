@@ -203,8 +203,12 @@ body{
     width: 920px;
     position: relative;
     margin: 0 auto;
-    height: 220px;
+    min-height: 220px;
     direction: rtl;
+}
+.error-td{
+    color:#F63B6A;
+
 }
 .inner-intro-div{
     margin-top: 4px;
@@ -218,7 +222,7 @@ body{
     font-size: 20px;
     color: #f5f5f5;
 }
-.inner-intro-div td{
+#news td{
     font-size: 20px;
     border-bottom: 1px solid;
 }
@@ -236,6 +240,33 @@ body{
 }
 #reg-detail p{
     color:#F5F5F5;
+}
+.thin-input input{
+    height: 10px;
+}
+.body-input input{
+    height: 30px;
+}
+.captcha-input input{
+    width: 85px;
+}
+.captcha-input img{
+    height: 20px
+}
+#id_contact-captcha_1{
+    margin-top: -10px;
+}
+#aboutus table{
+    font-size: 17px;
+    width: 100%;
+    z-index: 2000;
+}
+#aboutus table input,input[type="text"],textarea{
+    font-family: B Mitra;
+
+}
+#aboutus textarea{
+    height: 80px;
 }
 #submit-detail-container{
     width: 100%;
