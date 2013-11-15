@@ -1,0 +1,28 @@
+{% extends 'no_base.html' %}
+{% load staticfiles %}
+
+{% block CSS %}
+    {{ block.super }}
+{% endblock %}
+
+{% block JS %}
+    {{ block.super }}
+{% endblock %}
+
+{% block title %}مشاهده جزئیات{% endblock %}
+{% block header_title %}مشاهده جزئیات{% endblock %}
+{% block content %}
+    {% include 'messages.html' %}
+    {% if register_form or cluster %}
+        <div class="panel panel-info form-div" id="register_div">
+            {% csrf_token %}
+            {% if cluster %}
+                {{ cluster_form.errors }}
+                {% include 'registration/cluster_form.html' %}
+            {% endif %}
+            {% if register_form %}
+                {% include 'registration/register_main_form.html' %}
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

@@ -6,6 +6,8 @@ from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from cluster.account.account.models import Member, Cluster, Arbiter
 from cluster.account.forms import ArbiterInvitationForm
+from cluster.message.forms import MemberSendMessageForm
+from cluster.message.models import Message
 from cluster.registration.handlers import ClusterHandler
 from cluster.utils.forms import ClusterBaseForm
 from cluster.utils.manager.action import ManagerAction
@@ -140,6 +142,23 @@ class EditMemberAction(ManagerAction):
                                   context_instance=RequestContext(http_request))
 
 
+class ShowMemberAction(ManagerAction):
+    is_view = True
+    min_count = 1
+    action_name = 'show_member'
+    action_verbose_name = u"مشاهده جزئیات"
+
+    def action_view(self, http_request, selected_instances):
+        instance = selected_instances[0]
+        member = instance
+        handler = ClusterHandler(http_request, cluster_id=member.cluster_id, has_cluster=False)
+        handler.initial_forms(member=member)
+        handler.set_all_readonly()
+        c = handler.get_context()
+        return render_to_response('accounts/show_member_action.html', c,
+                                  context_instance=RequestContext(http_request))
+
+
 class EditClusterAction(ManagerAction):
     is_view = True
     min_count = 1
@@ -205,4 +224,38 @@ class ArbiterInvitationAction(ManagerAction):
             form = ArbiterInvitationForm()
 
         return render_to_response('manager/actions/add_edit.html', {'form': form, 'title': u"دعوت داور"},
+                                  context_instance=RequestContext(http_request))
+
+
+class SendMemberMessage(ManagerAction):
+    is_view = True
+    min_count = 1
+    action_name = 'send_member_message'
+    action_verbose_name = u"ارسال پیام"
+
+    def action_view(self, http_request, selected_instances):
+        members = selected_instances
+        if http_request.method == 'POST':
+            form = MemberSendMessageForm(http_request.POST, http_request=http_request)
+            if form.is_valid():
+                subject = form.cleaned_data.get('subject')
+                body = form.cleaned_data.get('body')
+                is_sms = form.cleaned_data.get('is_sms')
+                is_mail = form.cleaned_data.get('is_mail')
+                receivers = [member.user for member in members]
+                Message.send_message(http_request.user, u"پیام دریافتی از مدیریت سیستم", body, receivers)
+                if is_mail:
+                    receivers_mail = [user.email for user in receivers]
+                    message_text = MessageServices.get_send_message(http_request.user, subject, body)
+                    MessageServices.send_mass_message(subject, message_text, receivers_mail)
+                if is_sms:
+                    mobiles = [member.mobile for member in members]
+                    if mobiles:
+                        SMSService.send_sms(subject + '\n' + body, mobiles)
+                form = None
+                messages.success(http_request, u"پیام شما با موفقیت انجام شد.")
+        else:
+            form = MemberSendMessageForm(http_request=http_request)
+
+        return render_to_response('manager/actions/add_edit.html', {'form': form, 'title': u"ارسال پیام"},
                                   context_instance=RequestContext(http_request))

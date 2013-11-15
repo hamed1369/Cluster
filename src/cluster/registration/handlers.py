@@ -69,7 +69,8 @@ class ClusterHandler(object):
             #                                                 queryset=SoftwareSkill.objects.filter(
             #                                                     cluster_member=member))
         else:
-            self.register_form = RegisterForm(prefix='register', instance=member, has_cluster=self.has_cluster, user=self.http_request.user)
+            self.register_form = RegisterForm(prefix='register', instance=member, has_cluster=self.has_cluster,
+                                              user=self.http_request.user)
             self.resume_formset = ResumeForm(prefix='resume',
                                              queryset=EducationalResume.objects.filter(cluster_member=member))
             self.publication_formset = PublicationForm(prefix='publication',
@@ -91,7 +92,8 @@ class ClusterHandler(object):
     def __init_cluster_form(self, check_post):
         self.cluster_member_formset = None
         if self.http_method == 'POST' and self.http_request.POST.get('register-submit') and check_post:
-            self.cluster_form = ClusterForm(prefix='cluster', data=self.http_request.POST, http_request=self.http_request)
+            self.cluster_form = ClusterForm(prefix='cluster', data=self.http_request.POST,
+                                            http_request=self.http_request)
             if not self.cluster:
                 self.cluster_member_formset = ClusterMemberForm(prefix='cluster_member', data=self.http_request.POST)
                 ClusterDomainForm.extra = 1
@@ -412,3 +414,52 @@ class ClusterHandler(object):
             except Member.DoesNotExist:
                 return u"شما جزو اعضای این خوشه نیستید."
         return ''
+
+    def set_all_readonly(self):
+        if self.cluster_form:
+            for field in self.cluster_form.fields:
+                self.cluster_form.fields[field].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})
+        if self.register_form:
+            for field in self.register_form.fields:
+                self.register_form.fields[field].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})
+
+        if self.cluster_member_formset:
+            self.cluster_member_formset.readonly = True
+            for form in self.cluster_member_formset.forms:
+                for field in form.fields:
+                    form.fields[field].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})
+        if self.cluster_domain_formset:
+            self.cluster_domain_formset.readonly = True
+            for form in self.cluster_domain_formset.forms:
+                for field in form.fields:
+                    form.fields[field].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})
+        if self.resume_formset:
+            self.resume_formset.readonly = True
+            for form in self.resume_formset.forms:
+                for field in form.fields:
+                    form.fields[field].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})
+        if self.publication_formset:
+            self.publication_formset.readonly = True
+            for form in self.publication_formset.forms:
+                for field in form.fields:
+                    form.fields[field].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})
+        if self.invention_formset:
+            self.invention_formset.readonly = True
+            for form in self.invention_formset.forms:
+                for field in form.fields:
+                    form.fields[field].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})
+        if self.executive_research_formset:
+            self.executive_research_formset.readonly = True
+            for form in self.executive_research_formset.forms:
+                for field in form.fields:
+                    form.fields[field].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})
+        if self.language_skill_formset:
+            self.language_skill_formset.readonly = True
+            for form in self.language_skill_formset.forms:
+                for field in form.fields:
+                    form.fields[field].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})
+        if self.software_skill_formset:
+            self.software_skill_formset.readonly = True
+            for form in self.software_skill_formset.forms:
+                for field in form.fields:
+                    form.fields[field].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})

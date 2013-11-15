@@ -63,7 +63,7 @@
         viewrecords: true,
         gridview: true,
         autoencode: true,
-        shrinkToFit: true,
+        shrinkToFit: {% if manager.auto_width %}true{% else %}false{% endif %},
         height: {{ manager.height }},
         {% if manager.aggregation %}
             footerrow: true,

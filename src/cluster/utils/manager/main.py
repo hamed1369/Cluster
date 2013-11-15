@@ -71,13 +71,15 @@ class ObjectsManager(object):
 
     # view quality attributes
     height = 310
+    auto_width = True
 
     def __init__(self, http_request):
         self.http_request = http_request
         if self.can_view():
             self.columns = self.get_columns()
             rows = http_request.GET.get('rows') or self.data_per_page
-            self.filter_obj = Filter(self.http_request, self.filter_form, self.filter_handlers, rows)
+            self.filter_obj = Filter(self.http_request, self.filter_form, self.filter_handlers, self.other_filter_func,
+                                     rows)
             all_data = self.get_all_data_cashed()
             self.filter_form, self.page_data = self.filter_obj.process_filter(all_data)
 
@@ -216,7 +218,10 @@ class ObjectsManager(object):
         worksheet.right_to_left()
 
         bold = workbook.add_format({'bold': True})
-        letters = string.uppercase
+        letters = list(string.uppercase)
+        for case in string.uppercase:
+            for case2 in string.uppercase:
+                letters.append(case + case2)
 
         group_headers = self.get_group_headers()
         if group_headers:
@@ -258,6 +263,9 @@ class ObjectsManager(object):
         response['Content-Disposition'] = "attachment; filename=%s.xlsx" % self.manager_name
 
         return response
+
+    def other_filter_func(self, all_data, form):
+        return all_data
 
     def get_excel_columns(self):
         return []

@@ -212,6 +212,7 @@ class MemberForm(ClusterBaseForm):
 
     def clean(self):
         cd = super(MemberForm, self).clean()
+        main_mail = self.data.get('register-email')
         member_id = None
         if 'member_id' in self.fields:
             member_id = self.fields['member_id'].initial
@@ -222,7 +223,10 @@ class MemberForm(ClusterBaseForm):
             if member_id:
                 users = users.exclude(member__id=member_id)
             if users:
-                self._errors['email'] = self.error_class([u'این ایمیل تکراری است.'])
+                self._errors['email'] = self.error_class([u'این پست الکترونیک تکراری است.'])
+            if email == main_mail:
+                self._errors['email'] = self.error_class(
+                    [u'پست الکترونیک اعضا نباید با پست الکترونیک سرخوشه یکسان باشد.'])
         return cd
 
     def init_by_member(self, member, is_head):
@@ -279,7 +283,6 @@ ClusterDomainForm = formset_factory(DomainForm, can_delete=True)
 
 
 class EducationalResumeModelForm(ClusterBaseModelForm):
-
     class Meta:
         model = EducationalResume
 
