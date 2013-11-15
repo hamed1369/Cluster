@@ -56,7 +56,8 @@ class MessageManager(ObjectsManager):
         columns = [
             ManagerColumn('sender', u"فرستنده", 5),
             ManagerColumn('title', u"عنوان", 7),
-            ManagerColumn('body', u"متن", 20, True),
+            ManagerColumn('body', u"متن", 15, True),
+            ManagerColumn('receiver', u"گیرنده", 5,True),
             # ManagerColumn('state', u"خوانده شده", 3, True),
         ]
         return columns
@@ -67,6 +68,15 @@ class MessageManager(ObjectsManager):
             body = body[:45] + ' ...'
         return body
 
+    def get_receiver(self, obj):
+        res = []
+        six = obj.receivers.all()[0:6]
+        for item in six[0:5]:
+            res.append(unicode(item))
+        output = u','.join(res)
+        if len(six) == 6:
+            output += " ..."
+        return output
     def get_state(self, obj):
         state = obj
         if state == Message.READ:

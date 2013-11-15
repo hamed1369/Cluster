@@ -189,10 +189,9 @@
                 <li><a href="/messages/">جعبه پیام</a></li>
             {% endif %}
             {% if user|check_role:"admin" %}
-                <li><a href="{% url edit_accounts %}">پروفایل</a></li>
                 <li><a href="/projects_management/">مدیریت طرح ها</a></li>
                 <li><a href="/members/">مدیریت افراد</a></li>
-                <li><a href="/messages/">جعبه پیام</a></li>
+                <li><a href="/statistics/">آمار</a></li>
             {% endif %}
             {% if user|check_role:"arbiter" %}
                 <li><a href="/arbiter_edit/">پروفایل</a></li>
@@ -200,13 +199,12 @@
                 <li><a href="/messages/">جعبه پیام</a></li>
             {% endif %}
         </ul>
-        <div style="position: absolute;left:0px;top:3px;font-size: 15px;">
+        <div style="position: absolute;left:0px;top:3px;font-size: 15px;font-weight: bold;">
             {% get_current_date_time %}
         </div>
     </div>
 </div>
 <div id="introduction">
-
     <div id="inner-introduction">
         <div class="inner-intro-div" id="introo">
             <p>

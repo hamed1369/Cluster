@@ -198,6 +198,7 @@ body{
     background-position: center 0px;
     background-repeat: no-repeat;
     color: white;
+    position: relative;
 }
 #inner-introduction{
     width: 920px;
@@ -263,8 +264,8 @@ body{
 }
 #aboutus table input,input[type="text"],textarea{
     font-family: B Mitra;
-
 }
+
 #aboutus textarea{
     height: 80px;
 }
