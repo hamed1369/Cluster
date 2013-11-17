@@ -95,7 +95,7 @@ def statistics(request):
     last_month = datetime.date.today() - datetime.timedelta(days=30)
     today_visits = Visitor.objects.filter(start_time__gte=today,start_time__lt = tomorrow).count()
     yesterday_visits = Visitor.objects.filter(start_time__gte=yesterday,start_time__lt = today).count()
-    last_month_visits = Visitor.objects.filter(start_time__gte=last_month,start_time__lt = today).count()
+    last_month_visits = Visitor.objects.filter(start_time__gte=last_month,start_time__lt = tomorrow).count()
     overrall_visits = Visitor.objects.all().count()
     statistics = []
     statistics.append(StatisticRecord('بازدید های امروز',today_visits))
