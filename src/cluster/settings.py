@@ -157,7 +157,7 @@ LOGGING = {
         },
     }
 }
-DEFAULT_FROM_EMAIL = 'info@persianelites.com'
+DEFAULT_FROM_EMAIL = 'noreply@persianelites.com'
 #SERVER_EMAIL = 'persianelitesinfo@persianelites.ir'
 #EMAIL_USE_TLS = False
 #EMAIL_HOST_PASSWORD = ''
@@ -174,7 +174,7 @@ DEFAULT_FROM_EMAIL = 'info@persianelites.com'
 #EMAIL_PORT = 587
 #EMAIL_HOST_USER = 'persianelitesinfo@gmail.com'
 #EMAIL_HOST_PASSWORD = '!persianelitesinfo'
-SERVER_EMAIL = 'info@persianelites.com'
+SERVER_EMAIL = 'noreply@persianelites.com'
 EMAIL_USE_TLS = False
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25

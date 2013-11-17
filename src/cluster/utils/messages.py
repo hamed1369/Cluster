@@ -9,7 +9,7 @@ __author__ = 'M.Y'
 
 
 class MessageServices(object):
-    from_email = u'info@persianelites.com'
+    from_email = u'noreply@persianelites.com'
     site_url = 'http://www.persianelites.com'
 
     @staticmethod
