@@ -131,6 +131,7 @@ MENU_MAPPERS = {
         MenuMapper('/messages/', u"جعبه پیام"),
         MenuMapper('/domains_aggregation/', u"گزارش تجمیعی حوزه ها"),
         MenuMapper('/members_aggregation/', u"گزارش تجمیعی اعضا"),
+        MenuMapper('/accounts/edit_intro_page_content/', u"مدیریت محتوای صفحه اصلی"),
     ],
     'arbiter': [
         MenuMapper('/', u"صفحه اصلی"),

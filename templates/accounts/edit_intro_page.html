@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block CSS %}
+    <link rel="stylesheet" type="text/css" href='/static/lib/form-validation/validationEngine.jquery.css'/>
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="/static/registration/register.css"/>
+    <style>
+        body{
+            direction: rtl;
+        }
+    .art-sheet {
+        width: 97%;
+    }
+
+    #inner-header {
+        width: 97%;
+    }
+    </style>
+{% endblock %}
+
+{% block JS %}
+    {{ block.super }}
+    <script type="text/javascript" src="/static/lib/jquery.formset.min.js"></script>
+    <script type="text/javascript" src="/static/registration/register.js"></script>
+    <script type="text/javascript" src='/static/lib/form-validation/languages/jquery.validationEngine-fa.js'></script>
+    <script type="text/javascript" src='/static/lib/form-validation/jquery.validationEngine.js'></script>
+        {% if form %}
+            {{ form.media }}
+        {% endif %}
+
+{% endblock %}
+
+{% block title %}ویرایش محتوای صفحه نخست{% endblock %}
+{% block header_title %}ویرایش محتوای صفحه نخست{% endblock %}
+{% block content %}
+    {% include 'messages.html' %}
+    <div style="direction: rtl; height: 700px;">
+        <form method="post" id="register_form">
+            {% csrf_token %}
+            <table style="width: 100%;">
+                <tr>
+                    <td style="width: 10%;">{{ form.content.label }}</td>
+                </tr>
+                <tr>
+                    <td style="width: 90%;">{{ form.content }}</td>
+                </tr>
+            </table>
+            <div class="button_holder">
+                <input type="submit" value="ثبت" name="register-submit">
+            </div>
+        </form>
+    </div>
+{% endblock %}

@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
+from django.template.base import Template
+from django.template.context import Context
+from cluster.account.templatetags.date_template_tags import pdate
 
 __author__ = 'M.Y'
 from django.db import models
@@ -20,6 +23,25 @@ class News(models.Model):
     def __unicode__(self):
         return u"%s" % self.title
 
+    @staticmethod
+    def get_html():
+        news_list = News.objects.all().order_by('-publish_date')
+        res = Template(u"""
+            <table style="width: 100%">
+            {% for item in news_list %}
+                <tr><td style="width: 80%;"><a href="/news/{{ item.id }}/">{{ item.title }}</a></td><td>{{ item.publish_date_pdate }}</td></tr>
+            {% empty %}
+                <p>خبری یافت نشد.</p>
+            {% endfor %}
+            </table>
+        """).render(Context({'news_list': news_list}))
+        return res
+
+    def publish_date_pdate(self):
+        print self.publish_date,"  ",type(self.publish_date)
+        if isinstance(self.publish_date,str):
+            return "none"
+        return pdate(self.publish_date)
 
     @staticmethod
     def create_news(user, title, body, publish_date):
