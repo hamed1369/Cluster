@@ -28,6 +28,11 @@ class IntroPageForm(ClusterBaseModelForm):
             'cleanup': False
         })
 
+    def save(self, commit=True):
+        instance = super(IntroPageForm, self).save(commit)
+        IntroPageContent.instance = None
+        return instance
+
 
 class SignInForm(forms.Form):
     username = forms.CharField(label=u"نام کاربری",
