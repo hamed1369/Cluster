@@ -168,7 +168,9 @@
 
 
     $('.manager-excel').click(function () {
-        var new_url = '/{{ manager.manager_name }}/actions/?t=excel';
+        var sortColumnName = $manager.jqGrid('getGridParam', 'sortname');
+        var sortOrder = $manager.jqGrid('getGridParam', 'sortorder');
+        var new_url = '/{{ manager.manager_name }}/actions/?t=excel&sidx=' + sortColumnName + '&sord=' + sortOrder;
         var serialize_form = $('.filter-form').serialize();
         new_url = new_url + '&' + serialize_form;
         window.open(new_url, '_blank');
