@@ -30,4 +30,5 @@ def process_js_validations(form):
         if hasattr(form, 'extra_js_validation') and form.extra_js_validation.get(field):
             validations += form.extra_js_validation.get(field) + ','
 
-        form.fields[field].widget.attrs.update({'class': 'validate[%s] text-input' % validations})
+        if validations:
+            form.fields[field].widget.attrs.update({'class': 'validate[%s] text-input' % validations})
