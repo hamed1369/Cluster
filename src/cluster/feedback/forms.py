@@ -36,7 +36,7 @@ class ContactForm(ClusterBaseModelForm):
         self.fields['captcha'] = CaptchaField(label=u"کد امنیتی", error_messages={
             'invalid': u"کد امنیتی وارد شده صحیح نمی باشد."})
         self.fields['title'].widget.attrs.update({'class': 'form-control', 'placeholder': u'عنوان'})
-        self.fields['body'].widget.attrs.update({'class': 'form-control', 'placeholder': u'متن'})
+        self.fields['body'].widget.attrs.update({'class': 'form-control', 'placeholder': u'متن','cols':'10','rows':'5'})
         self.fields['email'].widget.attrs.update({'class': 'form-control', 'placeholder': u"پست الکترونیک"})
         self.fields['captcha'].widget.attrs.update({'class': 'form-control'})
         process_js_validations(self)

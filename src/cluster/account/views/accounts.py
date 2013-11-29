@@ -4,14 +4,17 @@ Created on 16/08/13
 
 @author: hamed
 '''
+import datetime
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
+from django.db.models.aggregates import Sum
 from django.http import Http404, HttpResponseRedirect
 
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from tracking.models import Visitor
 from cluster.account.account.models import Member
 from cluster.account.forms import AdminForm, SupervisorForm
 from cluster.registration.handlers import ClusterHandler
@@ -76,3 +79,28 @@ def edit_account(request):
         return handle_admin_edit(request)
     else:
         raise Http404
+
+
+class StatisticRecord(object):
+
+    def __init__(self,key,value):
+        self.key = key
+        self.value = value
+
+@login_required
+def statistics(request):
+    today = datetime.date.today
+    tomorrow = datetime.date.today() + datetime.timedelta(days=1)
+    yesterday = datetime.date.today() - datetime.timedelta(days=1)
+    last_month = datetime.date.today() - datetime.timedelta(days=30)
+    today_visits = Visitor.objects.filter(start_time__gte=today,start_time__lt = tomorrow).count()
+    yesterday_visits = Visitor.objects.filter(start_time__gte=yesterday,start_time__lt = today).count()
+    last_month_visits = Visitor.objects.filter(start_time__gte=last_month,start_time__lt = tomorrow).count()
+    overrall_visits = Visitor.objects.all().count()
+    statistics = []
+    statistics.append(StatisticRecord('بازدید های امروز',today_visits))
+    statistics.append(StatisticRecord('بازدید های دیروز',yesterday_visits))
+    statistics.append(StatisticRecord('بازدید های 30 روز گذشته',last_month_visits))
+    statistics.append(StatisticRecord('کل بازدیدها',overrall_visits))
+    return render_to_response('statistics.html', {'statistics':statistics},
+                      context_instance=RequestContext(request))

@@ -225,9 +225,14 @@ class NoClusterMemberManager(MemberManager):
     def get_all_data(self):
         return Member.objects.filter(cluster__isnull=True)
 
+    def get_full_name(self,data):
+        link = u"/members/actions/?t=action&n=edit_member&i=%s" % data.id
+        return u"""<a onClick="MyWindow=window.open('%s','خوشه/فرد',width=800,height=600); return false;"href='#' class="jqgrid-a">%s</a>""" % (
+            link, unicode(data.user))
+
     def get_columns(self):
         columns = [
-            ManagerColumn('full_name', u"نام و نام خانوادگی", '200', True),
+            ManagerColumn('full_name', u"نام و نام خانوادگی", '200', True,True),
             ManagerColumn('cluster', u"خوشه", '150', True, True),
             ManagerColumn('gender', u"جنسیت", '40'),
             ManagerColumn('national_code', u"کد ملی", '80'),

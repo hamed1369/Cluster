@@ -85,6 +85,7 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
+    'tracking.middleware.VisitorTrackingMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -124,6 +125,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'captcha',
+    'tracking',
     'django_select2',
     'cluster.registration',
     'cluster.account',
@@ -155,7 +157,7 @@ LOGGING = {
         },
     }
 }
-DEFAULT_FROM_EMAIL = 'info@persianelites.com'
+DEFAULT_FROM_EMAIL = 'noreply@persianelites.com'
 #SERVER_EMAIL = 'persianelitesinfo@persianelites.ir'
 #EMAIL_USE_TLS = False
 #EMAIL_HOST_PASSWORD = ''
@@ -172,7 +174,7 @@ DEFAULT_FROM_EMAIL = 'info@persianelites.com'
 #EMAIL_PORT = 587
 #EMAIL_HOST_USER = 'persianelitesinfo@gmail.com'
 #EMAIL_HOST_PASSWORD = '!persianelitesinfo'
-SERVER_EMAIL = 'info@persianelites.com'
+SERVER_EMAIL = 'noreply@persianelites.com'
 EMAIL_USE_TLS = False
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
