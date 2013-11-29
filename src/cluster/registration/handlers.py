@@ -4,8 +4,9 @@ from django.db import transaction
 from cluster.account.account.models import Cluster, Member, Domain
 from cluster.account.personal_info.models import EducationalResume, SoftwareSkill, LanguageSkill, \
     ExecutiveResearchProject, Invention, Publication
-from cluster.registration.forms import ClusterForm, RegisterForm, ClusterMemberForm, ClusterDomainForm, ResumeForm, \
-    PublicationForm, InventionForm, ExecutiveResearchProjectForm, LanguageSkillForm, SoftwareSkillForm
+from cluster.registration.forms import ClusterForm, RegisterForm, ClusterMemberForm, ClusterDomainForm, \
+    PublicationForm, InventionForm, ExecutiveResearchProjectForm, LanguageSkillForm, SoftwareSkillForm, \
+    get_resume_formset
 from cluster.utils.messages import MessageServices
 
 __author__ = 'M.Y'
@@ -48,6 +49,7 @@ class ClusterHandler(object):
             self.__init_register_form(member or self.member, check_post)
 
     def __init_register_form(self, member, check_post):
+        ResumeForm = get_resume_formset(member)
         if self.http_request.method == 'POST' and self.http_request.POST.get('register-submit') and check_post:
             self.register_form = RegisterForm(prefix='register', data=self.http_request.POST,
                                               files=self.http_request.FILES, instance=member,

@@ -287,8 +287,16 @@ class EducationalResumeModelForm(ClusterBaseModelForm):
         model = EducationalResume
 
 
-ResumeForm = modelformset_factory(EducationalResume, form=EducationalResumeModelForm, exclude=('cluster_member', ),
-                                  can_delete=True)
+def get_resume_formset(member):
+    if member and member.educational_resumes.exists():
+        ResumeForm = modelformset_factory(EducationalResume, form=EducationalResumeModelForm,
+                                          exclude=('cluster_member', ),
+                                          can_delete=True, extra=0)
+    else:
+        ResumeForm = modelformset_factory(EducationalResume, form=EducationalResumeModelForm,
+                                          exclude=('cluster_member', ),
+                                          can_delete=True)
+    return ResumeForm
 
 
 class PublicationModelForm(ClusterBaseModelForm):
