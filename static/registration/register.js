@@ -109,22 +109,22 @@ $(document).ready(function () {
                         options[$(this).val()] = $(this).find(':selected').text();
                     }
             });
-        } else if(is_cluster == 'False') {
-            $('select[name*="domain_choice"]').first().find('option').each(function(){
+            $('select[name*="register-domain"]').first().addClass('validate[required,] text-input');
+        } else if (is_cluster == 'False') {
+            $('select[name*="domain_choice"]').first().find('option').each(function () {
                 var txt = $(this).text();
                 var value = $(this).val();
                 options[value] = txt;
             });
-        }else{return}
+            $('select[name*="register-domain"]').first().removeClass('validate[required,] text-input');
+        } else {
+            return
+        }
 
         var $this_select = $(this);
         $this_select
             .find('option')
             .remove();
-        $this_select
-            .append($("<option></option>")
-                .attr("value", '')
-                .text('---------'));
         $.each(options, function (key, value) {
             $this_select
                 .append($("<option></option>")
@@ -135,18 +135,28 @@ $(document).ready(function () {
         $this_select.val(old_value);
     });
 
-
+    $('select[name*="register-domain"]').change(function () {
+        if ($(this).val().trim() == '' && $(this).find(':selected').text().trim() == 'سایر') {
+            $('input[name*="register-new_domain"]').parents('tr').first().fadeIn();
+            $('input[name*="register-new_domain"]').addClass('validate[required,] text-input');
+        } else {
+            $('input[name*="register-new_domain"]').parents('tr').first().fadeOut();
+            $('input[name*="register-new_domain"]').removeClass('validate[required,] text-input');
+        }
+    });
+    $('select[name*="register-domain"]').change();
     $('input[name*="is_cluster"]').change(function () {
         var is_cluster = $('input[name*="is_cluster"]:checked', '#register_form').val();
-
-
         if (is_cluster == 'True') {
             $('#only_for_cluster').slideDown();
             $('#only_for_cluster input[type="text"]').addClass('validate[required,] text-input');
-
+            $('input[name*="register-new_domain"]').parents('tr').first().fadeOut();
+            $('input[name*="register-new_domain"]').removeClass('validate[required,] text-input');
         } else {
             $('#only_for_cluster').slideUp();
             $('#only_for_cluster input[type="text"]').removeClass('validate[required,] text-input');
+            $('input[name*="register-new_domain"]').parents('tr').first().fadeIn();
+            $('input[name*="register-new_domain"]').addClass('validate[required,] text-input');
         }
     });
 
