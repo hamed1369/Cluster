@@ -37,6 +37,9 @@ $(document).ready(function () {
             validationEventTrigger: 'blur'
         });
     }
+    $('#logo-container').click(function(){
+        location.replace("/");
+    });
 //    $(".js-validation-from").submit(function () {
 //        $('.dynamic-formset0').each(function () {
 //            var has_val = false;

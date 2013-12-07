@@ -75,7 +75,7 @@
                                 $date_fields.datepicker({
                                     changeMonth: true,
                                     changeYear: true,
-                                    yearRange: '1300,1400',
+                                    yearRange: '-50:+50',
                                     dateFormat: 'yy/mm/dd'
                                 });
                                 $formset_tr.find('input[type=text], select').attr('data-prompt-position', 'topLeft:-100');
@@ -88,9 +88,11 @@
                                         $(this).find('input[type=text], select').each(function () {
                                             if ($(this).attr('name').indexOf('end_year') == -1) {
                                                 var cls_attr = $(this).attr('class');
-                                                var new_cls_attr = cls_attr.substring(0, cls_attr.lastIndexOf(']')) + 'condRequired[' + all_fields_name + ']' + cls_attr.substring(cls_attr.lastIndexOf(']'));
-                                                $(this).removeClass(cls_attr);
-                                                $(this).addClass(new_cls_attr);
+                                                if (typeof cls_attr != 'undefined') {
+                                                    var new_cls_attr = cls_attr.substring(0, cls_attr.lastIndexOf(']')) + 'condRequired[' + all_fields_name + ']' + cls_attr.substring(cls_attr.lastIndexOf(']'));
+                                                    $(this).removeClass(cls_attr);
+                                                    $(this).addClass(new_cls_attr);
+                                                }
                                             }
                                         });
                                     });
@@ -110,9 +112,11 @@
                                 $(this).find('input[type=text], select').each(function () {
                                     if ($(this).attr('name').indexOf('end_year') == -1) {
                                         var cls_attr = $(this).attr('class');
-                                        var new_cls_attr = cls_attr.substring(0, cls_attr.lastIndexOf(']')) + 'condRequired[' + all_fields_name + ']' + cls_attr.substring(cls_attr.lastIndexOf(']'));
-                                        $(this).removeClass(cls_attr);
-                                        $(this).addClass(new_cls_attr);
+                                        if (typeof cls_attr != 'undefined') {
+                                            var new_cls_attr = cls_attr.substring(0, cls_attr.lastIndexOf(']')) + 'condRequired[' + all_fields_name + ']' + cls_attr.substring(cls_attr.lastIndexOf(']'));
+                                            $(this).removeClass(cls_attr);
+                                            $(this).addClass(new_cls_attr);
+                                        }
                                     }
                                 });
                             });

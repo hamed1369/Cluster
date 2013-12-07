@@ -73,7 +73,7 @@ class RegisterForm(ClusterBaseModelForm):
         self.user = None
         if 'user' in kwargs:
             self.user = kwargs.pop('user')
-
+        self.domain = None
         super(RegisterForm, self).__init__(*args, **kwargs)
         self.fields['national_code'].required = True
         self.fields['birth_date'].required = True
@@ -94,18 +94,28 @@ class RegisterForm(ClusterBaseModelForm):
                                                                 widget=forms.RadioSelect(), initial=False)
         self.fields['foundation_of_elites'].label = u"آیا عضو بنیاد ملی نخبگان می باشید؟"
 
+        self.fields['new_domain'] = forms.CharField(required=False, label=u"نام حوزه")
+        self.fields['domain'].queryset = Domain.objects.filter(confirmed=True)
+        self.fields['domain'].required = False
+        self.fields['domain'].empty_label = u"سایر"
         if self.user and not self.user.is_anonymous():
             self.fields['first_name'].initial = self.user.first_name
             self.fields['last_name'].initial = self.user.last_name
             self.fields['email'].initial = self.user.email
 
         if self.instance and self.instance.id:
+            self.domain = self.instance.domain
             if self.instance.cluster and self.instance.cluster.head != self.instance:
                 self.fields['domain'].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})
                 self.fields['domain'].required = False
-                self.domain = self.instance.domain
             elif not self.instance.cluster:
                 self.fields['domain'].queryset = Domain.objects.filter(confirmed=True)
+                if self.instance.domain and self.instance.domain.confirmed is False:
+                    self.fields['new_domain'].initial = self.instance.domain.name
+                    self.fields['domain'].initial = None
+                else:
+                    self.fields['new_domain'].is_hidden = True
+
             self.fields.insert(3, 'change_password',
                                forms.ChoiceField(required=False, choices=BOOLEAN_CHOICES, widget=forms.RadioSelect(),
                                                  label=u"ویرایش گذرواژه", initial=False))
@@ -152,9 +162,15 @@ class RegisterForm(ClusterBaseModelForm):
             if users:
                 self._errors['username'] = self.error_class([u'این نام کاربری تکراری است. لطفا نام دیگری انتخاب کنید.'])
 
+        domain = cd.get('domain')
+        new_domain = cd.get('new_domain')
+        if not domain and not new_domain:
+            self._errors['new_domain'] = self.error_class(
+                [u"در صورت انتخاب سایر حوزه های فعالیت باید حوزه فعالیت مربوط به خود را وارد نمایید."])
+
         return cd
 
-    def save(self, commit=True, user=None):
+    def save(self, commit=True, user=None, is_cluster=None):
         member = super(RegisterForm, self).save(commit)
         first_name = self.cleaned_data.get('first_name')
         last_name = self.cleaned_data.get('last_name')
@@ -162,8 +178,20 @@ class RegisterForm(ClusterBaseModelForm):
         password = self.cleaned_data.get('password')
         email = self.cleaned_data.get('email')
         change_pass = self.cleaned_data.get('change_password')
+        domain = self.cleaned_data.get('domain')
+        new_domain = self.cleaned_data.get('new_domain')
         if self.instance.cluster and self.instance.cluster.head != self.instance:
             member.domain = self.domain
+
+        if is_cluster in [False, 'False'] and not domain and new_domain:
+            if self.domain and self.domain.confirmed is False:
+                self.domain.name = new_domain
+                self.domain.save()
+                member.domain = self.domain
+            else:
+                member.domain = Domain.objects.create(name=new_domain)
+        elif is_cluster in [False, 'False'] and domain.confirmed and self.domain and self.domain.confirmed is False:
+            self.domain.delete()
         try:
             if not user:
                 user = member.user

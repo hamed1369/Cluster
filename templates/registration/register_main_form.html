@@ -1,6 +1,7 @@
+{% load account_template_tags %}
 <fieldset class="inner_fieldset">
     <legend>اطلاعات عمومی<span class="required_field">*</span></legend>
-    <p>لطفا تمامی  فیلدها به جز فیلد نام کاربری و پست الکترونیک را به صورت فارسی وارد نمایید.</p>
+    <p>لطفا تمامی فیلدها به جز فیلد نام کاربری و پست الکترونیک را به صورت فارسی وارد نمایید.</p>
     <table class="register_table">
         <tr>
             <td class="label_td">{{ register_form.domain.label }}
@@ -8,6 +9,14 @@
             <td class="input_td">{{ register_form.domain }}</td>
             {% if register_form.domain.errors %}
                 <td class="error_td" width="30%">{{ register_form.domain.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr {% if register_form.new_domain.field.is_hidden|is_true %}style="display: none;"{% endif %}>
+            <td class="label_td">{{ register_form.new_domain.label }}
+            </td>
+            <td class="input_td">{{ register_form.new_domain }}</td>
+            {% if register_form.new_domain.errors %}
+                <td class="error_td" width="30%">{{ register_form.new_domain.errors }}</td>
             {% endif %}
 
         </tr>
@@ -150,15 +159,15 @@
                 <td class="error_td" width="30%">{{ register_form.telephone.errors }}</td>
             {% endif %}
         </tr>
-{#        <tr>#}
-{##}
-{#            <td class="label_td">{{ register_form.essential_telephone.label }}#}
-{#            </td>#}
-{#            <td class="input_td">{{ register_form.essential_telephone }}</td>#}
-{#            {% if register_form.essential_telephone.errors %}#}
-{#                <td class="error_td" width="30%">{{ register_form.essential_telephone.errors }}</td>#}
-{#            {% endif %}#}
-{#        </tr>#}
+        {#        <tr>#}
+        {##}
+        {#            <td class="label_td">{{ register_form.essential_telephone.label }}#}
+        {#            </td>#}
+        {#            <td class="input_td">{{ register_form.essential_telephone }}</td>#}
+        {#            {% if register_form.essential_telephone.errors %}#}
+        {#                <td class="error_td" width="30%">{{ register_form.essential_telephone.errors }}</td>#}
+        {#            {% endif %}#}
+        {#        </tr>#}
         <tr>
 
             <td class="label_td">{{ register_form.address.label }}
