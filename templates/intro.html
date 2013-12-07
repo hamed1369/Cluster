@@ -278,14 +278,14 @@
         <div class="inner-intro-div" id="newss">
             {{ news_content|safe }}
         </div>
-        <div class="inner-intro-div" id="linkss">
-            <ul>
+        <div class="inner-intro-div" id="linkss" style="height: 200px;overflow-y: scroll;">
+            <table>
             {% for item in links_list %}
-                <li><a href="{{ item.url }}">{{ item.title }}</a></li>
+                {% cycle '<tr><td>' '<td>'%}  <a href="{{ item.url }}">{{ item.title }}</a> {% cycle '</td>' '</td></tr>' %}
             {% empty %}
                 <p>پیوندی یافت نشد.</p>
             {% endfor %}
-            </ul>
+            </table>
         </div>
     </div>
 </div>
