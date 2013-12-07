@@ -16,7 +16,7 @@ class ShamsiWidget(forms.DateInput):
             $('#id_%s').datepicker({
                 changeMonth: true,
                 changeYear: true,
-                yearRange:'1300,1400',
+                yearRange:'-50:+50',
                 dateFormat: 'yy/mm/dd'
             });
         </script>

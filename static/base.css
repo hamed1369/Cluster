@@ -480,3 +480,7 @@ fieldset legend {
 .art-postcontent ol, .art-post ol, .art-textblock ol, .art-postcontent ul, .art-post ul, .art-textblock ul {
     margin: 0px;
 }
+
+#logo-container {
+    cursor: pointer;
+}
