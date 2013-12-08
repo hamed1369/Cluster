@@ -8,8 +8,8 @@ __author__ = 'hamed'
 
 def news_detail(request,news_id):
     try:
-        news = News.objects.get(id=news_id)
-    except News.DoesNotExist:
+        news = News.objects.get(id=int(news_id))
+    except Exception:
         return Http404()
     return render_to_response('news.html', {'news':news},
                           context_instance=RequestContext(request))
