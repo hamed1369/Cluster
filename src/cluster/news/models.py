@@ -10,7 +10,7 @@ from django.db import models
 
 class News(models.Model):
     title = models.CharField(verbose_name=u"عنوان", max_length=255)
-    body = models.CharField(verbose_name=u"متن", max_length=1000)
+    body = models.CharField(verbose_name=u"متن", max_length=10000)
     creator = models.ForeignKey(User, verbose_name=u"ایجادکننده", related_name='news')
     created_on = models.DateField(verbose_name=u"تاریخ ایجاد", auto_now_add=True)
     publish_date = models.DateField(verbose_name=u"تاریخ انتشار")
