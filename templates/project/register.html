@@ -33,7 +33,7 @@
         <form action="" method="post" enctype="multipart/form-data" id="project_form" class="js-validation-from">
             {% csrf_token %}
             {% block form_body %}
-                <div class="middle"><a class="button_link" href="{{ MEDIA_URL }}proposal_sample.docx">دریافت فرم
+                <div class="middle"><a class="button_link" href="{{ MEDIA_URL }}sample_proposal.docx">دریافت فرم
                     پروپوزال</a></div>
                 {% include 'project/project_main_form.html' %}
                 <div class="button_holder">

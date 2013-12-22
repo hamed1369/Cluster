@@ -12,6 +12,7 @@ class IntroPageForm(ClusterBaseModelForm):
 
     class Meta:
         model = IntroPageContent
+        exclude = ('proposal_sample',)
 
     def __init__(self, *args, **kwargs):
         super(IntroPageForm, self).__init__(*args, **kwargs)
@@ -30,6 +31,18 @@ class IntroPageForm(ClusterBaseModelForm):
 
     def save(self, commit=True):
         instance = super(IntroPageForm, self).save(commit)
+        IntroPageContent.instance = None
+        return instance
+
+
+class ProposalUploadForm(ClusterBaseModelForm):
+
+    class Meta:
+        model = IntroPageContent
+        exclude = ('content',)
+
+    def save(self, commit=True):
+        instance = super(ProposalUploadForm, self).save(commit)
         IntroPageContent.instance = None
         return instance
 

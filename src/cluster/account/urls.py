@@ -7,5 +7,7 @@ urlpatterns = patterns('',
                        url(r'^edit/$', 'cluster.account.views.accounts.edit_account', name='edit_accounts'),
                        url(r'^edit_intro_page_content/$', 'cluster.account.management.views.edit_intro_page',
                            name='edit_intro_page'),
+                       url(r'^proposal_sample/$', 'cluster.account.management.views.proposal_sample',
+                           name='proposal_sample'),
                        url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout'),
 )
