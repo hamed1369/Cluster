@@ -198,8 +198,8 @@ class MessageShowForm(ClusterBaseModelForm):
 
 class EmailSendForm(ClusterBaseForm):
     EMAILS = (
-        ('noreply@persianelites.com','noreply@persianelites.com'),
-        ('newsletter@persianelites.com','newsletter@persianelites.com')
+        ('noreply@persianelites.com',u'noreply@persianelites.com'),
+        ('newsletter@persianelites.com',u'newsletter@persianelites.com')
     )
     email = forms.ChoiceField(label=u"ایمیل ارسال",choices=EMAILS)
     receivers = EmailsListField(
