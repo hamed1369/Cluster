@@ -197,6 +197,10 @@
                 <li><a href="/projects_arbitration/">داوری طرح ها</a></li>
                 <li><a href="/messages/">جعبه پیام</a></li>
             {% endif %}
+            {% if user|check_role:"supervisor" %}
+                <li><a href="/accounts/edit/">پروفایل</a></li>
+                    <li><a href="/projects_supervision/">بررسی طرح ها</a></li>
+            {% endif %}
         </ul>
         <div style="position: absolute;left:0px;top:3px;font-size: 15px;font-weight: bold;">
             {% get_current_date_time %}
@@ -279,8 +283,10 @@
         </div>
 
         </div>
-        <div class="inner-intro-div" id="newss">
+        <div class="inner-intro-div" id="newss" >
+            <div style="overflow-y: scroll;height:210px;">
             {{ news_content|safe }}
+            </div>
         </div>
         <div class="inner-intro-div" id="linkss" style="height: 200px;overflow-y: scroll;">
             <table>

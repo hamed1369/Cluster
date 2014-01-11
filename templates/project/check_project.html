@@ -46,6 +46,16 @@
     <fieldset class="inner_fieldset">
         <legend>{{ title }}</legend>
         <table class="register_table">
+            <tr {% if form.allow_edit.field.is_hidden|is_true %}style="display: none;"{% endif %}>
+                <td class="label_td">{{ form.allow_edit.label }}
+                    {% if form.allow_edit.field.required %}<span class="required_field">*</span>{% endif %}
+                </td>
+                <td class="input_td">{{ form.allow_edit }}</td>
+                {% if form.allow_edit.errors %}
+                    <td class="error_td" width="30%">{{ form.allow_edit.errors }}</td>
+                {% endif %}
+            </tr>
+
             <tr {% if form.title.field.is_hidden|is_true %}style="display: none;"{% endif %}>
                 <td class="label_td">{{ form.title.label }}
                     {% if form.title.field.required %}<span class="required_field">*</span>{% endif %}

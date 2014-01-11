@@ -46,10 +46,8 @@ class MemberAggregationManager(ObjectsManager):
         super(MemberAggregationManager, self).__init__(http_request)
 
         member_ages = self.get_all_data_cashed()
-        print Member.objects.all().count()
         for age_range in member_ages:
             range_members = Member.objects.filter(birth_date__range=(age_range.from_date, age_range.until_date))
-            print range_members.count()
             confirmed_members = range_members.filter(is_confirmed=True).distinct().count()
             age_range.confirmed_members = confirmed_members
             unconfirmed_members = range_members.filter(is_confirmed__isnull=True).distinct().count()

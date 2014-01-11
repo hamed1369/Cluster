@@ -90,7 +90,7 @@ class ProjectForm(ClusterBaseModelForm):
 class ProjectManagerForm(ProjectForm):
     class Meta:
         model = Project
-        exclude = ('single_member', 'cluster', 'score', 'supervisor')
+        exclude = ('single_member', 'cluster', 'score', 'supervisor','allow_edit')
 
     def __init__(self, *args, **kwargs):
         kwargs['user'] = None
@@ -120,7 +120,7 @@ class ArbiterProjectManagerForm(ProjectManagerForm):
         super(ProjectManagerForm, self).__init__(*args, **kwargs)
         self.fields.keyOrder = ['title', 'has_confirmation', 'confirmation_type', 'certificate_image', 'has_patent',
                                 'patent_number', 'patent_date', 'patent_certificate', 'patent_request', 'domain',
-                                'summary', 'keywords', 'innovations', 'state', 'proposal', 'attended_members']
+                                'summary', 'keywords', 'innovations', 'state', 'proposal', 'attended_members','allow_edit']
         if not 'attended_members' in self.fields:
             self.fields.keyOrder.remove('attended_members')
         process_js_validations(self)
@@ -143,18 +143,18 @@ class AdminProjectManagerForm(ProjectManagerForm):
         self.fields.keyOrder = ['title', 'has_confirmation', 'confirmation_type', 'certificate_image', 'has_patent',
                                 'patent_number', 'patent_date', 'patent_certificate', 'patent_request', 'domain',
                                 'summary', 'keywords', 'innovations', 'supervisor', 'state', 'proposal',
-                                'attended_members', 'project_status', 'score']
+                                'attended_members', 'project_status', 'score','allow_edit']
         if self.instance and self.instance.id:
             if self.instance.project_status != 1:
                 self.fields['score'].is_hidden = True
         self.fields['project_status'].choices = (
             (-1, u"رد شده"),
             (0, u"در مرحله درخواست"),
-            (1, u"تایید مرحله اول"),
+            (1, u"مورد تایید ناظر"),
+            (2, u"تایید مرحله اول"),
             #(2, u"تاییدشده توسط داور"),
             (3, u"تایید مرحله دوم"),
             (4, u"تکمیل شده"),
-
         )
         if not 'attended_members' in self.fields:
             self.fields.keyOrder.remove('attended_members')

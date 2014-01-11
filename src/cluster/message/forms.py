@@ -197,6 +197,11 @@ class MessageShowForm(ClusterBaseModelForm):
 
 
 class EmailSendForm(ClusterBaseForm):
+    EMAILS = (
+        ('noreply@persianelites.com','noreply@persianelites.com'),
+        ('newsletter@persianelites.com','newsletter@persianelites.com')
+    )
+    email = forms.ChoiceField(label=u"ایمیل ارسال",choices=EMAILS)
     receivers = EmailsListField(
         label=u"گیرنده ها  (می توانید گیرنده ها را در سطرهای جداگانه وارد کنید یا گیرنده ها را با ',' از هم جدا نمایید)",
         widget=forms.Textarea({'style': 'direction:ltr;'}))

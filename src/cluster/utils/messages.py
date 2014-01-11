@@ -29,17 +29,19 @@ class MessageServices(object):
             logging.error(s)
 
     @staticmethod
-    def send_mass_message(subject, body, receivers):
+    def send_mass_message(subject, body, receivers,email=None):
         try:
             msg_body = """
                 <div style="font-family: tahoma, sans-serif;font-size: 12px;text-align: right;direction: rtl;">
                     %s
                 </div>
             """ % body
+            if not email:
+                email = MessageServices.from_email
             connection = get_connection(username=None,
                                         password=None,
                                         fail_silently=None)
-            message = EmailMultiAlternatives(subject=subject, body='', from_email=MessageServices.from_email,
+            message = EmailMultiAlternatives(subject=subject, body='', from_email=email,
                                              bcc=receivers, )
             message.attach_alternative(msg_body, 'text/html')
             messages = [message]

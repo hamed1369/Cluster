@@ -41,6 +41,8 @@ def check_role(user, role_name):
         return PermissionController.is_admin(user)
     elif role_name == 'arbiter':
         return PermissionController.is_arbiter(user)
+    elif role_name == 'supervisor':
+        return PermissionController.is_supervisor(user)
     return False
 
 

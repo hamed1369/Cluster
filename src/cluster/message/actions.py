@@ -72,10 +72,11 @@ class SendEmail(ManagerAction):
         if http_request.method == 'POST':
             form = EmailSendForm(http_request.POST)
             if form.is_valid():
+                email = form.cleaned_data.get('email')
                 receivers = form.cleaned_data.get('receivers')
                 subject = form.cleaned_data.get('subject')
                 body = form.cleaned_data.get('body')
-                MessageServices.send_mass_message(subject, body, receivers)
+                MessageServices.send_mass_message(subject, body, receivers,email)
                 form = None
                 messages.success(http_request, u"پست الکترونیک ارسال شد.")
         else:

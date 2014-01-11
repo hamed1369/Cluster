@@ -198,7 +198,7 @@ class EditProjectAction(ManagerAction):
             raise Http404()
 
         instance = selected_instances[0]
-        if instance.project_status > 0:
+        if instance.project_status > 0 and not instance.allow_edit:
             ProjectMilestoneForm = inlineformset_factory(Project, ProjectMilestone, form=MilestoneForm, extra=0)
             form = ProjectManagerForm(instance=instance)
             for field in form.fields:

@@ -38,7 +38,6 @@ class News(models.Model):
         return res
 
     def publish_date_pdate(self):
-        print self.publish_date,"  ",type(self.publish_date)
         if isinstance(self.publish_date,str):
             return "none"
         return pdate(self.publish_date)

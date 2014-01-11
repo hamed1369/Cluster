@@ -29,7 +29,8 @@ class Project(models.Model):
     STATUS = (
         (-1, u"رد شده"),
         (0, u"در مرحله درخواست"),
-        (1, u"تایید مرحله اول"),
+        (1, u"مورد تایید ناظر"),
+        (2, u"تایید مرحله اول"),
         #(2, u"تاییدشده توسط داور"),
         (3, u"تایید مرحله دوم"),
         (4, u"تکمیل شده"),
@@ -62,6 +63,7 @@ class Project(models.Model):
     supervisor = models.ForeignKey(Supervisor, verbose_name=u"ناظر طرح", null=True, blank=True,
                                    on_delete=models.SET_NULL)
     score = models.FloatField(verbose_name=u"امتیاز", null=True, blank=True)
+    allow_edit = models.BooleanField(u"اجازه ویرایش پس از تایید", default=False)
 
     class Meta:
         verbose_name = u"طرح"

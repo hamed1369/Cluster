@@ -49,6 +49,7 @@ class MessageManager(ObjectsManager):
         return body
 
 
+
 class LinkFilterForm(ClusterFilterModelForm):
     class Meta:
         model = Link

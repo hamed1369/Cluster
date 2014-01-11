@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 from django.db import models
-from django.conf import settings
 import os
+from tinymce.models import HTMLField
 __author__ = 'Hourshad'
 
 def update_filename(instance, filename):
@@ -17,7 +17,7 @@ class IntroPageContent(models.Model):
         verbose_name = u"محتوای صفحه اول"
         verbose_name_plural = u"محتوای صفحه اول"
         app_label = 'account'
-    content = models.TextField(u"محتوای صفحه اول", max_length=5000)
+    content = HTMLField(u"محتوای صفحه اول", max_length=5000)
     proposal_sample = models.FileField(u"نمونه پروپوزال", upload_to=update_filename,null=True,blank=False)
 
     instance = None
