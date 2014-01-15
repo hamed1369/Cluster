@@ -18,7 +18,7 @@ class ProjectForm(ClusterBaseModelForm):
 
     class Meta:
         model = Project
-        exclude = ('single_member', 'cluster', 'project_status', 'score', 'supervisor')
+        exclude = ('single_member', 'cluster', 'project_status', 'score', 'supervisor','allow_edit')
 
     js_validation_configs = {
         'excludes_required': 'attended_members, proposal'
@@ -37,6 +37,7 @@ class ProjectForm(ClusterBaseModelForm):
             (7, u"سایر دانشگاه ها و مراکز دولتی"),
         )
         self.fields['confirmation_type'].required = False
+        self.fields['domain'].required = True
         self.fields['domain'].required = True
         self.fields['domain'].queryset = Domain.objects.filter(confirmed=True)
         self.fields['has_patent'] = forms.ChoiceField(required=True, choices=BOOLEAN_CHOICES,
