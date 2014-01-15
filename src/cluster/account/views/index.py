@@ -8,6 +8,7 @@ from django.template.loader import render_to_string
 from cluster.account.forms import SignInForm
 from cluster.account.management.forms import IntroPageForm
 from cluster.account.management.models import IntroPageContent
+from cluster.account.views.accounts import get_statistics
 from cluster.feedback.forms import ContactForm
 from cluster.news.models import News, Link
 
@@ -27,6 +28,8 @@ def index(request):
     else:
         contact_form = ContactForm(prefix='contact')
     template = Template(IntroPageContent.get_instance().content)
+    statistics = get_statistics()
     context = RequestContext(request, {'login_form': login_form, 'has_submited': has_submited, 'news_content': News.get_html(),
-                                       'links_list': links_list, 'contact_form': contact_form})
-    return HttpResponse(template.render(context))
+                                       'links_list': links_list, 'contact_form': contact_form,'statistics':statistics})
+    #return HttpResponse(template.render(context))
+    return render_to_response('intro.html',context)

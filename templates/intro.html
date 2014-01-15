@@ -208,6 +208,14 @@
     </div>
 </div>
 <div id="introduction">
+    <div class="statistics" style="position: absolute;right: 0px;bottom:-280px;width: 150px;height: 230px;background-color:#696969;direction: rtl;">
+        <table style="font-size: 20px;">
+            {% for item in statistics %}
+                <tr><td style="width: 200px;">{{ item.key }}</td><td style="width: 100px;">{{ item.value }}</td></tr>
+            {% endfor %}
+        </table>
+
+    </div>
     <div id="inner-introduction">
         <div class="inner-intro-div" id="introo">
             <p>

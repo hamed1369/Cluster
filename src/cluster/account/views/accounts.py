@@ -9,13 +9,11 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from django.db.models.aggregates import Sum
 from django.http import Http404, HttpResponseRedirect
 
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from tracking.models import Visitor
-from cluster.account.account.models import Member
 from cluster.account.forms import AdminForm, SupervisorForm
 from cluster.registration.handlers import ClusterHandler
 from cluster.utils.permissions import PermissionController
@@ -87,20 +85,24 @@ class StatisticRecord(object):
         self.key = key
         self.value = value
 
-@login_required
-def statistics(request):
+def get_statistics():
     today = datetime.date.today
     tomorrow = datetime.date.today() + datetime.timedelta(days=1)
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
     last_month = datetime.date.today() - datetime.timedelta(days=30)
-    today_visits = Visitor.objects.filter(start_time__gte=today,start_time__lt = tomorrow).count()
-    yesterday_visits = Visitor.objects.filter(start_time__gte=yesterday,start_time__lt = today).count()
-    last_month_visits = Visitor.objects.filter(start_time__gte=last_month,start_time__lt = tomorrow).count()
+    today_visits = Visitor.objects.filter(session_start__gte=today,session_start__lt = tomorrow).count()
+    yesterday_visits = Visitor.objects.filter(session_start__gte=yesterday,session_start__lt = today).count()
+    last_month_visits = Visitor.objects.filter(session_start__gte=last_month,session_start__lt = tomorrow).count()
     overrall_visits = Visitor.objects.all().count()
     statistics = []
     statistics.append(StatisticRecord('بازدید های امروز',today_visits))
     statistics.append(StatisticRecord('بازدید های دیروز',yesterday_visits))
     statistics.append(StatisticRecord('بازدید های 30 روز گذشته',last_month_visits))
     statistics.append(StatisticRecord('کل بازدیدها',overrall_visits))
+    return statistics
+
+@login_required
+def statistics(request):
+    statistics = get_statistics()
     return render_to_response('statistics.html', {'statistics':statistics},
                       context_instance=RequestContext(request))
