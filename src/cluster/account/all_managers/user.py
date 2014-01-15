@@ -43,7 +43,7 @@ class UserManager(ObjectsManager):
 class VisitorForm(ClusterBaseModelForm):
     class Meta:
         model = Visitor
-        exclude = ('session_key','ip_address','user_agent','referrer','url','page_views','session_start','last_update')
+        exclude = ('session_key','ip_address','user_agent','referrer','url','page_views','start_time','last_update')
 
     def __init__(self, *args, **kwargs):
         super(VisitorForm, self).__init__(*args, **kwargs)
@@ -62,8 +62,8 @@ class VisitorManager(ObjectsManager):
     actions = [
     ]
     filter_handlers = (
-        ('session_start', 'pdate', 'milestones__milestone_date__gte'),
-        ('session_start', 'pdate', 'milestones__milestone_date__lte'),
+        ('start_time_from', 'pdate', 'start_time__gte'),
+        ('start_time_until', 'pdate', 'start_time__lte'),
         ('first_name', 'str', 'user__first_name'),
         ('last_name', 'str', 'user__last_name'),
 
@@ -75,7 +75,7 @@ class VisitorManager(ObjectsManager):
         columns = [
             ManagerColumn('ip_address', u"IP", 7),
             ManagerColumn('user', u"کاربر", 3),
-            ManagerColumn('session_start', u"تاریخ بازدید", 3),
+            ManagerColumn('start_time', u"تاریخ بازدید", 3),
             ManagerColumn('session_key', u"کلید نشست", 7),
         ]
         return columns
