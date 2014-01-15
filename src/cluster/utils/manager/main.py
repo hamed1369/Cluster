@@ -160,7 +160,10 @@ class ObjectsManager(object):
                     function = getattr(self, 'get_' + column.column_name)
                     value = function(data)
                 else:
-                    value = getattr(data, column.column_name)
+                    if column.column_name == 'id':
+                        value = getattr(data, 'pk')
+                    else:
+                        value = getattr(data, column.column_name)
                 if isinstance(value, bool):
                     if value is True:
                         value = u"بله"
