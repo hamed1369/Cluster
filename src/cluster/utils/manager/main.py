@@ -195,7 +195,7 @@ class ObjectsManager(object):
             instances = []
             all_data = self.get_all_data_cashed()
             for data in all_data:
-                if data.id in instances_id:
+                if data.pk in instances_id:
                     instances.append(data)
             return instances
         return []
