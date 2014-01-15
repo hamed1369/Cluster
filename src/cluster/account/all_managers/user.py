@@ -43,23 +43,30 @@ class UserManager(ObjectsManager):
 class VisitorForm(ClusterBaseModelForm):
     class Meta:
         model = Visitor
+        exclude = ('session_key','ip_address','user_agent','referrer','url','page_views','session_start','last_update')
 
     def __init__(self, *args, **kwargs):
         super(VisitorForm, self).__init__(*args, **kwargs)
         self.fields['start_time_from'] = forms.DateField(label=u"بازدید از تاریخ", required=False)
         self.fields['start_time_until'] = forms.DateField(label=u"بازدید تا تاریخ", required=False)
+        self.fields['first_name'] = forms.CharField(label=u"نام", required=False)
+        self.fields['last_name'] = forms.CharField(label=u"نام خانوادگی", required=False)
+
         handel_date_fields(self)
 
 
 class VisitorManager(ObjectsManager):
     manager_name = u"visitors"
-    manager_verbose_name = u"اخبار"
+    manager_verbose_name = u"آمار سایت"
     filter_form = VisitorForm
     actions = [
     ]
     filter_handlers = (
-        ('start_time', 'pdate', 'milestones__milestone_date__gte'),
-        ('start_time', 'pdate', 'milestones__milestone_date__lte'),
+        ('session_start', 'pdate', 'milestones__milestone_date__gte'),
+        ('session_start', 'pdate', 'milestones__milestone_date__lte'),
+        ('first_name', 'str', 'user__first_name'),
+        ('last_name', 'str', 'user__last_name'),
+
     )
     def get_all_data(self):
         return Visitor.objects.filter()
@@ -67,8 +74,8 @@ class VisitorManager(ObjectsManager):
     def get_columns(self):
         columns = [
             ManagerColumn('ip_address', u"IP", 7),
-            ManagerColumn('user', u"کاربر", 20),
-            ManagerColumn('created_on', u"تاریخ ایجاد", 3),
-            ManagerColumn('publish_date', u"تاریخ انتشار", 3),
+            ManagerColumn('user', u"کاربر", 3),
+            ManagerColumn('session_start', u"تاریخ بازدید", 3),
+            ManagerColumn('session_key', u"کلید نشست", 7),
         ]
         return columns
