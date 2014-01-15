@@ -6,6 +6,7 @@ from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.utils.html import strip_tags
 from django.utils.safestring import SafeUnicode, SafeString
+from tracking.models import Visitor
 from cluster.utils.calverter import gregorian_to_jalali
 from cluster.utils.manager.filter import Filter
 from cluster.utils.manager.table import Table, Header, Row
@@ -156,14 +157,14 @@ class ObjectsManager(object):
         for data in page_data:
             row = Row()
             for column in columns:
+                column_name = column.column_name
+                if isinstance(data, models.Model) and isinstance(data, Visitor) and column_name == 'id':
+                    column_name = 'session_key'
                 if column.is_variable:
-                    function = getattr(self, 'get_' + column.column_name)
+                    function = getattr(self, 'get_' + column_name)
                     value = function(data)
                 else:
-                    if column.column_name == 'id':
-                        value = getattr(data, 'pk')
-                    else:
-                        value = getattr(data, column.column_name)
+                    value = getattr(data, column_name)
                 if isinstance(value, bool):
                     if value is True:
                         value = u"بله"
@@ -172,13 +173,14 @@ class ObjectsManager(object):
                 elif isinstance(value, date):
                     value = gregorian_to_jalali(value)
                 elif isinstance(data, models.Model) and not column.is_variable:
-                    if data.__class__._meta.get_field_by_name(column.column_name)[0].choices:
-                        value = getattr(data, 'get_' + column.column_name + '_display')()
+
+                    if data.__class__._meta.get_field_by_name(column_name)[0].choices:
+                        value = getattr(data, 'get_' + column_name + '_display')()
                 if not isinstance(value, (SafeUnicode, SafeString)):
                     value = unicode(value)
                 if value is None or value == 'None':
                     value = u"---"
-                row.create_cell(column.column_name, value, column.column_width, column.aggregation)
+                row.create_cell(column_name, value, column.column_width, column.aggregation)
             table.add_row(row)
         return table
 
