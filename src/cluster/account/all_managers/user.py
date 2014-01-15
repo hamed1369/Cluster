@@ -62,7 +62,7 @@ class VisitorManager(ObjectsManager):
     actions = [
     ]
     filter_handlers = (
-        ('start_time_from', 'pdate', 'start_time__gte'),
+        ('start_time_from', 'pdate', 'start_time__gt'),
         ('start_time_until', 'pdate', 'start_time__lte'),
         ('first_name', 'str', 'user__first_name'),
         ('last_name', 'str', 'user__last_name'),
