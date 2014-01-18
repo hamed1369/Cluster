@@ -346,9 +346,19 @@ class ClusterHandler(object):
         user = None
         if self.has_cluster:
             user = self.http_request.user if not self.http_request.user.is_anonymous() else None
+
+        is_cluster = False
+        if self.cluster_form:
+            if self.member and self.member.cluster and self.member.cluster.head and self.member.cluster.head != self.member:
+                is_cluster = False
+            else:
+                is_cluster = self.cluster_form.cleaned_data.get('is_cluster')
+        else:
+            is_cluster = False
+
         member = self.register_form.save(
             commit=False,
-            user=user, is_cluster=self.cluster_form.cleaned_data.get('is_cluster') if self.cluster_form else False
+            user=user, is_cluster=is_cluster
         )
 
         member.save()

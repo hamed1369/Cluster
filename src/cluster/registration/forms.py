@@ -106,8 +106,16 @@ class RegisterForm(ClusterBaseModelForm):
         if self.instance and self.instance.id:
             self.domain = self.instance.domain
             if self.instance.cluster and self.instance.cluster.head != self.instance:
+                self.fields['domain'].queryset = Domain.objects.filter()
                 self.fields['domain'].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})
                 self.fields['domain'].required = False
+                self.fields['new_domain'].is_hidden = True
+                if self.data:
+                    if self.prefix:
+                        field_name = self.prefix + '-domain'
+                    else:
+                        field_name = 'domain'
+                    self.data[field_name] = self.domain.id
             elif not self.instance.cluster:
                 self.fields['domain'].queryset = Domain.objects.filter(confirmed=True)
                 if self.instance.domain and self.instance.domain.confirmed is False:

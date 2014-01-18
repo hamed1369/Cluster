@@ -31,6 +31,8 @@ def handle_register_view(request, cluster_id=None):
         SMSService.send_sms(subject + '\n' + message_body, [member.mobile])
 
         messages.success(request, u"ثبت نام شما با موفقیت انجام شد.")
+        if request.user.is_authenticated():
+            return HttpResponseRedirect(reverse('edit_accounts'))
         return HttpResponseRedirect(reverse('login'))
 
     context = register_handler.get_context()
