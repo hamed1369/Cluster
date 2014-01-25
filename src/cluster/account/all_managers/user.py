@@ -73,8 +73,9 @@ class VisitorManager(ObjectsManager):
 
     def get_columns(self):
         columns = [
-            ManagerColumn('ip_address', u"IP", 7),
+            ManagerColumn('ip_address', u"IP", 5),
             ManagerColumn('user', u"کاربر", 3),
+            ManagerColumn('user_agent', u"عامل", 5),
             ManagerColumn('start_time', u"تاریخ بازدید", 3),
             ManagerColumn('session_key', u"کلید نشست", 7),
         ]
