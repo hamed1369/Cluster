@@ -23,7 +23,7 @@ class Project(models.Model):
         (3, u"نمونه آزمایشی"),
         (4, u"در حال تولید"),
     )
-    REJECT_STATE = -1
+    REJECT_STATE = -2
     MIDDLE_CONFIRM_STATE = 1
     CONFIRM_STATE = 3
     STATUS = (
