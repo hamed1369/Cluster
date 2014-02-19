@@ -149,7 +149,8 @@ class AdminProjectManagerForm(ProjectManagerForm):
             if self.instance.project_status != 1:
                 self.fields['score'].is_hidden = True
         self.fields['project_status'].choices = (
-            (-1, u"رد شده"),
+            (-2, u"رد شده"),
+            (-1, u"رد شده توسط ناظر"),
             (0, u"در مرحله درخواست"),
             (1, u"مورد تایید ناظر"),
             (2, u"تایید مرحله اول"),

@@ -86,7 +86,8 @@ class ProjectsManagementFilterForm(ClusterFilterModelForm):
                                                                       required=False)
         self.fields['project_status'].choices = (
             ('', u"---همه---"),
-            (-1, u"رد شده"),
+            (-2, u"رد شده"),
+            (-1, u"رد شده توسط ناظر"),
             (0, u"در مرحله درخواست"),
             (1, u"تایید مرحله اول"),
             (2, u"تایید مرحله دوم"),

@@ -27,7 +27,8 @@ class Project(models.Model):
     MIDDLE_CONFIRM_STATE = 1
     CONFIRM_STATE = 3
     STATUS = (
-        (-1, u"رد شده"),
+        (-2, u"رد شده"),
+        (-1, u"رد شده توسط ناظر"),
         (0, u"در مرحله درخواست"),
         (1, u"مورد تایید ناظر"),
         (2, u"تایید مرحله اول"),
