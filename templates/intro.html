@@ -68,6 +68,8 @@
                 startingSlide = 1;
             }else if(param == 'links'){
                 startingSlide = 3;
+            }else{
+                startingSlide = 4;
             }
             $('#inner-introduction').cycle({
                 sync: false,
@@ -87,6 +89,10 @@
             });
             $("#links-button").click(function () {
                 $('#inner-introduction').cycle(3);
+            });
+            $("#statistics-button").click(function () {
+                $('#inner-introduction').cycle(4);
+                return false;
             });
 
             $(".thumb-1").click(function () {
@@ -183,6 +189,7 @@
             <li><a href="#contact-us" id="aboutus-button">تماس با ما</a></li>
             <li><a href="#news" id="news-button">اخبار</a></li>
             <li><a href="#links" id="links-button">پیوندها</a></li>
+                <li><a href="#statistics" id="statistics-button">آمار سایت</a></li>
             {% if user|check_role:"member" %}
                 <li><a href="{% url edit_accounts %}">پروفایل</a></li>
                 <li><a href="/projects/">طرح های من</a></li>
@@ -191,7 +198,6 @@
             {% if user|check_role:"admin" %}
                 <li><a href="/projects_management/">مدیریت طرح ها</a></li>
                 <li><a href="/members/">مدیریت افراد</a></li>
-                <li><a href="/statistics/">آمار</a></li>
             {% endif %}
             {% if user|check_role:"arbiter" %}
                 <li><a href="/arbiter_edit/">پروفایل</a></li>
@@ -209,14 +215,6 @@
     </div>
 </div>
 <div id="introduction">
-    <div class="statistics" style="position: absolute;right: 0px;bottom:-220px;width: 170px;height: 125px;background-color:#1570a6;direction: rtl;">
-        <table style="font-size: 20px;">
-            {% for item in statistics %}
-                <tr><td style="width: 200px;font-size: 15px;">{{ item.key }}</td><td style="width: 100px;font-size: 15px;">{{ item.value }}</td></tr>
-            {% endfor %}
-        </table>
-
-    </div>
     <div id="inner-introduction">
         <div class="inner-intro-div" id="introo">
             <p>
@@ -304,6 +302,13 @@
             {% empty %}
                 <p>پیوندی یافت نشد.</p>
             {% endfor %}
+            </table>
+        </div>
+        <div class="inner-intro-div" id="statistics">
+            <table style="font-size: 20px;">
+                {% for item in statistics %}
+                    <tr><td style="width: 200px;font-size: 20px;">{{ item.key }}</td><td style="width: 100px;font-size: 15px;">{{ item.value }}</td></tr>
+                {% endfor %}
             </table>
         </div>
     </div>

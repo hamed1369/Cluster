@@ -67,3 +67,17 @@ class Link(models.Model):
     def create_news(title, link, order):
         news = Link.objects.create(title=title, link=link, order=order)
         return news
+
+
+class File(models.Model):
+    file = models.FileField(u"فایل",upload_to='attachments/')
+
+
+    class Meta:
+        app_label = 'news'
+        verbose_name = u"فایل"
+        verbose_name_plural = u"فایل ها"
+
+
+    def __unicode__(self):
+        return self.file.url
