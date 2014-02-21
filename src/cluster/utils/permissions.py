@@ -133,7 +133,8 @@ MENU_MAPPERS = {
         MenuMapper('/members_aggregation/', u"گزارش تجمیعی اعضا"),
         MenuMapper('/accounts/edit_intro_page_content/', u"مدیریت محتوای صفحه اصلی"),
         MenuMapper('/accounts/proposal_sample/', u"فایل نمونه پروپوزال"),
-        MenuMapper('/visitors/', u"آمار سایت")
+        MenuMapper('/visitors/', u"آمار سایت"),
+        MenuMapper('/admin/news/file/', u"آپلود فایل")
     ],
     'arbiter': [
         MenuMapper('/', u"صفحه اصلی"),
