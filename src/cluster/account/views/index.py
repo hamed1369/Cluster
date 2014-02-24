@@ -11,6 +11,7 @@ from cluster.account.management.models import IntroPageContent
 from cluster.account.views.accounts import get_statistics
 from cluster.feedback.forms import ContactForm
 from cluster.news.models import News, Link
+from cluster.project.models import Project
 
 __author__ = 'M.Y'
 
@@ -28,8 +29,9 @@ def index(request):
     else:
         contact_form = ContactForm(prefix='contact')
     template = Template(IntroPageContent.get_instance().content)
+    projects = Project.objects.filter(show_in_intro=True)
     statistics = get_statistics()
-    context = RequestContext(request, {'login_form': login_form, 'has_submited': has_submited, 'news_content': News.get_html(),
+    context = RequestContext(request, {'login_form': login_form, 'has_submited': has_submited,'projects':projects, 'news_content': News.get_html(),
                                        'links_list': links_list, 'contact_form': contact_form,'statistics':statistics})
     #return HttpResponse(template.render(context))
     return render_to_response('intro.html',context)

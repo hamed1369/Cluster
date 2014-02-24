@@ -65,6 +65,7 @@ class Project(models.Model):
                                    on_delete=models.SET_NULL)
     score = models.FloatField(verbose_name=u"امتیاز", null=True, blank=True)
     allow_edit = models.BooleanField(u"اجازه ویرایش پس از تایید",default=False)
+    show_in_intro = models.BooleanField(u"نمایش طرح در صفحه اصلی سایت",default=False)
 
     class Meta:
         verbose_name = u"طرح"

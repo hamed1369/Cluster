@@ -18,7 +18,7 @@ class ProjectForm(ClusterBaseModelForm):
 
     class Meta:
         model = Project
-        exclude = ('single_member', 'cluster', 'project_status', 'score', 'supervisor','allow_edit')
+        exclude = ('single_member', 'cluster', 'project_status', 'score', 'supervisor','allow_edit','show_in_intro')
 
     js_validation_configs = {
         'excludes_required': 'attended_members, proposal'
@@ -91,7 +91,7 @@ class ProjectForm(ClusterBaseModelForm):
 class ProjectManagerForm(ProjectForm):
     class Meta:
         model = Project
-        exclude = ('single_member', 'cluster', 'score', 'supervisor','allow_edit')
+        exclude = ('single_member', 'cluster', 'score', 'supervisor','allow_edit','show_in_intro')
 
     def __init__(self, *args, **kwargs):
         kwargs['user'] = None
@@ -121,7 +121,7 @@ class ArbiterProjectManagerForm(ProjectManagerForm):
         super(ProjectManagerForm, self).__init__(*args, **kwargs)
         self.fields.keyOrder = ['title', 'has_confirmation', 'confirmation_type', 'certificate_image', 'has_patent',
                                 'patent_number', 'patent_date', 'patent_certificate', 'patent_request', 'domain',
-                                'summary', 'keywords', 'innovations', 'state', 'proposal', 'attended_members','allow_edit']
+                                'summary', 'keywords', 'innovations', 'state', 'proposal', 'attended_members','allow_edit','show_in_intro']
         if not 'attended_members' in self.fields:
             self.fields.keyOrder.remove('attended_members')
         process_js_validations(self)
@@ -144,7 +144,7 @@ class AdminProjectManagerForm(ProjectManagerForm):
         self.fields.keyOrder = ['title', 'has_confirmation', 'confirmation_type', 'certificate_image', 'has_patent',
                                 'patent_number', 'patent_date', 'patent_certificate', 'patent_request', 'domain',
                                 'summary', 'keywords', 'innovations', 'supervisor', 'state', 'proposal',
-                                'attended_members', 'project_status', 'score','allow_edit']
+                                'attended_members', 'project_status', 'score','allow_edit','show_in_intro']
         if self.instance and self.instance.id:
             if self.instance.project_status != 1:
                 self.fields['score'].is_hidden = True

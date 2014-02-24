@@ -13,3 +13,9 @@ def news_detail(request,news_id):
         return Http404()
     return render_to_response('news.html', {'news':news},
                           context_instance=RequestContext(request))
+
+
+def archive(request):
+    news_list = News.objects.filter(archived=True).order_by('-publish_date')
+    return render_to_response('archive.html', {'news_list':news_list},
+                          context_instance=RequestContext(request))

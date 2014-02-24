@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.forms.fields import NullBooleanField
 from cluster.news.forms import NewsForm, NewsShowForm, LinkForm, LinkShowForm
 from cluster.news.models import News, Link
 from cluster.utils.forms import ClusterBaseModelForm, ClusterFilterModelForm
@@ -11,8 +12,15 @@ __author__ = 'M.Y'
 class NewsFilterForm(ClusterFilterModelForm):
     class Meta:
         model = News
-        fields = ('title', 'publish_date')
+        fields = ('title', 'publish_date','archived')
 
+    def __init__(self, *args, **kwargs):
+        super(NewsFilterForm, self).__init__(*args, **kwargs)
+
+        self.fields['archived'] = NullBooleanField(required=False, label=u"آرشیو شده")
+        self.fields['archived'].widget.choices = ((u'1', u"--- همه ---"),
+                                                              (u'2', u"بله"),
+                                                              (u'3', u"خیر"))
 
 def save_news(http_request, instance):
     instance.creator = http_request.user

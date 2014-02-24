@@ -14,7 +14,7 @@ class News(models.Model):
     creator = models.ForeignKey(User, verbose_name=u"ایجادکننده", related_name='news')
     created_on = models.DateField(verbose_name=u"تاریخ ایجاد", auto_now_add=True)
     publish_date = models.DateField(verbose_name=u"تاریخ انتشار")
-
+    archived = models.BooleanField(verbose_name=u"آرشیو",default=False)
     class Meta:
         app_label = 'news'
         verbose_name = u"خبر"
@@ -25,7 +25,7 @@ class News(models.Model):
 
     @staticmethod
     def get_html():
-        news_list = News.objects.all().order_by('-publish_date')
+        news_list = News.objects.filter(archived=False).order_by('-publish_date')
         res = Template(u"""
             <table style="width: 100%">
             {% for item in news_list %}

@@ -109,7 +109,6 @@
     <div id="top-buttons-inner">
         <ul id="top-menu-ul">
             <li><a href="/#news" id="intro-button">بازگشت به صفحه اصلی</a></li>
-            <li><a href="/news/archive/" id="intro-button2">آرشیو اخبار</a></li>
             {% if user|check_role:"member" %}
                 <li><a href="{% url edit_accounts %}">پروفایل</a></li>
                 <li><a href="/projects/">طرح های من</a></li>
@@ -130,20 +129,14 @@
     </div>
 </div>
 
-<div id="news-content">
-    <div id="news-header-container">
-        <div id="news-title">
-            {{ news.title }}
-        </div>
-        <div id="news-date">
-            {{ news.publish_date|pdate }}
-        </div>
-
-
-    </div>
-    <div id="news-body">
-        {{ news.body|safe }}
-    </div>
+<div id="news-content" style="direction:rtl;">
+    <table style="width: 100%" style="font-size:25px;">
+    {% for item in news_list %}
+        <tr><td style="width: 80%;"><a href="/news/{{ item.id }}/">{{ item.title }}</a></td><td>{{ item.publish_date_pdate }}</td></tr>
+    {% empty %}
+        <p>خبری یافت نشد.</p>
+    {% endfor %}
+    </table>
 </div>
 <footer class="art-footer">
     <div class="art-footer-inner">

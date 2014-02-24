@@ -184,11 +184,12 @@ table, ul.art-hmenu{
 #top-menu-ul{
     margin: 0;
     list-style: none;
-    font-size: 17px;
+    font-size: 15px;
     font-weight: bold;
+    padding-top:3px;
 }
 #top-menu-ul li{
-    margin-left: 30px;
+    margin-left: 20px;
     display: inline;
 }
 #top-menu-ul li a{
