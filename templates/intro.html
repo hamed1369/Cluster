@@ -91,14 +91,12 @@
             });
             $("#projects-button").click(function () {
                 $('#inner-introduction').cycle(3);
-                return false;
             });
             $("#links-button").click(function () {
                 $('#inner-introduction').cycle(4);
             });
             $("#statistics-button").click(function () {
                 $('#inner-introduction').cycle(5);
-                return false;
             });
 
             $(".thumb-1").click(function () {
@@ -303,7 +301,7 @@
             </div>
             <a href="/news/archive/" id="archive" style="background-color: #006dcc;color:white;font-size:20px;position:absolute;bottom:0px;left:20px;padding:10px;">آرشیو اخبار</a>
         </div>
-        <div class="inner-intro-div" id="projects" style="height: 200px;overflow-y: scroll;padding-right:15px;">
+        <div class="inner-intro-div" id="projectss" style="height: 200px;overflow-y: scroll;padding-right:15px;">
             <table style="margin-right:15px;">
             {% for item in projects %}
                 {% cycle '<tr><td style="font-size:20px;">' '<td>'%}{{ item.title }}{% cycle '</td>' '</td></tr>' %}
@@ -321,7 +319,7 @@
             {% endfor %}
             </table>
         </div>
-        <div class="inner-intro-div" id="statistics">
+        <div class="inner-intro-div" id="statisticss">
             <table style="font-size: 20px;">
                 {% for item in statistics %}
                     <tr><td style="width: 200px;font-size: 20px;">{{ item.key }}</td><td style="width: 100px;font-size: 15px;">{{ item.value }}</td></tr>
