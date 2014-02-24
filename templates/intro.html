@@ -308,7 +308,7 @@
             {% for item in projects %}
                 {% cycle '<tr><td style="font-size:20px;">' '<td>'%}{{ item.title }}{% cycle '</td>' '</td></tr>' %}
             {% empty %}
-                <p>پیوندی یافت نشد.</p>
+                <p style="margin-right:15px;">موردی یافت نشد.</p>
             {% endfor %}
             </table>
         </div>
