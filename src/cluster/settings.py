@@ -190,7 +190,7 @@ TINYMCE_DEFAULT_CONFIG = {
     'theme': "advanced",
     'cleanup_on_startup': True,
     'custom_undo_redo_levels': 10,
-    'theme' : "advanced",
+    'valid_elements' : '*[*]',
     'entity_encoding': 'raw',
     'theme_advanced_toolbar_location' : "top"
 }
