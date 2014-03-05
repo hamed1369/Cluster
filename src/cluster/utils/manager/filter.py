@@ -82,7 +82,10 @@ class Filter(object):
             django_lookup = field_name
 
         if field_type == 'm2m':
-            field_value = form_data.getlist(field_name)
+            try:
+                field_value = form_data.getlist(field_name)
+            except:
+                field_value = form_data.get(field_name)
         else:
             field_value = form_data.get(field_name)
         if field_value and field_value != 'None':
