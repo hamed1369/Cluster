@@ -34,4 +34,4 @@ def index(request):
     context = RequestContext(request, {'login_form': login_form, 'has_submited': has_submited,'projects':projects, 'news_content': News.get_html(),
                                        'links_list': links_list, 'contact_form': contact_form,'statistics':statistics})
     #return HttpResponse(template.render(context))
-    return render_to_response('intro.html',context)
+    return HttpResponse(template.render(context))

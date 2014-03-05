@@ -190,7 +190,6 @@
     <div id="top-buttons-inner">
         <ul id="top-menu-ul">
             <li><a href="#intro" id="intro-button">معرفی</a></li>
-            <li><a href="#contact-us" id="aboutus-button">تماس با ما</a></li>
             <li><a href="#projects" id="projects-button">طرح های جاری</a></li>
             <li><a href="#news" id="news-button">اخبار</a></li>
             <li><a href="#links" id="links-button">پیوندها</a></li>
@@ -213,6 +212,7 @@
                 <li><a href="/accounts/edit/">پروفایل</a></li>
                     <li><a href="/projects_supervision/">بررسی طرح ها</a></li>
             {% endif %}
+            <li><a href="#contact-us" id="aboutus-button">تماس با ما</a></li>
         </ul>
         <div style="position: absolute;left:0px;top:3px;font-size: 15px;padding-top:2px;">
             {% get_current_date_time %}
@@ -304,7 +304,9 @@
         <div class="inner-intro-div" id="projectss" style="height: 200px;overflow-y: scroll;padding-right:15px;">
             <table style="margin-right:15px;">
             {% for item in projects %}
-                {% cycle '<tr><td style="font-size:20px;">' '<td>'%}{{ item.title }}{% cycle '</td>' '</td></tr>' %}
+                <tr>
+                    <td style="font-size:20px;">{{ item.title }}</td>
+                </tr>
             {% empty %}
                 <p style="margin-right:15px;">موردی یافت نشد.</p>
             {% endfor %}

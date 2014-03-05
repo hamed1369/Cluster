@@ -81,7 +81,10 @@ class Filter(object):
         else:
             django_lookup = field_name
 
-        field_value = form_data.get(field_name)
+        if field_type == 'm2m':
+            field_value = form_data.getlist(field_name)
+        else:
+            field_value = form_data.get(field_name)
         if field_value and field_value != 'None':
             if field_type == 'str':
                 kwargs[django_lookup + '__icontains'] = field_value
