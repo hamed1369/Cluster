@@ -18,7 +18,7 @@ __author__ = 'M.Y'
 
 def index(request):
     login_form = SignInForm()
-    links_list = Link.objects.all().order_by('order')
+
     has_submited = False
     if request.method == 'POST':
         contact_form = ContactForm(request.POST, prefix='contact')
@@ -29,9 +29,10 @@ def index(request):
     else:
         contact_form = ContactForm(prefix='contact')
     template = Template(IntroPageContent.get_instance().content)
-    projects = Project.objects.filter(show_in_intro=True)
-    statistics = get_statistics()
+    projects = Project.get_projects_content(request)
+    statistics = get_statistics(request)
+    links = Link.get_links_content(request)
     context = RequestContext(request, {'login_form': login_form, 'has_submited': has_submited,'projects':projects, 'news_content': News.get_html(),
-                                       'links_list': links_list, 'contact_form': contact_form,'statistics':statistics})
+                                       'links': links, 'contact_form': contact_form,'statistics':statistics})
     #return HttpResponse(template.render(context))
     return HttpResponse(template.render(context))

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from django.db import models, transaction
+from django.template.base import Template
+from django.template.context import RequestContext
 from cluster.account.account.models import Member, Cluster, Domain, Arbiter, Supervisor
 from cluster.utils.calverter import gregorian_to_jalali
 from cluster.utils.messages import MessageServices, SMSService
@@ -74,6 +76,22 @@ class Project(models.Model):
     def __unicode__(self):
         return self.title
 
+
+    @staticmethod
+    def get_projects_content(request):
+        projects = Project.objects.filter(show_in_intro=True)
+        template = Template("""
+            <table style="margin-right:15px;">
+            {% for item in projects %}
+                <tr>
+                    <td style="font-size:20px;">{{ item.title }}</td>
+                </tr>
+            {% empty %}
+                <p style="margin-right:15px;">موردی یافت نشد.</p>
+            {% endfor %}
+            </table>
+        """)
+        return template.render(RequestContext(request,{'projects':projects}))
 
 class ProjectMilestone(models.Model):
     created_on = models.DateField(verbose_name=u"تاریخ ایجاد", auto_now_add=True)

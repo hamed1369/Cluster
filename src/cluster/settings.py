@@ -188,9 +188,11 @@ CAPTCHA_TIMEOUT = 200  # minutes
 TINYMCE_DEFAULT_CONFIG = {
     'plugins': "table,spellchecker,paste,searchreplace",
     'theme': "advanced",
-    'cleanup_on_startup': True,
     'custom_undo_redo_levels': 10,
     'valid_elements' : '*[*]',
     'entity_encoding': 'raw',
+    'cleanup_on_startup':False,
+    'remove_linebreaks' : False,
+    'cleanup' : False,
     'theme_advanced_toolbar_location' : "top"
 }

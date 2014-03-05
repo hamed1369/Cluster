@@ -13,6 +13,7 @@ from django.http import Http404, HttpResponseRedirect
 
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.template.base import Template
 from tracking.models import Visitor
 from cluster.account.forms import AdminForm, SupervisorForm
 from cluster.registration.handlers import ClusterHandler
@@ -85,7 +86,7 @@ class StatisticRecord(object):
         self.key = key
         self.value = value
 
-def get_statistics():
+def get_statistics(request):
     today = datetime.date.today
     tomorrow = datetime.date.today() + datetime.timedelta(days=1)
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
@@ -102,7 +103,15 @@ def get_statistics():
     statistics.append(StatisticRecord('بازدید های دیروز',yesterday_visits))
     statistics.append(StatisticRecord('بازدید های 30 روز گذشته',last_month_visits))
     statistics.append(StatisticRecord('کل بازدیدها',overrall_visits))
-    return statistics
+    template = Template("""
+    <table style="font-size: 20px;" class="mceNoEditor">
+        {% for item in statistics %}
+            <tr><td style="width: 200px;font-size: 20px;">{{ item.key }}</td><td style="width: 100px;font-size: 15px;">{{ item.value }}</td></tr>
+        {% endfor %}
+    </table>
+    """)
+    context = RequestContext(request, {'statistics':statistics})
+    return template.render(context)
 
 @login_required
 def statistics(request):

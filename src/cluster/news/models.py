@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from django.template.base import Template
-from django.template.context import Context
+from django.template.context import Context, RequestContext
 from cluster.account.templatetags.date_template_tags import pdate
 
 __author__ = 'M.Y'
@@ -62,11 +62,19 @@ class Link(models.Model):
     def __unicode__(self):
         return u"%s" % self.title
 
-
     @staticmethod
-    def create_news(title, link, order):
-        news = Link.objects.create(title=title, link=link, order=order)
-        return news
+    def get_links_content(request):
+        links_list = Link.objects.all().order_by('order')
+        template = Template("""
+            <table>
+                {% for item in links_list %}
+                    {% cycle '<tr><td>' '<td>'%}  <a href="{{ item.url }}">{{ item.title }}</a> {% cycle '</td>' '</td></tr>' %}
+                {% empty %}
+                    <p>پیوندی یافت نشد.</p>
+                {% endfor %}
+            </table>
+        """)
+        return template.render(RequestContext(request,{'links_list':links_list}))
 
 
 class File(models.Model):

@@ -302,31 +302,13 @@
             <a href="/news/archive/" id="archive" style="background-color: #006dcc;color:white;font-size:20px;position:absolute;bottom:0px;left:20px;padding:10px;">آرشیو اخبار</a>
         </div>
         <div class="inner-intro-div" id="projectss" style="height: 200px;overflow-y: scroll;padding-right:15px;">
-            <table style="margin-right:15px;">
-            {% for item in projects %}
-                <tr>
-                    <td style="font-size:20px;">{{ item.title }}</td>
-                </tr>
-            {% empty %}
-                <p style="margin-right:15px;">موردی یافت نشد.</p>
-            {% endfor %}
-            </table>
+            {{ projects|safe }}
         </div>
         <div class="inner-intro-div" id="linkss" style="height: 200px;overflow-y: scroll;padding-right:15px;">
-            <table>
-            {% for item in links_list %}
-                {% cycle '<tr><td>' '<td>'%}  <a href="{{ item.url }}">{{ item.title }}</a> {% cycle '</td>' '</td></tr>' %}
-            {% empty %}
-                <p>پیوندی یافت نشد.</p>
-            {% endfor %}
-            </table>
+            {{ links|safe }}
         </div>
         <div class="inner-intro-div" id="statisticss">
-            <table style="font-size: 20px;">
-                {% for item in statistics %}
-                    <tr><td style="width: 200px;font-size: 20px;">{{ item.key }}</td><td style="width: 100px;font-size: 15px;">{{ item.value }}</td></tr>
-                {% endfor %}
-            </table>
+            {{ statistics|safe }}
         </div>
     </div>
 </div>
