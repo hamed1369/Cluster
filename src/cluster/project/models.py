@@ -68,7 +68,8 @@ class Project(models.Model):
     score = models.FloatField(verbose_name=u"امتیاز", null=True, blank=True)
     allow_edit = models.BooleanField(u"اجازه ویرایش پس از تایید",default=False)
     show_in_intro = models.BooleanField(u"نمایش طرح در صفحه اصلی سایت",default=False)
-
+    intro_file = models.FileField(u"فایل ضمیمه برای صفحه اصلی", upload_to="project_intro_attachments/", null=True,
+                                         blank=True)
     class Meta:
         verbose_name = u"طرح"
         verbose_name_plural = u"طرح ها"
@@ -84,7 +85,14 @@ class Project(models.Model):
             <table style="margin-right:15px;">
             {% for item in projects %}
                 <tr>
-                    <td style="font-size:20px;">{{ item.title }}</td>
+                    <td style="font-size:20px;">
+                        {% if item.intro_file %}
+                            <a href="{{item.intro_file.url}}">{{ item.title }}</a>
+                        {% else %}
+                            {{ item.title }}
+                        {% endif %}
+
+                    </td>
                 </tr>
             {% empty %}
                 <p style="margin-right:15px;">موردی یافت نشد.</p>

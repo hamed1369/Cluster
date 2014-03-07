@@ -64,6 +64,15 @@
                     <td class="error_td" width="30%">{{ form.show_in_intro.errors }}</td>
                 {% endif %}
             </tr>
+            <tr {% if form.intro_file.field.is_hidden|is_true %}style="display: none;"{% endif %}>
+                <td class="label_td">{{ form.intro_file.label }}
+                    {% if form.intro_file.field.required %}<span class="required_field">*</span>{% endif %}
+                </td>
+                <td class="input_td">{{ form.intro_file }}</td>
+                {% if form.intro_file.errors %}
+                    <td class="error_td" width="30%">{{ form.intro_file.errors }}</td>
+                {% endif %}
+            </tr>
             <tr {% if form.title.field.is_hidden|is_true %}style="display: none;"{% endif %}>
                 <td class="label_td">{{ form.title.label }}
                     {% if form.title.field.required %}<span class="required_field">*</span>{% endif %}
