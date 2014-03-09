@@ -5,7 +5,7 @@ from django.http import Http404
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from cluster.project.forms import ProjectManagerForm, ProjectForm, AdminProjectManagerForm, ArbiterProjectManagerForm, \
-    MilestoneForm, ProjectArbiterForm, ProjectArbitrationForm
+    MilestoneForm, ProjectArbiterForm, ProjectArbitrationForm, ProjectReportForm
 from cluster.project.models import Project, ProjectMilestone, ProjectComment, ProjectArbiter
 from cluster.utils.manager.action import ManagerAction
 from cluster.utils.messages import MessageServices, SMSService
@@ -169,6 +169,7 @@ class ProjectDetailAction(ManagerAction):
                     comment.seen_by_member = True
                     comment.save()
 
+        reports = instance.reports.all()
         project = None
         if self.for_admin:
             project = instance
@@ -183,7 +184,44 @@ class ProjectDetailAction(ManagerAction):
 
         return render_to_response('project/show_project.html',
                                   {'form': form, 'title': u"جزئیات طرح",
-                                   'project': project, 'comments': comments, 'has_comments': self.has_comments},
+                                   'project': project, 'comments': comments,'reports':reports, 'has_comments': self.has_comments},
+                                  context_instance=RequestContext(http_request))
+
+
+class ProjectReportUploadAction(ManagerAction):
+    is_view = True
+    action_name = u'report_upload'
+    action_verbose_name = u"بارگزاری گزارش"
+    min_count = '1'
+    max_count = '1'
+    def action_view(self, http_request, selected_instances):
+        if not selected_instances:
+            raise Http404()
+
+        instance = selected_instances[0]
+
+        #form = ProjectReportForm(project=instance)
+        #
+        #if instance.project_status >= 3:
+        #    form = ProjectReportForm(project=instance)
+        #else:
+        #    form = None
+        #    messages.error(http_request, u"طرح شما هنوز تایید نشده است.")
+        #return render_to_response('manager/actions/add_edit.html',
+        #                          {'form': form,'title': u"بارگزاری گزارش"},
+        #                          context_instance=RequestContext(http_request))
+
+        if http_request.method == 'POST':
+            form = ProjectReportForm(http_request.POST, http_request.FILES, project=instance, user=http_request.user)
+            if form.is_valid():
+                form.save()
+                form = None
+                messages.success(http_request, u"گزارش  پروژه با موفقیت بارگزاری شد.")
+        else:
+            form = ProjectReportForm(user=http_request.user,project=instance)
+
+        return render_to_response('manager/actions/add_edit.html',
+                                  {'form': form, 'title': u"بارگزاری گزارش"},
                                   context_instance=RequestContext(http_request))
 
 

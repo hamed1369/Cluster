@@ -88,7 +88,7 @@ class MessageServices(object):
                 <p> {{name}} ،</p>
                 <p>سلام</p>
                 <p>
-                شما توسط <b>{{head}}</b> از خوشه <b>{{cluster_name}}</b> حذف شده اید.
+                شما  از خوشه <b>{{cluster_name}}</b> حذف شده اید.
                 </p>
 
                 باتشکر<br/>

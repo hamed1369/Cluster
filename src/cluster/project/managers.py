@@ -3,7 +3,7 @@ from django import forms
 from django.db.models.query_utils import Q
 from cluster.account.account.models import Cluster, Member, Domain
 from cluster.project.actions import ProjectDetailAction, EditProjectAction, \
-    AdminProjectCheckAction, ArbiterProjectCheckAction
+    AdminProjectCheckAction, ArbiterProjectCheckAction, ProjectReportUploadAction
 from cluster.project.models import Project
 from cluster.utils.date import handel_date_fields
 from cluster.utils.forms import ClusterFilterModelForm
@@ -25,7 +25,7 @@ class MemberProjectManager(ObjectsManager):
     manager_verbose_name = u"طرح های من"
     filter_form = MemberProjectFilterForm
 
-    actions = [EditProjectAction(), DeleteAction(action_verbose_name=u"انصراف از طرح"),
+    actions = [EditProjectAction(),ProjectReportUploadAction(), DeleteAction(action_verbose_name=u"انصراف از طرح"),
                ProjectDetailAction(for_admin=False)]
 
     def can_view(self):

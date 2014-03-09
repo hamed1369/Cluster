@@ -101,6 +101,11 @@ class Project(models.Model):
         """)
         return template.render(RequestContext(request,{'projects':projects}))
 
+class ProjectReport(models.Model):
+    title = models.CharField(verbose_name=u"عنوان گزارش", max_length=200)
+    attachment = models.FileField(u"فایل گزارش", upload_to="project_reports/")
+    project = models.ForeignKey(Project, verbose_name=u"طرح", related_name="reports")
+
 class ProjectMilestone(models.Model):
     created_on = models.DateField(verbose_name=u"تاریخ ایجاد", auto_now_add=True)
     comment = models.CharField(verbose_name=u"توضیح", max_length=200)

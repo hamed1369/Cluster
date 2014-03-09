@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 from django import forms
 from cluster.account.account.models import Domain, Arbiter, Member
-from cluster.project.models import Project, ProjectMilestone, ProjectArbiter
+from cluster.project.models import Project, ProjectMilestone, ProjectArbiter, ProjectReport
 from cluster.utils.fields import BOOLEAN_CHOICES
 from cluster.utils.forms import ClusterBaseModelForm
 from cluster.utils.js_validation import process_js_validations
@@ -84,6 +84,25 @@ class ProjectForm(ClusterBaseModelForm):
         else:
             instance.single_member = self.user.member
             instance.attended_members = [self.user.member]
+        instance.save()
+        return instance
+
+
+class ProjectReportForm(ClusterBaseModelForm):
+    class Meta:
+        model = ProjectReport
+        exclude = ('project',)
+
+    def __init__(self, *args, **kwargs):
+        if kwargs.get('user'):
+            kwargs.pop('user')
+        self.project = kwargs.pop('project')
+        super(ProjectReportForm, self).__init__(*args, **kwargs)
+        #process_js_validations(self)
+
+    def save(self, commit=True):
+        instance = super(ProjectReportForm, self).save(commit=False)
+        instance.project = self.project
         instance.save()
         return instance
 

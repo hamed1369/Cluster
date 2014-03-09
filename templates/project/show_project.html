@@ -46,6 +46,19 @@
     {% endif %}
 {% endblock %}
 {% block after_main %}
+    <fieldset class="formset_fieldset">
+
+        <legend>گزارشات طرح</legend>
+        {% if not reports %}
+            <div>گزارشی بارگزاری نشده است.</div>
+        {% else %}
+            <ul>
+                {% for item in reports %}
+                    <li><a href="{{item.attachment.url}}">{{ item.title }}</a></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </fieldset>
     {% if not inline_form.forms %}
         <fieldset class="formset_fieldset">
             <legend>موعدهای طرح</legend>
