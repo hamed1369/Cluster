@@ -23,6 +23,7 @@ class IntroPageForm(ClusterBaseModelForm):
             'forced_root_block' : '',
             'width': "100%",
             'height': "600",
+            'valid_elements' : '*[*]',
             'plugins': "fullpage",
             'toolbar': "fullpage",
             'verify_html' : False,
