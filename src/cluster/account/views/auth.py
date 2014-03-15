@@ -59,7 +59,7 @@ mapping = {
     'prop':1
 }
 
-@login_required
+
 def get_media(request,path):
     def return_file(path,send=True):
         if not send:
@@ -80,8 +80,10 @@ def get_media(request,path):
     klass = mapping.get(slug,None)
     if not klass:
         return return_file(path,False)
-    if klass == 1:
+    if klass == 1 or path == 'arbiter_form.docx':
         return return_file(path)
+    if not request.user.is_authenticated:
+        return return_file(path,False)
     object = klass.objects.get(pk=id)
     if PermissionController().is_admin(request.user) or PermissionController().is_supervisor(request.user):
         return return_file(path)
