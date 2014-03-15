@@ -61,50 +61,50 @@ mapping = {
 
 
 def get_media(request,path):
-    def return_file(path,send=True):
-        if not send:
-            raise Http404()
-        return serve(request, path, document_root=settings.MEDIA_ROOT, show_indexes=False)
-
+    def return_file(path,name):
+        res = serve(request, path, document_root=settings.MEDIA_ROOT, show_indexes=False)
+        res['Content-Disposition'] = 'attachment; filename=%s'%name
+        return res
     if not path:
-        return return_file(path,False)
+        raise Http404()
     try:
         id = path.split('!target_id=')[1]
         path = path.split('!target_id=')[0]
     except:
-        return return_file(path,False)
+        raise Http404()
     try:
         slug = path.split('/')[0]
+        name = path.split('/')[1]
     except:
-        return return_file(path,False)
+        raise Http404()
     klass = mapping.get(slug,None)
     if not klass:
-        return return_file(path,False)
+        raise Http404()
     if klass == 1 or path == 'arbiter_form.docx':
-        return return_file(path)
+        return return_file(path,name)
     if not request.user.is_authenticated:
-        return return_file(path,False)
+        raise Http404()
     object = klass.objects.get(pk=id)
     if PermissionController().is_admin(request.user) or PermissionController().is_supervisor(request.user):
-        return return_file(path)
+        return return_file(path,name)
     if PermissionController().is_arbiter(request.user) and not isinstance(klass,Member):
-        return return_file(path)
+        return return_file(path,name)
     if PermissionController().is_member(request.user):
         try:
             member = request.user.member
         except:
-            return return_file(path,False)
+            raise Http404()
         if not member:
-            return return_file(path,False)
+            raise Http404()
         if member == object:
-            return return_file(path)
+            return return_file(path,name)
         if isinstance(object,Project):
             if check_project_access(object,member):
-                return return_file(path)
+                return return_file(path,name)
         if isinstance(object,ProjectReport):
             if check_project_access(object.project,member):
-                return return_file(path)
-    return return_file(path,False)
+                return return_file(path,name)
+    raise Http404()
 
 
 
