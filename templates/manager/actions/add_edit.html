@@ -6,7 +6,16 @@
         {% if form %}
             {{ form.media }}
         {% endif %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var param = document.URL.split('&i=')[1];
+            $('input[type=file]').each(function(){
+                var url = $(this).parent().find("a:first").attr('href');
+                $(this).parent().find("a:first").attr('href',url+"!target_id="+param);
+            });
+        });
 
+    </script>
 {% endblock %}
 {% block content %}
     {% if form or register_form %}
