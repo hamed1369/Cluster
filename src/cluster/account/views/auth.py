@@ -82,7 +82,7 @@ def get_media(request,path):
         raise Http404()
     if klass == 1 or path == 'arbiter_form.docx':
         return return_file(path,name)
-    if not request.user.is_authenticated:
+    if not request.user.is_authenticated():
         raise Http404()
     object = klass.objects.get(pk=id)
     if PermissionController().is_admin(request.user) or PermissionController().is_supervisor(request.user):
