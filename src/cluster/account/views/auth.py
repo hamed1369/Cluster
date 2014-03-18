@@ -56,6 +56,7 @@ mapping = {
     'project_proposal':Project,
     'project_reports':ProjectReport,
     'arbiter_form.docx': 1,
+    'project_intro_attachments': 1,
     'prop':1
 }
 
