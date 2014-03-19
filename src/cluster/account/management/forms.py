@@ -2,7 +2,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from tinymce.widgets import TinyMCE
-#from tracking.models import UntrackedUserAgent
+from tracking.models import UntrackedUserAgent
 from cluster.account.management.models import IntroPageContent
 from cluster.utils.fields import BOOLEAN_CHOICES
 from cluster.utils.forms import ClusterBaseModelForm, ClusterBaseForm
@@ -49,9 +49,9 @@ class ProposalUploadForm(ClusterBaseModelForm):
 
     def save(self, commit=True):
         agents = self.cleaned_data['banned_agents'].split(',')
-        #UntrackedUserAgent.objects.all().delete()
-        #for item in agents:
-        #    UntrackedUserAgent.objects.create(keyword=item)
+        UntrackedUserAgent.objects.all().delete()
+        for item in agents:
+            UntrackedUserAgent.objects.create(keyword=item)
         instance = super(ProposalUploadForm, self).save(commit)
         IntroPageContent.instance = None
         return instance
