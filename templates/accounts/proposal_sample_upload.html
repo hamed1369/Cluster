@@ -31,8 +31,8 @@
 
 {% endblock %}
 
-{% block title %}ویرایش فایل نمونه پروپوزال{% endblock %}
-{% block header_title %}ویرایش فایل نمونه پروپوزال{% endblock %}
+{% block title %}تنظیمات{% endblock %}
+{% block header_title %}تنظیمات{% endblock %}
 {% block content %}
     {% include 'messages.html' %}
     <div style="direction: rtl; height: 700px;">
@@ -43,6 +43,10 @@
                     <td style="width: 10%;">{{ form.proposal_sample.label }}</td>
                     <td style="width: 90%;">{{ form.proposal_sample }}</td>
                     <td style="width: 90%;">{{ form.proposal_sample.url }}</td>
+                </tr>
+                <tr>
+                    <td style="width: 10%;">{{ form.banned_agents.label }}</td>
+                    <td style="width: 90%;">{{ form.banned_agents }}</td>
                 </tr>
             </table>
             <div class="button_holder">

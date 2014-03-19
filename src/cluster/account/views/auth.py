@@ -55,7 +55,6 @@ mapping = {
     'project_patents':Project,
     'project_proposal':Project,
     'project_reports':ProjectReport,
-    'arbiter_form.docx': 1,
     'project_intro_attachments': 1,
     'prop':1
 }
@@ -68,11 +67,12 @@ def get_media(request,path):
         return res
     if not path:
         raise Http404()
+    id = None
     try:
-        id = path.split('!target_id=')[1]
         path = path.split('!target_id=')[0]
+        id = path.split('!target_id=')[1]
     except:
-        raise Http404()
+        pass
     try:
         slug = path.split('/')[0]
         name = path.split('/')[1]
@@ -81,9 +81,11 @@ def get_media(request,path):
     klass = mapping.get(slug,None)
     if not klass:
         raise Http404()
-    if klass == 1 or path == 'arbiter_form.docx':
+    if klass == 1:
         return return_file(path,name)
     if not request.user.is_authenticated():
+        raise Http404()
+    if not id:
         raise Http404()
     object = klass.objects.get(pk=id)
     if PermissionController().is_admin(request.user) or PermissionController().is_supervisor(request.user):
