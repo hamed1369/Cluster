@@ -36,6 +36,7 @@
 {% block content %}
     {% include 'messages.html' %}
     <div style="direction: rtl; height: 700px;">
+        <p>کلیدواژه هایی که در قسمت عامل بازدیدها مشاهده می کنید و تمایل به بلاک کردن آنها را دارید را با ویرگول (,) از هم جدا کنید.</p>
         <form method="post" id="register_form" enctype="multipart/form-data">
             {% csrf_token %}
             <table style="width: 100%;">
