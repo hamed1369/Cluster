@@ -142,7 +142,7 @@ MENU_MAPPERS = {
         MenuMapper('/projects_arbitration/', u"بررسی طرح ها"),
         MenuMapper('/messages/', u"جعبه پیام"),
         MenuMapper('/feedback/', u"ارسال نظرات و پیشنهادات"),
-        MenuMapper('/media/arbiter_form.docx', u"دریافت فرم داوری"),
+        MenuMapper('/media/project_arbiter_attachments/arbiter_form.docx', u"دریافت فرم داوری"),
     ],
     'supervisor': [
         MenuMapper('/', u"صفحه اصلی"),
