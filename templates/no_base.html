@@ -42,7 +42,6 @@
             $('input[type=file]').each(function(){
                 var url = $(this).parent().find("a:first").attr('href');
                 var href_attr = $(this).parent().find("a:first").attr('href');
-                alert(href_attr);
                 var res = href_attr.match(/target_id=\d+/g);
                 $(this).parent().find("a:first").attr('href',url+"!target_id="+param);
             });
