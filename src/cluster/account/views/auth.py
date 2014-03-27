@@ -69,8 +69,9 @@ def get_media(request,path):
         raise Http404()
     id = None
     try:
-        path = path.split('!target_id=')[0]
+        path2 = path.split('!target_id=')[0]
         id = path.split('!target_id=')[1]
+        path = path2
     except:
         pass
     try:
@@ -87,7 +88,10 @@ def get_media(request,path):
         raise Http404()
     if not id:
         raise Http404()
-    object = klass.objects.get(pk=id)
+    try:
+        object = klass.objects.get(pk=id)
+    except:
+        raise Http404()
     if PermissionController().is_admin(request.user) or PermissionController().is_supervisor(request.user):
         return return_file(path,name)
     if PermissionController().is_arbiter(request.user) and not isinstance(klass,Member):

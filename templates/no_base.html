@@ -41,7 +41,13 @@
             }
             $('input[type=file]').each(function(){
                 var url = $(this).parent().find("a:first").attr('href');
-                $(this).parent().find("a:first").attr('href',url+"!target_id="+param);
+                var href_attr = $(this).parent().find("a:first").attr('href');
+                alert(href_attr);
+                var res = href_attr.match(/target_id=\d+/g);
+                if (!res){
+                    alert("gozashtam");
+                    $(this).parent().find("a:first").attr('href',url+"!target_id="+param);
+                }
             });
         });
 
