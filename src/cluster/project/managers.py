@@ -84,14 +84,17 @@ class ProjectsManagementFilterForm(ClusterFilterModelForm):
                                                                required=False)
         self.fields['single_member'] = forms.ModelMultipleChoiceField(queryset=Member.objects.filter(), label=u"اعضا",
                                                                       required=False)
+
         self.fields['project_status'].choices = (
-            ('', u"---همه---"),
             (-2, u"رد شده"),
             (-1, u"رد شده توسط ناظر"),
             (0, u"در مرحله درخواست"),
-            (1, u"تایید مرحله اول"),
-            (2, u"تایید مرحله دوم"),
+            (1, u"مورد تایید ناظر"),
+            (2, u"تایید مرحله اول"),
+            #(2, u"تاییدشده توسط داور"),
+            (3, u"تایید مرحله دوم"),
             (4, u"تکمیل شده"),
+
         )
         self.fields['milestone_from'] = forms.DateField(label=u"موعدها از تاریخ", required=False)
         self.fields['milestone_until'] = forms.DateField(label=u"موعدها تا تاریخ", required=False)
@@ -108,7 +111,7 @@ class ProjectsManagement(ObjectsManager):
         ('title', 'str'),
         ('keywords', 'str'),
         ('domain', 'm2m'),
-        ('project_status', ''),
+        ('project_status', 'int'),
         ('cluster', 'm2m'),
         ('single_member', 'm2m'),
         ('milestone_from', 'pdate', 'milestones__milestone_date__gte'),

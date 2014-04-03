@@ -91,6 +91,8 @@ class Filter(object):
         if field_value and field_value != 'None':
             if field_type == 'str':
                 kwargs[django_lookup + '__icontains'] = field_value
+            if field_type == 'int':
+                kwargs[django_lookup] = int(field_value)
             elif field_type == 'bool':
                 if field_value == 'on':
                     kwargs[django_lookup] = True

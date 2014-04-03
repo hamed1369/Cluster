@@ -44,7 +44,7 @@ def login_view(request):
 
 
 mapping = {
-    'attachments': File,
+    'attachments': 1,
     'education_certificates':Member,
     'elite_certificates':Member,
     'member_images':Member,
