@@ -1,0 +1,79 @@
+
+body{
+    font-family: Helvetica,Arial,Verdana,sans-serif;
+    font-size: 20px;
+}
+#top-buttons-inner{
+    direction: ltr;
+}
+#logo-name
+{
+    left: 60px;
+}
+
+#logo-container{
+    position: relative;
+    float: left;
+    width: 200px;
+    height: 65px;
+    direction: ltr;
+}
+
+#top-button-div {
+    float: right;
+    text-align: right;
+}
+
+#inner-introduction{
+    direction: ltr;
+}
+
+
+#reg-detail {
+    direction: ltr;
+}
+
+#submit-detail {
+    direction: ltr;
+}
+
+#judge-detail {
+    direction: ltr;
+}
+#support-detail {
+    direction: ltr;
+}
+#workflow-detail {
+    direction: ltr;
+}
+#support-detail ul{
+    margin-left: 20px;
+
+}
+#inner-intro-div{
+    direction: ltr;
+}
+#thumbs p{
+    font-size: 15px;
+}
+
+#thumbs{
+    right: 0;
+    left: 10px;
+}
+#slider{
+    float: right;
+}
+
+/*.thumb-content{*/
+    /*margin-left: 15px;*/
+/*}*/
+
+#thumbs .thumb-1-focused,.thumb-2-focused,.thumb-3-focused{
+    background-image:url('../images/hover_en.png');
+    background-position:18px;
+}
+#thumbs .thumb-4-focused{
+    background-image:url('../images/hover-last_en.png');
+    background-position:18px;
+}
