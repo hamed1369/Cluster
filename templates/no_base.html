@@ -33,7 +33,22 @@
         <script type="text/javascript" src='/static/project/register.js'></script>
         <script type="text/javascript" src='/static/manager/actions.js'></script>
     {% endblock %}
+    <script>
+        $(document).ready(function(){
+            var param = {% if member.id %}{{ member.id }}{% else %}null{% endif %};
+            if (!param){
+                param = document.URL.split('&i=')[1];
+            }
+            $('input[type=file]').each(function(){
+                console.log(this);
+                var url = $(this).parent().find("a:first").attr('href');
+{#                var href_attr = $(this).parent().find("a:first").attr('href');#}
+{#                var res = href_attr.match(/target_id=\d+/g);#}
+                $(this).parent().find("a:first").attr('href',url+"!target_id="+param);
+            });
+        });
 
+    </script>
 </head>
 <body>
 <div class="panel panel-info form-div">

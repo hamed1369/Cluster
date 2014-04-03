@@ -2,6 +2,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from tinymce.widgets import TinyMCE
+from tracking.models import UntrackedUserAgent
 from cluster.account.management.models import IntroPageContent
 from cluster.utils.fields import BOOLEAN_CHOICES
 from cluster.utils.forms import ClusterBaseModelForm, ClusterBaseForm
@@ -37,12 +38,20 @@ class IntroPageForm(ClusterBaseModelForm):
 
 
 class ProposalUploadForm(ClusterBaseModelForm):
-
+    banned_agents = forms.CharField(label=u"عاملان نادیده گرفته شده")
     class Meta:
         model = IntroPageContent
         exclude = ('content',)
 
+    def __init__(self, *args, **kwargs):
+        super(ProposalUploadForm, self).__init__(*args, **kwargs)
+        #self.fields['banned_agents'].initial = ','.join([item.keyword for item in UntrackedUserAgent.objects.all()])
+
     def save(self, commit=True):
+        agents = self.cleaned_data['banned_agents'].split(',')
+        UntrackedUserAgent.objects.all().delete()
+        for item in agents:
+            UntrackedUserAgent.objects.create(keyword=item)
         instance = super(ProposalUploadForm, self).save(commit)
         IntroPageContent.instance = None
         return instance

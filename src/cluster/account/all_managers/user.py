@@ -43,12 +43,12 @@ class UserManager(ObjectsManager):
 class VisitorForm(ClusterBaseModelForm):
     class Meta:
         model = Visitor
-        exclude = ('session_key','ip_address','user_agent','referrer','url','page_views','start_time','last_update')
+        exclude = ('session_key','ip_address','user_agent','referrer','url','page_views','session_start','last_update')
 
     def __init__(self, *args, **kwargs):
         super(VisitorForm, self).__init__(*args, **kwargs)
-        self.fields['start_time_from'] = forms.DateField(label=u"بازدید از تاریخ", required=False)
-        self.fields['start_time_until'] = forms.DateField(label=u"بازدید تا تاریخ", required=False)
+        self.fields['session_start_from'] = forms.DateField(label=u"بازدید از تاریخ", required=False)
+        self.fields['session_start_until'] = forms.DateField(label=u"بازدید تا تاریخ", required=False)
         self.fields['first_name'] = forms.CharField(label=u"نام", required=False)
         self.fields['last_name'] = forms.CharField(label=u"نام خانوادگی", required=False)
 
@@ -62,8 +62,8 @@ class VisitorManager(ObjectsManager):
     actions = [
     ]
     filter_handlers = (
-        ('start_time_from', 'pdate', 'start_time__gt'),
-        ('start_time_until', 'pdate', 'start_time__lte'),
+        ('session_start_from', 'pdate', 'session_start__gt'),
+        ('session_start_until', 'pdate', 'session_start__lte'),
         ('first_name', 'str', 'user__first_name'),
         ('last_name', 'str', 'user__last_name'),
 
@@ -76,7 +76,7 @@ class VisitorManager(ObjectsManager):
             ManagerColumn('ip_address', u"IP", 5),
             ManagerColumn('user', u"کاربر", 3),
             ManagerColumn('user_agent', u"عامل", 5),
-            ManagerColumn('start_time', u"تاریخ بازدید", 3),
+            ManagerColumn('session_start', u"تاریخ بازدید", 3),
             ManagerColumn('session_key', u"کلید نشست", 7),
         ]
         return columns

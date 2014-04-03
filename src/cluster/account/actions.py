@@ -151,10 +151,11 @@ class ShowMemberAction(ManagerAction):
     def action_view(self, http_request, selected_instances):
         instance = selected_instances[0]
         member = instance
-        handler = ClusterHandler(http_request, cluster_id=member.cluster_id, has_cluster=False)
+        handler = ClusterHandler(http_request, cluster_id=member.cluster_id, has_cluster=False,member=instance)
         handler.initial_forms(member=member)
         handler.set_all_readonly()
         c = handler.get_context()
+        print c['member'].id,"*******************"
         return render_to_response('accounts/show_member_action.html', c,
                                   context_instance=RequestContext(http_request))
 

@@ -9,6 +9,16 @@
         }
 
     </style>
+    <script>
+        $(document).ready(function(){
+            var param = {% if member.id %}{{ member.id }}{% else %}null{% endif %};
+            $('input[type=file]').each(function(){
+                var url = $(this).parent().find("a:first").attr('href');
+                $(this).parent().find("a:first").attr('href',url+"!target_id="+param);
+            });
+        });
+
+    </script>
 {% endblock %}
 {% block title %}ویرایش اطلاعات فردی{% endblock %}
 {% block header_title %}ویرایش اطلاعات فردی{% endblock %}

@@ -54,7 +54,7 @@
         {% else %}
             <ul>
                 {% for item in reports %}
-                    <li><a href="{{item.attachment.url}}">{{ item.title }}</a></li>
+                    <li><a href="{{item.attachment.url}}!target_id={{item.id}}">{{ item.title }}</a></li>
                 {% endfor %}
             </ul>
         {% endif %}
