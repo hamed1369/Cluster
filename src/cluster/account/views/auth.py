@@ -51,7 +51,6 @@ mapping = {
     'national_id_cards':Member,
     'project_arbiter_attachments':ProjectArbiter,
     'project_certificate_images':Project,
-    'project_intro_attachments':Project,
     'project_patents':Project,
     'project_proposal':Project,
     'project_reports':ProjectReport,
@@ -78,7 +77,9 @@ def get_media(request,path):
         slug = path.split('/')[0]
         name = path.split('/')[1]
     except:
-        raise Http404()
+        return return_file('',path)
+    print slug
+    print name
     klass = mapping.get(slug,None)
     if not klass:
         raise Http404()
