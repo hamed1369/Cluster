@@ -38,7 +38,7 @@ class IntroPageForm(ClusterBaseModelForm):
 
 
 class ProposalUploadForm(ClusterBaseModelForm):
-    banned_agents = forms.CharField(label=u"عاملان نادیده گرفته شده")
+    banned_agents = forms.CharField(label=u"عاملان نادیده گرفته شده",required=False)
     class Meta:
         model = IntroPageContent
         exclude = ('content',)
