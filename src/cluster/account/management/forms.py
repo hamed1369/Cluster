@@ -51,7 +51,8 @@ class ProposalUploadForm(ClusterBaseModelForm):
         agents = self.cleaned_data['banned_agents'].split(',')
         UntrackedUserAgent.objects.all().delete()
         for item in agents:
-            UntrackedUserAgent.objects.create(keyword=item)
+            if item:
+                UntrackedUserAgent.objects.create(keyword=item)
         instance = super(ProposalUploadForm, self).save(commit)
         IntroPageContent.instance = None
         return instance
