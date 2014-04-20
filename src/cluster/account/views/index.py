@@ -15,8 +15,7 @@ from cluster.project.models import Project
 
 __author__ = 'M.Y'
 
-
-def index(request):
+def index_core(request,template_path):
     login_form = SignInForm()
 
     has_submited = False
@@ -36,4 +35,12 @@ def index(request):
                                        'links': links, 'contact_form': contact_form,'statistics':statistics})
     #return HttpResponse(template.render(context))
     # return HttpResponse(template.render(context))
-    return render_to_response('intro.html',context)
+    return render_to_response(template_path,context)
+
+
+def index(request):
+    return index_core(request,'intro.html')
+
+
+def en_index(request):
+    return index_core(request,'en_intro.html')

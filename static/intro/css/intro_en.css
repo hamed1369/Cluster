@@ -1,6 +1,6 @@
 
 body{
-    font-family: Helvetica,Arial,Verdana,sans-serif;
+    font-family:"Times New Roman", "serif";
     font-size: 20px;
 }
 #top-buttons-inner{
@@ -54,7 +54,9 @@ body{
     direction: ltr;
 }
 #thumbs p{
-    font-size: 15px;
+    font-size: 17px;
+    font-family: "Times New Roman", "serif";
+    font-weight: normal;
 }
 
 #thumbs{
@@ -76,4 +78,31 @@ body{
 #thumbs .thumb-4-focused{
     background-image:url('../images/hover-last_en.png');
     background-position:18px;
+}
+.slide{
+    direction: ltr;
+}
+.detail-content ol li{
+    font-family: "Times New Roman", "serif";
+    font-weight: normal;
+}
+.detail-content p{
+    font-family: "Times New Roman", "serif";
+    font-weight: normal;
+}
+#judge-detail table td{
+    font-family: "Times New Roman", "serif";
+    font-weight: normal;
+}
+#logo-name{
+    position: absolute;
+    top: 5px;
+    width: 200px;
+    height: 65px;
+    background-image: url('../images/title-en.png');
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    z-index: 2;
+    right: 50px;
+    left: 70px;
 }

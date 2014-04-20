@@ -255,17 +255,17 @@
                     <table>
                         <tr>
                             <td>Title</td>
-                            <td class="thin-input">{{ contact_form.title }}</td>
+                            <td class="thin-input"><input name="contact-title" maxlength="255" placeholder="Title" type="text" class="validate[required,] text-input" id="id_contact-title"></td>
                             <td class="error-td">{{ contact_form.title.errors }}</td>
                         </tr>
                         <tr>
                             <td style="width: 100px;">Email</td>
-                            <td class="thin-input">{{ contact_form.email }}</td>
+                            <td class="thin-input"><input name="contact-email" maxlength="75" placeholder="Email" type="text" class="validate[custom[email],custom[only_english],] text-input" id="id_contact-email"></td>
                             <td class="error-td">{{ contact_form.email.errors }}</td>
                         </tr>
                         <tr>
                             <td style="vertical-align: top;">Text</td>
-                            <td class="body-input">{{ contact_form.body }}</td>
+                            <td class="body-input"><textarea rows="5" name="contact-body" id="id_contact-body" placeholder="Text" cols="10" class="validate[required,] text-input"></textarea></td>
                             <td class="error-td">{{ contact_form.body.errors }}</td>
                         </tr>
                         <tr>
@@ -323,14 +323,14 @@
         <div target-button="thumb-1" style="width: 680px;height: 306px;color:black;">
             <div id="slide-1" class="slide">
                 <div class="container">
-                    <h1>اولین قدم ثبت نام در سامانه است</h1>
-
+                    <h1>The first step is registration in the website.</h1>
                     <p class="slide-paragraph" style="margin-top: -0px;width: 320px;">
-                        فرد نخبه یا صاحب طرح جهت استفاده از امکانات و تسهیلات موسسه باید قبل از هراقدامی فرایند ثبت نام در سامانه را انجام دهد. اهمیت این مرحله در نمودار <a href="#" id="workflow">شرح فرایند</a> موسسه نمایان است.
+
+The researcher and/or the owner of proposal should register in the website to use facilities of the institute. The importance of this stage is presented in the diagram of "process description".
                     </p>
 
                     <p><a class="btn btn-primary btn-lg" style="position: absolute;rigth: 10px;bottom: 20px;" href="#"  id="register-scroll-button">
-                        جزئیات ثبت نام
+                        More Details
                     </a></p>
                 </div>
             </div>
@@ -338,40 +338,38 @@
         <div target-button="thumb-2" style="width: 680px;height: 306px;">
             <div id="slide-2" class="slide">
                 <div class="container">
-                    <h1>طرح خود را برای ما ارسال کنید</h1>
+                    <h1>Submit your proposal</h1>
 
                     <p class="slide-paragraph">
-                        بعد از ثبت نام در قالب فردی یا خوشه ای، باید طرح پیشنهادی به مؤسسه معرفی گردد. برای آگاهی از نحوه معرفی طرح بر روی دکمه زیر کلیک نمایید.
+The proposal should submit to the institute after the individual or cluster registration. Click "More Details" to follow the process of proposal submission.
                     </p>
 
-                    <p><a id="submit-scroll-button" class="btn btn-primary btn-lg" style="position: absolute;rigth: 10px;bottom: 20px;" href="{% url register %}"> جزئیات
-                        مرحله ارسال طرح</a></p>
+                    <p><a id="submit-scroll-button" class="btn btn-primary btn-lg" style="position: absolute;rigth: 10px;bottom: 20px;" href="{% url register %}"> More Details</a></p>
                 </div>
             </div>
         </div>
         <div target-button="thumb-3" style="width: 680px;height: 306px;">
             <div id="slide-3" class="slide">
                 <div class="container">
-                    <h1>طرح شما بررسی و ارزیابی می شود</h1>
+                    <h1>Your proposal is considered and evaluated</h1>
 
                     <p class="slide-paragraph">
-                        بعد از ارسال طرح، فرایند داوری صورت می گیرد. این قسمت با ارسال طرح پیشنهادی به داور متخصص در آن حوزه تکمیل خواهد شد. برای آشنایی بیشتر با این مرحله بر روی دکمه زیر کلیک کنید.
+                        In this stage the proposal is submitted to the professional referees. Click the following tab for more information.
                     </p>
 
-                    <p><a class="btn btn-primary btn-lg" style="position: absolute;rigth: 10px;bottom: 20px;" href="#" id="judge-scroll-button"> معیارها
-                        و مراحل داوری</a></p>
+                    <p><a class="btn btn-primary btn-lg" style="position: absolute;rigth: 10px;bottom: 20px;" href="#" id="judge-scroll-button">Judgment factors and steps</a></p>
                 </div>
             </div>
         </div>
         <div target-button="thumb-4" style="width: 680px;height: 306px;">
             <div id="slide-4" class="slide">
                 <div class="container">
-                    <h1>حمایت می شوید!</h1>
+                    <h1>You’ll be supported</h1>
 
                     <p class="slide-paragraph">
-                        آخرین مرحله، حمایت مادی و معنوی از طرح های پذیرفته شده در موسسه می باشد.
+                        The final stage is the financial and non-financial supports of accepted proposals.
                     </p>
-                    <p><a class="btn btn-primary btn-lg" style="position: absolute;rigth: 10px;bottom: 20px;" href="#" id="support-scroll-button">جزئیات بیشتر</a></p>
+                    <p><a class="btn btn-primary btn-lg" style="position: absolute;rigth: 10px;bottom: 20px;" href="#" id="support-scroll-button">More Details</a></p>
                 </div>
             </div>
         </div>
@@ -384,7 +382,7 @@
             <div style="clear:both;"></div>
         </div>
         <div class="thumb thumb-2 selected-thumb">
-            <div class="thumb-content"><p>Recording & presenting proposal</p></div>
+            <div class="thumb-content"><p>Recording & presenting <br>proposal</p></div>
             <div style="clear:both;"></div>
         </div>
         <div class="thumb thumb-3">
@@ -392,7 +390,7 @@
             <div style="clear:both;"></div>
         </div>
         <div class="thumb thumb-4">
-            <div class="thumb-content"><p>Financial & non-financial support</p></div>
+            <div class="thumb-content"><p>Financial & non-financial <br>support</p></div>
             <div style="clear:both;"></div>
         </div>
     </div>
@@ -424,7 +422,7 @@
         </p>
 
         <p><a class="btn btn-default btn-lg" style="margin-right: 30px;margin-top:20px;" href="{% url register %}">
-           Register Now.
+           Register Now
         </a></p>
     </div>
 </div>
@@ -570,7 +568,7 @@
 </div>
 <footer class="art-footer">
     <div class="art-footer-inner">
-        <p>Negahe-nou research institute, All Rights Reserved.</p>
+        <p>Negahe-nou institute, All Rights Reserved.</p>
 
     </div>
 </footer>
