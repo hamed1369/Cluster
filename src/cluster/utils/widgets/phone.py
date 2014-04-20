@@ -3,6 +3,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe
 
+
 __author__ = 'M.Y'
 
 
@@ -50,6 +51,18 @@ class PhoneNumberMultiWidget(forms.MultiWidget):
         return mark_safe(before_content + new_content)
 
 
+class EnglishPhoneNumberMultiWidget(PhoneNumberMultiWidget):
+    def render(self, name, value, attrs=None):
+        content = super(PhoneNumberMultiWidget, self).render(name, value, attrs)
+        before_content = u'<span class="phone-example"> example : %s </span>' % self.example
+
+        new_content = '/><span style="float:right;position: relative;top: 4px;left: 1px;">-</span>'.join(
+            content.split('/>')[:3])
+        new_content += content.split('/>')[-1:][0] + '/>'
+        return mark_safe(before_content + new_content)
+
+
+
 class MobileNumberMultiWidget(PhoneNumberMultiWidget):
     def __init__(self, attrs=None, example=None):
         self.example = example
@@ -86,6 +99,18 @@ class MobileNumberMultiWidget(PhoneNumberMultiWidget):
         value = list(reversed(value))
         return u'%s-%s-%s' % tuple(value)
 
+class EnglishMobileNumberMultiWidget(MobileNumberMultiWidget):
+
+    def render(self, name, value, attrs=None):
+        content = super(PhoneNumberMultiWidget, self).render(name, value, attrs)
+        before_content = u'<span class="phone-example"> example : %s </span>' % self.example
+
+        new_content = '/><span style="float:right;position: relative;top: 4px;left: 1px;">-</span>'.join(
+            content.split('/>')[:3])
+        new_content += content.split('/>')[-1:][0] + '/>'
+        return mark_safe(before_content + new_content)
+
+
 
 class MobileNumberField(forms.CharField):
 
@@ -94,14 +119,28 @@ class MobileNumberField(forms.CharField):
         if value and len(value) != 14:
             raise ValidationError(u"شماره تلفن همراه باید 12 رقمی باشد.")
 
+class EnglishMobileNumberField(forms.CharField):
+
+    def validate(self, value):
+        super(EnglishMobileNumberField, self).validate(value)
+        if value and len(value) != 14:
+            raise ValidationError(u"Mobile number should have 12 digits.")
+
 
 def handle_phone_fields(form):
+    from cluster.account.all_managers.international import InternationalAccountRegisterForm
     for field in form.fields:
         if field == 'telephone' or field == 'essential_telephone':
             form.fields[field].widget = PhoneNumberMultiWidget(example=u"87654321-21-98")
+            if isinstance(form,InternationalAccountRegisterForm):
+                form.fields[field].widget = EnglishPhoneNumberMultiWidget(example=u"98-21-7654321")
+
         elif field == 'mobile':
             old_label = form.fields[field].label
             old_required = form.fields[field].required
             old_initial = form.fields[field].initial
             form.fields[field] = MobileNumberField(label=old_label, required=old_required, initial=old_initial)
             form.fields[field].widget = MobileNumberMultiWidget(example=u"7654321-912-98")
+            if isinstance(form,InternationalAccountRegisterForm):
+                form.fields[field] = EnglishMobileNumberField(label=old_label, required=old_required, initial=old_initial)
+                form.fields[field].widget = EnglishMobileNumberMultiWidget(example=u"98-912-7654321")

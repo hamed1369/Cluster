@@ -75,6 +75,7 @@
             </div>
         </div>
     {% endif %}
+    {% block header2 %}
     <div id="header">
         <div id="inner-header">
             <div id="logo-container">
@@ -99,6 +100,7 @@
 
         </div>
     </div>
+    {% endblock %}
     {#    <header class="art-header">#}
     {#        {% if not user.is_anonymous %}#}
     {##}
@@ -125,6 +127,7 @@
             <div class="art-content-layout">
                 <div class="art-content-layout-row">
                     {% if menus %}
+                        
                         <div class="art-layout-cell art-sidebar1">
                             <div class="art-vmenublock clearfix">
                                 <div class="art-vmenublockcontent">
@@ -204,13 +207,14 @@
             </div>
         </div>
     </div>
+    {% block footer %}
     <footer class="art-footer">
         <div class="art-footer-inner">
             <p>تمامی حقوق این سایت متعلق به موسسه پژوهشی نگاه نو میباشد</p>
 
         </div>
     </footer>
-
+    {% endblock %}
 
 </div>
 

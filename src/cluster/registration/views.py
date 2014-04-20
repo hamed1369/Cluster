@@ -6,6 +6,7 @@ from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
 from cluster.account.account.models import Cluster, Arbiter
+from cluster.account.all_managers.international import InternationalAccountRegisterForm
 from cluster.registration.forms import ArbiterForm
 from cluster.registration.handlers import ClusterHandler
 from cluster.utils.messages import MessageServices, SMSService
@@ -70,6 +71,28 @@ def arbiter_register(request):
         'arbiter_form': arbiter_form,
     }
     return render_to_response('registration/arbiter_register.html', context, context_instance=RequestContext(request))
+
+
+def international_register(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/en/')
+    if request.POST:
+        register_form = InternationalAccountRegisterForm(request.POST, prefix='register')
+        if register_form.is_valid():
+            register_form.save()
+            messages.success(request, u"Thank you. You are successfully registered. We will contact you soon.")
+            context = {
+                'registered': True,
+
+
+            }
+            return render_to_response('registration/international_register.html', context, context_instance=RequestContext(request))
+    else:
+        register_form = InternationalAccountRegisterForm(prefix='register', instance=None)
+    context = {
+        'register_form': register_form,
+    }
+    return render_to_response('registration/international_register.html', context, context_instance=RequestContext(request))
 
 
 @login_required

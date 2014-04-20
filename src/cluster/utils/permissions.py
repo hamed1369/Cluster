@@ -134,6 +134,7 @@ MENU_MAPPERS = {
         MenuMapper('/accounts/edit_intro_page_content/', u"مدیریت محتوای صفحه اصلی"),
         MenuMapper('/accounts/proposal_sample/', u"تنظیمات"),
         MenuMapper('/visitors/', u"آمار سایت"),
+        MenuMapper('/visitors/', u"مدیریت ثبت نام های بین المللی"),
         MenuMapper('/admin/news/file/', u"آپلود فایل")
     ],
     'arbiter': [

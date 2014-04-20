@@ -14,6 +14,24 @@ def __unicode__(self):
 setattr(User, '__unicode__', __unicode__)
 
 
+class InternationalAccount(models.Model):
+    GENDER = (
+        (1, u"male"),
+        (2, u"female")
+    )
+    first_name = models.CharField('first name', max_length=30)
+    last_name = models.CharField('last name', max_length=30)
+    email = models.EmailField('e-mail address')
+    gender = models.IntegerField(u"gender", choices=GENDER)
+    country = models.CharField(u"country", max_length=50)
+    residence_city = models.CharField(u"city", max_length=50)
+    address = models.CharField(u"address", max_length=400, null=True, blank=True)
+    telephone = models.CharField(u"telephone number", max_length=16, null=True, blank=True)
+    mobile = models.CharField(u"mobile number", max_length=15, null=True, blank=True)
+    project_summery = models.FileField(u"project summery", upload_to="project_summery",null=True, blank=True)
+    created_on = models.DateField(u"registration date", auto_now_add=True)
+
+
 class Account(models.Model):
     GENDER = (
         (1, u"مرد"),

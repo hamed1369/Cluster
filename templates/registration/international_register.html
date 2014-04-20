@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load i18n %}
+{% block CSS %}
+{#    <link rel="stylesheet" type="text/css" href='/static/lib/form-validation/validationEngine.jquery.css'/>#}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="/static/registration/register.css"/>
+    <link href="{% static 'intro/css/intro_en.css' %}" rel="stylesheet" type="text/css"/>
+    <style type="text/css">
+        h1, h2, h3, h4, h5, h6{
+            font-family: "Times New Roman", "serif";
+        }
+        body{
+            direction: ltr;
+        }
+        .label_td{
+            font-family: "Times New Roman", "serif";
+            font-size: 15px;
+        }
+        .art-article th, .art-article td{
+            text-align: left;
+        }
+        .formset_fieldset table .label_td, td, th, tr{
+            text-align: left;
+
+        }
+        .art-footer{
+            height: 50px;
+            margin-top:10px;
+        }
+
+    </style>
+{% endblock %}
+
+{% block JS %}
+    {{ block.super }}
+    <script type="text/javascript" src="/static/registration/register.js"></script>
+{#    <script type="text/javascript" src='/static/lib/form-validation/languages/jquery.validationEngine-fa.js'></script>#}
+{#    <script type="text/javascript" src='/static/lib/form-validation/jquery.validationEngine.js'></script>#}
+{% endblock %}
+
+{% block title %}registration{% endblock %}
+{% block header_title %}Registration Form{% endblock %}
+
+{% block header2 %}
+<div id="header">
+    <div id="inner-header">
+        <div id="logo-container">
+            <div id="logo"></div>
+            <div id="logo-name"></div>
+        </div>
+
+        <div id="top-button-div">
+            <a class="btn btn-default" id="aboutus-button" href="/en/">Main Page</a>
+            <a class="btn btn-danger" href="{% url cluster.registration.views.international_register %}">Registration</a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+    {% language 'en' %}
+    {% include 'messages.html' %}
+    <div class="panel panel-info form-div" id="register_div">
+        <form action="" method="post" enctype="multipart/form-data" id="register_form" class="js-validation-from">
+            {% csrf_token %}
+{% load account_template_tags %}
+{% if not registered %}
+<fieldset class="inner_fieldset">
+    <table class="register_table">
+
+        <tr>
+            <td class="label_td">{{ register_form.first_name.label }}
+            </td>
+            <td class="input_td">{{ register_form.first_name }}</td>
+            {% if register_form.first_name.errors %}
+                <td class="error_td" width="30%">{{ register_form.first_name.errors }}</td>
+            {% endif %}
+
+        </tr>
+        <tr>
+            <td class="label_td">{{ register_form.last_name.label }}
+            </td>
+            <td class="input_td">{{ register_form.last_name }}</td>
+            {% if register_form.last_name.errors %}
+                <td class="error_td" width="30%">{{ register_form.last_name.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr>
+
+            <td class="label_td">{{ register_form.email.label }}
+            </td>
+            <td class="input_td">{{ register_form.email }}</td>
+            {% if register_form.email.errors %}
+                <td class="error_td" width="30%">{{ register_form.email.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr>
+
+            <td class="label_td">{{ register_form.gender.label }}
+            </td>
+            <td class="input_td">{{ register_form.gender }}</td>
+            {% if register_form.gender.errors %}
+                <td class="error_td" width="30%">{{ register_form.gender.errors }}</td>
+            {% endif %}
+        </tr>
+        {#    <tr>#}
+        {#        <td class="label_td">{{ register_form.father_name.label }}#}
+        {#        </td>#}
+        {#        <td class="input_td">{{ register_form.father_name }}</td>#}
+        {#        {% if register_form.father_name.errors %}#}
+        {#            <td class="error_td" width="30%">{{ register_form.father_name.errors }}</td>#}
+        {#        {% endif %}#}
+        {#    </tr>#}
+        {#    <tr>#}
+        {#        <td class="label_td">{{ register_form.identification_number.label }}#}
+        {#        </td>#}
+        {#        <td class="input_td">{{ register_form.identification_number }}</td>#}
+        {#        {% if register_form.identification_number.errors %}#}
+        {#            <td class="error_td" width="30%">{{ register_form.identification_number.errors }}</td>#}
+        {#        {% endif %}#}
+        {#    </tr>#}
+        <tr>
+            <td class="label_td">{{ register_form.country.label }}
+            </td>
+            <td class="input_td">{{ register_form.country }}</td>
+            {% if register_form.country.errors %}
+                <td class="error_td" width="30%">{{ register_form.country.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td class="label_td">{{ register_form.residence_city.label }}
+            </td>
+            <td class="input_td">{{ register_form.residence_city }}</td>
+            {% if register_form.residence_city.errors %}
+                <td class="error_td" width="30%">{{ register_form.residence_city.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr>
+
+            <td class="label_td">{{ register_form.mobile.label }}
+            </td>
+            <td class="input_td">{{ register_form.mobile }}</td>
+            {% if register_form.mobile.errors %}
+                <td class="error_td" width="30%">{{ register_form.mobile.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr>
+
+            <td class="label_td">{{ register_form.telephone.label }}
+            </td>
+            <td class="input_td">{{ register_form.telephone }}</td>
+            {% if register_form.telephone.errors %}
+                <td class="error_td" width="30%">{{ register_form.telephone.errors }}</td>
+            {% endif %}
+        </tr>
+        {#        <tr>#}
+        {##}
+        {#            <td class="label_td">{{ register_form.essential_telephone.label }}#}
+        {#            </td>#}
+        {#            <td class="input_td">{{ register_form.essential_telephone }}</td>#}
+        {#            {% if register_form.essential_telephone.errors %}#}
+        {#                <td class="error_td" width="30%">{{ register_form.essential_telephone.errors }}</td>#}
+        {#            {% endif %}#}
+        {#        </tr>#}
+        <tr>
+            <td class="label_td">{{ register_form.address.label }}
+            </td>
+            <td class="input_td">{{ register_form.address }}</td>
+            {% if register_form.address.errors %}
+                <td class="error_td" width="30%">{{ register_form.address.errors }}</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td class="label_td">{{ register_form.project_summery.label }}
+            </td>
+            <td class="input_td">{{ register_form.project_summery }}</td>
+            {% if register_form.project_summery.errors %}
+                <td class="error_td" width="30%">{{ register_form.project_summery.errors }}</td>
+            {% endif %}
+        </tr>
+{% if register_form.captcha %}
+            <tr>
+                <td class="label_td">{{ register_form.captcha.label }}
+                </td>
+                <td class="input_td" style="width: 300px;">{{ register_form.captcha }}</td>
+                {% if register_form.captcha.errors %}
+                    <td class="error_td" width="30%">{{ register_form.captcha.errors }}</td>
+                {% endif %}
+            </tr>
+{% endif %}
+    </table>
+</fieldset>
+            <div class="button_holder">
+                <input type="submit" value="Submit" name="register-submit">
+            </div>
+        </form>
+    </div>
+{% else %}
+    <p><a href="/en/register/">Back to main page</a></p>
+{% endif %}
+{% endlanguage %}
+{% endblock %}
+{% block footer %}
+    <footer class="art-footer">
+        <div class="art-footer-inner">
+            <p>Negahe-nou institute, All Rights Reserved.</p>
+
+        </div>
+    </footer>
+{% endblock %}
