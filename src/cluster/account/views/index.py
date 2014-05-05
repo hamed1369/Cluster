@@ -15,7 +15,7 @@ from cluster.project.models import Project
 
 __author__ = 'M.Y'
 
-def index_core(request,template_path):
+def index_core(request):
     login_form = SignInForm()
 
     has_submited = False
@@ -27,7 +27,7 @@ def index_core(request,template_path):
             contact_form = ContactForm(prefix='contact')
     else:
         contact_form = ContactForm(prefix='contact')
-    template = Template(IntroPageContent.get_instance().content)
+
     projects = Project.get_projects_content(request)
     statistics = get_statistics(request)
     links = Link.get_links_content(request)
@@ -35,12 +35,16 @@ def index_core(request,template_path):
                                        'links': links, 'contact_form': contact_form,'statistics':statistics})
     #return HttpResponse(template.render(context))
     # return HttpResponse(template.render(context))
-    return render_to_response(template_path,context)
+    return context
 
 
 def index(request):
-    return index_core(request,'intro.html')
+    context = index_core(request)
+    print "sdkfjsdlfjlsdkfsdlfjkd"
+    template = Template(IntroPageContent.get_instance().content)
+    return HttpResponse(template.render(context))
 
 
 def en_index(request):
-    return index_core(request,'en_intro.html')
+    context = index_core(request)
+    return render_to_response('en_intro.html',context)
