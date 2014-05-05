@@ -6,17 +6,39 @@ from cluster.utils.forms import ClusterBaseModelForm, ClusterFilterModelForm
 from cluster.utils.manager.action import AddAction, EditAction, DeleteAction
 from cluster.utils.manager.main import ObjectsManager, ManagerColumn
 from cluster.utils.permissions import PermissionController
+import re
 
 __author__ = 'M.Y'
 
 
 class InternationalAccountRegisterForm(ClusterBaseModelForm):
+    my_default_errors = {
+        'required': 'This field is required',
+        'invalid': 'Enter a valid value'
+    }
     captcha = CaptchaField(label=u"security code", error_messages={'invalid': u"security code is not valid"})
 
     class Meta:
         model = InternationalAccount
         exclude = ('created_on',)
 
+    def __init__(self,*arg, **kwargs):
+        super(InternationalAccountRegisterForm,self).__init__(*arg,**kwargs)
+
+        for field in self.fields.iterkeys():
+            self.fields[field].error_messages = self.my_default_errors
+
+    def clean_mobile(self):
+        mobile = self.cleaned_data.get('mobile')
+        if re.findall("[A-Za-z]",mobile):
+            self._errors['mobile'] = self.error_class(["Only numbers are acceptable."])
+        return mobile
+
+    def clean_telephone(self):
+        phone = self.cleaned_data.get('telephone')
+        if re.findall("[A-Za-z]",phone):
+            self._errors['telephone'] = self.error_class(["Only numbers are acceptable."])
+        return phone
 
 class InternationlAccountFilterForm(ClusterFilterModelForm):
     class Meta:
