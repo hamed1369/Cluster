@@ -67,7 +67,7 @@ class MessageServices(object):
             لینک ثبت نام خوشه : {{url}} <br/>
 
             باتشکر<br/>
-            موسسه پژوهشی نگاه نو
+            موسسه  نگاه نو
             </div>
         """).render(Context({
             'name': u"%s %s" % (user.first_name, user.last_name) if (
@@ -92,7 +92,7 @@ class MessageServices(object):
                 </p>
 
                 باتشکر<br/>
-                موسسه پژوهشی نگاه نو
+                موسسه  نگاه نو
                 </div>
             """).render(Context({
             'name': u"%s %s" % (user.first_name, user.last_name) if (
@@ -110,7 +110,7 @@ class MessageServices(object):
                 <h1>{{title}} </h1>
                 <p> {{body|safe}} ،</p>
 
-                موسسه پژوهشی نگاه نو
+                موسسه  نگاه نو
                 </div>
             """).render(Context({
             'name': u"%s %s" % (sender.first_name, sender.last_name) if (
@@ -128,7 +128,7 @@ class MessageServices(object):
                     {{title}} ،
                     سلام
                     <br/>
-                    <p>با تشکر از حسن توجه جنابعالی نسبت به همکاری با موسسه پژوهشی نگاه نو، از شما تقاضا می شود جهت تکمیل اطلاعات خود در سامانه این موسسه به لینک زیر مراجعه نمایید. امیدواریم همکاری های متقابل این موسسه با شما و بهره مندی از تخصص حضرتعالی سبب رسیدن به هدف متعالی ترسیم شده برای موسسه گردد.</p>
+                    <p>با تشکر از حسن توجه جنابعالی نسبت به همکاری با موسسه  نگاه نو، از شما تقاضا می شود جهت تکمیل اطلاعات خود در سامانه این موسسه به لینک زیر مراجعه نمایید. امیدواریم همکاری های متقابل این موسسه با شما و بهره مندی از تخصص حضرتعالی سبب رسیدن به هدف متعالی ترسیم شده برای موسسه گردد.</p>
                     <br/>
                     {{link_url}}
                     <br/>
@@ -146,7 +146,7 @@ class MessageServices(object):
                 </p>
                 باتشکر
                 </br>
-                موسسه پژوهشی نگاه نو
+                موسسه  نگاه نو
                 </div>
             """).render(Context({
             'title': title,
@@ -162,7 +162,7 @@ class MessageServices(object):
                 <h1>{{title}} </h1>
                 <p> {{body|safe}}</p>
 
-                موسسه پژوهشی نگاه نو
+                موسسه  نگاه نو
                 </div>
             """).render(Context({
             'title': title,
@@ -173,7 +173,7 @@ class MessageServices(object):
 
 class SMSService(object):
     from_number = 30004934000555
-    signature = u'موسسه پژوهشی نگاه نو'
+    signature = u'موسسه  نگاه نو'
 
     WSID = 1464
     username = 'tahmooresi'

@@ -91,7 +91,7 @@ class AdminProjectCheckAction(ManagerAction):
                 for project_arbiter in project_arbiters:
                     arbiter = project_arbiter.arbiter
                     #if old_arbiter != new_arbiter and new_arbiter:
-                    message_body = u'%s محترم، مدیریت سامانه موسسه پژوهشی نگاه نو طرح با عنوان "%s" را برای داوری به شما سپرده است.' % (
+                    message_body = u'%s محترم، مدیریت سامانه موسسه  نگاه نو طرح با عنوان "%s" را برای داوری به شما سپرده است.' % (
                         unicode(arbiter), instance.title)
                     message = MessageServices.get_title_body_message(u"ارسال طرح برای شما جهت داوری", message_body)
                     MessageServices.send_message(u"ارسال طرح برای شما جهت داوری", message, arbiter.user)
