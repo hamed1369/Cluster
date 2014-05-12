@@ -39,10 +39,11 @@ def index_core(request):
 
 
 def index(request):
+    # context = index_core(request)
+    # template = Template(IntroPageContent.get_instance().content)
+    # return HttpResponse(template.render(context))
     context = index_core(request)
-    print "sdkfjsdlfjlsdkfsdlfjkd"
-    template = Template(IntroPageContent.get_instance().content)
-    return HttpResponse(template.render(context))
+    return render_to_response('intro.html',context)
 
 
 def en_index(request):

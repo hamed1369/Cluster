@@ -502,3 +502,14 @@ table, ul.art-hmenu{
     margin-right: 20px;
 
 }
+
+.project-title{
+    float:right;
+}
+.project-attachment{
+    width: 24px;
+    height: 24px;
+    background-size: 24px 24px;
+    background-image: url(../../intro/images/attachment-icon.png);
+    float:right;
+}

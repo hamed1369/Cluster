@@ -6,10 +6,11 @@
 <head><!-- Created by Artisteer v4.1.0.60046 -->
     <meta charset="utf-8">
     <link rel="stylesheet" href="/static/layout/style.css" media="screen">
-    <meta name="description" content="موسسه  نگاه نو، نهادی غیردولتی و غیرسیاسی است که به منظور حمایت و توانمند سازی نخبگان، استعدادهای درخشان و گروه های جوان و نوپا (دارای توان بالقوه توسعه و آینده روشن اقتصادی در زمینه های مختلف علمی و صنعتی)، در سال 1392 شکل گرفته است.">
+    <meta name="description"
+          content="موسسه پژوهشی نگاه نو، نهادی غیردولتی و غیرسیاسی است که به منظور حمایت و توانمند سازی نخبگان، استعدادهای درخشان و گروه های جوان و نوپا (دارای توان بالقوه توسعه و آینده روشن اقتصادی در زمینه های مختلف علمی و صنعتی)، در سال 1392 شکل گرفته است.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords" content="نخبه,elite,persian,support,حمایت,موسسه,نگاه نو,استعداد,طرح,پژوهش">
-    <title>موسسه  نگاه نو </title>
+    <title>موسسه پژوهشی نگاه نو </title>
     <link rel="shortcut icon" href="/static/favicon.ico">
     <meta name="viewport" content="initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no, width = device-width">
     <!--[if lt IE 9]><script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
@@ -62,15 +63,15 @@
             });
             var param = document.URL.split('#')[1];
             var startingSlide = 0;
-            if (param == 'news'){
+            if (param == 'news') {
                 startingSlide = 2;
-            }else if(param == 'contact-us'){
+            } else if (param == 'contact-us') {
                 startingSlide = 1;
-            }else if(param == 'projects'){
+            } else if (param == 'projects') {
                 startingSlide = 3;
-            }else if(param == 'links'){
+            } else if (param == 'links') {
                 startingSlide = 4;
-            }else if(param == 'statistics'){
+            } else if (param == 'statistics') {
                 startingSlide = 5;
             }
             $('#inner-introduction').cycle({
@@ -78,7 +79,7 @@
                 fx: 'fade',
                 speed: 300,
                 timeout: 0,
-                startingSlide : startingSlide
+                startingSlide: startingSlide
             });
             $("#intro-button").click(function () {
                 $('#inner-introduction').cycle(0);
@@ -119,24 +120,24 @@
                 $('#upper-header').slideToggle();
                 return false;
             });
-            $("#register-scroll-button").click(function(){
-                $.scrollTo( $('#reg-detail'), 800);
+            $("#register-scroll-button").click(function () {
+                $.scrollTo($('#reg-detail'), 800);
                 return false;
             });
-            $("#submit-scroll-button").click(function(){
-                $.scrollTo( $('#submit-detail'), 800);
+            $("#submit-scroll-button").click(function () {
+                $.scrollTo($('#submit-detail'), 800);
                 return false;
             });
-            $("#judge-scroll-button").click(function(){
-                $.scrollTo( $('#judge-detail'), 800);
+            $("#judge-scroll-button").click(function () {
+                $.scrollTo($('#judge-detail'), 800);
                 return false;
             });
-            $("#support-scroll-button").click(function(){
-                $.scrollTo( $('#support-detail-container'), 800);
+            $("#support-scroll-button").click(function () {
+                $.scrollTo($('#support-detail-container'), 800);
                 return false;
             });
-            $("#workflow").click(function(){
-                $.scrollTo( $('#workflow-detail-container'), 800);
+            $("#workflow").click(function () {
+                $.scrollTo($('#workflow-detail-container'), 800);
                 return false;
             });
         });
@@ -146,16 +147,13 @@
 {% if not user.is_authenticated %}
     <div id="upper-header" style="display: none;">
         <div id="inner-upper-header">
-            <form class="form-inline" role="form" method="post" action="{% url account.views.auth.login_view %}">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label class="white-label" for="id_username">نام کاربری</label>
-                    <input type="username" class="form-control" id="id_username" name="username"
-                           placeholder="نام کاربری">
+            <form class="form-inline" role="form" method="post"
+                  action="{% url account.views.auth.login_view %}">{% csrf_token %}
+                <div class="form-group"><label class="white-label" for="id_username">نام کاربری</label> <input
+                        class="form-control" id="id_username" name="username" placeholder="نام کاربری" type="username"/>
                 </div>
-                <div class="form-group">
-                    <label class="white-label" for="id_password">گذرواژه</label>
-                    <input type="password" class="form-control" id="id_password" name="password" placeholder="گذرواژه">
+                <div class="form-group"><label class="white-label" for="id_password">گذرواژه</label> <input
+                        class="form-control" id="id_password" name="password" placeholder="گذرواژه" type="password"/>
                 </div>
                 <button type="submit" class="btn btn-default">ورود</button>
             </form>
@@ -165,25 +163,17 @@
 <div id="header">
     <div id="inner-header">
         <div id="logo-container">
-            <div id="logo">&nbsp;</div>
-            <div id="logo-name">&nbsp;</div>
+            <div id="logo"> </div>
+            <div id="logo-name"> </div>
         </div>
-
-        <div id="top-button-div">
-
-            {% if not user.is_authenticated %}
-                <a class="btn btn-default" id="login-button"
-                   href="{% url cluster.account.views.auth.login_view %}">ورود</a>
-                <a class="btn btn-danger" href="{% url cluster.registration.views.register %}">ثبت نام</a>
-            {% else %}
-                <div id="user-info">
-                    <div id="welcome">{% welcome_st user %}</div>
-                    <div id="today-date">{{ today|persian_date }}</div>
-                    <a id="exit-button" href="{% url logout %}">خروج</a>
-                </div>
-            {% endif %}
-        </div>
-
+        <div id="top-button-div">{% if not user.is_authenticated %}
+            <a class="btn btn-default" id="login-button" href="{% url cluster.account.views.auth.login_view %}">ورود</a>
+            <a class="btn btn-danger" href="{% url cluster.registration.views.register %}">ثبت نام</a> {% else %}
+            <div id="user-info">
+                <div id="welcome">{% welcome_st user %}</div>
+                <div id="today-date">{{ today|persian_date }}</div>
+                <a id="exit-button" href="{% url logout %}">خروج</a></div>
+        {% endif %}</div>
     </div>
 </div>
 <div id="top-buttons">
@@ -196,63 +186,49 @@
             <li><a href="#statistics" id="statistics-button">آمار سایت</a></li>
             {% if user|check_role:"member" %}
                 <li><a href="{% url edit_accounts %}">پروفایل</a></li>
-                <li><a href="/projects/">طرح های من</a></li>
-                <li><a href="/messages/">جعبه پیام</a></li>
-            {% endif %}
-            {% if user|check_role:"admin" %}
-                <li><a href="/projects_management/">مدیریت طرح ها</a></li>
-                <li><a href="/members/">مدیریت افراد</a></li>
-            {% endif %}
-            {% if user|check_role:"arbiter" %}
-                <li><a href="/arbiter_edit/">پروفایل</a></li>
-                <li><a href="/projects_arbitration/">داوری طرح ها</a></li>
-                <li><a href="/messages/">جعبه پیام</a></li>
-            {% endif %}
-            {% if user|check_role:"supervisor" %}
-                <li><a href="/accounts/edit/">پروفایل</a></li>
-                    <li><a href="/projects_supervision/">بررسی طرح ها</a></li>
-            {% endif %}
+                <li><a href="../../projects/">طرح های من</a></li>
+                <li><a href="../../messages/">جعبه پیام</a></li>
+            {% endif %} {% if user|check_role:"admin" %}
+            <li><a href="../../projects_management/">مدیریت طرح ها</a></li>
+            <li><a href="../../members/">مدیریت افراد</a></li>
+        {% endif %} {% if user|check_role:"arbiter" %}
+            <li><a href="../../arbiter_edit/">پروفایل</a></li>
+            <li><a href="../../projects_arbitration/">داوری طرح ها</a></li>
+            <li><a href="../../messages/">جعبه پیام</a></li>
+        {% endif %} {% if user|check_role:"supervisor" %}
+            <li><a href="../edit/">پروفایل</a></li>
+            <li><a href="../../projects_supervision/">بررسی طرح ها</a></li>
+        {% endif %}
             <li><a href="#contact-us" id="aboutus-button">تماس با ما</a></li>
         </ul>
-        <div style="position: absolute;left:0px;top:3px;font-size: 15px;padding-top:2px;">
-            {% get_current_date_time %}
-        </div>
-        <div style="position: absolute;left:-80px;top:3px;font-size: 15px;padding-top:2px;">
-            <a href="/en/" style="color:red;font-weight: bold;">English</a>
+        <div style="position: absolute; left: 0px; top: 3px; font-size: 15px; padding-top: 2px;">{% get_current_date_time %}</div>
+        <div style="position: absolute;left:-120px;top:3px;font-size: 15px;padding-top:2px;">
+{#            {% get_current_date_time %}#}
+            <span style="color:rgb(255, 186, 199);margin-left: 10px;">فارسی</span><a href="/en/" style="color:red;font-weight: bold;font-family: B Nazanin;">English</a>
         </div>
     </div>
 </div>
 <div id="introduction">
     <div id="inner-introduction">
         <div class="inner-intro-div" id="introo">
-            <p>
-                موسسه  نگاه نو، نهادی غیردولتی و غیرسیاسی است که به منظور حمایت و توانمند سازی نخبگان، استعدادهای درخشان و گروه های جوان و نوپا (دارای توان بالقوه توسعه و آینده روشن اقتصادی در زمینه های مختلف علمی و صنعتی)، در سال 1392 شکل گرفته است. این موسسه با در اختیار گذاشتن منابع مالی و تجارب مدیریتی خود به جوانان نخبه، امکانات لازم جهت:
-            </p>
-            <p>
-                <ul style="list-style: disc; margin-right: 60px;">
-                    <li>
-                        شرکت در پروژه های موسسه (به منظور توانمندسازی نخبگان در محیط کار و ایجاد انگیزه کاری).
-                    </li>
-                    <li>
-                        انجام پژوهش های علمی و کاربردی بصورت فردی یا در قالب خوشه های علمی.
-                    </li>
-                    <li>
-                        ایجاد زیرساخت های لازم جهت انجام پژوهش یا ساخت محصول.
-                    </li>
-                    <li>
-                        حمایت از طرح ها و ایده های نو جهت تبدیل آن به محصول.
-                    </li>
-                </ul>
-            </p>
-            <p>
-                را فراهم می کند. از جمله اهداف بنیادی این موسسه سرمایه گذاری در طرح ها و ایده هایی است که روش کاری نوین و یا فناوری جدید را در برگیرد.
-            </p>
+            <p>موسسه نگاه نو، نهادی غیردولتی و غیرسیاسی است که به منظور حمایت و توانمند سازی نخبگان، استعدادهای درخشان و
+                گروه های جوان و نوپا (دارای توان بالقوه توسعه و آینده روشن اقتصادی در زمینه های مختلف علمی و صنعتی)، در
+                سال 1392 شکل گرفته است. این موسسه با در اختیار گذاشتن منابع مالی و تجارب مدیریتی خود به جوانان نخبه،
+                امکانات لازم جهت:</p>
+            <ul style="list-style: disc; margin-right: 60px;">
+                <li>شرکت در پروژه های موسسه (به منظور توانمندسازی نخبگان در محیط کار و ایجاد انگیزه کاری).</li>
+                <li>انجام پژوهش های علمی و کاربردی بصورت فردی یا در قالب خوشه های علمی.</li>
+                <li>ایجاد زیرساخت های لازم جهت انجام پژوهش یا ساخت محصول.</li>
+                <li>حمایت از طرح ها و ایده های نو جهت تبدیل آن به محصول و ثروت.</li>
+            </ul>
+            <p>را فراهم می کند. از جمله اهداف بنیادی این موسسه سرمایه گذاری در طرح ها و ایده هایی است که روش کاری نوین و
+                یا فناوری جدید را در برگیرد.</p>
         </div>
         <div class="inner-intro-div" id="aboutus">
-            <div style="width: 500px;float:right;">
-                <form class="form-inline" role="form" method="post" action="#contact-us">
-                    {% csrf_token %}
+            <div style="width: 500px; float: right;">
+                <form class="form-inline" role="form" method="post" action="#contact-us">{% csrf_token %}
                     <table>
+                        <tbody>
                         <tr>
                             <td>عنوان</td>
                             <td class="thin-input">{{ contact_form.title }}</td>
@@ -275,101 +251,99 @@
                         </tr>
                         <tr>
                             <td>
-                                <button type="submit" class="btn btn-default" style="width: 100px;height: 30px;margin-top: -5px;">ارسال</button>
+                                <button type="submit" class="btn btn-default"
+                                        style="width: 100px; height: 30px; margin-top: -5px;">ارسال
+                                </button>
                             </td>
                             <td></td>
-
                         </tr>
+                        </tbody>
                     </table>
                 </form>
             </div>
-            <div style="width: 360px;float:right;margin-right: 30px;">
-                {% if has_submited %}
-                    <p style="margin-top: 20px;color:greenyellow;font-weight: bold;">پیام شما برای مدیریت سامانه ارسال شد. باتشکر</p>
-                {% endif %}
+            <div style="width: 360px; float: right; margin-right: 30px;">{% if has_submited %}
+                <p style="margin-top: 20px; color: greenyellow; font-weight: bold;">پیام شما برای مدیریت سامانه ارسال
+                    شد. باتشکر</p>
+            {% endif %}
                 <p style="margin-top: 10px;">تلفن: 26402792-021</p>
-                <p style="margin-top: 10px;">پست الکترونیکی: <a href="mailto:info@persianelites.com">info@persianelites.com</a></p>
-                <p style="margin-top: 10px;">آدرس موسسه:   شریعتی، میدان کتابی، خ ساسانی پور، پلاک 9، واحد 2، موسسه پزوهشی نگاه نو</p>
-                <p style="margin-top: 10px;">کد پستی: 1544844511</p>
-                <a href="https://www.facebook.com/pages/Persian-elites/205710082943317">
-						<div style="background-image:url('/static/facebook-icon.png');width:48px;height:48px;margin-top:-20px;margin-left:-10px;float:left;">
-						</div>
-                </a>
-        </div>
 
-        </div>
-        <div class="inner-intro-div" id="newss" >
-            <div style="overflow-y: scroll;height:210px;padding-right:15px;">
-            {{ news_content|safe }}
+                <p style="margin-top: 10px;">پست الکترونیکی: <a href="mailto:info@persianelites.com">info@persianelites.com</a>
+                </p>
+
+                <p style="margin-top: 10px;">آدرس موسسه: شریعتی، میدان کتابی، خ ساسانی پور، پلاک 9، واحد 2، موسسه پزوهشی
+                    نگاه نو</p>
+
+                <p style="margin-top: 10px;">کد پستی: 1544844511</p>
+
+                <div style="background-image: url('../../static/facebook-icon.png'); width: 48px; height: 48px; margin-top: -20px; margin-left: -10px; float: left;"></div>
             </div>
-            <a href="/news/archive/" id="archive" style="background-color: #006dcc;color:white;font-size:20px;position:absolute;bottom:0px;left:20px;padding:10px;">آرشیو اخبار</a>
         </div>
-        <div class="inner-intro-div" id="projectss" style="height: 200px;overflow-y: scroll;padding-right:15px;">
-            {{ projects|safe }}
-        </div>
-        <div class="inner-intro-div" id="linkss" style="height: 200px;overflow-y: scroll;padding-right:15px;">
-            {{ links|safe }}
-        </div>
-        <div class="inner-intro-div" id="statisticss">
-            {{ statistics|safe }}
-        </div>
+        <div class="inner-intro-div" id="newss">
+            <div style="overflow-y: scroll; height: 210px; padding-right: 15px;">{{ news_content|safe }}</div>
+            <a href="../../news/archive/" id="archive"
+               style="background-color: #006dcc; color: white; font-size: 20px; position: absolute; bottom: 0px; left: 20px; padding: 10px;">آرشیو
+                اخبار</a></div>
+        <div class="inner-intro-div" id="projectss"
+             style="height: 200px; overflow-y: scroll; padding-right: 15px;">{{ projects|safe }}</div>
+        <div class="inner-intro-div" id="linkss"
+             style="height: 200px; overflow-y: scroll; padding-right: 15px;">{{ links|safe }}</div>
+        <div class="inner-intro-div" id="statisticss">{{ statistics|safe }}</div>
     </div>
 </div>
-
 <div id="sliderFrame">
     <div id="slider">
-        <div target-button="thumb-1" style="width: 680px;height: 306px;color:black;">
+        <div target-button="thumb-1" style="width: 680px; height: 306px; color: black;">
             <div id="slide-1" class="slide">
                 <div class="container">
                     <h1>اولین قدم ثبت نام در سامانه است</h1>
 
-                    <p class="slide-paragraph" style="margin-top: -0px;width: 320px;">
-فرد نخبه یا صاحب طرح جهت استفاده از امکانات و تسهیلات موسسه باید قبل از هراقدامی فرایند ثبت نام در سامانه را انجام دهد. اهمیت این مرحله در نمودار <a href="#" id="workflow">شرح فرایند</a> موسسه نمایان است.
-                    </p>
+                    <p class="slide-paragraph" style="margin-top: -0px; width: 320px;">فرد نخبه یا صاحب طرح جهت استفاده
+                        از امکانات و تسهیلات موسسه باید قبل از هراقدامی فرایند ثبت نام در سامانه را انجام دهد. اهمیت این
+                        مرحله در نمودار <a href="#" id="workflow">شرح فرایند</a> موسسه نمایان است.</p>
 
-                    <p><a class="btn btn-primary btn-lg" style="position: absolute;rigth: 10px;bottom: 20px;" href="#"  id="register-scroll-button">
-                    جزئیات ثبت نام
-                    </a></p>
+                    <p><a class="btn btn-primary btn-lg" style="position: absolute; rigth: 10px; bottom: 20px;" href="#"
+                          id="register-scroll-button"> جزئیات ثبت نام </a></p>
                 </div>
             </div>
         </div>
-        <div target-button="thumb-2" style="width: 680px;height: 306px;">
+        <div target-button="thumb-2" style="width: 680px; height: 306px;">
             <div id="slide-2" class="slide">
                 <div class="container">
                     <h1>طرح خود را برای ما ارسال کنید</h1>
 
-                    <p class="slide-paragraph">
-                        بعد از ثبت نام در قالب فردی یا خوشه ای، باید طرح پیشنهادی به مؤسسه معرفی گردد. برای آگاهی از نحوه معرفی طرح بر روی دکمه زیر کلیک نمایید.
-                    </p>
+                    <p class="slide-paragraph">بعد از ثبت نام در قالب فردی یا خوشه ای، باید طرح پیشنهادی به مؤسسه معرفی
+                        گردد. برای آگاهی از نحوه معرفی طرح بر روی دکمه زیر کلیک نمایید.</p>
 
-                    <p><a id="submit-scroll-button" class="btn btn-primary btn-lg" style="position: absolute;rigth: 10px;bottom: 20px;" href="{% url register %}"> جزئیات
-                        مرحله ارسال طرح</a></p>
+                    <p><a id="submit-scroll-button" class="btn btn-primary btn-lg"
+                          style="position: absolute; rigth: 10px; bottom: 20px;" href="{% url register %}"> جزئیات مرحله
+                        ارسال طرح</a></p>
                 </div>
             </div>
         </div>
-        <div target-button="thumb-3" style="width: 680px;height: 306px;">
+        <div target-button="thumb-3" style="width: 680px; height: 306px;">
             <div id="slide-3" class="slide">
                 <div class="container">
                     <h1>طرح شما بررسی و ارزیابی می شود</h1>
 
-                    <p class="slide-paragraph">
-                        بعد از ارسال طرح، فرایند داوری صورت می گیرد. این قسمت با ارسال طرح پیشنهادی به داور متخصص در آن حوزه تکمیل خواهد شد. برای آشنایی بیشتر با این مرحله بر روی دکمه زیر کلیک کنید.
-                    </p>
+                    <p class="slide-paragraph">بعد از ارسال طرح، فرایند داوری صورت می گیرد. این قسمت با ارسال طرح
+                        پیشنهادی به داور متخصص در آن حوزه تکمیل خواهد شد. برای آشنایی بیشتر با این مرحله بر روی دکمه زیر
+                        کلیک کنید.</p>
 
-                    <p><a class="btn btn-primary btn-lg" style="position: absolute;rigth: 10px;bottom: 20px;" href="#" id="judge-scroll-button"> معیارها
-                        و مراحل داوری</a></p>
+                    <p><a class="btn btn-primary btn-lg" style="position: absolute; rigth: 10px; bottom: 20px;" href="#"
+                          id="judge-scroll-button"> معیارها و مراحل داوری</a></p>
                 </div>
             </div>
         </div>
-        <div target-button="thumb-4" style="width: 680px;height: 306px;">
+        <div target-button="thumb-4" style="width: 680px; height: 306px;">
             <div id="slide-4" class="slide">
                 <div class="container">
                     <h1>حمایت می شوید!</h1>
 
-                    <p class="slide-paragraph">
-                        آخرین مرحله، حمایت مادی و معنوی از طرح های پذیرفته شده در موسسه می باشد.
-                    </p>
-                    <p><a class="btn btn-primary btn-lg" style="position: absolute;rigth: 10px;bottom: 20px;" href="#" id="support-scroll-button">جزئیات بیشتر</a></p>
+                    <p class="slide-paragraph">آخرین مرحله، حمایت مادی و معنوی از طرح های پذیرفته شده در موسسه می
+                        باشد.</p>
+
+                    <p><a class="btn btn-primary btn-lg" style="position: absolute; rigth: 10px; bottom: 20px;" href="#"
+                          id="support-scroll-button">جزئیات بیشتر</a></p>
                 </div>
             </div>
         </div>
@@ -377,189 +351,199 @@
     <!--thumbnails-->
     <div id="thumbs">
         <div class="thumb thumb-1 thumb-1-focused">
-            <div class="thumb-content"><p>ثبت نام در سامانه</p></div>
-            <div style="clear:both;"></div>
+            <div class="thumb-content">
+                <p>ثبت نام در سامانه</p>
+            </div>
+            <div style="clear: both;"></div>
         </div>
         <div class="thumb thumb-2 selected-thumb">
-            <div class="thumb-content"><p>ثبت و ارسال طرح</p></div>
-            <div style="clear:both;"></div>
+            <div class="thumb-content">
+                <p>ثبت و ارسال طرح</p>
+            </div>
+            <div style="clear: both;"></div>
         </div>
         <div class="thumb thumb-3">
-            <div class="thumb-content"><p>داوری</p></div>
-            <div style="clear:both;"></div>
+            <div class="thumb-content">
+                <p>داوری</p>
+            </div>
+            <div style="clear: both;"></div>
         </div>
         <div class="thumb thumb-4">
-            <div class="thumb-content"><p>حمایت مادی و معنوی</p></div>
-            <div style="clear:both;"></div>
+            <div class="thumb-content">
+                <p>حمایت مادی و معنوی</p>
+            </div>
+            <div style="clear: both;"></div>
         </div>
     </div>
     <!--clear above float:left elements. It is required if above #slider is styled as float:left. -->
-    <div style="clear:both;height:0;"></div>
+    <div style="clear: both; height: 0;"></div>
 </div>
-
 <div id="reg-detail-container" class="detail-content">
     <div id="reg-detail">
-        <h2 style="color:white;margin-bottom: 20px;">ثبت نام در سامانه</h2>
+        <h2 style="color: white; margin-bottom: 20px;">ثبت نام در سامانه</h2>
 
-        <p>
-            برای استفاده از امکانات سامانه، لازم است دانشجویان و نخبگان با مراجعه به قسمت ثبت نام یک بار در سامانه ثبت نام نمایند . ثبت نام در سامانه بر دو اساس صورت می پذیرد:        </p>
+        <p>برای استفاده از امکانات سامانه، لازم است دانشجویان و نخبگان با مراجعه به قسمت ثبت نام یک بار در سامانه ثبت
+            نام نمایند . ثبت نام در سامانه بر دو اساس صورت می پذیرد:</p>
 
-        <p>
-            <span style="color:#F6FF00;font-size: 20px;">ثبت نام فردی:</span>
+        <p><span style="color: #f6ff00; font-size: 20px;">ثبت نام فردی:</span> ثبت نام فردی بدین معنی است که نخبه دارای
+            طرحی است که فردی بوده (تک نفری) و تمایل به اجرای آن به صورت انفرادی دارد؛ از این رو با انتخاب این قسمت تمامی
+            طرح های ارسالی از سوی نخبه به عنوان کار انفرادی در نظر گرفته می شود.</p>
 
-            ثبت نام فردی بدین معنی است که نخبه دارای طرحی است که فردی بوده (تک نفری) و  تمایل به اجرای آن به صورت انفرادی دارد؛ از این رو با انتخاب این قسمت تمامی طرح های ارسالی از سوی نخبه به عنوان کار انفرادی در نظر گرفته می شود.        </p>
+        <p><span style="color: #f6ff00; font-size: 20px;">ثبت نام خوشه ای:</span> این حالت زمانی انتخاب می شود که تعدادی
+            از نخبگان و دانشجویان قصد انجام کار تیمی در قالب طرحی ارسالی دارند. در این حالت یک نفر(فردی که فرآیند ثبت
+            نام خوشه ای را انتخاب کرده است) به عنوان سرگروه خوشه انتخاب می گردد و در ادامه ی فرآیند ثبت نام، نام و نام
+            خانوادگی اعضای خوشه به همراه پست الکترونیکی آنها باید درج گردد. سامانه بطور خودکار بعد از تأیید نهایی فرآیند
+            ثبت نام، اقدام به ارسال دعوت نامه برای اعضای خوشه می کند، که در آن لینک مربوط به فرم اطلاعات فردی خوشه ارسال
+            می گردد. لازم به ذکر است بعد از اعمال مشخصات خوشه، ادامه ی فرآیند ثبت نام بصورت فردی و مربوط به سرگروه خوشه
+            خواهد بود، به طوری که اطلاعات خواسته شده تنها مربوط به یک فرد(سرگروه) می باشد.</p>
 
-        <p>
-            <span style="color:#F6FF00;font-size: 20px;">ثبت نام خوشه ای:</span>
-            این حالت زمانی انتخاب می شود که تعدادی از نخبگان و دانشجویان قصد انجام کار تیمی در قالب طرحی ارسالی دارند. در این حالت یک نفر(فردی که فرآیند ثبت نام خوشه ای را انتخاب کرده است) به عنوان سرگروه خوشه انتخاب می گردد و در ادامه ی فرآیند ثبت نام، نام و نام خانوادگی اعضای خوشه به همراه پست الکترونیکی آنها باید درج گردد. سامانه بطور خودکار بعد از تأیید نهایی فرآیند ثبت نام، اقدام به ارسال دعوت نامه  برای اعضای خوشه می کند، که در آن لینک مربوط به فرم اطلاعات فردی خوشه ارسال می گردد. لازم به ذکر است بعد از اعمال مشخصات خوشه، ادامه ی فرآیند ثبت نام بصورت فردی و مربوط به سرگروه خوشه خواهد بود، به طوری که اطلاعات خواسته شده تنها مربوط به یک فرد(سرگروه) می باشد.        </p>
-
-        <p><a class="btn btn-default btn-lg" style="margin-right: 30px;margin-top:20px;" href="{% url register %}">
-           هم اکنون ثبت نام کنید.
-        </a></p>
+        <p><a class="btn btn-default btn-lg" style="margin-right: 30px; margin-top: 20px;" href="{% url register %}"> هم
+            اکنون ثبت نام کنید. </a></p>
     </div>
 </div>
-
 <div id="submit-detail-container" class="detail-content">
     <div id="submit-detail">
-        <h2 style="margin-bottom: 20px;color:#1570a6;">ثبت و ارسال طرح</h2>
+        <h2 style="margin-bottom: 20px; color: #1570a6;">ثبت و ارسال طرح</h2>
 
-        <p>
-            در این مرحله بعد از ثبت نام فردی یا خوشه ای، کاربر اقدام به ثبت طرح خود می نماید. این بخش نیز همچون بخش قبل دارای فرم استانداردی می باشد که باید تکمیل و ارسال گردد. فرم مذکور شامل 9 قسمت درج اطلاعات و الصاق پروپوزال می باشد. بعد از پر کردن اطلاعات خواسته شده در این 9 قسمت (به منظور معرفی کلی طرح)، کاربر باید فرم پروپوزال را پیوست نماید. فرآیند نحوه ی عملکرد مؤسسه نسبت به طرح ارسالی در زیر عنوان شده است.
-        <p>
-        تمامی طرح های ارسالی باید بر اساس فرم پروپوزال مؤسسه تکمیل و تنظیم گردد.<a href="{{ MEDIA_URL }}prop/sample_proposal.docx"> فرم پروپوزال</a>
+        <p>در این مرحله بعد از ثبت نام فردی یا خوشه ای، کاربر اقدام به ثبت طرح خود می نماید. این بخش نیز همچون بخش قبل
+            دارای فرم استانداردی می باشد که باید تکمیل و ارسال گردد. فرم مذکور شامل 9 قسمت درج اطلاعات و الصاق پروپوزال
+            می باشد. بعد از پر کردن اطلاعات خواسته شده در این 9 قسمت (به منظور معرفی کلی طرح)، کاربر باید فرم پروپوزال
+            را پیوست نماید. فرآیند نحوه ی عملکرد مؤسسه نسبت به طرح ارسالی در زیر عنوان شده است.</p>
+
+        <p>تمامی طرح های ارسالی باید بر اساس فرم پروپوزال مؤسسه تکمیل و تنظیم گردد.<a
+                href="{{ MEDIA_URL }}prop/sample_proposal.docx"> فرم پروپوزال</a></p>
+
+        <p style="text-align: center;"><img src="../../static/intro/images/submit_levels.JPG" height="200" width="400"/>
         </p>
 
-        <p style="text-align: center">
-            <img src="/static/intro/images/submit_levels.JPG" width="400" height="200">
-        </p>
-        <p>
-            به طور كلي در بررسي طرح ، موارد و شرايط زیر در نظر گرفته مي شود:
-        </p>
+        <p>به طور كلي در بررسي طرح ، موارد و شرايط زیر در نظر گرفته مي شود:</p>
 
         <div>
-        <ol>
-            <li>
-                طرح پیشنهادی بايد داراي مشخصه جديدي باشد كه تا کنون کمتر به آن توجه شده است.
-            </li>
-            <li>
-                طرح پیشنهادی بايد علاوه بر نو بودن، سبب ارتقاي کمی و کیفی در حيطه ی فعالیت خود شود، به طوري كه ایده پيشنهادي طرح براي حل مشكل ، بايد نسبت به ساير راه حل هاي احتمالي موجود، مزيت قابل توجهي داشته باشد.(تکراری نبودن و در صورت تکراری بودن مزیتی نسبت به سایر الگوهای مشابه داشته باشد.)
-            </li>
-            <li>
-                طرح پیشنهادی نبايد فقط تئوريك و نظري باشد، بلكه بايد قابليت استفاده عملي و توليد در صنعت را داشته باشد.
-            </li>
-            <li>
-                تمامی حقوق طرح برای صاحب محفوظ می باشد.
-            </li>
-        </ol>
+            <ol>
+                <li>طرح پیشنهادی بايد داراي مشخصه جديدي باشد كه تا کنون کمتر به آن توجه شده است.</li>
+                <li>طرح پیشنهادی بايد علاوه بر نو بودن، سبب ارتقاي کمی و کیفی در حيطه ی فعالیت خود شود، به طوري كه ایده
+                    پيشنهادي طرح براي حل مشكل ، بايد نسبت به ساير راه حل هاي احتمالي موجود، مزيت قابل توجهي داشته
+                    باشد.(تکراری نبودن و در صورت تکراری بودن مزیتی نسبت به سایر الگوهای مشابه داشته باشد.)
+                </li>
+                <li>طرح پیشنهادی نبايد فقط تئوريك و نظري باشد، بلكه بايد قابليت استفاده عملي و توليد در صنعت را داشته
+                    باشد.
+                </li>
+                <li>تمامی حقوق طرح برای صاحب محفوظ می باشد.</li>
+            </ol>
         </div>
-        <p>
-            موارد عنوان شده تنها معیار های اصلی در رد یا پذیرش طرح می باشد که در صورت پذیرش اولیه در ادامه فرایند دقیق
-            تر مورد بررسی قرار خواهد گرفت.
-        </p>
+        <p>موارد عنوان شده تنها معیار های اصلی در رد یا پذیرش طرح می باشد که در صورت پذیرش اولیه در ادامه فرایند دقیق تر
+            مورد بررسی قرار خواهد گرفت.</p>
     </div>
 </div>
 <div id="judge-detail-container" class="detail-content">
     <div id="judge-detail">
-        <h2 style="margin-bottom: 20px;color:#1570a6;">داوری</h2>
+        <h2 style="margin-bottom: 20px; color: #1570a6;">داوری</h2>
 
-        <p>
-            این مرحله پیش از فرآیند حمایتی طرح های ارسال شده می باشد، که بعد از ارسال طرح نخبه به مؤسسه و داوری اولیه(توضیح داده شده در مرحله قبل) به منظور بررسی تخصصی و آماده سازی طرح برای اجرا، مورد بازبینی و قضاوت داوران متخصص در حوزه ی طرح قرار می گیرد. فرآیند تصمیم گیری و قضاوت طرح ها شامل دو بخش می شود: بخش نخست، بیشتر از معیارها و اولویت های مؤسسه تشکیل شده است(جدول زیر).        </p>
+        <p>این مرحله پیش از فرآیند حمایتی طرح های ارسال شده می باشد، که بعد از ارسال طرح نخبه به مؤسسه و داوری
+            اولیه(توضیح داده شده در مرحله قبل) به منظور بررسی تخصصی و آماده سازی طرح برای اجرا، مورد بازبینی و قضاوت
+            داوران متخصص در حوزه ی طرح قرار می گیرد. فرآیند تصمیم گیری و قضاوت طرح ها شامل دو بخش می شود: بخش نخست،
+            بیشتر از معیارها و اولویت های مؤسسه تشکیل شده است(جدول زیر).</p>
+
         <div style="text-align: center;">
-            <table style="position: relative;margin: 0 auto;">
-                <tr style="background-color:#1570a6;color: white;">
-                    <td> معیار</td>
-                    <td> زیر معیار</td>
+            <table style="position: relative; margin: 0 auto;">
+                <tbody>
+                <tr style="background-color: #1570a6; color: white;">
+                    <td>معیار</td>
+                    <td>زیر معیار</td>
                 </tr>
-                <tr style="background-color:#FF82C1;color: white;">
+                <tr style="background-color: #ff82c1; color: white;">
                     <td rowspan="3">فناوري</td>
-                    <td> نحوه تأثيرگذاري بر فناوري کشور</td>
+                    <td>نحوه تأثيرگذاري بر فناوري کشور</td>
                 </tr>
-                <tr style="background-color:#FF82C1;color: white;">
+                <tr style="background-color: #ff82c1; color: white;">
                     <td>آخرين وضعيت طرح</td>
                 </tr>
-                <tr style="background-color:#FF82C1;color: white;">
+                <tr style="background-color: #ff82c1; color: white;">
                     <td>وضعيت ثبت اختراع</td>
                 </tr>
-                <tr style="background-color:#9FEB91;color: black;">
+                <tr style="background-color: #9feb91; color: black;">
                     <td rowspan="4">وضعیت بازار</td>
                     <td>وضعيت رقابتي</td>
                 </tr>
-                <tr style="background-color:#9FEB91;color: black;">
+                <tr style="background-color: #9feb91; color: black;">
                     <td>ميزان تقاضا در بازار</td>
                 </tr>
-                <tr style="background-color:#9FEB91;color: black;">
+                <tr style="background-color: #9feb91; color: black;">
                     <td>قابلیت صادرات</td>
                 </tr>
-                <tr style="background-color:#9FEB91;color: black;">
+                <tr style="background-color: #9feb91; color: black;">
                     <td>قیمت فروش</td>
                 </tr>
-                <tr style="background-color:#FFB412;color: white;">
+                <tr style="background-color: #ffb412; color: white;">
                     <td rowspan="2">تخصص و تجربه</td>
                     <td>تخصص</td>
                 </tr>
-                <tr style="background-color:#FFB412;color: white;">
+                <tr style="background-color: #ffb412; color: white;">
                     <td>تجربه</td>
                 </tr>
-                <tr style="background-color:#1570a6;color: white;">
+                <tr style="background-color: #1570a6; color: white;">
                     <td rowspan="3">ضرورت ملی</td>
-                    <td>تأثیر بر  زندگی مردم</td>
+                    <td>تأثیر بر زندگی مردم</td>
                 </tr>
-                <tr style="background-color:#1570a6;color: white;">
+                <tr style="background-color: #1570a6; color: white;">
                     <td>تأثیر بر اقتصاد کشور</td>
                 </tr>
-                <tr style="background-color:#1570a6;color: white;">
+                <tr style="background-color: #1570a6; color: white;">
                     <td>تأثیر بر خنثی‌سازی تحریم</td>
                 </tr>
-                <tr style="background-color:#FF8A8A;color: white;">
+                <tr style="background-color: #ff8a8a; color: white;">
                     <td>محوریت در تجاري‌سازی</td>
                     <td>محوریت در تجاري‌سازی(فردی، خوشه ای)</td>
                 </tr>
+                </tbody>
             </table>
         </div>
-        <p style="margin-top: 20px;">
-            در بخش دوم، تمرکز بر معیارهای اولیه طرح توجیهی و کلیّات موضوع خواهد بود، به طوری که در این قسمت امکان تبادل نظر و پاسخ میان مجری و داوران وجود خواهد داشت. به بیان دیگر پس از عبور از بخش نخست و تأیید وجود سطح مطلوبی از معیارهای جدول فوق، به منظور اجرایی شدن طرح پیشنهادی، بررسی موضوعات فنی و تهیه برنامه کسب و کار، برگزاری جلسه میان مجری و مؤسسه لازم به نظر خواهد رسید.        </p>
+        <p style="margin-top: 20px;">در بخش دوم، تمرکز بر معیارهای اولیه طرح توجیهی و کلیّات موضوع خواهد بود، به طوری که
+            در این قسمت امکان تبادل نظر و پاسخ میان مجری و داوران وجود خواهد داشت. به بیان دیگر پس از عبور از بخش نخست و
+            تأیید وجود سطح مطلوبی از معیارهای جدول فوق، به منظور اجرایی شدن طرح پیشنهادی، بررسی موضوعات فنی و تهیه
+            برنامه کسب و کار، برگزاری جلسه میان مجری و مؤسسه لازم به نظر خواهد رسید.</p>
     </div>
 </div>
 <div id="support-detail-container" class="detail-content">
     <div id="support-detail">
         <h2 style="margin-bottom: 20px;">حمایت های مادی و معنوی</h2>
-        <p>موسسه نگاه نو به واسطه بهره گیری از اساتید به نام و با تجربه در تدوین چشم انداز و حوزه های مدیریتی، دو نوع حمایت را مد نظر خواهد داشت:</p>
+
+        <p>موسسه نگاه نو به واسطه بهره گیری از استادان به نام و با تجربه کشور،  دو نوع حمایت را مد نظر خواهد داشت:</p>
         <ol>
-            <li>
-               <span style="color:#F6FF00;"> حمایت های مالی:</span> تمامی طرح های پذیرفته شده می توانند با روش های زیر مورد حمایت قرار گیرند:
+            <li><span style="color: #f6ff00;">حمایت های علمی و فکری:</span> تمامی طرح های پذیرفته شده از حمایت های زیر
+                بهره مند می شوند:
                 <ul>
-                    <li>حمایت مالی از ثبت اختراع.</li>
-                    <li>تامین هزینه های مالی طرح پذیرفته شده.</li>
-                    <li>مهیا نمودن امکانات، تجهیزات و تسهیلات طرح پذیرفته شده.</li>
+                    <li>ارائه خدمات مشاوره ای رایگان در قالب توانمندسازی ایده، تهیه طرح کسب و کار و استفاده از تجربیات
+                        استادان بنام.
+                    </li>
+                    <li>ایجاد شبکه های همکاری میان سایر فعالان و نخبگان</li>
+                    <li>انجام هماهنگی های لازم با سازمان ها و نهادهای مرتبط جهت ارائه خدمات.</li>
                 </ul>
             </li>
-            <li>
-                <span style="color:#F6FF00;">حمایت های غیرمالی:</span> همچنین تمامی طرح های پذیرفته شده به غیر از حمایت های مالی از مزایای زیر نیز بهره مند می گردند:
+            <li><span style="color: #f6ff00;">حمایت های مالی:</span> تمامی طرح های پذیرفته شده از حمایت های مالی زیر نیز
+                برخوردار می شوند:
                 <ul>
-                    <li>ارائه خدمات مشاوره ای رایگان در قالب توانمندسازی ایده، تهیه طرح کسب و کار و استفاده از تجربیات اساتید بنام.</li>
-                    <li>ایجاد شبکه های همکاری میان سایر فعالان و نخبگان</li>
-                    <li>ایجاد هماهنگی میان سازمان ها و نهادهای مرتبط جهت ارائه خدمات  </li>
+                    <li>حمایت مالی جهت انجام فرآیند ثبت اختراع.</li>
+                    <li>تامین هزینه های مالی طرح پذیرفته شده در طول اجرای آن.</li>
+                    <li>مهیا نمودن امکانات، تجهیزات و تسهیلات لازم برای اجرای طرح .</li>
                 </ul>
             </li>
         </ol>
-        <p>
-            لازم به ذکر است طرح هایی که بعد از حمایت های مالی و معنوی از مرحله شکل گیری و توانمندسازی عبور کرده و به مرحله تولید انبوه یا بعد صنعتی برسد در ادامه بر طبق سناریوهای همکاری موسسه مورد مشارکت قرار خواهند گرفت.
-        </p>
+        <p>طرح هایی که پس از حمایت های علمی و مالی موسسه از مرحله شکل گیری و توانمندسازی عبور کرده و به مرحله تولید
+            انبوه یا بعد صنعتی برسد در ادامه بر طبق سناریوهای همکاری موسسه مورد مشارکت قرار خواهند گرفت.</p>
     </div>
 </div>
 <div id="workflow-detail-container" class="detail-content">
     <div id="workflow-detail">
-        <h2 style="color:#1570a6;margin-bottom: 20px;font-size:30px;">فرایند موسسه  نگاه نو</h2>
+        <h2 style="color: #1570a6; margin-bottom: 20px; font-size: 30px;">فرآیند همکاری با موسسه آرتا نگاه نو
+            ایرانیان</h2>
 
-        <p style="text-align: center">
-        <img src="/static/intro/images/cluster.png" width="920" height="300">
-        </p>
+        <p style="text-align: center;"><img src="../../static/intro/images/cluster.png" height="300" width="920"/></p>
     </div>
 </div>
 <footer class="art-footer">
     <div class="art-footer-inner">
-        <p>.تمامی حقوق این سایت متعلق به موسسه  نگاه نو میباشد</p>
-
+        <p>.تمامی حقوق این سایت متعلق به موسسه آرتا نگاه نوایرانیان میباشد</p>
     </div>
 </footer>
 </body>

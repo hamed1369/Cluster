@@ -86,6 +86,7 @@ class ProjectsManagementFilterForm(ClusterFilterModelForm):
                                                                       required=False)
 
         self.fields['project_status'].choices = (
+            ('', u"همه"),
             (-2, u"رد شده"),
             (-1, u"رد شده توسط ناظر"),
             (0, u"در مرحله درخواست"),
@@ -96,6 +97,7 @@ class ProjectsManagementFilterForm(ClusterFilterModelForm):
             (4, u"تکمیل شده"),
 
         )
+        self.empty_label = u'همه'
         self.fields['milestone_from'] = forms.DateField(label=u"موعدها از تاریخ", required=False)
         self.fields['milestone_until'] = forms.DateField(label=u"موعدها تا تاریخ", required=False)
         handel_date_fields(self)
@@ -182,8 +184,7 @@ class ArbiterProjectsManagement(ProjectsManagement):
         return False
 
     def get_all_data(self):
-        return Project.objects.filter(project_arbiters__arbiter=self.http_request.user.arbiter,
-                                      project_arbiters__project__project_status=Project.MIDDLE_CONFIRM_STATE)
+        return Project.objects.filter(project_arbiters__arbiter=self.http_request.user.arbiter)
 
     def get_columns(self):
         columns = [
@@ -208,7 +209,7 @@ class SupervisorProjectsManagement(ArbiterProjectsManagement):
     manager_name = u"projects_supervision"
     manager_verbose_name = u"مدیریت طرح ها"
     filter_form = ArbiterProjectsFilterForm
-    actions = [AdminProjectCheckAction(), ProjectDetailAction(), DeleteAction()]
+    actions = [AdminProjectCheckAction(), ProjectDetailAction()]
 
     def can_view(self):
         if PermissionController.is_supervisor(self.http_request.user):

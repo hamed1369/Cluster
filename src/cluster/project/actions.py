@@ -121,6 +121,8 @@ class ArbiterProjectCheckAction(ManagerAction):
             raise Http404()
         instance = selected_instances[0]
         project_arbiter = get_object_or_404(ProjectArbiter, arbiter=http_request.user.arbiter, project=instance)
+        if instance.project_status > Project.MIDDLE_CONFIRM_STATE:
+            return render_to_response('project/check_project_error.html',context_instance=RequestContext(http_request))
         form = ArbiterProjectManagerForm(instance=instance, http_request=http_request)
         for field in form.fields:
             form.fields[field].widget.attrs.update({'readonly': 'readonly', 'disabled': 'disabled'})

@@ -43,6 +43,9 @@
     </fieldset>
 {% endblock %}
 {% block main_form %}
+    {% if error %}
+    <p>شما قادر به داوری این پروژه نیستید.</p>
+    {% else %}
     <fieldset class="inner_fieldset">
         <legend>{{ title }}</legend>
         <table class="register_table">
@@ -219,8 +222,12 @@
             </tr>
         </table>
     </fieldset>
+    {% endif %}
 {% endblock %}
 {% block after_main %}
+    {% if error %}
+    <p>شما قادر به داوری این پروژه نیستید.</p>
+    {% else %}
     {% if form.project_status %}
         <fieldset class="inner_fieldset">
             <legend>داوری</legend>
@@ -400,4 +407,5 @@
     {% if milestone_formset %}
         {% include 'formset.html' with legend="موعدهای طرح" formset=milestone_formset %}
     {% endif %}
+{% endif %}
 {% endblock %}

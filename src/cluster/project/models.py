@@ -87,7 +87,7 @@ class Project(models.Model):
                 <tr>
                     <td style="font-size:20px;">
                         {% if item.intro_file %}
-                            <a href="{{item.intro_file.url}}">{{ item.title }}</a>
+                            <span class='project-title'><a href="{{item.intro_file.url}}">{{ item.title }}</a></span><a href="{{item.intro_file.url}}" class='project-attachment'></a>
                         {% else %}
                             {{ item.title }}
                         {% endif %}
