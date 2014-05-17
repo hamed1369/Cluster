@@ -396,7 +396,7 @@
                             <td>
                                 {% if project_arbiter.attachment %}
                                     <a target="_blank"
-                                       href="{{ project_arbiter.attachment.url }}">{{ project_arbiter.attachment|filename }}</a>
+                                       href="{{project_arbiter.attachment.url}}!target_id={{item.id}}">{{ item.title }}">{{ project_arbiter.attachment|filename }}</a>
                                 {% else %}
                                     ---
                                 {% endif %}
