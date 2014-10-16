@@ -68,7 +68,7 @@
                             formCssClass: 'dynamic-formset-{{ formset.prefix }}',
                             addText: 'افزودن',
                             deleteText: '',
-                            added: function check_date_picker() {
+                                added: function check_date_picker() {
                                 var $formset_tr = $('#' + '{{ formset.prefix }}' + '_table tbody tr');
                                 var $date_fields = $formset_tr.find('.hasDatepicker');
                                 $date_fields.removeClass('hasDatepicker');
