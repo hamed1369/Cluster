@@ -1,0 +1,9 @@
+exclude:
+- /static/admin/js/.*
+- /static/datepicker/scripts/.*
+- /static/lib/.*
+- /static/tiny_mce/.*
+component_depth: 3
+languages:
+- javascript
+- python
