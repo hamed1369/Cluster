@@ -1,9 +1,6 @@
 exclude:
-- /static/admin/js/.*
-- /static/datepicker/scripts/.*
-- /static/lib/.*
-- /static/tiny_mce/.*
+- /static/.*
 component_depth: 3
 languages:
-- javascript
-- pytho
+
+- python
